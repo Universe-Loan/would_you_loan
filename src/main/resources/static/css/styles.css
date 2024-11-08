@@ -1,0 +1,162 @@
+/* Bootstrap 디자인 요소 */
+
+body {
+    font-family: Arial, sans-serif;
+    padding-top: 56px;
+}
+
+.content-wrapper {
+    flex: 1 0 auto;
+    margin-bottom: 100px !important;
+}
+
+/* 상단 네비게이션 헤더 고정 스타일 */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+    background-color: #f8f9fa;
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+.nav-link {
+    color: #333;
+}
+
+.nav-link:hover {
+    color: #007bff;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu {
+    margin-top: 0;
+}
+
+/* home 중간 메뉴 배너 슬라이드 */
+.hero {
+    height: calc(100vh - 56px); /* 뷰포트 높이에서 네비게이션 바 높이를 뺀 값 */
+    min-height: 400px; /* 최소 높이 설정 */
+    background-color: #007bff;
+    color: white;
+    padding: 50px 0;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-item .hero {
+    height: 100%; /* 원하는 높이로 조정 */
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 5%;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    padding: 10px;
+}
+
+/* home 간편서비스 */
+.services {
+    padding: 50px 0;
+    text-align: center;
+}
+
+.service-card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* footer */
+.footer {
+    background-color: #f8f9fa;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 0.9em;
+    flex-shrink: 0;
+}
+
+/* 추가적인 스타일 */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+/*이건뭐지*/
+/*.card {*/
+/*    transition: transform 0.3s;*/
+/*}*/
+
+/*.card:hover {*/
+/*    transform: translateY(-5px);*/
+/*}*/
+
+/*.service-card .card-title {*/
+/*    color: #007bff;*/
+/*}*/
+
+/*.service-card .btn-link {*/
+/*    color: #007bff;*/
+/*    text-decoration: none;*/
+/*}*/
+
+/*.service-card .btn-link:hover {*/
+/*    text-decoration: underline;*/
+/*}*/
+/*이건뭐지여기까지*/
+
+/*팝업창 스타일*/
+.popup {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.popup-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+}
+
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
