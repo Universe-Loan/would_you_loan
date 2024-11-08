@@ -28,10 +28,10 @@ public class UserOauth {
     @Column(name = "provider_id", nullable = false, length = 255)
     private String providerId;
 
-    @Column(name = "access_token", nullable = false, columnDefinition = "CLOB")
+    @Column(name = "access_token", nullable = false)
     private String accessToken;
 
-    @Column(name = "refresh_token", columnDefinition = "CLOB")
+    @Column(name = "refresh_token")
     private String refreshToken;
 
     @Column(name = "token_expires_at")
