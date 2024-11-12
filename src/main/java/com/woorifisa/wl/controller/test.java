@@ -21,5 +21,18 @@ public class test {
         return "mypage";
     }
 
+    @GetMapping("/loan-find")
+    public String loanFind() {
+        return "loan_find";
+    }
 
+    @GetMapping("/loan-personal-info")
+    public String loanPersonalInfo() {
+        return "loan_personal_info";
+    }
+
+    @GetMapping("/loan-list")
+    public String loanList() {
+        return "loan_list";
+    }
 }

@@ -7,40 +7,92 @@
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- 사용자 정의 CSS -->
-  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" th:href="@{/css/common.css}">
+<style>
+  .hero {
+    height: calc(100vh - 56px); /* 뷰포트 높이에서 네비게이션 바 높이를 뺀 값 */
+    min-height: 400px; /* 최소 높이 설정 */
+    background-color: #007bff;
+    color: white;
+    padding: 50px 0;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .carousel-item .hero {
+    height: 100%; /* 원하는 높이로 조정 */
+  }
+  .carousel-control-prev,
+  .carousel-control-next {
+    width: 5%;
+  }
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    padding: 10px;
+  }
+  .feature-icon {
+    width: 50px;
+    height: 50px;
+  }
+  .card {
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .card img {
+    height: 150px;
+    object-fit: cover;
+  }
+</style>
 </head>
 
 <body>
 <!--헤더-->
 <header th:replace="fragments/header :: nav"></header>
 
-<!--본문-->
-<div class="content-wrapper">
-
-<!--본문 중간 메뉴 배너 슬라이드-->
-<div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <div class="hero bg-primary text-white py-5">
-        <div class="container">
-          <h1 class="display-4">주택담보대출</h1>
-          <p class="lead">새로운 대출을 찾아보세요<br>어쩌구 저쩌구</p>
+<!--배너 슬라이드-->
+  <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <div class="hero bg-primary text-white py-5">
+          <div class="container d-flex align-items-center">
+            <div class="text-content">
+              <h1 class="display-4">대출 찾아보기</h1>
+              <p class="lead">새로운 대출을 찾아보세요<br>기존 대출을 바꿔보세요</p>
+            </div>
+            <div class="image-content ms-auto">
+              <img src="https://via.placeholder.com/300x200" alt="대출 찾아보기 이미지" class="img-fluid rounded">
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="carousel-item">
-      <div class="hero bg-success text-white py-5">
-        <div class="container">
-          <h1 class="display-4">신용대출</h1>
-          <p class="lead">빠르고 간편한 신용대출<br>지금 바로 신청하세요</p>
+      <div class="carousel-item">
+        <div class="hero bg-success text-white py-5">
+          <div class="container d-flex align-items-center">
+            <div class="text-content">
+              <h1 class="display-4">신용대출</h1>
+              <p class="lead">빠르고 간편한 신용대출<br>지금 바로 신청하세요</p>
+            </div>
+            <div class="image-content ms-auto">
+              <img src="https://via.placeholder.com/300x200" alt="신용대출 이미지" class="img-fluid rounded">
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="carousel-item">
-      <div class="hero bg-info text-white py-5">
-        <div class="container">
-          <h1 class="display-4">전세자금대출</h1>
-          <p class="lead">내 집 마련의 첫 걸음<br>전세자금대출로 시작하세요</p>
+      <div class="carousel-item">
+        <div class="hero bg-info text-white py-5">
+          <div class="container d-flex align-items-center">
+            <div class="text-content">
+              <h1 class="display-4">전세자금대출</h1>
+              <p class="lead">내 집 마련의 첫 걸음<br>전세자금대출로 시작하세요</p>
+            </div>
+            <div class="image-content ms-auto">
+              <img src="https://via.placeholder.com/300x200" alt="전세자금대출 이미지" class="img-fluid rounded">
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -55,36 +107,56 @@
   </button>
 </div>
 
-<!--본문 중간 간편 서비스 메뉴-->
-<div class="services py-5">
-  <div class="container">
-    <h2 class="text-center mb-4">간편서비스</h2>
-    <p class="text-center mb-5">세상을 키우는 힘. 사이버 캐피탈이 함께하겠습니다.</p>
+<!--본문-->
+<div class="content-wrapper">
+
+<!--본문 중간-->
+<div class="container my-5">
+  <div class="text-center mb-4">
+    <p class="text-muted">내게 맞는 금융상품, 비교하기 힘드신가요?</p>
+    <h2>뱅크샐러드는 쉽고 정확하게 비교합니다.</h2><br>
+  </div>
+  <div class="row text-center mb-5">
+    <div class="col-md-4">
+      <img src="icon1.png" alt="Icon 1" class="feature-icon mb-2">
+      <p>국내 최대 금융상품 데이터...</p>
+    </div>
+    <div class="col-md-4">
+      <img src="icon2.png" alt="Icon 2" class="feature-icon mb-2">
+      <p>나만을 위한 금융비항...</p>
+    </div>
+    <div class="col-md-4">
+      <img src="icon3.png" alt="Icon 3" class="feature-icon mb-2">
+      <p>광고나 홍보 없음...</p>
+    </div>
+  </div>
+  <div class="bg-light text-dark p-4 rounded">
+    <h5 class="mb-4">조회수 TOP3 리포트 바로보기</h5>
     <div class="row">
-      <div class="col-md-4 mb-4">
-        <div class="card h-100 service-card">
+      <div class="col-md-4">
+        <div class="card bg-white text-dark mb-3">
+          <img src="image1.png" class="card-img-top" alt="Image 1">
           <div class="card-body">
-            <h5 class="card-title">부동산 기사</h5>
-            <p class="card-text">신용등급, 신용조회에<br>전혀 상관없이 조회가 가능합니다.</p>
-            <a href="#" class="btn btn-link">&gt;</a>
+            <p class="card-text">한남더힐</p>
+            <p class="card-text"><small>2024.11.08</small></p>
           </div>
         </div>
       </div>
-      <div class="col-md-4 mb-4">
-        <div class="card h-100 service-card">
+      <div class="col-md-4">
+        <div class="card bg-white text-dark mb-3">
+          <img src="image2.png" class="card-img-top" alt="Image 2">
           <div class="card-body">
-            <h5 class="card-title">주택 시세 정보</h5>
-            <p class="card-text">아휴. 상황판단에 따른 학습과<br>역사 확인이 가능합니다.</p>
-            <a href="#" class="btn btn-link">&gt;</a>
+            <p class="card-text">밴프자이</p>
+            <p class="card-text"><small>2024.11.08</small></p>
           </div>
         </div>
       </div>
-      <div class="col-md-4 mb-4">
-        <div class="card h-100 service-card">
+      <div class="col-md-4">
+        <div class="card bg-white text-dark mb-3">
+          <img src="image3.png" class="card-img-top" alt="Image 3">
           <div class="card-body">
-            <h5 class="card-title">금리 분석</h5>
-            <p class="card-text">대출금리현황 한 눈에 보기 쉽게<br>한번에 비교해보세요.</p>
-            <a href="#" class="btn btn-link">&gt;</a>
+            <p class="card-text">트리마제</p>
+            <p class="card-text"><small>2024.11.08</small></p>
           </div>
         </div>
       </div>
@@ -102,7 +174,7 @@
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <!-- 사용자 정의 JS -->
-<script th:src="@{/js/home_scripts.js}"></script>
+<script th:src="@{/js/home.js}"></script>
 <th:block th:replace="fragments/header :: scripts"></th:block>
 </body>
 </html>
