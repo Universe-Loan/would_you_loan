@@ -1,46 +1,4 @@
-/* Bootstrap 디자인 요소 */
-
-body {
-    font-family: Arial, sans-serif;
-    padding-top: 56px;
-}
-
-.content-wrapper {
-    flex: 1 0 auto;
-    margin-bottom: 100px !important;
-}
-
-/* 상단 네비게이션 헤더 고정 스타일 */
-.navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1030;
-    background-color: #f8f9fa;
-}
-
-.navbar-brand {
-    font-weight: bold;
-}
-
-.nav-link {
-    color: #333;
-}
-
-.nav-link:hover {
-    color: #007bff;
-}
-
-.dropdown:hover .dropdown-menu {
-    display: block;
-}
-
-.dropdown-menu {
-    margin-top: 0;
-}
-
-/* home 중간 메뉴 배너 슬라이드 */
+/* 중간 메뉴 배너 슬라이드 */
 .hero {
     height: calc(100vh - 56px); /* 뷰포트 높이에서 네비게이션 바 높이를 뺀 값 */
     min-height: 400px; /* 최소 높이 설정 */

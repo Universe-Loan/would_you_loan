@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 사용자 정의 CSS -->
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/popup.css}">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .btn-round {
+            border-radius: 20px;
+            margin: 5px;
+        }
+        .btn-square {
+            margin: 5px;
+        }
+        .form-control {
+            margin-bottom: 10px;
+        }
+        .rounded-box {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            background-color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+
+<!--헤더-->
+<header th:replace="fragments/header :: nav"></header>
+
+<!--본문-->
+<div class="content-wrapper">
+
+    <!--본문 내용-->
+    <div class="container mt-4">
+        <div class="rounded-box">
+        <h5 class="mb-4">최근 조회 내역 불러오기</h5>
+        <div class="d-flex flex-wrap">
+            <button class="btn btn-outline-primary btn-round me-2 mb-2">상암IT타워</button>
+            <button class="btn btn-outline-primary btn-round me-2 mb-2">상암IT타워</button>
+            <button class="btn btn-outline-primary btn-round me-2 mb-2">상암월드컵경기장</button>
+        </div>
+        </div>
+        <div class="rounded-box">
+            <h5 class="mb-4">대출 조회할 아파트 단지 선택하기</h5>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">주소</label>
+                    <button type="button" class="form-control text-start" onclick="openInterestPopup()">주소 검색하기</button>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">상세주소</label>
+                    <input type="text" class="form-control" value="101동 601호" readonly>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">전용면적</label>
+                    <input type="text" class="form-control" value="43m²" readonly>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="loanAmount" class="form-label">대출 필요금액</label>
+                    <input type="text" id="loanAmount" class="form-control" placeholder="예: 300,000,000" oninput="formatNumber(this)">
+                </div>
+                <div class="col-md-6">
+                    <label for="loanTerm" class="form-label">대출 기간</label>
+                    <select id="loanTerm" class="form-select">
+                        <option value="5">5년</option>
+                        <option value="10" selected>10년</option>
+                        <option value="15">15년</option>
+                        <option value="20">20년</option>
+                        <option value="25">25년</option>
+                        <option value="30">30년</option>
+                        <option value="35">35년</option>
+                        <option value="40">40년</option>
+                        <option value="45">45년</option>
+                        <option value="50">50년</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="rounded-box">
+            <h5 class="mb-4">상세 조건 입력</h5>
+            <div class="row">
+                <div class="col-md-12 mb-2">
+                    <span>대출 목적:</span>
+                    <div class="btn-group" role="group" aria-label="대출 목적">
+                        <input type="radio" class="btn-check" name="loanPurpose" id="loanPurpose1" value="주택 구입" autocomplete="off">
+                        <label class="btn btn-outline-primary btn-square" for="loanPurpose1">주택 구입</label>
+                        <input type="radio" class="btn-check" name="loanPurpose" id="loanPurpose2" value="생활비 마련" autocomplete="off">
+                        <label class="btn btn-outline-primary btn-square" for="loanPurpose2">생활비 마련</label>
+                        <input type="radio" class="btn-check" name="loanPurpose" id="loanPurpose3" value="세입자 보증금 반환" autocomplete="off">
+                        <label class="btn btn-outline-primary btn-square" for="loanPurpose3">세입자 보증금 반환</label>
+                    </div>
+                </div>
+                <div class="col-md-12 mb-2">
+                    <span>생애 최초 주택 구매 여부:</span>
+                    <div class="btn-group" role="group" aria-label="생애 최초 주택 구매 여부">
+                        <input type="radio" class="btn-check" name="firstTimeBuyer" id="firstTimeBuyer1" value="예" autocomplete="off">
+                        <label class="btn btn-outline-primary btn-square" for="firstTimeBuyer1">예</label>
+                        <input type="radio" class="btn-check" name="firstTimeBuyer" id="firstTimeBuyer2" value="아니오" autocomplete="off">
+                        <label class="btn btn-outline-primary btn-square" for="firstTimeBuyer2">아니오</label>
+                    </div>
+                </div>
+                <div class="col-md-12 mb-2">
+                    <span>현재 주택 보유 여부:</span>
+                    <div class="btn-group" role="group" aria-label="현재 주택 보유 여부">
+                        <input type="radio" class="btn-check" name="houseOwnership" id="houseOwnership1" value="무주택" autocomplete="off">
+                        <label class="btn btn-outline-primary btn-square" for="houseOwnership1">무주택</label>
+                        <input type="radio" class="btn-check" name="houseOwnership" id="houseOwnership2" value="1주택" autocomplete="off">
+                        <label class="btn btn-outline-primary btn-square" for="houseOwnership2">1주택</label>
+                        <input type="radio" class="btn-check" name="houseOwnership" id="houseOwnership3" value="2주택 이상" autocomplete="off">
+                        <label class="btn btn-outline-primary btn-square" for="houseOwnership3">2주택 이상</label>
+                    </div>
+                </div>
+                <div class="col-md-12 mb-2">
+                    <span>직업:</span>
+                    <div class="btn-group" role="group" aria-label="직업">
+                        <input type="radio" class="btn-check" name="occupation" id="occupation1" value="직장인" autocomplete="off">
+                        <label class="btn btn-outline-primary btn-square" for="occupation1">직장인</label>
+                        <input type="radio" class="btn-check" name="occupation" id="occupation2" value="개인사업자" autocomplete="off">
+                        <label class="btn btn-outline-primary btn-square" for="occupation2">개인사업자</label>
+                        <input type="radio" class="btn-check" name="occupation" id="occupation3" value="임대사업자" autocomplete="off">
+                        <label class="btn btn-outline-primary btn-square" for="occupation3">임대사업자</label>
+                        <input type="radio" class="btn-check" name="occupation" id="occupation4" value="공무원" autocomplete="off">
+                        <label class="btn btn-outline-primary btn-square" for="occupation4">공무원</label>
+                        <input type="radio" class="btn-check" name="occupation" id="occupation5" value="프리랜서, 아르바이트" autocomplete="off">
+                        <label class="btn btn-outline-primary btn-square" for="occupation5">프리랜서, 아르바이트</label>
+                        <input type="radio" class="btn-check" name="occupation" id="occupation6" value="무직(주부 등)" autocomplete="off">
+                        <label class="btn btn-outline-primary btn-square" for="occupation6">무직(주부 등)</label>
+                    </div>
+                </div>
+                <div class="row align-items-end">
+                    <div class="col-md-5">
+                        <label for="annualIncome" class="form-label">소득 정보(세전 연소득):</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="annualIncome" placeholder="예: 50,000,000" oninput="formatNumber(this)">
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <label for="employmentDate" class="form-label">입사연월:</label>
+                        <input type="month" class="form-control" id="employmentDate">
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div>
+                <button type="button" class="btn btn-primary w-100" onclick="submitLoanApplication()">대출 조회하기</button>
+            </div>
+    </div>
+
+<!--팝업창-->
+<div th:replace="real_address_popup :: interestPropertyPopup"></div>
+
+<!--Javascript-->
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- 사용자 정의 JS -->
+<script th:src="@{/js/home.js}"></script>
+<script th:src="@{/js/real_address.js}"></script>
+
+<!--header-->
+<th:block th:replace="fragments/header :: scripts"></th:block>
+<!--footer-->
+<footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>

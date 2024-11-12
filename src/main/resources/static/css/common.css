@@ -1,0 +1,44 @@
+/* header */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+    background-color: #f8f9fa;
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+.nav-link {
+    color: #333;
+}
+
+.nav-link:hover {
+    color: #007bff;
+}
+
+/* 본문 */
+body {
+    font-family: Arial, sans-serif;
+    padding-top: 56px;
+}
+
+.content-wrapper {
+    flex: 1 0 auto;
+    margin-bottom: 100px !important;
+    padding-top: 50px;
+    padding-left: min(10%);
+    padding-right: min(10%);
+}
+
+/* footer */
+.footer {
+    background-color: #f8f9fa;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 0.9em;
+    flex-shrink: 0;
+}

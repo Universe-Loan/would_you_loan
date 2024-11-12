@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Title</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- 사용자 정의 CSS -->
+  <link rel="stylesheet" th:href="@{/css/common.css}">
+  <style>
+    .sidebar {
+      background-color: #007bff;
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    .result-card {
+      border: 1px solid #dee2e6;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 10px;
+    }
+    .result-card.highlight {
+      border-color: #ffc107;
+      background-color: #fff3cd;
+    }
+  </style>
+</head>
+<body>
+
+<!--헤더-->
+<header th:replace="fragments/header :: nav"></header>
+
+<!--본문-->
+<div class="content-wrapper">
+
+  <!--본문 내용 입력하기-->
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="sidebar">
+          <h5>대출 종류</h5>
+          <p>상세 조건</p>
+          <hr>
+          <h5>주택 가격</h5>
+          <p>500,000,000 (원)</p>
+          <hr>
+          <h5>대출 금액</h5>
+          <p>200,000,000 (원)</p>
+          <hr>
+          <h5>대출 기간</h5>
+          <p>10년</p>
+          <hr>
+          <h5>금리 방식</h5>
+          <p>고정 금리</p>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5>Results: 297 mortgages found</h5>
+          <button class="btn btn-outline-secondary">보기 옵션</button>
+        </div>
+        <div class="d-flex flex-wrap">
+          <div class="result-card col-md-3 me-2">
+            <h6>은행명</h6>
+            <p>금리: 6.44%</p>
+            <p>10억원</p>
+            <button class="btn btn-primary btn-sm">신청하기</button>
+          </div>
+          <div class="result-card highlight col-md-3 me-2">
+            <h6>은행명</h6>
+            <p>금리: 6.44%</p>
+            <p>10억원</p>
+            <button class="btn btn-warning btn-sm">Test 30 days for free</button>
+          </div>
+          <div class="result-card col-md-3 me-2">
+            <h6>은행명</h6>
+            <p>금리: 6.44%</p>
+            <p>10억원</p>
+            <button class="btn btn-primary btn-sm">신청하기</button>
+          </div>
+          <div class="result-card col-md-3">
+            <h6>은행명</h6>
+            <p>금리: 6.44%</p>
+            <p>10억원</p>
+            <button class="btn btn-success btn-sm">Contact Us</button>
+          </div>
+        </div>
+        <div class="mt-4">
+          <table class="table table-bordered">
+            <thead>
+            <tr>
+              <th>대출금리</th>
+              <th>금리방식</th>
+              <th>상환방식</th>
+              <th>원리금 상환액</th>
+              <th>총 대출비용</th>
+              <th>기타</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>4.3%</td>
+              <td>고정금리</td>
+              <td>원리금균등상환</td>
+              <td>453,254</td>
+              <td>150,929,376</td>
+              <td>기타 정보</td>
+            </tr>
+            <tr>
+              <td>3.6%</td>
+              <td>변동금리</td>
+              <td>원리금균등상환</td>
+              <td>453,254</td>
+              <td>150,929,376</td>
+              <td>기타 정보</td>
+            </tr>
+            <tr>
+              <td>4.5%</td>
+              <td>고정금리</td>
+              <td>원리금균등상환</td>
+              <td>453,254</td>
+              <td>150,929,376</td>
+              <td>기타 정보</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--footer-->
+<footer th:replace="fragments/footer :: footer"></footer>
+
+<!--Javascript-->
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- 사용자 정의 JS -->
+<script th:src="@{/js/home.js}"></script>
+<th:block th:replace="fragments/header :: scripts"></th:block>
+</body>
+</html>
