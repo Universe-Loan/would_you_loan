@@ -10,20 +10,134 @@
   <link rel="stylesheet" th:href="@{/css/common.css}">
   <style>
     .sidebar {
-      background-color: #007bff;
+      background-color: #0082cd;
       color: white;
       padding: 20px;
       border-radius: 10px;
+      font-size: 1em;
+    }
+
+    .toggle-switch {
+      display: flex;
+      background-color: #f1f3f5;
+      border-radius: 50px;
+      padding: 5px;
+      width: fit-content;
+      font-size: 0.7em;
+    }
+    .toggle-option {
+      padding: 10px 20px;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .active {
+      background-color: white;
+      color: black;
+      font-weight: bold;
+    }
+    .inactive {
+      color: #adb5bd;
+    }
+
+    .carousel-container {
+      display: flex;
+      transition: transform 0.3s ease-in-out;
+    }
+    .container.position-relative {
+      position: relative;
+    }
+    .carousel-control {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+    }
+    .carousel-control.prev {
+      left: -20px;
+    }
+    .carousel-control.next {
+      right: -20px;
+    }
+    .carousel-wrapper {
+      overflow: hidden;
+      position: relative;
+      padding: 0 20px;  /* 버튼을 위한 여백 추가 */
+    }
+
+    .card {
+      flex: 0 0 auto;
+      width: 300px;
+      margin-right: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .icon {
+      background-color: #e0e0e0;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+    .card-header {
+      background-color: transparent;
+      border-bottom: none;
+      padding: 1rem 1rem 0.5rem;
+    }
+    .card-title {
+      margin-bottom: 0;
+    }
+    .card-title p {
+      line-height: 1.2;
+    }
+    .card-title .small {
+      font-size: 0.875rem;
+      color: #6c757d;
+    }
+    .badge-custom {
+      background-color: #e0e0e0;
+      color: gray;
+      border-radius: 20px;
+      padding: 5px 10px;
+      margin: 5px;
+    }
+    .card-body p {
+      line-height: 1.2;
+    }
+    .card-body .small {
+      font-size: 0.875rem;
+      color: #6c757d;
     }
     .result-card {
       border: 1px solid #dee2e6;
       border-radius: 10px;
       padding: 15px;
       margin-bottom: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
     .result-card.highlight {
-      border-color: #ffc107;
-      background-color: #fff3cd;
+      border-color: #0082cd;
+      background-color: #eaf7fd;
+    }
+
+    .table-responsive {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 40px;
+      font-size: 0.8em;
+    }
+    .table-responsive th, .table-responsive td {
+      text-align: center;
+      vertical-align: middle;
+      padding: 20px; /* 모든 방향에 10px 패딩 적용 */
+    }
+    .table-responsive th {
+      font-weight: normal;
+      color: #6c757d;
+      background-color: #ffffff;
+    }
+    .table-responsive .rate {
+      color: #007bff;
     }
   </style>
 </head>
@@ -38,94 +152,363 @@
   <!--본문 내용 입력하기-->
   <div class="container-fluid">
     <div class="row">
+
       <div class="col-md-3">
+        <!--사이드바-->
         <div class="sidebar">
-          <h5>대출 종류</h5>
+          <h6>생애 최초 여부</h6>
           <p>상세 조건</p>
           <hr>
-          <h5>주택 가격</h5>
+          <h6>현재 주택 보유 여부</h6>
+          <p>무주택/1주택/2주택 이상</p>
+          <hr>
+          <h6>주택 가격(실거래가 기준)</h6>
           <p>500,000,000 (원)</p>
           <hr>
-          <h5>대출 금액</h5>
-          <p>200,000,000 (원)</p>
+          <div class="container mt-4">
+            <h6>대출 금액</h6>
+            <input type="range" class="form-range" id="loanAmountRange" min="10000000" max="1000000000" step="1000000" value="200000000">
+            <p><span id="loanAmountValue">200,000,000</span> 원</p>
+            <hr>
+            <h6>대출 기간</h6>
+            <input type="range" class="form-range" id="loanTermRange" min="5" max="50" step="5" value="10">
+            <p><span id="loanTermValue">10</span> 년</p>
+          </div>
           <hr>
-          <h5>대출 기간</h5>
-          <p>10년</p>
+          <h6>금리 방식</h6>
+          <select class="form-select" id="interestRateType">
+            <option value="all">전체</option>
+            <option value="fixed">고정금리</option>
+            <option value="variable">변동금리</option>
+          </select>
           <hr>
-          <h5>금리 방식</h5>
-          <p>고정 금리</p>
+          <h6>상환 방식</h6>
+          <select class="form-select" id="repaymentType">
+            <option value="all">전체</option>
+            <option value="bullet">만기일시상환</option>
+            <option value="principal">원금분할상환</option>
+            <option value="amortization">원리금분할상환</option>
+          </select>
         </div>
       </div>
+
       <div class="col-md-9">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h5>Results: 297 mortgages found</h5>
-          <button class="btn btn-outline-secondary">보기 옵션</button>
-        </div>
-        <div class="d-flex flex-wrap">
-          <div class="result-card col-md-3 me-2">
-            <h6>은행명</h6>
-            <p>금리: 6.44%</p>
-            <p>10억원</p>
-            <button class="btn btn-primary btn-sm">신청하기</button>
-          </div>
-          <div class="result-card highlight col-md-3 me-2">
-            <h6>은행명</h6>
-            <p>금리: 6.44%</p>
-            <p>10억원</p>
-            <button class="btn btn-warning btn-sm">Test 30 days for free</button>
-          </div>
-          <div class="result-card col-md-3 me-2">
-            <h6>은행명</h6>
-            <p>금리: 6.44%</p>
-            <p>10억원</p>
-            <button class="btn btn-primary btn-sm">신청하기</button>
-          </div>
-          <div class="result-card col-md-3">
-            <h6>은행명</h6>
-            <p>금리: 6.44%</p>
-            <p>10억원</p>
-            <button class="btn btn-success btn-sm">Contact Us</button>
+
+        <!--검색 결과 및 정렬-->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h6 class="mb-0 ps-4">Results: 297 mortgages found</h6>
+          <div class="d-flex align-items-center">
+            <div class="toggle-switch">
+              <div class="toggle-option active" data-sort="interest">낮은 금리순</div>
+              <div class="toggle-option inactive" data-sort="limit">높은 한도순</div>
+            </div>
           </div>
         </div>
-        <div class="mt-4">
-          <table class="table table-bordered">
-            <thead>
-            <tr>
-              <th>대출금리</th>
-              <th>금리방식</th>
-              <th>상환방식</th>
-              <th>원리금 상환액</th>
-              <th>총 대출비용</th>
-              <th>기타</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <td>4.3%</td>
-              <td>고정금리</td>
-              <td>원리금균등상환</td>
-              <td>453,254</td>
-              <td>150,929,376</td>
-              <td>기타 정보</td>
-            </tr>
-            <tr>
-              <td>3.6%</td>
-              <td>변동금리</td>
-              <td>원리금균등상환</td>
-              <td>453,254</td>
-              <td>150,929,376</td>
-              <td>기타 정보</td>
-            </tr>
-            <tr>
-              <td>4.5%</td>
-              <td>고정금리</td>
-              <td>원리금균등상환</td>
-              <td>453,254</td>
-              <td>150,929,376</td>
-              <td>기타 정보</td>
-            </tr>
-            </tbody>
-          </table>
+
+        <!--검색된 대출상품 리스트-->
+        <div class="container-fluid position-relative mb-5 mx-3">
+          <div class="row">
+            <div class="col-12">
+              <div class="carousel-wrapper">
+                <div class="carousel-container">
+                  <!-- 원본 대출 상품 카드들 -->
+                  <div class="card result-card mx-2" id="loan-card-1">
+                    <div class="card-header d-flex align-items-center">
+                      <div class="icon me-3"></div>
+                      <div class="card-title mb-0">
+                        <p class="mb-0 small">은행명 1</p>
+                        <p class="mb-0">상품명</p>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-3">
+                        <p class="mb-0">6.44%</p>
+                        <p class="mb-0">10억원</p>
+                      </div>
+                      <div class="mt-2 mb-3 text-center">
+                        <span class="badge badge-custom me-2">고정금리</span>
+                        <span class="badge badge-custom">원리금 분할상환</span>
+                      </div>
+                      <div class="text-center mb-3">
+                        <p class="mb-0 small">월 평균 상환액</p>
+                        <p class="mb-0 ">100,000원</p>
+                      </div>
+                      <button class="btn btn-primary btn-sm w-100 compare-btn" data-loan-id="1">비교하기</button>                    </div>
+                  </div>
+                  <div class="card result-card mx-2" id="loan-card-2">
+                    <div class="card-header d-flex align-items-center">
+                      <div class="icon me-3"></div>
+                      <div class="card-title mb-0">
+                        <p class="mb-0 small">은행명 1</p>
+                        <p class="mb-0">상품명</p>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-3">
+                        <p class="mb-0">6.44%</p>
+                        <p class="mb-0">10억원</p>
+                      </div>
+                      <div class="mt-2 mb-3 text-center">
+                        <span class="badge badge-custom me-2">고정금리</span>
+                        <span class="badge badge-custom">원리금 분할상환</span>
+                      </div>
+                      <div class="text-center mb-3">
+                        <p class="mb-0 small">월 평균 상환액</p>
+                        <p class="mb-0 ">100,000원</p>
+                      </div>
+                      <button class="btn btn-primary btn-sm w-100 compare-btn" data-loan-id="2">비교하기</button>                    </div>
+                  </div>
+                  <div class="card result-card mx-2" id="loan-card-3">
+                    <div class="card-header d-flex align-items-center">
+                      <div class="icon me-3"></div>
+                      <div class="card-title mb-0">
+                        <p class="mb-0 small">은행명 1</p>
+                        <p class="mb-0">상품명</p>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-3">
+                        <p class="mb-0">6.44%</p>
+                        <p class="mb-0">10억원</p>
+                      </div>
+                      <div class="mt-2 mb-3 text-center">
+                        <span class="badge badge-custom me-2">고정금리</span>
+                        <span class="badge badge-custom">원리금 분할상환</span>
+                      </div>
+                      <div class="text-center mb-3">
+                        <p class="mb-0 small">월 평균 상환액</p>
+                        <p class="mb-0 ">100,000원</p>
+                      </div>
+                      <button class="btn btn-primary btn-sm w-100 compare-btn" data-loan-id="3">비교하기</button>                    </div>
+                  </div>
+                  <div class="card result-card mx-2" id="loan-card-4">
+                    <div class="card-header d-flex align-items-center">
+                      <div class="icon me-3"></div>
+                      <div class="card-title mb-0">
+                        <p class="mb-0 small">은행명 1</p>
+                        <p class="mb-0">상품명</p>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-3">
+                        <p class="mb-0">6.44%</p>
+                        <p class="mb-0">10억원</p>
+                      </div>
+                      <div class="mt-2 mb-3 text-center">
+                        <span class="badge badge-custom me-2">고정금리</span>
+                        <span class="badge badge-custom">원리금 분할상환</span>
+                      </div>
+                      <div class="text-center mb-3">
+                        <p class="mb-0 small">월 평균 상환액</p>
+                        <p class="mb-0 ">100,000원</p>
+                      </div>
+                      <button class="btn btn-primary btn-sm w-100 compare-btn" data-loan-id="4">비교하기</button>                    </div>
+                  </div>
+                  <div class="card result-card mx-2" id="loan-card-5">
+                    <div class="card-header d-flex align-items-center">
+                      <div class="icon me-3"></div>
+                      <div class="card-title mb-0">
+                        <p class="mb-0 small">은행명 1</p>
+                        <p class="mb-0">상품명</p>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-3">
+                        <p class="mb-0">6.44%</p>
+                        <p class="mb-0">10억원</p>
+                      </div>
+                      <div class="mt-2 mb-3 text-center">
+                        <span class="badge badge-custom me-2">고정금리</span>
+                        <span class="badge badge-custom">원리금 분할상환</span>
+                      </div>
+                      <div class="text-center mb-3">
+                        <p class="mb-0 small">월 평균 상환액</p>
+                        <p class="mb-0 ">100,000원</p>
+                      </div>
+                      <button class="btn btn-primary btn-sm w-100 compare-btn" data-loan-id="5">비교하기</button>                    </div>
+                  </div>
+                  <div class="card result-card mx-2" id="loan-card-6">
+                    <div class="card-header d-flex align-items-center">
+                      <div class="icon me-3"></div>
+                      <div class="card-title mb-0">
+                        <p class="mb-0 small">은행명 1</p>
+                        <p class="mb-0">상품명</p>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-3">
+                        <p class="mb-0">6.44%</p>
+                        <p class="mb-0">10억원</p>
+                      </div>
+                      <div class="mt-2 mb-3 text-center">
+                        <span class="badge badge-custom me-2">고정금리</span>
+                        <span class="badge badge-custom">원리금 분할상환</span>
+                      </div>
+                      <div class="text-center mb-3">
+                        <p class="mb-0 small">월 평균 상환액</p>
+                        <p class="mb-0 ">100,000원</p>
+                      </div>
+                      <button class="btn btn-primary btn-sm w-100 compare-btn" data-loan-id="6">비교하기</button>                    </div>
+                  </div>
+                  <div class="card result-card mx-2" id="loan-card-7">
+                    <div class="card-header d-flex align-items-center">
+                      <div class="icon me-3"></div>
+                      <div class="card-title mb-0">
+                        <p class="mb-0 small">은행명 1</p>
+                        <p class="mb-0">상품명</p>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-3">
+                        <p class="mb-0">6.44%</p>
+                        <p class="mb-0">10억원</p>
+                      </div>
+                      <div class="mt-2 mb-3 text-center">
+                        <span class="badge badge-custom me-2">고정금리</span>
+                        <span class="badge badge-custom">원리금 분할상환</span>
+                      </div>
+                      <div class="text-center mb-3">
+                        <p class="mb-0 small">월 평균 상환액</p>
+                        <p class="mb-0 ">100,000원</p>
+                      </div>
+                      <button class="btn btn-primary btn-sm w-100 compare-btn" data-loan-id="7">비교하기</button>                    </div>
+                  </div>
+                  <!-- 무한루프를 위한 복제 카드....... -->
+                  <div class="card result-card mx-2" id="loan-card-1">
+                    <div class="card-header d-flex align-items-center">
+                      <div class="icon me-3"></div>
+                      <div class="card-title mb-0">
+                        <p class="mb-0 small">은행명 1</p>
+                        <p class="mb-0">상품명</p>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-3">
+                        <p class="mb-0">6.44%</p>
+                        <p class="mb-0">10억원</p>
+                      </div>
+                      <div class="mt-2 mb-3 text-center">
+                        <span class="badge badge-custom me-2">고정금리</span>
+                        <span class="badge badge-custom">원리금 분할상환</span>
+                      </div>
+                      <div class="text-center mb-3">
+                        <p class="mb-0 small">월 평균 상환액</p>
+                        <p class="mb-0 ">100,000원</p>
+                      </div>
+                      <button class="btn btn-primary btn-sm w-100 compare-btn" data-loan-id="1">비교하기</button>                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-secondary carousel-control prev" onclick="prevSlide()">&#9664;</button>
+          <button class="btn btn-secondary carousel-control next" onclick="nextSlide()">&#9654;</button>
+        </div>
+
+        <!--대출상품 비교 테이블-->
+        <div class="container-fluid position-relative mb-5 mx-3">
+          <div class="table-responsive">
+            <table class="table">
+              <thead class="table-light">
+              <tr>
+                <th></th>
+                <th>A은행<br>상품명1</th>
+                <th>B은행<br>상품명2</th>
+                <th>C은행<br>상품명3</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <th>대출금리</th>
+                <td class="rate">4.35%</td>
+                <td class="rate">3.56%</td>
+                <td class="rate">4.56%</td>
+              </tr>
+              <tr>
+                <th>금리방식</th>
+                <td>고정금리</td>
+                <td>변동금리</td>
+                <td>고정금리</td>
+              </tr>
+              <tr>
+                <th>상환방식</th>
+                <td>원리금분할상환</td>
+                <td>원금균등상환</td>
+                <td>원리금분할상환</td>
+              </tr>
+              <tr>
+                <th>월평균 상환액</th>
+                <td>453,254원</td>
+                <td>445,000원</td>
+                <td>460,000원</td>
+              </tr>
+              <tr>
+                <th>총 대출비용<br>(원금+총이자)</th>
+                <td>150,929,376원</td>
+                <td>148,500,000원</td>
+                <td>152,000,000원</td>
+              </tr>
+              <tr>
+                <th>가입방법</th>
+                <td>영업점, 인터넷, 스마트폰, 모집인</td>
+                <td>영업점, 인터넷, 스마트폰, 모집인</td>
+                <td>영업점, 인터넷, 스마트폰, 모집인</td>
+              </tr>
+              <tr>
+                <th>대출 한도 상세</th>
+                <td>영업점, 인터넷, 스마트폰, 모집인</td>
+                <td>영업점, 인터넷, 스마트폰, 모집인</td>
+                <td>영업점, 인터넷, 스마트폰, 모집인</td>
+              </tr>
+              <tr>
+                <th>대출부대비용</th>
+                <td>영업점, 인터넷, 스마트폰, 모집인</td>
+                <td>영업점, 인터넷, 스마트폰, 모집인</td>
+                <td>영업점, 인터넷, 스마트폰, 모집인</td>
+              </tr>
+              <tr>
+                <th>중도상환수수료</th>
+                <td>영업점, 인터넷, 스마트폰, 모집인</td>
+                <td>영업점, 인터넷, 스마트폰, 모집인</td>
+                <td>영업점, 인터넷, 스마트폰, 모집인</td>
+              </tr>
+              <tr>
+                <th>연체이자율</th>
+                <td>영업점, 인터넷, 스마트폰, 모집인</td>
+                <td>영업점, 인터넷, 스마트폰, 모집인</td>
+                <td>영업점, 인터넷, 스마트폰, 모집인</td>
+              </tr>
+              <tr>
+                <th></th>
+                <td><button class="btn btn-primary select-loan" data-loan-id="1">대출 신청하기</button></td>
+                <td><button class="btn btn-primary select-loan" data-loan-id="2">대출 신청하기</button></td>
+                <td><button class="btn btn-primary select-loan" data-loan-id="3">대출 신청하기</button></td>
+              </tr>
+              </tbody>
+            </table>
+
+            <!-- 확인 모달 -->
+            <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalLabel">상품 선택 확인</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <p>선택하신 상품 정보:</p>
+                    <p><strong>은행명: </strong><span id="selectedBank"></span></p>
+                    <p><strong>상품명: </strong><span id="selectedProduct"></span></p>
+                    <p>이 상품으로 진행하시겠습니까?</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                    <button type="button" class="btn btn-primary" id="confirmSelection">확인</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -140,6 +523,141 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <!-- 사용자 정의 JS -->
 <script th:src="@{/js/home.js}"></script>
+
+<script>
+  // 대출 금액 슬라이더
+  const loanAmountRange = document.getElementById('loanAmountRange');
+  const loanAmountValue = document.getElementById('loanAmountValue');
+
+  loanAmountRange.addEventListener('input', function() {
+    loanAmountValue.textContent = Number(this.value).toLocaleString();
+  });
+
+  // 대출 기간 슬라이더
+  const loanTermRange = document.getElementById('loanTermRange');
+  const loanTermValue = document.getElementById('loanTermValue');
+
+  loanTermRange.addEventListener('input', function() {
+    loanTermValue.textContent = this.value;
+  });
+
+  // 대출 목록 정렬 버튼
+  const toggleOptions = document.querySelectorAll('.toggle-option');
+  toggleOptions.forEach(option => {
+    option.addEventListener('click', () => {
+      toggleOptions.forEach(opt => opt.classList.remove('active'));
+      toggleOptions.forEach(opt => opt.classList.add('inactive'));
+      option.classList.add('active');
+      option.classList.remove('inactive');
+    });
+  });
+
+  // 대출 상품 목록 캐러셀
+  let currentIndex = 0;
+  const cardWidth = 315; // 카드 너비 + 마진
+  const totalCards = document.querySelectorAll('.carousel-container .card').length / 2; // 실제 카드 수
+
+  function updateCarousel() {
+    const container = document.querySelector('.carousel-container');
+    container.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+
+    // 무한 루프를 위한 위치 재설정
+    if (currentIndex >= totalCards) {
+      currentIndex = 0;
+      container.style.transition = 'none';
+      container.style.transform = `translateX(0)`;
+      setTimeout(() => {
+        container.style.transition = 'transform 0.3s ease-in-out';
+      }, 10);
+    }
+  }
+
+  function nextSlide() {
+    currentIndex++;
+    updateCarousel();
+  }
+
+  function prevSlide() {
+    if (currentIndex > 0) {
+      currentIndex--;
+    } else {
+      currentIndex = totalCards - 1;
+      const container = document.querySelector('.carousel-container');
+      container.style.transition = 'none';
+      container.style.transform = `translateX(-${totalCards * cardWidth}px)`;
+      setTimeout(() => {
+        container.style.transition = 'transform 0.3s ease-in-out';
+        currentIndex--;
+      }, 10);
+    }
+    updateCarousel();
+  }
+
+  // 자동 슬라이드 (선택사항)
+  // setInterval(nextSlide, 3000);
+
+  //대출 상품 선택하기
+  let selectedLoans = new Set();
+  const maxComparisons = 3;
+
+  function toggleCompare(button) {
+    const loanId = button.getAttribute('data-loan-id');
+    const card = document.getElementById(`loan-card-${loanId}`);
+
+    if (selectedLoans.has(loanId)) {
+      selectedLoans.delete(loanId);
+      card.classList.remove('highlight');
+      button.textContent = '비교하기';
+    } else {
+      if (selectedLoans.size < maxComparisons) {
+        selectedLoans.add(loanId);
+        card.classList.add('highlight');
+        button.textContent = '비교 해제';
+      } else {
+        alert(`최대 ${maxComparisons}개의 상품만 비교할 수 있습니다.`);
+        return;
+      }
+    }
+
+    updateComparisonTable();
+  }
+
+  function updateComparisonTable() {
+    // 여기에 선택된 대출 상품들을 비교 테이블에 표시하는 로직을 구현합니다.
+    console.log('선택된 대출 상품 ID:', Array.from(selectedLoans));
+    // 예: 선택된 상품 정보를 서버에서 가져와 테이블에 표시
+  }
+
+  // 모든 비교하기 버튼에 이벤트 리스너 추가
+  document.querySelectorAll('.compare-btn').forEach(button => {
+    button.addEventListener('click', function() {
+      toggleCompare(this);
+    });
+  });
+
+  // 최종 선택 전 확인 및 다음페이지로 넘어가기
+  document.addEventListener('DOMContentLoaded', function() {
+    const selectButtons = document.querySelectorAll('.select-loan');
+    const confirmModal = new bootstrap.Modal(document.getElementById('confirmModal'));
+    const confirmButton = document.getElementById('confirmSelection');
+    let selectedLoanId = null;
+
+    selectButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        selectedLoanId = this.getAttribute('data-loan-id');
+        confirmModal.show();
+      });
+    });
+
+    confirmButton.addEventListener('click', function() {
+      if (selectedLoanId) {
+        // 상세 페이지로 이동
+        window.location.href = `/loan_details?id=${selectedLoanId}`;
+      }
+    });
+  });
+</script>
+
 <th:block th:replace="fragments/header :: scripts"></th:block>
 </body>
 </html>
