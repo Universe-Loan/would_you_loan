@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- 사용자 정의 CSS -->
+    <link rel="stylesheet" href="/css/common.css">
+    <style>
+        .card {
+            border-radius: 15px;
+            border: 1px solid #dee2e6;
+        }
+        .btn-back {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+            border-radius: 20px;
+            padding: 5px 15px;
+            text-decoration: none;
+        }
+        .btn-submit {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+            border-radius: 5px;
+            padding: 10px 20px;
+            text-decoration: none;
+        }
+        .btn-submit:hover, .btn-back:hover {
+            background-color: #0056b3;
+            border-color: #007bff;
+        }
+        .btn-upload {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<!--헤더-->
+<header th:replace="fragments/header :: nav"></header>
+
+<!--본문-->
+<div class="content-wrapper">
+
+<!--본문 내용 입력하기-->
+    <div class="container mt-5">
+        <div class="card p-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="mb-0">대출 신청을 위한 서류제출을 진행할게요.</h5>
+                <button class="btn-back" onclick="history.back()">뒤로가기</button>
+            </div>
+            <p>잔금일이 표시된 <span class="text-primary">매매계약서</span>를 준비해 주세요.<br>
+                해당 문서를 PDF로 제출해 주세요.</p>
+            <p>서류는 1개월 이내 발급한 원본으로 촬영해야 하며, 글자가 흐리거나 잘 보이지 않을 경우 재촬영을 요구할 수 있습니다.<br>
+                제출기한: <span id="submissionDeadline"></span><br>
+                가능시간: 평일/토요일 08시~22시. 일요일/공휴일 이용불가</p>
+            <div class="text-center">
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <input type="file" id="fileInput" name="file" accept=".pdf" style="display: none;">
+                    <button type="button" class="btn-submit" onclick="document.getElementById('fileInput').click()">매매계약서 선택하기</button>
+                    <button type="button" class="btn-submit btn-upload" onclick="uploadFile()" style="display: none;">선택한 파일 업로드</button>
+                </form>
+                <p id="selectedFileName" class="mt-2" style="display: none;"></p>
+                <p id="uploadedFileName" class="mt-2" style="display: none;"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--footer-->
+<footer th:replace="fragments/footer :: footer"></footer>
+
+<!--Javascript-->
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- 사용자 정의 JS -->
+<script th:src="@{/js/home.js}"></script>
+<th:block th:replace="fragments/header :: scripts"></th:block>
+
+<!--제출기한 날짜 계산-->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var today = new Date();
+        var deadline = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000); // 7일 후
+        var formattedDeadline = deadline.getFullYear() + '.' +
+            ('0' + (deadline.getMonth() + 1)).slice(-2) + '.' +
+            ('0' + deadline.getDate()).slice(-2);
+        document.getElementById('submissionDeadline').textContent = formattedDeadline;
+    });
+</script>
+
+<!--파일 업로드 버튼-->
+<script>
+    document.getElementById('fileInput').addEventListener('change', function() {
+        const fileName = this.files[0] ? this.files[0].name : '';
+        const selectedFileNameElement = document.getElementById('selectedFileName');
+        if (fileName) {
+            selectedFileNameElement.textContent = '선택된 파일: ' + fileName;
+            selectedFileNameElement.style.display = 'block';
+            document.querySelector('.btn-upload').style.display = 'inline-block';
+        } else {
+            selectedFileNameElement.style.display = 'none';
+            document.querySelector('.btn-upload').style.display = 'none';
+        }
+    });
+
+    function uploadFile() {
+        const fileInput = document.getElementById('fileInput');
+        const file = fileInput.files[0];
+        if (!file) {
+            alert('파일을 선택해주세요.');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        fetch('/api/upload', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.text())
+            .then(result => {
+                alert(result);
+                document.querySelector('.btn-upload').style.display = 'none';
+                document.getElementById('selectedFileName').style.display = 'none';
+                const uploadedFileNameElement = document.getElementById('uploadedFileName');
+                uploadedFileNameElement.textContent = '업로드된 파일: ' + file.name;
+                uploadedFileNameElement.style.display = 'block';
+                fileInput.value = '';
+            })
+            .catch(error => {
+                alert('업로드 중 오류가 발생했습니다: ' + error);
+            });
+    }
+
+    // 제출 기한 설정
+    document.addEventListener('DOMContentLoaded', function() {
+        const deadline = new Date();
+        deadline.setDate(deadline.getDate() + 7);
+        document.getElementById('submissionDeadline').textContent = deadline.toLocaleDateString('ko-KR');
+    });
+</script>
+
+<!--파일을 서버로 전송-->
+<script>
+    function uploadFile() {
+        const fileInput = document.getElementById('fileInput');
+        const file = fileInput.files[0];
+        if (!file) {
+            alert('파일을 선택해주세요.');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        fetch('/api/upload', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.text())
+            .then(result => {
+                alert(result);
+            })
+            .catch(error => {
+                alert('업로드 중 오류가 발생했습니다: ' + error);
+            });
+    }
+</script>
+</body>
+</html>

@@ -54,4 +54,9 @@ public class test {
 //        // model.addAttribute("loan", loan);
 //        return "loan_details";
 //    }
+
+    @GetMapping("/loan-ocr")
+    public String loanOCR() {
+        return "loan_ocr";
+    }
 }
