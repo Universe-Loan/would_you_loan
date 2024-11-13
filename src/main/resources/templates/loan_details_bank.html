@@ -119,7 +119,7 @@
                     </div>
                 <div class="col-md-3 d-flex flex-column align-items-center justify-content-center">
                     <img src="https://via.placeholder.com/300x200" alt="대출 상품 이미지" class="loan-image mb-3">
-                    <button class="btn btn-custom">신청하기</button>
+                    <a th:href="@{/loan-ocr}"><button class="btn btn-custom">신청하기</button></a>
                 </div>
             </div>
             </div>
@@ -172,28 +172,6 @@
                         </tr>
                         </tbody>
                     </table>
-
-                    <!-- 확인 모달 -->
-                    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="confirmModalLabel">상품 선택 확인</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>선택하신 상품 정보:</p>
-                                    <p><strong>은행명: </strong><span id="selectedBank"></span></p>
-                                    <p><strong>상품명: </strong><span id="selectedProduct"></span></p>
-                                    <p>이 상품으로 진행하시겠습니까?</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                                    <button type="button" class="btn btn-primary" id="confirmSelection">확인</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
