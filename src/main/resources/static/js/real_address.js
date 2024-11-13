@@ -1,6 +1,22 @@
-// 공공데이터 포털 API 키
-const API_KEY = '5icOo8jlEQae%2Fsqp2smCtjbyft%2BHaU4qkK%2BtSzKJhZiXL%2BXNsV9sMKAxDMBcp63NRQ5tG%2F33kGoyIuDutQadSg%3D%3D';
+// API 키를 저장할 변수
+let API_KEY = '';
 
+// 백엔드에서 API 키를 가져오는 함수
+async function fetchApiKey() {
+    try {
+        const response = await fetch('/api/key');
+        if (!response.ok) {
+            throw new Error('API 키를 가져오는데 실패했습니다.');
+        }
+        API_KEY = await response.text();
+        console.log('API 키를 성공적으로 가져왔습니다.');
+    } catch (error) {
+        console.error('API 키를 가져오는 중 오류 발생:', error);
+    }
+}
+
+// 페이지 로드 시 API 키 가져오기
+fetchApiKey();
 // 팝업창 열기
 function openInterestPopup() {
     document.getElementById('interestPropertyPopup').style.display = 'block';
@@ -25,7 +41,6 @@ function loadDistricts() {
     const citySelect = document.getElementById('city');
     const cityCode = citySelect.value;
     const cityName = citySelect.selectedOptions[0].text;
-
     if (!cityCode) return;
 
     const url = `http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList?serviceKey=${API_KEY}&pageNo=1&numOfRows=1000&type=json&locatadd_nm=${cityName}`;
