@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대출 상품 상세</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 사용자 정의 CSS -->
+    <link rel="stylesheet" href="/css/common.css">
+    <style>
+        .content-container {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .card, .table-responsive {
+            width: 100%;
+            max-width: 1200px; /* 원하는 최대 너비로 조정 가능 */
+            margin: 0 auto;
+        }
+        .card {
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            padding: 20px;
+            background-color: #fff;
+        }
+        .btn-custom {
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 20px;
+        }
+        .btn-custom-outline {
+            border: 1px solid #007bff;
+            color: #007bff;
+            border-radius: 20px;
+        }
+        .badge-custom {
+            background-color: #e9ecef;
+            color: #495057;
+            font-weight: normal;
+            padding: 0.5em 1em;
+            border-radius: 10px;
+        }
+        .loan-image {
+            max-width: 200px;
+            max-height: 200px;
+            object-fit: contain;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 40px;
+            font-size: 0.8em;
+        }
+        .table-responsive th, .table-responsive td {
+            text-align: center;
+            vertical-align: middle;
+            padding: 20px; /* 모든 방향에 10px 패딩 적용 */
+        }
+        .table-responsive th {
+            font-weight: normal;
+            color: #6c757d;
+            background-color: #ffffff;
+        }
+        .table-responsive .rate {
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+
+<!--헤더-->
+<header th:replace="fragments/header :: nav"></header>
+
+<!--본문-->
+<div class="content-wrapper">
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between mb-3">
+            <button class="btn btn-custom" onclick="history.back()">뒤로가기</button>
+        </div>
+        <div class="content-container">
+            <!--대출상세정보 카드-->
+            <div class="card p-5 mb-4">
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="col-md-8">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="mb-3">
+                                    <p class="mb-0">대출기관</p>
+                                    <h5 class="mb-0">상품명</h5>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between mb-3">
+                                <div>
+                                    <p class="mb-0">금리</p>
+                                    <h6>3.65%</h6>
+                                </div>
+                                <div>
+                                    <p class="mb-0">대출 한도</p>
+                                    <h6>40,000만원</h6>
+                                </div>
+                                <div>
+                                    <p class="mb-0">대출 기간</p>
+                                    <h6>20년</h6>
+                                </div>
+                                <div>
+                                    <p class="mb-0">월 평균 상환액</p>
+                                    <h6>100,125원</h6>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <span class="badge badge-custom me-2">고정금리</span>
+                                <span class="badge badge-custom">원리금분할상환</span>
+                            </div>
+                        </div>
+                    </div>
+                <div class="col-md-3 d-flex flex-column align-items-center justify-content-center">
+                    <img src="https://via.placeholder.com/300x200" alt="대출 상품 이미지" class="loan-image mb-3">
+                    <button class="btn btn-custom">신청하기</button>
+                </div>
+            </div>
+            </div>
+            <!--대출상세정보 테이블-->
+            <div class="d-flex justify-content-center">
+                <div class="table-responsive pb-5">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th>대출금리</th>
+                            <td class="rate">4.35%</td>
+                        </tr>
+                        <tr>
+                            <th>금리방식</th>
+                            <td>고정금리</td>
+                        </tr>
+                        <tr>
+                            <th>상환방식</th>
+                            <td>원리금분할상환</td>
+                        </tr>
+                        <tr>
+                            <th>월평균 상환액</th>
+                            <td>453,254원</td>
+                        </tr>
+                        <tr>
+                            <th>총 대출비용<br>(원금+총이자)</th>
+                            <td>150,929,376원</td>
+                        </tr>
+                        <tr>
+                            <th>가입방법</th>
+                            <td>영업점, 인터넷, 스마트폰, 모집인</td>
+                        </tr>
+                        <tr>
+                            <th>대출 한도 상세</th>
+                            <td>영업점, 인터넷, 스마트폰, 모집인</td>
+                        </tr>
+                        <tr>
+                            <th>대출부대비용</th>
+                            <td>영업점, 인터넷, 스마트폰, 모집인</td>
+                        </tr>
+                        <tr>
+                            <th>중도상환수수료</th>
+                            <td>영업점, 인터넷, 스마트폰, 모집인</td>
+                        </tr>
+                        <tr>
+                            <th>연체이자율</th>
+                            <td>영업점, 인터넷, 스마트폰, 모집인</td>
+                        </tr>
+                        <tr>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- 확인 모달 -->
+                    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="confirmModalLabel">상품 선택 확인</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>선택하신 상품 정보:</p>
+                                    <p><strong>은행명: </strong><span id="selectedBank"></span></p>
+                                    <p><strong>상품명: </strong><span id="selectedProduct"></span></p>
+                                    <p>이 상품으로 진행하시겠습니까?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                                    <button type="button" class="btn btn-primary" id="confirmSelection">확인</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--footer-->
+<footer th:replace="fragments/footer :: footer"></footer>
+
+<!--Javascript-->
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- 사용자 정의 JS -->
+<script th:src="@{/js/home.js}"></script>
+<th:block th:replace="fragments/header :: scripts"></th:block>
+</body>
+</html>
