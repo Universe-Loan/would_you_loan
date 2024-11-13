@@ -36,6 +36,17 @@ public class test {
         return "loan_list";
     }
 
+    // 대출 상품 개별 ID 대로 detail?id= 로 이동해야 함
+    @GetMapping("/loan-details-govt")
+    public String loanDetailsGovt() {
+        return "loan_details_govt";
+    }
+
+    @GetMapping("/loan-details-bank")
+    public String loanDetailsBank() {
+        return "loan_details_bank";
+    }
+
 //    @GetMapping("/loan-details/{id}")
 //    public String loanDetails(@PathVariable Long id, Model model) {
 //        // 여기에서 id를 사용하여 대출 상품 정보를 조회하고 모델에 추가
