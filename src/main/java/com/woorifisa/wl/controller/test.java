@@ -35,4 +35,12 @@ public class test {
     public String loanList() {
         return "loan_list";
     }
+
+//    @GetMapping("/loan-details/{id}")
+//    public String loanDetails(@PathVariable Long id, Model model) {
+//        // 여기에서 id를 사용하여 대출 상품 정보를 조회하고 모델에 추가
+//        // 예: Loan loan = loanService.getLoanById(id);
+//        // model.addAttribute("loan", loan);
+//        return "loan_details";
+//    }
 }
