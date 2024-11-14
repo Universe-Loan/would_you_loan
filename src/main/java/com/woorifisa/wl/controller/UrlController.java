@@ -64,4 +64,11 @@ public class UrlController {
     public String changeFind() {
         return "change_find";
     }
+
+    @GetMapping("/apt-find")
+    public String aptFind() {
+        return "apt_find";
+    }
+
 }
+
