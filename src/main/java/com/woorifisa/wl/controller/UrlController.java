@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class test {
+public class UrlController {
 
     @GetMapping("/")
     public String home() {
@@ -58,5 +58,10 @@ public class test {
     @GetMapping("/loan-ocr")
     public String loanOCR() {
         return "loan_ocr";
+    }
+
+    @GetMapping("/change-find")
+    public String changeFind() {
+        return "change_find";
     }
 }
