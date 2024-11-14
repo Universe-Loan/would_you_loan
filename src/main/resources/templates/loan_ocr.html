@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="/css/common.css">
     <style>
         .card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
             border-radius: 15px;
             border: 1px solid #dee2e6;
         }
@@ -47,7 +50,7 @@
 <div class="content-wrapper">
 
 <!--본문 내용 입력하기-->
-    <div class="container mt-5">
+    <div class="container col-md-12 mt-5">
         <div class="card p-4">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h5 class="mb-0">대출 신청을 위한 서류제출을 진행할게요.</h5>
@@ -62,10 +65,53 @@
                 <form id="uploadForm" enctype="multipart/form-data">
                     <input type="file" id="fileInput" name="file" accept=".pdf" style="display: none;">
                     <button type="button" class="btn-submit" onclick="document.getElementById('fileInput').click()">매매계약서 선택하기</button>
-                    <button type="button" class="btn-submit btn-upload" onclick="uploadFile()" style="display: none;">선택한 파일 업로드</button>
                 </form>
                 <p id="selectedFileName" class="mt-2" style="display: none;"></p>
-                <p id="uploadedFileName" class="mt-2" style="display: none;"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- OCR 결과 확인 및 수정 창 -->
+    <div id="ocrResultContainer" class="container-fluid mt-4" style="display: none;">
+        <div class="row">
+            <div id="pdfPreviewContainer" class="col-md-6">
+                <div class="card p-4 mb-3">
+                    <div class="pdf-container" style="width: 100%; height: 100%; position: relative;">
+                        <canvas id="pdfCanvas" style="width: 100%; height: 100%;"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="card p-5">
+                    <h5 class="mb-4 pb-3">정보가 잘 입력되었는지 확인해주세요</h5>
+                    <form id="ocrForm">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="location" placeholder="소재지">
+                            <label for="location">소재지</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="buildingUse" placeholder="건물 용도">
+                            <label for="buildingUse">건물 용도</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="exclusiveArea" placeholder="건물 전용 면적">
+                            <label for="exclusiveArea">건물 전용 면적</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="salePrice" placeholder="매매 대금">
+                            <label for="salePrice">매매 대금</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="buyerAddress" placeholder="매수인 주소">
+                            <label for="buyerAddress">매수인 주소</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="buyerName" placeholder="매수인 이름">
+                            <label for="buyerName">매수인 이름</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">확인</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -93,84 +139,97 @@
     });
 </script>
 
-<!--파일 업로드 버튼-->
+<!--파일 업로드-->
+<!-- PDF.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
 <script>
-    document.getElementById('fileInput').addEventListener('change', function() {
-        const fileName = this.files[0] ? this.files[0].name : '';
-        const selectedFileNameElement = document.getElementById('selectedFileName');
-        if (fileName) {
-            selectedFileNameElement.textContent = '선택된 파일: ' + fileName;
-            selectedFileNameElement.style.display = 'block';
-            document.querySelector('.btn-upload').style.display = 'inline-block';
-        } else {
-            selectedFileNameElement.style.display = 'none';
-            document.querySelector('.btn-upload').style.display = 'none';
+    // PDF.js 라이브러리 로드
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.worker.min.js';
+
+    document.getElementById('fileInput').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const fileName = file.name;
+            document.getElementById('selectedFileName').textContent = '선택된 파일: ' + fileName;
+            document.getElementById('selectedFileName').style.display = 'block';
+            // PDF 파일 업로드 및 OCR 처리
+            uploadAndProcessPDF(file);
         }
     });
 
-    function uploadFile() {
-        const fileInput = document.getElementById('fileInput');
-        const file = fileInput.files[0];
-        if (!file) {
-            alert('파일을 선택해주세요.');
-            return;
-        }
+    function uploadAndProcessPDF(file) {
+        // // 여기에 서버로 PDF 파일을 업로드하고 OCR 처리를 요청하는 코드를 추가합니다.
+        // // 예시:
+        // fetch('/api/upload-and-ocr', {
+        //     method: 'POST',
+        //     body: formData
+        // })
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         // OCR 결과를 받아 폼에 채우고 결과 컨테이너를 표시합니다.
+        //         fillOCRResult(data);
+        //         showOCRResult(file);
+        //     })
+        //     .catch(error => {
+        //         console.error('Error:', error);
+        //     });
 
-        const formData = new FormData();
-        formData.append('file', file);
+        // 서버 연결 없이 테스트하기 위해 가짜 OCR 결과를 생성합니다.
+        const fakeOCRResult = {
+            location: '서울특별시 강남구 테헤란로 123',
+            buildingUse: '오피스텔',
+            exclusiveArea: '84.5㎡',
+            salePrice: '500,000,000원',
+            buyerAddress: '서울특별시 서초구 서초대로 456',
+            buyerName: '임정규'
+        };
 
-        fetch('/api/upload', {
-            method: 'POST',
-            body: formData
-        })
-            .then(response => response.text())
-            .then(result => {
-                alert(result);
-                document.querySelector('.btn-upload').style.display = 'none';
-                document.getElementById('selectedFileName').style.display = 'none';
-                const uploadedFileNameElement = document.getElementById('uploadedFileName');
-                uploadedFileNameElement.textContent = '업로드된 파일: ' + file.name;
-                uploadedFileNameElement.style.display = 'block';
-                fileInput.value = '';
-            })
-            .catch(error => {
-                alert('업로드 중 오류가 발생했습니다: ' + error);
-            });
+        // OCR 결과를 폼에 채우고 결과 컨테이너를 표시합니다.
+        fillOCRResult(fakeOCRResult);
+        showOCRResult(file);
     }
 
-    // 제출 기한 설정
-    document.addEventListener('DOMContentLoaded', function() {
-        const deadline = new Date();
-        deadline.setDate(deadline.getDate() + 7);
-        document.getElementById('submissionDeadline').textContent = deadline.toLocaleDateString('ko-KR');
+    function fillOCRResult(data) {
+        document.getElementById('location').value = data.location || '';
+        document.getElementById('buildingUse').value = data.buildingUse || '';
+        document.getElementById('exclusiveArea').value = data.exclusiveArea || '';
+        document.getElementById('salePrice').value = data.salePrice || '';
+        document.getElementById('buyerAddress').value = data.buyerAddress || '';
+        document.getElementById('buyerName').value = data.buyerName || '';
+    }
+
+    function showOCRResult(file) {
+        document.getElementById('ocrResultContainer').style.display = 'block';
+
+        // PDF 뷰어에 파일 로드
+        const fileReader = new FileReader();
+        fileReader.onload = function() {
+            const typedarray = new Uint8Array(this.result);
+            pdfjsLib.getDocument(typedarray).promise.then(function(pdf) {
+                pdf.getPage(1).then(function(page) {
+                    const scale = 1.5;
+                    const viewport = page.getViewport({scale: scale});
+                    const canvas = document.getElementById('pdfCanvas');
+                    const context = canvas.getContext('2d');
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+                    const renderContext = {
+                        canvasContext: context,
+                        viewport: viewport
+                    };
+                    page.render(renderContext);
+                });
+            });
+        };
+        fileReader.readAsArrayBuffer(file);
+    }
+
+    // OCR 결과 수정 폼 제출 처리
+    document.getElementById('ocrForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        // 여기에 수정된 OCR 결과를 서버로 전송하는 코드를 추가합니다.
+        alert('OCR 결과가 저장되었습니다.');
     });
-</script>
-
-<!--파일을 서버로 전송-->
-<script>
-    function uploadFile() {
-        const fileInput = document.getElementById('fileInput');
-        const file = fileInput.files[0];
-        if (!file) {
-            alert('파일을 선택해주세요.');
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('file', file);
-
-        fetch('/api/upload', {
-            method: 'POST',
-            body: formData
-        })
-            .then(response => response.text())
-            .then(result => {
-                alert(result);
-            })
-            .catch(error => {
-                alert('업로드 중 오류가 발생했습니다: ' + error);
-            });
-    }
 </script>
 </body>
 </html>
