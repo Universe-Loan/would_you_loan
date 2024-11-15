@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- 사용자 정의 CSS -->
+<link rel="stylesheet" href="/css/common.css">
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+    .box {
+        background-color: #ffffff;
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    /* 최근 조회 버튼 */
+    .btn-custom {
+        border: 1px solid #007bff;
+        color: #007bff;
+        background-color: transparent;
+    }
+    /* 시장지표 */
+    .indicator-box {
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 30px;
+    }
+
+    .indicator-item {
+        text-align: center;
+        padding: 15px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    .indicator-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .indicator-label {
+        font-size: 0.8rem;
+        color: #6c757d;
+        margin-bottom: 5px;
+    }
+
+    .indicator-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .indicator-value {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+
+    .indicator-sub {
+        font-size: 0.8rem;
+        color: #6c757d;
+    }
+
+    .indicator-icon {
+        font-size: 3rem;
+        margin-top: 10px;
+    }
+
+    @media (max-width: 992px) {
+        .indicator-item {
+            margin-bottom: 20px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .indicator-value {
+            font-size: 1.5rem;
+        }
+    }
+    /* 아파트 정보 */
+    .apt-price {
+        font-family: Arial, sans-serif;
+    }
+
+    .price-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+    .price-index {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .price-value {
+        color: #007bff;
+    }
+
+    .price-date, .price-percentage {
+        font-size: 0.8em;
+        color: #6c757d;
+        margin-left: 5px;
+    }
+    /* 대출 시뮬레이션 */
+    .loan-simulation {
+        padding: 20px;
+        border-radius: 10px;
+    }
+    .loan-simulation .card {
+        border-color: transparent;
+    }
+    .slider-container {
+        width: 100%;
+        padding: 20px 10px;
+    }
+    .slider {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 10px;
+        border-radius: 5px;
+        background: linear-gradient(to right, #285fa7, #dc3545);
+        outline: none;
+        opacity: 0.7;
+        transition: opacity .2s;
+    }
+
+    .slider:hover {
+        opacity: 1;
+    }
+
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 1px solid gray;
+        background: #ffffff;
+        cursor: pointer;
+    }
+
+    .slider::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 1px solid gray;
+        background: #ffffff;
+        cursor: pointer;
+    }
+    .slider-wrapper {
+        position: relative;
+        padding-top: 20px;
+    }
+
+    .slider-label {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: transparent;
+        color: gray;
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-size: 0.8rem;
+    }
+    /*.slider-labels {*/
+    /*    color: #6c757d;*/
+    /*    font-size: 0.8rem;*/
+    /*}*/
+    /**/
+    .content-header {
+        height: 50px
+    }
+    .content-box {
+        height: 200px;
+    }
+    .ratio-box {
+        height: 250px;
+    }
+    .chart-box {
+        height: 300px;
+    }
+    .table-box {
+        height: auto;
+    }
+    .large-box {
+        height: 150px;
+    }
+</style>
+</head>
+<body>
+
+<!--헤더-->
+<header th:replace="fragments/header :: nav"></header>
+
+<!--본문-->
+<div class="content-wrapper">
+
+<!--본문 내용 입력하기-->
+    <div class="container mt-4">
+        <div class="row">
+            <!--최근 조회내역 버튼-->
+            <div class="d-flex justify-content-start flex-wrap mb-3">
+                <div class="me-3">
+                    <button type="button" class="btn btn-outline-primary btn-custom">상암IT타워</button>
+                </div>
+                <div class="me-3">
+                    <button type="button" class="btn btn-outline-primary btn-custom">상암월드컵경기장</button>
+                </div>
+                <div class="me-3">
+                    <button type="button" class="btn btn-outline-primary btn-custom">트리마제</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <!--금리 정보-->
+            <div class="col-12">
+                <div class="box indicator-box">
+                    <div class="row g-4">
+                        <div class="col">
+                            <div class="indicator-item">
+                                <p class="indicator-label">시장 지표</p>
+                                <h5 class="indicator-title">CD 금리</h5>
+                                <h3 class="indicator-value text-primary">4.56%</h3>
+                                <p class="indicator-sub">전일 상품지수 126,000원</p>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="indicator-item">
+                                <p class="indicator-label">시장 지표</p>
+                                <h5 class="indicator-title">코픽스</h5>
+                                <h3 class="indicator-value text-primary">4.56%</h3>
+                                <p class="indicator-sub">전일 상품지수 126,000원</p>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="indicator-item">
+                                <p class="indicator-label">시장 지표</p>
+                                <h5 class="indicator-title">금융채 5년</h5>
+                                <h3 class="indicator-value text-primary">4.56%</h3>
+                                <p class="indicator-sub">전일 상품지수 126,000원</p>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="indicator-item">
+                                <p class="indicator-label">시장 지표</p>
+                                <h5 class="indicator-title">부동산 매매거래지수</h5>
+                                <h3 class="indicator-value text-primary">4.56%</h3>
+                                <p class="indicator-sub">전일 상품지수 126,000원</p>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="indicator-item">
+                                <p class="indicator-label">유의사항</p>
+                                <h5 class="indicator-title">부동산 날씨</h5>
+                                <div class="indicator-icon">🌞</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <!-- 아파트 상세정보 -->
+                <div>
+                    <h5 class="box apt-name">한남더힐</h5>
+                    <div class="box apt-info p-5">
+                        <div class="apt-details text-center pb-4">
+                            <p>
+                                아파트 | 매매 | 10층 | 전용 <span id="squareMeters">235.31</span>m²
+                                (<span id="pyeong"></span>평)
+                            </p>
+                        </div>
+                        <!-- 아파트 가격정보 -->
+                        <div class="apt-content">
+                            <div class="apt-price">
+                                <div class="price-row">
+                                    <div class="price-index">
+                                        이전 실거래가
+                                        <span class="price-date">(2022.05.16)</span>
+                                    </div>
+                                    <div class="price-value" data-price="8350000000"></div>
+                                </div>
+                                <div class="price-row">
+                                    <div class="price-index">
+                                        최근 실거래가
+                                        <span class="price-date">(2024.09.30)</span>
+                                    </div>
+                                    <div class="price-value" data-price="10600000000"></div>
+                                </div>
+                                <div class="price-row">
+                                    <div class="price-index">증가율</div>
+                                    <div class="price-value" id="price-increase"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <!--아파트 실거래 시세 표-->
+                <div class="box table-box">
+                    <h5>아파트 실거래 시세 표</h5>
+                    <table class="table table-bordered text-center">
+                        <thead class="table-light">
+                        <tr>
+                            <th>계약연도</th>
+                            <th>계약일</th>
+                            <th>거래</th>
+                            <th>가격</th>
+                            <th>층</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>2024</td>
+                            <td>09.30</td>
+                            <td>매매</td>
+                            <td>106억</td>
+                            <td>10층</td>
+                        </tr>
+                        <tr>
+                            <td>2022</td>
+                            <td>05.16</td>
+                            <td>매매</td>
+                            <td>83억 5,000</td>
+                            <td>7층</td>
+                        </tr>
+                        <tr>
+                            <td>2022</td>
+                            <td>04.20</td>
+                            <td>매매</td>
+                            <td>59억 5,000</td>
+                            <td>4층</td>
+                        </tr>
+                        <tr>
+                            <td>2021</td>
+                            <td>03.05</td>
+                            <td>매매</td>
+                            <td>58억</td>
+                            <td>5층</td>
+                        </tr>
+                        <tr>
+                            <td>2021</td>
+                            <td>02.26</td>
+                            <td>매매</td>
+                            <td>59억</td>
+                            <td>3층</td>
+                        </tr>
+                        <tr class="text-muted">
+                            <td>2020</td>
+                            <td>06.19</td>
+                            <td>매매</td>
+                            <td>54억</td>
+                            <td>10층</td>
+                        </tr>
+                        <tr class="text-muted">
+                            <td>2020</td>
+                            <td>06.08</td>
+                            <td>매매</td>
+                            <td>52억 7,000</td>
+                            <td>6층</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <!--우리동네 실거래 차트 -->
+                <div class="box chart-box">우리동네 실거래 차트</div>
+            </div>
+            <div class="col-6">
+                <!--아파트 실거래 시세 차트-->
+                <div class="box chart-box">
+                    <h5>아파트 실거래 차트</h5>
+                    <canvas id="apartmentPriceChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <!-- 대출 시뮬레이션 -->
+            <div class="box loan-simulation col-8 p-5">
+                <h5 class="mb-4">대출 시뮬레이션</h5>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="fw-bold">총 필요 자금</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>실거래가</span>
+                                    <strong id="totalAmount" class="text-end"></strong>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>취득세</span>
+                                    <strong id="acquisitionTax" class="text-end"></strong>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>중개보수</span>
+                                    <strong id="brokerageFee" class="text-end"></strong>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>자본금</span>
+                                    <strong id="equity" class="text-primary text-end"></strong>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>대출금</span>
+                                    <strong id="loan" class="text-primary text-end"></strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>대출 예상기간</span>
+                                    <select id="loanPeriod" class="form-select form-select-sm" style="width: auto;">
+                                        <option value="5">5년</option>
+                                        <option value="10" selected>10년</option>
+                                        <option value="15">15년</option>
+                                        <option value="20">20년</option>
+                                        <option value="25">25년</option>
+                                        <option value="30">30년</option>
+                                        <option value="35">35년</option>
+                                        <option value="40">40년</option>
+                                        <option value="45">45년</option>
+                                        <option value="50">50년</option>
+                                    </select>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>대출 예상비용</span>
+                                    <span id="monthlyPayment" class="text-primary text-end"></span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span>연간 예상비용</span>
+                                    <span id="annualPayment" class="text-primary text-end"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slider-container">
+                    <div class="slider-wrapper">
+                        <input type="range" id="loanSlider" min="0" value="0" class="slider">
+                        <span id="midLabel" class="slider-label">50%</span>
+                    </div>
+                    <div class="slider-labels d-flex justify-content-between mt-2">
+                        <span>0%</span>
+                        <span>100%</span>
+                    </div>
+                </div>
+            </div>
+            <!-- LTV, DTI, DSR 그래프 -->
+            <div class="col">
+                <div class="col-12">
+                    <div class="box ratio-box">
+                        <h6>LTV</h6>
+                        <canvas class="d-flex" id="ltvChart"></canvas>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="box ratio-box">DTI</div>
+                </div>
+                <div class="col-12">
+                    <div class="box ratio-box">DSR(스트레스 DSR?)</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <!--우리동네 기사 -->
+                <div class="box chart-box">우리동네 기사</div>
+            </div>
+            <div class="col-6">
+                <!--우리동네 기사 워드클라우드-->
+                <div class="box chart-box">우리동네 기사 워드 클라우드</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <!--우리아파트 장점-->
+                <div class="box large-box">우리아파트 장점</div>
+            </div>
+            <div class="col-6">
+                <!--우리아파트 단점-->
+                <div class="box large-box">우리아파트 단점</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!--footer-->
+<footer th:replace="fragments/footer :: footer"></footer>
+
+<!--Javascript-->
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- 사용자 정의 JS -->
+<script th:src="@{/js/home.js}"></script>
+<th:block th:replace="fragments/header :: scripts"></th:block>
+<!-- Chart.js 라이브러리 로드 -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!--아파트 실거래 시세 차트 그리기를 위한 플러그인-->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        function formatNumber(number) {
+            return new Intl.NumberFormat('ko-KR').format(number);
+        }
+
+        function convertToKorean(number) {
+            const units = ['', '만', '억', '조'];
+            let result = '';
+            let unitIndex = 0;
+            while (number > 0) {
+                let part = number % 10000;
+                if (part > 0) {
+                    result = formatNumber(part) + units[unitIndex] + ' ' + result;
+                }
+                number = Math.floor(number / 10000);
+                unitIndex++;
+            }
+            return result.trim() + '원';
+        }
+
+        function updatePrices() {
+            const priceValues = document.querySelectorAll('.price-value');
+            priceValues.forEach(function(element) {
+                if (element.dataset.price) {
+                    const price = parseInt(element.dataset.price);
+                    element.textContent = convertToKorean(price);
+                }
+            });
+
+            // 증가율 계산
+            const previousPrice = parseInt(priceValues[0].dataset.price);
+            const recentPrice = parseInt(priceValues[1].dataset.price);
+            const increase = recentPrice - previousPrice;
+            const increasePercentage = ((increase / previousPrice) * 100).toFixed(2);
+
+            const priceIncrease = document.getElementById('price-increase');
+            priceIncrease.innerHTML = `
+            <span class="price-percentage">(${increasePercentage > 0 ? '+' : '-'}${increasePercentage}%)</span>
+            ${convertToKorean(Math.abs(increase))}`;
+        }
+
+        // Chart.js를 사용한 LTV 차트 생성
+        let ltvChart;
+
+        function updateLTVChart() {
+            const loanElement = document.getElementById('loan');
+            const totalAmountElement = document.getElementById('totalAmount');
+
+            if (!loanElement || !totalAmountElement) {
+                console.error('Loan or Total Amount element not found');
+                return;
+            }
+
+            const loan = parseInt(loanElement.textContent.replace(/[^0-9]/g, ''));
+            const totalAmount = parseInt(totalAmountElement.textContent.replace(/[^0-9]/g, ''));
+
+            if (isNaN(loan) || isNaN(totalAmount) || totalAmount === 0) {
+                console.error('Invalid loan or total amount values');
+                return;
+            }
+
+            const ltv = (loan / totalAmount) * 100;
+
+            const ctx = document.getElementById('ltvChart');
+            if (!ctx) {
+                console.error('LTV Chart canvas not found');
+                return;
+            }
+
+            if (ltvChart) {
+                ltvChart.data.datasets[0].data = [ltv, 100 - ltv];
+                ltvChart.options.plugins.tooltip.callbacks.label = (context) => `${context.parsed.toFixed(1)}%`;
+                ltvChart.update('none'); // 애니메이션 없이 즉시 업데이트
+            } else {
+                ltvChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        datasets: [{
+                            data: [ltv, 100 - ltv],
+                            backgroundColor: ['#007bff', '#e9ecef'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        cutout: '70%',
+                        rotation: -90,
+                        circumference: 180,
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return `${context.parsed.toFixed(1)}%`;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // 차트 중앙에 LTV 값 표시
+            const ltvText = document.getElementById('ltvText');
+            if (ltvText) {
+                ltvText.textContent = ltv.toFixed(1) + '%';
+            }
+        }
+
+        function updateLoanInfo() {
+            const slider = document.getElementById('loanSlider');
+            const totalAmount = parseInt(document.querySelectorAll('.price-value[data-price]')[1].dataset.price);            const loanPeriod = parseInt(document.getElementById('loanPeriod').value);
+
+            // 5천만원 단위로 자본금 계산
+            const equityStep = 50000000; // 5천만원
+            const maxSteps = Math.floor(totalAmount / equityStep);
+
+            slider.max = maxSteps; // 슬라이더의 최대값을 조정
+
+            const currentStep = parseInt(slider.value);
+            const equity = currentStep * equityStep;
+            const loan = totalAmount - equity;
+
+            document.getElementById('totalAmount').textContent = convertToKorean(totalAmount);
+            document.getElementById('equity').textContent = convertToKorean(equity);
+            document.getElementById('loan').textContent = convertToKorean(loan);
+
+            // 취득세와 중개보수 계산 (예시 - 실제 계산 방식에 따라 조정 필요)
+            const acquisitionTax = Math.round(totalAmount * 0.04);
+            const brokerageFee = Math.round(totalAmount * 0.005);
+
+            document.getElementById('acquisitionTax').textContent = convertToKorean(acquisitionTax);
+            document.getElementById('brokerageFee').textContent = convertToKorean(brokerageFee);
+
+            // 대출 예상 비용 계산
+            const monthlyInterestRate = 0.0375 / 12; // 연 3.75% 이자율 가정
+            const numberOfPayments = loanPeriod * 12; // 선택된 대출 기간
+            const monthlyPayment = Math.round((loan * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, numberOfPayments)) / (Math.pow(1 + monthlyInterestRate, numberOfPayments) - 1));
+
+            document.getElementById('monthlyPayment').textContent = '매월 ' + convertToKorean(monthlyPayment);
+            document.getElementById('annualPayment').textContent = '연간 ' + convertToKorean(monthlyPayment * 12);
+
+            updateLTVChart();
+            updateSliderLabels();
+        }
+
+        function updateSliderLabels() {
+            const slider = document.getElementById('loanSlider');
+            const midLabel = document.getElementById('midLabel');
+            const percentage = (slider.value / slider.max * 100).toFixed(0);
+            midLabel.textContent = percentage + '%';
+
+            // 레이블 위치 업데이트
+            const sliderRect = slider.getBoundingClientRect();
+            const thumbPosition = (slider.value / slider.max) * sliderRect.width;
+            midLabel.style.left = `${thumbPosition}px`;
+            midLabel.style.transform = 'translateX(-50%)';
+        }
+
+        function createApartmentPriceChart() {
+            const ctx = document.getElementById('apartmentPriceChart').getContext('2d');
+            // 데이터 준비 및 차트 생성 코드
+        }
+
+        // 평단가 계산
+        const squareMeters = parseFloat(document.getElementById('squareMeters').textContent);
+        const pyeong = squareMeters * 0.3025;
+        const roundedPyeong = Math.round(pyeong * 100) / 100;
+        document.getElementById('pyeong').textContent = roundedPyeong;
+
+        // 초기 정보 업데이트 및 차트 생성
+        updatePrices();
+        updateLoanInfo();
+        updateSliderLabels();
+        createApartmentPriceChart();
+
+        // 슬라이더 이벤트 리스너 설정 (디바운싱 적용)
+        const slider = document.getElementById('loanSlider');
+        let debounceTimer;
+        slider.addEventListener('input', function() {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                updateLoanInfo();
+            }, 10);
+            updateSliderLabels(); // 레이블 위치는 즉시 업데이트
+        });
+
+        // 대출 기간 선택 이벤트 리스너 설정
+        const loanPeriodSelect = document.getElementById('loanPeriod');
+        loanPeriodSelect.addEventListener('change', updateLoanInfo);
+
+        // 윈도우 리사이즈 시 레이블 위치 조정
+        window.addEventListener('resize', updateSliderLabels);
+
+        // 아파트 시세 차트 그리기 함수
+        function createApartmentPriceChart() {
+            const ctx = document.getElementById('apartmentPriceChart').getContext('2d');
+
+            // 데이터 준비
+            const data = [
+                { date: '2020-06-08', price: 5270000000 },
+                { date: '2020-06-19', price: 5400000000 },
+                { date: '2021-02-26', price: 5900000000 },
+                { date: '2021-03-05', price: 5800000000 },
+                { date: '2022-04-20', price: 5950000000 },
+                { date: '2022-05-16', price: 8350000000 },
+                { date: '2024-09-30', price: 10600000000 }
+            ];
+
+            // 차트 생성
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.map(item => item.date),
+                    datasets: [{
+                        label: '실거래가',
+                        data: data.map(item => item.price / 100000000), // 억 단위로 변환
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'month',
+                                displayFormats: {
+                                    month: 'YYYY-MM'
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: '거래일'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: '가격 (억 원)'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '억';
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += context.parsed.y.toFixed(2) + '억 원';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // 차트 생성 함수 호출
+        createApartmentPriceChart();
+    });
+
+</script>
+</body>
+</html>

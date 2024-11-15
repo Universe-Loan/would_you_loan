@@ -70,5 +70,10 @@ public class UrlController {
         return "apt_find";
     }
 
+    @GetMapping("/apt-report")
+    public String aptReport() {
+        return "apt_report";
+    }
+
 }
 
