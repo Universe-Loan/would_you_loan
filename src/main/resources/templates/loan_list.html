@@ -167,7 +167,7 @@
           <hr>
           <div class="container mt-4">
             <h6>대출 금액</h6>
-            <input type="range" class="form-range" id="loanAmountRange" min="10000000" max="1000000000" step="1000000" value="200000000">
+            <input type="range" class="form-range" id="loanAmountRange" min="0" max="1000000000" step="50000000" value="200000000">
             <p><span id="loanAmountValue">200,000,000</span> 원</p>
             <hr>
             <h6>대출 기간</h6>
@@ -412,9 +412,9 @@
               <thead class="table-light">
               <tr>
                 <th></th>
-                <th>A은행<br>상품명1</th>
-                <th>B은행<br>상품명2</th>
-                <th>C은행<br>상품명3</th>
+                <th><p class="mb-0">A은행</p><p class="mt-0">상품명1</p></th>
+                <th><p class="mb-0">B은행</p><p class="mt-0">상품명2</p></th>
+                <th><p class="mb-0">C은행</p><p class="mt-0">상품명3</p></th>
               </tr>
               </thead>
               <tbody>
@@ -438,6 +438,18 @@
               </tr>
               <tr>
                 <th>월평균 상환액</th>
+                <td>453,254원</td>
+                <td>445,000원</td>
+                <td>460,000원</td>
+              </tr>
+              <tr>
+                <th>첫째달 상환액</th>
+                <td>453,254원</td>
+                <td>445,000원</td>
+                <td>460,000원</td>
+              </tr>
+              <tr>
+                <th>마지막달 상환액</th>
                 <td>453,254원</td>
                 <td>445,000원</td>
                 <td>460,000원</td>
