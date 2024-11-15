@@ -146,56 +146,51 @@
     // PDF.js 라이브러리 로드
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.worker.min.js';
 
-    document.getElementById('fileInput').addEventListener('change', function(event) {
+    document.getElementById('fileInput').addEventListener('change', function (event) {
         const file = event.target.files[0];
         if (file) {
-            const fileName = file.name;
-            document.getElementById('selectedFileName').textContent = '선택된 파일: ' + fileName;
-            document.getElementById('selectedFileName').style.display = 'block';
-            // PDF 파일 업로드 및 OCR 처리
-            uploadAndProcessPDF(file);
+            const userId = '2'; // 사용자 ID 예시
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('user_id', userId);
+
+            fetch('/ocr-api/upload-result', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // OCR 결과를 처리
+                    fillOCRResult(data);
+                    showOCRResult(file);
+                })
+                .catch(error => console.error('Error:', error));
         }
     });
 
-    function uploadAndProcessPDF(file) {
-        // // 여기에 서버로 PDF 파일을 업로드하고 OCR 처리를 요청하는 코드를 추가합니다.
-        // // 예시:
-        // fetch('/api/upload-and-ocr', {
-        //     method: 'POST',
-        //     body: formData
-        // })
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         // OCR 결과를 받아 폼에 채우고 결과 컨테이너를 표시합니다.
-        //         fillOCRResult(data);
-        //         showOCRResult(file);
-        //     })
-        //     .catch(error => {
-        //         console.error('Error:', error);
-        //     });
-
-        // 서버 연결 없이 테스트하기 위해 가짜 OCR 결과를 생성합니다.
-        const fakeOCRResult = {
-            location: '서울특별시 강남구 테헤란로 123',
-            buildingUse: '오피스텔',
-            exclusiveArea: '84.5㎡',
-            salePrice: '500,000,000원',
-            buyerAddress: '서울특별시 서초구 서초대로 456',
-            buyerName: '임정규'
-        };
-
-        // OCR 결과를 폼에 채우고 결과 컨테이너를 표시합니다.
-        fillOCRResult(fakeOCRResult);
-        showOCRResult(file);
-    }
+    // function uploadAndProcessPDF(file) {
+    //     // 서버 연결 없이 테스트하기 위해 가짜 OCR 결과를 생성합니다.
+    //     const fakeOCRResult = {
+    //         location: '서울특별시 강남구 테헤란로 123',
+    //         buildingUse: '오피스텔',
+    //         exclusiveArea: '84.5㎡',
+    //         salePrice: '500,000,000원',
+    //         buyerAddress: '서울특별시 서초구 서초대로 456',
+    //         buyerName: '임정규'
+    //     };
+    //
+    //     // OCR 결과를 폼에 채우고 결과 컨테이너를 표시합니다.
+    //     fillOCRResult(fakeOCRResult);
+    //     showOCRResult(file);
+    // }
 
     function fillOCRResult(data) {
         document.getElementById('location').value = data.location || '';
-        document.getElementById('buildingUse').value = data.buildingUse || '';
-        document.getElementById('exclusiveArea').value = data.exclusiveArea || '';
-        document.getElementById('salePrice').value = data.salePrice || '';
-        document.getElementById('buyerAddress').value = data.buyerAddress || '';
-        document.getElementById('buyerName').value = data.buyerName || '';
+        document.getElementById('buildingUse').value = data.building_use || '';
+        document.getElementById('exclusiveArea').value = data.exclusive_area || '';
+        document.getElementById('salePrice').value = data.sale_price || '';
+        document.getElementById('buyerAddress').value = data.buyer_address || '';
+        document.getElementById('buyerName').value = data.buyer_name || '';
     }
 
     function showOCRResult(file) {
