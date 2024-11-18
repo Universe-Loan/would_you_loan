@@ -51,15 +51,21 @@
 <div class="login-container">
   <div class="icon"><i class="fas fa-rocket"></i></div>
   <h4 class="mb-4">SNS로 3초만에<br>간편하게 본인인증</h4>
-  <button class="btn login-button kakao w-100">
+
+  <!-- 카카오 로그인 -->
+  <a href="/oauth2/authorization/kakao" class="btn login-button kakao w-100">
     <i class="fab fa-kickstarter me-2"></i>카카오 계정으로 로그인
-  </button>
-  <button class="btn login-button naver w-100">
+  </a>
+
+  <!-- 네이버 로그인 -->
+  <a href="/oauth2/authorization/naver" class="btn login-button naver w-100">
     <i class="fas fa-n me-2"></i>네이버 계정으로 로그인
-  </button>
-  <button class="btn login-button google w-100">
+  </a>
+
+  <!-- 구글 로그인 -->
+  <a href="/oauth2/authorization/google" class="btn login-button google w-100">
     <i class="fab fa-google me-2"></i>구글 계정으로 로그인
-  </button>
+  </a>
 </div>
 
 <!-- Bootstrap JS -->
