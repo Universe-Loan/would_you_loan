@@ -61,14 +61,22 @@
             <button class="btn btn-outline-gray tag">상암IT타워</button>
             <button class="btn btn-outline-gray tag">상암IT타워</button>
         </div>
-        <div class="d-flex justify-content-center">
-            <div class="col-md-6 mb-1">
-                <button type="button" class="form-control text-center" onclick="openInterestPopup()">새로운 아파트 단지 검색하기</button>
+        <form id="searchForm" action="/search-apartment" method="post" onsubmit="return submitInterestProperty();">
+            <div class="d-flex justify-content-center">
+                <div class="col-md-6 mb-1">
+                    <button type="button" class="form-control text-center" onclick="openInterestPopup()">새로운 아파트 단지 검색하기</button>
+                </div>
+                <input type="hidden" id="selectedCity" name="city">
+                <input type="hidden" id="selectedDistrict" name="district">
+                <input type="hidden" id="selectedNeighborhood" name="neighborhood">
+                <input type="hidden" id="selectedApartment" name="apartment">
+                <input type="hidden" id="selectedLawdCd" name="lawdCd">
             </div>
-        </div>
+        </form>
         <div>
             <div class="col-md-12 mb-1">
-                <button class="btn btn-outline-primary tag" onclick="viewReport()">리포트 보기</button>
+                <!-- 리포트 보기 버튼 -->
+                <button class="btn btn-outline-primary" onclick="viewReport()">리포트 보기</button>
             </div>
         </div>
     </div>
@@ -129,57 +137,35 @@
 <script th:src="@{/js/home.js}"></script>
 <script th:src="@{/js/real_address.js}"></script>
 
-<!--아파트 정보 리포트 페이지로 넘겨주기-->
-<script th:inline="javascript">
-    let selectedApartment = {
-        city: '',
-        district: '',
-        neighborhood: '',
-        apartment: ''
-    };
-
-    // 팝업 창에서 선택된 정보를 받아오는 이벤트 리스너
-    window.addEventListener('message', function(event) {
-        if (event.origin !== window.location.origin) return;
-
-        selectedApartment = event.data;
-        console.log('선택된 아파트 정보:', selectedApartment);
-
-        // 선택된 아파트 정보를 화면에 표시
-        document.querySelector('button.form-control').textContent =
-            `${selectedApartment.city} ${selectedApartment.district} ${selectedApartment.neighborhood} ${selectedApartment.apartment}`;
-    }, false);
-
+<!--우리지역 아파트 정보 리포트 페이지로 넘겨주기-->
+<script>
     function viewReport() {
-        const addressButton = document.querySelector('button.form-control');
-        const address = addressButton.textContent;
-        if (address === '새로운 아파트 단지 검색하기') {
-            alert('먼저 아파트를 선택해주세요.');
+        // hidden input에서 선택된 값들을 가져옵니다.
+        const city = document.getElementById('selectedCity').value;
+        const district = document.getElementById('selectedDistrict').value;
+        const neighborhood = document.getElementById('selectedNeighborhood').value;
+        const apartment = document.getElementById('selectedApartment').value;
+        const lawdCd = document.getElementById('selectedLawdCd').value;
+
+        // 모든 필수 정보가 선택되었는지 확인합니다.
+        if (!city || !district || !neighborhood || !apartment || !lawdCd) {
+            alert('아파트 정보를 먼저 선택해주세요.');
             return;
         }
 
-        // 주소 문자열을 파싱하여 각 부분을 추출
-        const addressParts = address.split(' ');
-        if (addressParts.length < 4) {
-            alert('올바른 주소 형식이 아닙니다.');
-            return;
-        }
-
-        const city = addressParts[0];
-        const district = addressParts[1];
-        const neighborhood = addressParts[2];
-        const apartment = addressParts.slice(3).join(' ');
-
-        // 파싱된 주소 정보를 URL 인코딩하여 쿼리 파라미터로 전달
+        // URL 파라미터를 구성합니다.
         const params = new URLSearchParams({
             city: city,
             district: district,
             neighborhood: neighborhood,
-            apartment: apartment
-        }).toString();
+            apartment: apartment,
+            lawdCd: lawdCd
+        });
 
-        window.location.href = `/apt-report?${params}`;
+        // 리다이렉트합니다.
+        window.location.href = `/apt-report?${params.toString()}`;
     }
 </script>
+
 </body>
 </html>

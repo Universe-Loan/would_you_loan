@@ -17,6 +17,7 @@ async function fetchApiKey() {
 
 // 페이지 로드 시 API 키 가져오기
 fetchApiKey();
+
 // 팝업창 열기
 function openInterestPopup() {
     document.getElementById('interestPropertyPopup').style.display = 'block';
@@ -62,6 +63,13 @@ function loadDistricts() {
                 option.value = district.region_cd.slice(0, 5);
                 option.textContent = district.locallow_nm;
                 districtSelect.appendChild(option);
+            });
+
+            // 구 선택 시 이벤트 리스너 추가
+            districtSelect.addEventListener('change', function() {
+                const selectedLawdCd = this.value;
+                // 선택된 법정 코드를 hidden input에 저장
+                document.getElementById('selectedLawdCd').value = selectedLawdCd;
             });
         })
         .catch(error => console.error('Error:', error));
@@ -143,79 +151,91 @@ function submitInterestProperty() {
     const district = districtSelect.selectedOptions[0].text;
     const neighborhood = neighborhoodSelect.selectedOptions[0].text;
     const apartment = apartmentSelect.selectedOptions[0].text;
-    const apartmentCode = apartmentSelect.value;
+    const lawdCd = districtSelect.value;
 
     const fullAddress = `${city} ${district} ${neighborhood} ${apartment}`;
 
     // 주소 입력 필드에 선택된 주소 설정
-    document.querySelector('button.form-control').textContent = fullAddress;
+    const addressButton = document.querySelector('button.form-control');
+    if (addressButton) {
+        addressButton.textContent = fullAddress;
+    }
 
-    // 여기에 apartmentCode를 저장하는 로직을 추가하세요
-    console.log('Selected Apartment Code:', apartmentCode);
+    // // hidden input에 값 설정
+    document.getElementById('selectedCity').value = city;
+    document.getElementById('selectedDistrict').value = district;
+    document.getElementById('selectedNeighborhood').value = neighborhood;
+    document.getElementById('selectedApartment').value = apartment;
+    document.getElementById('selectedLawdCd').value = lawdCd;
 
     // 팝업 창 닫기
     closeInterestPopup();
-}
 
-
-// 사용자 검색기록 저장 및 다음 페이지로 넘어가기
-function formatNumber(input) {
-    // 숫자 이외의 문자 제거
-    let value = input.value.replace(/[^\d]/g, '');
-
-    // 천 단위 쉼표 추가
-    value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
-    // 포맷된 값을 입력 필드에 설정
-    input.value = value;
-}
-
-function submitLoanApplication() {
-    // 모든 필수 입력 필드 확인
-    const address = document.querySelector('button.form-control').textContent;
-    const loanAmount = document.getElementById('loanAmount').value;
-    const loanTerm = document.getElementById('loanTerm').value;
-    const loanPurpose = document.querySelector('input[name="loanPurpose"]:checked')?.value;
-    const firstTimeBuyer = document.querySelector('input[name="firstTimeBuyer"]:checked')?.value;
-    const houseOwnership = document.querySelector('input[name="houseOwnership"]:checked')?.value;
-    const occupation = document.querySelector('input[name="occupation"]:checked')?.value;
-    const annualIncome = document.getElementById('annualIncome').value;
-    const employmentDate = document.getElementById('employmentDate').value;
-
-    // 모든 필드가 입력되었는지 확인
-    if (
-        !address ||
-        address === '주소 검색하기' ||
-        !loanAmount ||
-        !loanTerm ||
-        !loanPurpose ||
-        !firstTimeBuyer ||
-        !houseOwnership ||
-        !occupation ||
-        !annualIncome ||
-        !employmentDate
-    ) {
-        alert('모든 항목을 입력해주세요.');
-        return;
+    // 부모 창의 함수 호출 (있다면)
+    if (window.opener && typeof window.opener.onAddressSelected === 'function') {
+        window.opener.onAddressSelected(fullAddress);
     }
-
-    // 입력된 데이터를 객체로 만듦
-    const loanApplicationData = {
-        address,
-        loanAmount,
-        loanTerm,
-        loanPurpose,
-        firstTimeBuyer,
-        houseOwnership,
-        occupation,
-        annualIncome,
-        employmentDate
-    };
-
-    // 데이터를 서버에 저장하거나
-    // 데이터를 로컬 스토리지에 저장
-    localStorage.setItem('loanApplicationData', JSON.stringify(loanApplicationData));
-
-    // 다음 페이지로 이동
-    window.location.href = '/loan-list'; // 실제 다음 페이지 URL로 변경해야 합니다.
 }
+
+//
+// // 사용자 검색기록 저장 및 다음 페이지로 넘어가기
+// function formatNumber(input) {
+//     // 숫자 이외의 문자 제거
+//     let value = input.value.replace(/[^\d]/g, '');
+//
+//     // 천 단위 쉼표 추가
+//     value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+//
+//     // 포맷된 값을 입력 필드에 설정
+//     input.value = value;
+// }
+//
+// function submitLoanApplication() {
+//     // 모든 필수 입력 필드 확인
+//     const address = document.querySelector('button.form-control').textContent;
+//     const loanAmount = document.getElementById('loanAmount').value;
+//     const loanTerm = document.getElementById('loanTerm').value;
+//     const loanPurpose = document.querySelector('input[name="loanPurpose"]:checked')?.value;
+//     const firstTimeBuyer = document.querySelector('input[name="firstTimeBuyer"]:checked')?.value;
+//     const houseOwnership = document.querySelector('input[name="houseOwnership"]:checked')?.value;
+//     const occupation = document.querySelector('input[name="occupation"]:checked')?.value;
+//     const annualIncome = document.getElementById('annualIncome').value;
+//     const employmentDate = document.getElementById('employmentDate').value;
+//
+//     // 모든 필드가 입력되었는지 확인
+//     if (
+//         !address ||
+//         address === '주소 검색하기' ||
+//         !loanAmount ||
+//         !loanTerm ||
+//         !loanPurpose ||
+//         !firstTimeBuyer ||
+//         !houseOwnership ||
+//         !occupation ||
+//         !annualIncome ||
+//         !employmentDate
+//     ) {
+//         alert('모든 항목을 입력해주세요.');
+//         return;
+//     }
+//
+//     // 입력된 데이터를 객체로 만듦
+//     const loanApplicationData = {
+//         address,
+//         loanAmount,
+//         loanTerm,
+//         loanPurpose,
+//         firstTimeBuyer,
+//         houseOwnership,
+//         occupation,
+//         annualIncome,
+//         employmentDate
+//     };
+//
+//     // 데이터를 서버에 저장하거나
+//     // 데이터를 로컬 스토리지에 저장
+//     localStorage.setItem('loanApplicationData', JSON.stringify(loanApplicationData));
+//
+//     // 다음 페이지로 이동
+//     window.location.href = '/loan-list'; // 실제 다음 페이지 URL로 변경해야 합니다.
+// }

@@ -209,10 +209,12 @@
 <div class="content-wrapper">
 
     <!--본문 내용 입력하기-->
+
+    <div class="container mt-5">
     <!--아파트 주소-->
-    <h1 th:text="${apartment != null ? apartment : '아파트 정보 없음'}"></h1>
     <p th:text="${city != null and district != null and neighborhood != null ?
               city + ' ' + district + ' ' + neighborhood : '주소 정보 없음'}"></p>
+    </div>
 
     <div class="container mt-4">
         <div class="row">
@@ -281,7 +283,9 @@
             <div class="col-6">
                 <!-- 아파트 상세정보 -->
                 <div>
-                    <h5 class="box apt-name">한남더힐</h5>
+                    <div class="box apt-name">
+                        <h3 th:text="${apartment != null ? apartment : '아파트 정보 없음'}"></h3>
+                    </div>
                     <div class="box apt-info p-5">
                         <div class="apt-details text-center pb-4">
                             <p>
@@ -387,7 +391,28 @@
         <div class="row">
             <div class="col-6">
                 <!--우리동네 실거래 차트 -->
-                <div class="box chart-box">우리동네 실거래 차트</div>
+                <div class="box">
+                    <h5 th:text="${city + ' ' + district + ' 실거래 매매 정보'}"></h5>
+                    <div class="container mt-5">
+                    <table id="LocalAptTable" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>거래일</th>
+                            <th>아파트명</th>
+                            <th>거래금액</th>
+                            <th>전용면적</th>
+                            <th>층</th>
+                            <th>건축년도</th>
+                        </tr>
+                        </thead>
+                        <tbody id="aptTableBody">
+                        <!-- 데이터가 여기에 동적으로 추가됩니다 -->
+                        </tbody>
+                    </table>
+
+                    <button id="loadMoreBtn" class="btn btn-primary mt-3">더보기</button>
+                </div>
+                </div>
             </div>
             <div class="col-6">
                 <!--아파트 실거래 시세 차트-->
@@ -802,6 +827,43 @@
         createApartmentPriceChart();
     });
 
+</script>
+<!--우리동네 아파트 실거래 차트-->
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    const apiResponse = /*[[${apiResponse}]]*/ {};
+    const items = apiResponse.response.body.items.item;
+    let currentIndex = 0;
+    const itemsPerPage = 10;
+
+    function loadMoreItems() {
+        const tableBody = document.getElementById('aptTableBody');
+        const endIndex = Math.min(currentIndex + itemsPerPage, items.length);
+
+        for (let i = currentIndex; i < endIndex; i++) {
+            const item = items[i];
+            const row = tableBody.insertRow();
+            row.innerHTML = `
+                <td>${item.dealYear}.${item.dealMonth}.${item.dealDay}</td>
+                <td>${item.aptNm}</td>
+                <td>${item.dealAmount}만원</td>
+                <td>${item.excluUseAr}㎡</td>
+                <td>${item.floor}층</td>
+                <td>${item.buildYear}년</td>
+            `;
+        }
+
+        currentIndex = endIndex;
+        if (currentIndex >= items.length) {
+            document.getElementById('loadMoreBtn').style.display = 'none';
+        }
+    }
+
+    document.getElementById('loadMoreBtn').addEventListener('click', loadMoreItems);
+
+    // 초기 데이터 로드
+    loadMoreItems();
+    /*]]>*/
 </script>
 </body>
 </html>
