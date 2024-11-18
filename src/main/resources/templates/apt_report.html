@@ -4,201 +4,201 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Title</title>
-<!-- Bootstrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<!-- 사용자 정의 CSS -->
-<link rel="stylesheet" href="/css/common.css">
-<style>
-    body {
-        background-color: #f8f9fa;
-    }
-    .box {
-        background-color: #ffffff;
-        border: 1px solid #dee2e6;
-        border-radius: 5px;
-        padding: 20px;
-        margin-bottom: 20px;
-    }
-    /* 최근 조회 버튼 */
-    .btn-custom {
-        border: 1px solid #007bff;
-        color: #007bff;
-        background-color: transparent;
-    }
-    /* 시장지표 */
-    .indicator-box {
-        background-color: #ffffff;
-        border-radius: 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        margin-bottom: 30px;
-    }
-
-    .indicator-item {
-        text-align: center;
-        padding: 15px;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        transition: all 0.3s ease;
-    }
-
-    .indicator-item:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    }
-
-    .indicator-label {
-        font-size: 0.8rem;
-        color: #6c757d;
-        margin-bottom: 5px;
-    }
-
-    .indicator-title {
-        font-size: 1.1rem;
-        font-weight: 600;
-        margin-bottom: 10px;
-    }
-
-    .indicator-value {
-        font-size: 1.8rem;
-        font-weight: 700;
-        margin-bottom: 5px;
-    }
-
-    .indicator-sub {
-        font-size: 0.8rem;
-        color: #6c757d;
-    }
-
-    .indicator-icon {
-        font-size: 3rem;
-        margin-top: 10px;
-    }
-
-    @media (max-width: 992px) {
-        .indicator-item {
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 사용자 정의 CSS -->
+    <link rel="stylesheet" href="/css/common.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .box {
+            background-color: #ffffff;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 20px;
             margin-bottom: 20px;
         }
-    }
-
-    @media (max-width: 768px) {
-        .indicator-value {
-            font-size: 1.5rem;
+        /* 최근 조회 버튼 */
+        .btn-custom {
+            border: 1px solid #007bff;
+            color: #007bff;
+            background-color: transparent;
         }
-    }
-    /* 아파트 정보 */
-    .apt-price {
-        font-family: Arial, sans-serif;
-    }
+        /* 시장지표 */
+        .indicator-box {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
 
-    .price-row {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 10px;
-    }
+        .indicator-item {
+            text-align: center;
+            padding: 15px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
 
-    .price-index {
-        font-weight: bold;
-        color: #333;
-    }
+        .indicator-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
 
-    .price-value {
-        color: #007bff;
-    }
+        .indicator-label {
+            font-size: 0.8rem;
+            color: #6c757d;
+            margin-bottom: 5px;
+        }
 
-    .price-date, .price-percentage {
-        font-size: 0.8em;
-        color: #6c757d;
-        margin-left: 5px;
-    }
-    /* 대출 시뮬레이션 */
-    .loan-simulation {
-        padding: 20px;
-        border-radius: 10px;
-    }
-    .loan-simulation .card {
-        border-color: transparent;
-    }
-    .slider-container {
-        width: 100%;
-        padding: 20px 10px;
-    }
-    .slider {
-        -webkit-appearance: none;
-        width: 100%;
-        height: 10px;
-        border-radius: 5px;
-        background: linear-gradient(to right, #285fa7, #dc3545);
-        outline: none;
-        opacity: 0.7;
-        transition: opacity .2s;
-    }
+        .indicator-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
 
-    .slider:hover {
-        opacity: 1;
-    }
+        .indicator-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
 
-    .slider::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        border: 1px solid gray;
-        background: #ffffff;
-        cursor: pointer;
-    }
+        .indicator-sub {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
 
-    .slider::-moz-range-thumb {
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        border: 1px solid gray;
-        background: #ffffff;
-        cursor: pointer;
-    }
-    .slider-wrapper {
-        position: relative;
-        padding-top: 20px;
-    }
+        .indicator-icon {
+            font-size: 3rem;
+            margin-top: 10px;
+        }
 
-    .slider-label {
-        position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: transparent;
-        color: gray;
-        padding: 2px 6px;
-        border-radius: 3px;
-        font-size: 0.8rem;
-    }
-    /*.slider-labels {*/
-    /*    color: #6c757d;*/
-    /*    font-size: 0.8rem;*/
-    /*}*/
-    /**/
-    .content-header {
-        height: 50px
-    }
-    .content-box {
-        height: 200px;
-    }
-    .ratio-box {
-        height: 250px;
-    }
-    .chart-box {
-        height: 300px;
-    }
-    .table-box {
-        height: auto;
-    }
-    .large-box {
-        height: 150px;
-    }
-</style>
+        @media (max-width: 992px) {
+            .indicator-item {
+                margin-bottom: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .indicator-value {
+                font-size: 1.5rem;
+            }
+        }
+        /* 아파트 정보 */
+        .apt-price {
+            font-family: Arial, sans-serif;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .price-index {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .price-value {
+            color: #007bff;
+        }
+
+        .price-date, .price-percentage {
+            font-size: 0.8em;
+            color: #6c757d;
+            margin-left: 5px;
+        }
+        /* 대출 시뮬레이션 */
+        .loan-simulation {
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .loan-simulation .card {
+            border-color: transparent;
+        }
+        .slider-container {
+            width: 100%;
+            padding: 20px 10px;
+        }
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 10px;
+            border-radius: 5px;
+            background: linear-gradient(to right, #285fa7, #dc3545);
+            outline: none;
+            opacity: 0.7;
+            transition: opacity .2s;
+        }
+
+        .slider:hover {
+            opacity: 1;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1px solid gray;
+            background: #ffffff;
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1px solid gray;
+            background: #ffffff;
+            cursor: pointer;
+        }
+        .slider-wrapper {
+            position: relative;
+            padding-top: 20px;
+        }
+
+        .slider-label {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: transparent;
+            color: gray;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+        }
+        /*.slider-labels {*/
+        /*    color: #6c757d;*/
+        /*    font-size: 0.8rem;*/
+        /*}*/
+        /**/
+        .content-header {
+            height: 50px
+        }
+        .content-box {
+            height: 200px;
+        }
+        .ratio-box {
+            height: 250px;
+        }
+        .chart-box {
+            height: 300px;
+        }
+        .table-box {
+            height: auto;
+        }
+        .large-box {
+            height: 150px;
+        }
+    </style>
 </head>
 <body>
 
@@ -208,7 +208,12 @@
 <!--본문-->
 <div class="content-wrapper">
 
-<!--본문 내용 입력하기-->
+    <!--본문 내용 입력하기-->
+    <!--아파트 주소-->
+    <h1 th:text="${apartment != null ? apartment : '아파트 정보 없음'}"></h1>
+    <p th:text="${city != null and district != null and neighborhood != null ?
+              city + ' ' + district + ' ' + neighborhood : '주소 정보 없음'}"></p>
+
     <div class="container mt-4">
         <div class="row">
             <!--최근 조회내역 버튼-->

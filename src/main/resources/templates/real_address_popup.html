@@ -34,5 +34,31 @@
     <button class="btn btn-primary" onclick="submitInterestProperty()">추가</button>
   </div>
 </div>
+
+<!-- apt_find -> apt_report -->
+<script>
+  function submitInterestProperty() {
+    const citySelect = document.getElementById('city');
+    const districtSelect = document.getElementById('district');
+    const neighborhoodSelect = document.getElementById('neighborhood');
+    const apartmentSelect = document.getElementById('apartment');
+
+    if (!citySelect.value || !districtSelect.value || !neighborhoodSelect.value || !apartmentSelect.value) {
+      alert('모든 항목을 선택해주세요.');
+      return;
+    }
+
+    const selectedInfo = {
+      city: citySelect.selectedOptions[0].text,
+      district: districtSelect.selectedOptions[0].text,
+      neighborhood: neighborhoodSelect.selectedOptions[0].text,
+      apartment: apartmentSelect.selectedOptions[0].text
+    };
+
+    // 부모 창으로 선택된 정보 전송
+    window.opener.postMessage(selectedInfo, window.location.origin);
+    window.close();
+  }
+</script>
 </body>
 </html>

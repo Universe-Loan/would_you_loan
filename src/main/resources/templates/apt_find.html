@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Title</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- 사용자 정의 CSS -->
-<link rel="stylesheet" th:href="@{/css/common.css}">
-<link rel="stylesheet" th:href="@{/css/popup.css}">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 사용자 정의 CSS -->
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/popup.css}">
     <style>
         .search-section {
             text-align: center;
@@ -52,19 +52,24 @@
 <!--본문-->
 <div class="content-wrapper">
 
-<!--본문 내용 입력하기-->
+    <!--본문 내용 입력하기-->
     <div class="search-section">
         <img src="https://via.placeholder.com/100" alt="House Icon">
         <h2>관심있는 동네<br>관심있는 부동산</h2>
         <h4>여기에서 확인해보세요</h4>
+        <div>
+            <button class="btn btn-outline-gray tag">상암IT타워</button>
+            <button class="btn btn-outline-gray tag">상암IT타워</button>
+        </div>
         <div class="d-flex justify-content-center">
             <div class="col-md-6 mb-1">
                 <button type="button" class="form-control text-center" onclick="openInterestPopup()">새로운 아파트 단지 검색하기</button>
             </div>
         </div>
         <div>
-            <button class="btn btn-outline-primary tag">상암IT타워</button>
-            <button class="btn btn-outline-primary tag">상암IT타워</button>
+            <div class="col-md-12 mb-1">
+                <button class="btn btn-outline-primary tag" onclick="viewReport()">리포트 보기</button>
+            </div>
         </div>
     </div>
 
@@ -123,5 +128,58 @@
 <!-- 사용자 정의 JS -->
 <script th:src="@{/js/home.js}"></script>
 <script th:src="@{/js/real_address.js}"></script>
+
+<!--아파트 정보 리포트 페이지로 넘겨주기-->
+<script th:inline="javascript">
+    let selectedApartment = {
+        city: '',
+        district: '',
+        neighborhood: '',
+        apartment: ''
+    };
+
+    // 팝업 창에서 선택된 정보를 받아오는 이벤트 리스너
+    window.addEventListener('message', function(event) {
+        if (event.origin !== window.location.origin) return;
+
+        selectedApartment = event.data;
+        console.log('선택된 아파트 정보:', selectedApartment);
+
+        // 선택된 아파트 정보를 화면에 표시
+        document.querySelector('button.form-control').textContent =
+            `${selectedApartment.city} ${selectedApartment.district} ${selectedApartment.neighborhood} ${selectedApartment.apartment}`;
+    }, false);
+
+    function viewReport() {
+        const addressButton = document.querySelector('button.form-control');
+        const address = addressButton.textContent;
+        if (address === '새로운 아파트 단지 검색하기') {
+            alert('먼저 아파트를 선택해주세요.');
+            return;
+        }
+
+        // 주소 문자열을 파싱하여 각 부분을 추출
+        const addressParts = address.split(' ');
+        if (addressParts.length < 4) {
+            alert('올바른 주소 형식이 아닙니다.');
+            return;
+        }
+
+        const city = addressParts[0];
+        const district = addressParts[1];
+        const neighborhood = addressParts[2];
+        const apartment = addressParts.slice(3).join(' ');
+
+        // 파싱된 주소 정보를 URL 인코딩하여 쿼리 파라미터로 전달
+        const params = new URLSearchParams({
+            city: city,
+            district: district,
+            neighborhood: neighborhood,
+            apartment: apartment
+        }).toString();
+
+        window.location.href = `/apt-report?${params}`;
+    }
+</script>
 </body>
 </html>
