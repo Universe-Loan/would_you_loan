@@ -71,12 +71,15 @@
                 <input type="hidden" id="selectedNeighborhood" name="neighborhood">
                 <input type="hidden" id="selectedApartment" name="apartment">
                 <input type="hidden" id="selectedLawdCd" name="lawdCd">
+                <input type="hidden" name="dealYmd" value="202311">
+                <input type="hidden" name="pageNo" value="1">
+                <input type="hidden" name="numOfRows" value="10">
             </div>
         </form>
         <div>
             <div class="col-md-12 mb-1">
                 <!-- 리포트 보기 버튼 -->
-                <button class="btn btn-outline-primary" onclick="viewReport()">리포트 보기</button>
+                <button type="submit" class="btn btn-outline-primary" onclick="viewReport()">리포트 보기</button>
             </div>
         </div>
     </div>

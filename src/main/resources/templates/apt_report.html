@@ -209,13 +209,39 @@
 <div class="content-wrapper">
 
     <!--본문 내용 입력하기-->
+    <div>
+        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
 
-    <div class="container mt-5">
-    <!--아파트 주소-->
-    <p th:text="${city != null and district != null and neighborhood != null ?
-              city + ' ' + district + ' ' + neighborhood : '주소 정보 없음'}"></p>
+        <div th:if="${items}">
+            <h2>검색 결과</h2>
+            <p>
+                검색 조건: <span th:text="${city}"></span>
+                <span th:text="${district}"></span>
+                <span th:text="${neighborhood}"></span>
+                <span th:text="${apartment}"></span>
+            </p>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>아파트명</th>
+                    <th>거래금액</th>
+                    <th>거래일</th>
+                    <th>면적</th>
+                    <th>층</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${items}">
+                    <td th:text="${item.아파트}"></td>
+                    <td th:text="${item.거래금액}"></td>
+                    <td th:text="${item.년 + '.' + item.월 + '.' + item.일}"></td>
+                    <td th:text="${item.전용면적}"></td>
+                    <td th:text="${item.층}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-
     <div class="container mt-4">
         <div class="row">
             <!--최근 조회내역 버튼-->
@@ -285,6 +311,8 @@
                 <div>
                     <div class="box apt-name">
                         <h3 th:text="${apartment != null ? apartment : '아파트 정보 없음'}"></h3>
+                        <p th:text="${city != null and district != null and neighborhood != null ?
+              city + ' ' + district + ' ' + neighborhood : '주소 정보 없음'}"></p>
                     </div>
                     <div class="box apt-info p-5">
                         <div class="apt-details text-center pb-4">
@@ -394,24 +422,24 @@
                 <div class="box">
                     <h5 th:text="${city + ' ' + district + ' 실거래 매매 정보'}"></h5>
                     <div class="container mt-5">
-                    <table id="LocalAptTable" class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>거래일</th>
-                            <th>아파트명</th>
-                            <th>거래금액</th>
-                            <th>전용면적</th>
-                            <th>층</th>
-                            <th>건축년도</th>
-                        </tr>
-                        </thead>
-                        <tbody id="aptTableBody">
-                        <!-- 데이터가 여기에 동적으로 추가됩니다 -->
-                        </tbody>
-                    </table>
+                        <table id="LocalAptTable" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>거래일</th>
+                                <th>아파트명</th>
+                                <th>거래금액</th>
+                                <th>전용면적</th>
+                                <th>층</th>
+                                <th>건축년도</th>
+                            </tr>
+                            </thead>
+                            <tbody id="aptTableBody">
+                            <!-- 데이터가 여기에 동적으로 추가됩니다 -->
+                            </tbody>
+                        </table>
 
-                    <button id="loadMoreBtn" class="btn btn-primary mt-3">더보기</button>
-                </div>
+                        <button id="loadMoreBtn" class="btn btn-primary mt-3">더보기</button>
+                    </div>
                 </div>
             </div>
             <div class="col-6">
