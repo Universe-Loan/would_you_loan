@@ -44,7 +44,7 @@
 <body>
 
 <!--헤더-->
-<header th:replace="fragments/header :: nav"></header>
+<header th:replace="~{fragments/header :: scripts}"></header>
 
 <!--본문-->
 <div class="content-wrapper">
@@ -109,7 +109,7 @@
                             <input type="text" class="form-control" id="buyerName" placeholder="매수인 이름">
                             <label for="buyerName">매수인 이름</label>
                         </div>
-                        <button type="submit" class="btn btn-primary">확인</button>
+                        <button type="button" class="btn btn-primary" onclick="submitForm()">확인</button>
                     </form>
                 </div>
             </div>
@@ -118,7 +118,7 @@
 </div>
 
 <!--footer-->
-<footer th:replace="fragments/footer :: footer"></footer>
+<footer th:replace="~{fragments/header :: nav}"></footer>
 
 <!--Javascript-->
 <!-- Bootstrap JS -->
@@ -164,6 +164,14 @@
                     fillOCRResult(data);
                     showOCRResult(file);
                 })
+                .catch(error => console.error('Error:', error));
+
+            fetch('/ocr-document/record-doc-info', {
+                method: 'POST',
+                body: formData,
+            })
+                .then(response => response.text())
+                .then(data => alert(data))
                 .catch(error => console.error('Error:', error));
         }
     });
@@ -220,11 +228,30 @@
     }
 
     // OCR 결과 수정 폼 제출 처리
-    document.getElementById('ocrForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        // 여기에 수정된 OCR 결과를 서버로 전송하는 코드를 추가합니다.
-        alert('OCR 결과가 저장되었습니다.');
-    });
+    function submitForm() {
+        const formData = {
+            location: document.getElementById('location').value,
+            buildingUse: document.getElementById('buildingUse').value,
+            exclusiveArea: document.getElementById('exclusiveArea').value,
+            salePrice: document.getElementById('salePrice').value,
+            buyerAddress: document.getElementById('buyerAddress').value,
+            buyerName: document.getElementById('buyerName').value,
+        };
+
+        fetch('/record-ocr/add-ocr-result', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+                location.reload();
+            })
+            .catch(error => console.error('Error:', error));
+    }
 </script>
 </body>
 </html>
