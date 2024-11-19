@@ -22,8 +22,9 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable) // CSRF 비활성화
                 .authorizeHttpRequests(auth -> auth
 //                        .requestMatchers("/", "/login/**", "/oauth2/**").permitAll() // 공개 URL
-                        .requestMatchers("/**").permitAll() // 공개 URL
-                        .anyRequest().authenticated() // 나머지 요청은 인증 필요
+//                        .requestMatchers("/**").permitAll() // 공개 URL
+//                        .anyRequest().authenticated() // 나머지 요청은 인증 필요
+                        .anyRequest().permitAll()
                 )
                 .oauth2Login(oauth -> oauth
                         .loginPage("/login") // 커스텀 로그인 페이지
