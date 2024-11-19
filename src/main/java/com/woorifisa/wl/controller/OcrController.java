@@ -1,6 +1,9 @@
 package com.woorifisa.wl.controller;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -47,13 +50,21 @@ public class OcrController {
                     software.amazon.awssdk.core.sync.RequestBody.fromBytes(file.getBytes()));
 
             // 2. OCR API 호출
+
+            // 24.11.19 헤더 설정 추가 Content-Type
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+
             Map<String, String> ocrRequestBody = new HashMap<>();
             ocrRequestBody.put("user_id", userId);
             ocrRequestBody.put("file_name", baseName);
 
+            // header와 body을 합쳐서 request 작성
+            HttpEntity<Map<String, String>> request = new HttpEntity<>(ocrRequestBody, headers);
+
             // HTTP Client (e.g., RestTemplate, WebClient)로 POST 요청
             RestTemplate restTemplate = new RestTemplate();
-            ResponseEntity<Map> ocrResponse = restTemplate.postForEntity(ocrApiUrl, ocrRequestBody, Map.class);
+            ResponseEntity<Map> ocrResponse = restTemplate.postForEntity(ocrApiUrl, request, Map.class);
 
             // 3. OCR 결과 반환
             return ResponseEntity.ok(ocrResponse.getBody());
