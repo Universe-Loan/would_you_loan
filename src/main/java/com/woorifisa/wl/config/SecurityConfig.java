@@ -1,6 +1,7 @@
 package com.woorifisa.wl.config;
 
 import com.woorifisa.wl.service.CustomOAuth2UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -29,9 +30,24 @@ public class SecurityConfig {
                 .oauth2Login(oauth -> oauth
                         .loginPage("/login") // 커스텀 로그인 페이지
                         .defaultSuccessUrl("/") // 로그인 성공 후 리다이렉트
+                        .failureHandler((request, response, exception) -> {
+                            // 로그인 실패 시 처리
+                            // OAuth2AuthenticationException 메시지 처리
+                            HttpSession session = request.getSession(false);
+                            if (session != null && session.getAttribute("error_message") == null) {
+                                session.setAttribute("error_message", exception.getMessage());
+                            }
+                            response.sendRedirect("/login?error=true");
+                        })
                         .userInfoEndpoint(userInfo -> userInfo
                                 .userService(customOAuth2UserService) // 사용자 정보 처리 서비스
                         )
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout") // 로그아웃 URL
+                        .logoutSuccessUrl("/") // 로그아웃 성공 후 이동할 페이지
+                        .invalidateHttpSession(true) // 세션 무효화
+                        .deleteCookies("JSESSIONID") // 쿠키 삭제
                 );
         return http.build();
     }

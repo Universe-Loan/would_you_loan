@@ -3,10 +3,14 @@ package com.woorifisa.wl.service;
 import com.woorifisa.wl.model.entity.Role;
 import com.woorifisa.wl.model.entity.User;
 import com.woorifisa.wl.repository.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -32,11 +36,22 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         String email = getEmail(attributes, registrationId);
         String name = getName(attributes, registrationId);
 
-        // 사용자 정보 저장 또는 업데이트
-        User user = userRepository.findByEmail(email)
-                .orElseGet(() -> createUser(email, name, registrationId));
+        User user = userRepository.findByEmail(email).orElse(null);
+
+        if (user != null && !user.getOauthType().equalsIgnoreCase(registrationId)) {
+            String errorMessage = "이미 " + user.getOauthType() + "로 로그인한 계정입니다.<br>다른 로그인 방식을 사용해주세요.";
+            saveErrorMessageToSession(errorMessage);
+            throw new OAuth2AuthenticationException(errorMessage);
+        }
+
+        if (user == null) {
+            user = createUser(email, name, registrationId);
+        }
         user.setOauthType(registrationId.toUpperCase());
+        user.setLastLoginAt(LocalDateTime.now());
         userRepository.save(user);
+
+        saveUserToSession(user);
 
         return oAuth2User;
     }
@@ -75,5 +90,20 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         user.setCreatedAt(LocalDateTime.now());
         user.setRole(Role.GUEST); // 기본 역할 GUEST
         return user;
+    }
+
+    // 로그인한 유저의 세션 정보
+    private void saveUserToSession(User user) {
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpSession session = attributes.getRequest().getSession();
+        session.setAttribute("user_id", user.getUserId());
+        session.setAttribute("name", user.getName());
+    }
+
+    // 세션에 오류 메시지를 저장
+    private void saveErrorMessageToSession(String errorMessage) {
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpSession session = attributes.getRequest().getSession();
+        session.setAttribute("error_message", errorMessage);
     }
 }
