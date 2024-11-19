@@ -6,6 +6,7 @@
     <title>Title</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-tagsinput@0.8.0/dist/bootstrap-tagsinput.css" rel="stylesheet">
     <!-- 사용자 정의 CSS -->
     <link rel="stylesheet" href="/css/common.css">
     <style>
@@ -180,6 +181,33 @@
         /*    font-size: 0.8rem;*/
         /*}*/
         /**/
+
+        .tag-cloud-ad, .tag-cloud-dis {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px;
+        }
+        .tag {
+            display: inline-block;
+            padding: 10px 15px;
+            border-radius: 40px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .tag:hover {
+            transform: scale(1.1);
+        }
+        .tag-blue { background-color: #e0f7fa; color: #007bff; }
+        .tag-orange { background-color: #ffe0b2; color: #ff5722; }
+        .tag-yellow { background-color: #fff9c4; color: #fbc02d; }
+        .tag-green { background-color: #c8e6c9; color: #388e3c; }
+        .tag-purple { background-color: #e1bee7; color: #8e24aa; }
+        .tag-red { background-color: #ffcdd2; color: #e53935; }
+
         .content-header {
             height: 50px
         }
@@ -266,9 +294,9 @@
                         </div>
                         <div class="col">
                             <div class="indicator-item">
-                                <p class="indicator-label">유의사항</p>
-                                <h5 class="indicator-title">부동산 날씨</h5>
-                                <div class="indicator-icon">🌞</div>
+                                <p class="indicator-label" th:text="${neighborhood}"></p>
+                                <h2 class="indicator-title">부동산 날씨</h2>
+                                    <div id="weatherIcon" style="font-size: 35px;"></div>
                             </div>
                         </div>
                     </div>
@@ -483,11 +511,57 @@
         <div class="row">
             <div class="col-6">
                 <!--우리아파트 장점-->
-                <div class="box large-box">우리아파트 장점</div>
+                <div class="box">
+                    <h5>우리 아파트의 장점</h5>
+                    <div class="tag-cloud">
+                        <div class="tag-cloud-ad" id="advantageCloud">
+                        <!-- 태그들은 JavaScript로 동적으로 생성됩니다 -->
+                        </div>
+                    </div>
+                    <div class="container mt-3">
+                        <select class="form-select" id="apartmentAdvantages" name="apartmentAdvantages[]" multiple data-allow-clear="true" data-suggestions-threshold="0" style="display: none;">
+                            <option value="깨끗함">깨끗함</option>
+                            <option value="조용함">조용함</option>
+                            <option value="편의시설">편의시설</option>
+                            <option value="교통">교통</option>
+                            <option value="주차">주차</option>
+                            <option value="안전">안전</option>
+                            <option value="관리상태">관리상태</option>
+                            <option value="이웃관계">이웃관계</option>
+                        </select>
+                        <div class="d-flex flex-column align-items-center justify-content-center mt-3">
+                            <div class="invalid-feedback text-center mb-2">장점을 하나 이상 선택해주세요.</div>
+                            <button id="adButton" type="button" class="btn btn-outline-primary btn-custom col-12">추가하기</button>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col-6">
                 <!--우리아파트 단점-->
-                <div class="box large-box">우리아파트 단점</div>
+                <div class="box">
+                    <h5>우리 아파트의 단점</h5>
+                    <div class="tag-cloud">
+                        <div class="tag-cloud-dis" id="disadvantageCloud">
+                        <!-- 태그들은 JavaScript로 동적으로 생성됩니다 -->
+                        </div>
+                    </div>
+                    <div class="container mt-3">
+                        <select class="form-select" id="apartmentDisadvantages" name="apartmentDisadvantages[]" multiple data-allow-clear="true" data-suggestions-threshold="0" style="display: none;">
+                            <option value="소음">소음</option>
+                            <option value="주차부족">주차부족</option>
+                            <option value="관리비">관리비</option>
+                            <option value="노후화">노후화</option>
+                            <option value="교통불편">교통불편</option>
+                            <option value="층간소음">층간소음</option>
+                            <option value="편의시설부족">편의시설부족</option>
+                            <option value="안전문제">안전문제</option>
+                        </select>
+                        <div class="d-flex flex-column align-items-center justify-content-center mt-3">
+                            <div class="invalid-feedback text-center mb-2">단점을 하나 이상 선택해주세요.</div>
+                            <button id="disButton" type="button" class="btn btn-outline-danger btn-custom col-12">추가하기</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -509,6 +583,10 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/moment"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
+<!--아파트 리뷰-->
+<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+<link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         function formatNumber(number) {
@@ -850,6 +928,142 @@
         loadMoreMyAptItems(); // 초기 데이터 로드
         createApartmentPriceChart(); // 차트 생성
     });
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        var lawdCd = "[[${lawdCd}]]"; // Thymeleaf를 사용하여 lawdCd 값을 가져옵니다.
+        $.get("/housing-weather", { lawdCd: lawdCd }, function(data) {
+            $("#weatherIcon").text(data);
+        });
+    });
+</script>
+
+<!--아파트 리뷰-->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var input = document.querySelector('#apartmentAdvantages');
+        var tagify = new Tagify(input, {
+            whitelist: ["깨끗해요", "조용해요", "편의시설이 잘 되어 있어요", "교통이 편리해요", "주차가 잘 되어 있어요", "안전해요", "관리상태가 좋아요", "이웃들이 좋아요"],
+            maxTags: 5,
+            dropdown: {
+                maxItems: 20,
+                classname: "tags-look",
+                enabled: 0,
+                closeOnSelect: false
+            }
+        });
+
+        // // 사용자 정의 태그 추가 허용
+        // tagify.on('add', function(e) {
+        //     if (!tagify.settings.whitelist.includes(e.detail.data.value)) {
+        //         if (confirm(e.detail.data.value + "은(는) 새로운 장점입니다. 추가하시겠습니까?")) {
+        //             tagify.settings.whitelist.push(e.detail.data.value);
+        //         } else {
+        //             tagify.removeTags(e.detail.data.value);
+        //         }
+        //     }
+        // });
+
+        // 폼 제출 시 유효성 검사
+        document.querySelector('form').addEventListener('submit', function(e) {
+            if (tagify.value.length === 0) {
+                e.preventDefault();
+                document.querySelector('.invalid-feedback').style.display = 'block';
+            } else {
+                document.querySelector('.invalid-feedback').style.display = 'none';
+            }
+        });
+    });
+</script>
+<!--태그 클라우드-->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 장점 태그 클라우드 초기화
+        initializeTagCloud('advantageCloud', {
+            'UIDesign': 10, 'Figma': 8, 'WebDesign': 12, 'Colors': 5,
+            'UserInterface': 7, 'DailyUI': 9, 'Typography': 6, 'DailyDesign': 11,
+            'UX': 4, 'learnUI': 3, 'Designer': 2, 'DesignTips': 1
+        }, ['blue', 'orange', 'yellow', 'green', 'purple', 'red']);
+
+        // 단점 태그 클라우드 초기화
+        initializeTagCloud('disadvantageCloud', {
+            'UIDesign': 10, 'Figma': 8, 'WebDesign': 12, 'Colors': 5,
+            'UserInterface': 7, 'DailyUI': 9, 'Typography': 6, 'DailyDesign': 11,
+            'UX': 4, 'learnUI': 3, 'Designer': 2, 'DesignTips': 1
+        }, ['blue', 'orange', 'yellow', 'green', 'purple', 'red']);
+
+        // Tagify 초기화
+        initializeTagify('apartmentAdvantages', ["깨끗함", "조용함", "편의시설", "교통", "주차", "안전", "관리상태", "이웃관계"]);
+        initializeTagify('apartmentDisadvantages', ["소음", "주차부족", "관리비", "노후화", "교통불편", "층간소음", "편의시설부족", "안전문제"]);
+
+        // 버튼 이벤트 리스너 추가
+        document.getElementById('adButton').addEventListener('click', function() {
+            handleAddButton('apartmentAdvantages');
+        });
+        document.getElementById('disButton').addEventListener('click', function() {
+            handleAddButton('apartmentDisadvantages');
+        });
+    });
+
+    function initializeTagCloud(elementId, frequencies, colors) {
+        const tagCloud = document.getElementById(elementId);
+        const sortedTags = Object.entries(frequencies).sort((a, b) => b[1] - a[1]);
+        const fontSizes = calculateFontSizes(frequencies);
+
+        function createTags() {
+            tagCloud.innerHTML = '';
+            sortedTags.forEach(([tagText, freq], index) => {
+                const tag = document.createElement('span');
+                tag.textContent = '#' + tagText;
+                tag.className = `tag tag-${colors[index % colors.length]}`;
+                tag.style.fontSize = `${fontSizes[tagText].toFixed(2)}px`;
+                tagCloud.appendChild(tag);
+            });
+        }
+
+        createTags();
+        window.addEventListener('resize', createTags);
+    }
+
+    function calculateFontSizes(frequencies) {
+        const maxFreq = Math.max(...Object.values(frequencies));
+        const minSize = 13;
+        const maxSize = 24;
+        return Object.fromEntries(
+            Object.entries(frequencies).map(([key, value]) => [
+                key,
+                minSize + (value / maxFreq) * (maxSize - minSize)
+            ])
+        );
+    }
+
+    function initializeTagify(elementId, whitelist) {
+        var input = document.getElementById(elementId);
+        var tagify = new Tagify(input, {
+            whitelist: whitelist,
+            maxTags: 5,
+            dropdown: {
+                maxItems: 20,
+                classname: "tags-look",
+                enabled: 0,
+                closeOnSelect: false
+            }
+        });
+    }
+
+    function handleAddButton(elementId) {
+        var tagify = Tagify.get(document.getElementById(elementId));
+        var invalidFeedback = document.querySelector(`#${elementId}`).nextElementSibling.querySelector('.invalid-feedback');
+
+        if (tagify.value.length === 0) {
+            invalidFeedback.style.display = 'block';
+        } else {
+            invalidFeedback.style.display = 'none';
+            console.log(`선택된 태그:`, tagify.value);
+            // 여기에 태그 추가 로직을 구현하세요
+        }
+    }
 </script>
 </body>
 </html>

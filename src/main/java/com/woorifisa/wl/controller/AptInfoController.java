@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -217,5 +218,53 @@ public class AptInfoController {
         for (int i = 0; i < indent; i++) {
             System.out.print(" ");
         }
+    }
+
+    @GetMapping("/housing-weather")
+    @ResponseBody
+    public String getHousingWeather(@RequestParam String lawdCd) {
+        String url = "https://data-api.kbland.kr/bfmstat/wthrchat/husePrcIndx";
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
+                .queryParam("월간주간구분코드", "01")
+                .queryParam("매매전세코드", "01")
+                .queryParam("매물종별구분", "01")
+                .queryParam("면적크기코드", "00")
+                .queryParam("단위구분코드", "01")
+                .queryParam("법정동코드", lawdCd)
+                .queryParam("지역명", "전국")
+                .queryParam("시도명", "전국")
+                .queryParam("조회시작일자", "202410")
+                .queryParam("조회종료일자", "202410")
+                .queryParam("selectedTab", "0")
+                .queryParam("changeRatio", "true")
+                .queryParam("mapType", "false")
+                .queryParam("페이지번호", "")
+                .queryParam("페이지목록수", "")
+                .queryParam("zoomLevel", "8")
+                .queryParam("탭구분코드", "0");
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Map> response = restTemplate.getForEntity(builder.toUriString(), Map.class);
+        Map<String, Object> data = response.getBody();
+
+        String weather = "☀️"; // 기본값
+        if (data != null && data.containsKey("dataBody")) {
+            Map<String, Object> dataBody = (Map<String, Object>) data.get("dataBody");
+            if (dataBody.containsKey("data")) {
+                Map<String, Object> dataMap = (Map<String, Object>) dataBody.get("data");
+                if (dataMap.containsKey("depth2")) {
+                    List<Map<String, Object>> depth2 = (List<Map<String, Object>>) dataMap.get("depth2");
+                    for (Map<String, Object> item : depth2) {
+                        if (item.get("법정동코드").toString().equals(lawdCd)) {
+                            double changeRate = Double.parseDouble(item.get("변동률").toString());
+                            weather = changeRate < 0 ? "☁️" : "☀️";
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        return weather;
     }
 }
