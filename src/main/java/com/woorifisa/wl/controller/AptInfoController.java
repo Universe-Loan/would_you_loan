@@ -25,6 +25,8 @@ import org.xml.sax.InputSource;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.StringReader;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,8 +57,6 @@ public class AptInfoController {
                                   @RequestParam String apartment,
                                   @RequestParam String lawdCd,
                                   RedirectAttributes redirectAttributes) {
-        // 디버깅을 위한 로그 추가
-        System.out.println("이건 어디? lawdCd: " + lawdCd);
 
         redirectAttributes.addAttribute("city", city);
         redirectAttributes.addAttribute("district", district);
@@ -73,64 +73,81 @@ public class AptInfoController {
                                 @RequestParam(required = false) String neighborhood,
                                 @RequestParam(required = false) String apartment,
                                 @RequestParam(required = false) String lawdCd,
-                                @RequestParam(required = false, defaultValue = "202311") String dealYmd,
                                 @RequestParam(required = false, defaultValue = "1") int pageNo,
                                 @RequestParam(required = false, defaultValue = "10") int numOfRows,
                                 Model model) {
 
-        System.out.println("Received parameters:");
+        System.out.println("주소API Received parameters:");
         System.out.println("City: " + city);
         System.out.println("District: " + district);
         System.out.println("Neighborhood: " + neighborhood);
         System.out.println("Apartment: " + apartment);
-        System.out.println("디버깅 lawdCd " + lawdCd);
+        System.out.println("lawdCd: " + lawdCd);
 
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(0, new StringHttpMessageConverter(StandardCharsets.UTF_8));
 
-        URI uri = UriComponentsBuilder.fromHttpUrl(API_BASE_URL)
-                .queryParam("serviceKey", serviceKey)
-                .queryParam("LAWD_CD", lawdCd)
-                .queryParam("DEAL_YMD", dealYmd)
-                .queryParam("pageNo", pageNo)
-                .queryParam("numOfRows", numOfRows)
-                .build(true)
-                .toUri();
+        // n년치 데이터 불러오기
+        List<Map<String, String>> allItems = new ArrayList<>();
+        LocalDate currentDate = LocalDate.now();
+        LocalDate NYearAgo = currentDate.minusYears(1);
 
-        System.out.println("API 호출 URL: " + uri.toString());
+        for (LocalDate date = NYearAgo; date.isBefore(currentDate) || date.isEqual(currentDate); date = date.plusMonths(1)) {
+            String currentDealYmd = date.format(DateTimeFormatter.ofPattern("yyyyMM"));
 
-        try {
-            ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
-            System.out.println("API 응답 상태 코드: " + response.getStatusCode());
-            System.out.println("API 응답 본문: " + response.getBody());
-            System.out.println("lawdCd 값: " + lawdCd);
+            URI uri = UriComponentsBuilder.fromHttpUrl(API_BASE_URL)
+                    .queryParam("serviceKey", serviceKey)
+                    .queryParam("LAWD_CD", lawdCd)
+                    .queryParam("DEAL_YMD", currentDealYmd)
+                    .queryParam("pageNo", pageNo)
+                    .queryParam("numOfRows", numOfRows)
+                    .build(true)
+                    .toUri();
 
-            String xmlResponse = response.getBody();
-            List<Map<String, String>> items = parseXmlResponse(xmlResponse);
+            System.out.println("API 호출 URL: " + uri.toString());
 
-            // 콘솔에 모든 item 정보 출력
-            for (int i = 0; i < items.size(); i++) {
-                System.out.println("Item " + (i + 1) + ":");
-                for (Map.Entry<String, String> entry : items.get(i).entrySet()) {
-                    System.out.println("  " + entry.getKey() + ": " + entry.getValue());
-                }
-                System.out.println(); // 각 item 사이에 빈 줄 추가
+            try {
+                ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
+                System.out.println("API 응답 상태 코드: " + response.getStatusCode());
+
+                String xmlResponse = response.getBody();
+                List<Map<String, String>> items = parseXmlResponse(xmlResponse);
+                allItems.addAll(items);
+
+            } catch (Exception e) {
+                System.err.println("API 호출 중 오류 발생 (" + currentDealYmd + "): " + e.getMessage());
+                e.printStackTrace();
             }
-
-            // 모델에 파싱된 데이터 추가
-            model.addAttribute("items", items);
-        } catch (Exception e) {
-            System.err.println("API 호출 중 오류 발생: " + e.getMessage());
-            e.printStackTrace();
         }
 
-        // 모델에 파라미터 추가
+        // 최신순으로 정렬
+        allItems.sort((a, b) -> {
+            String dateA = getDateString(a);
+            String dateB = getDateString(b);
+            return dateB.compareTo(dateA);
+        });
+
+        // 모델에 데이터 추가
+        model.addAttribute("items", allItems);
         model.addAttribute("city", city);
         model.addAttribute("district", district);
         model.addAttribute("neighborhood", neighborhood);
         model.addAttribute("apartment", apartment);
 
         return "apt_report";
+    }
+
+    // 날짜 문자열을 생성하는 헬퍼 메서드
+    private String getDateString(Map<String, String> item) {
+        String year = item.get("년");
+        String month = item.get("월");
+        String day = item.get("일");
+
+        if (year == null || month == null || day == null) {
+            return "00000000"; // 날짜 정보가 없는 경우 가장 오래된 날짜로 처리
+        }
+
+        return year + String.format("%02d", Integer.parseInt(month)) + String.format("%02d", Integer.parseInt(day));
     }
 
     private List<Map<String, String>> parseXmlResponse(String xmlString) {
@@ -140,17 +157,16 @@ public class AptInfoController {
             factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document document = builder.parse(new InputSource(new StringReader(xmlString)));
-
             NodeList itemList = document.getElementsByTagName("item");
             for (int i = 0; i < itemList.getLength(); i++) {
                 Element item = (Element) itemList.item(i);
                 Map<String, String> itemMap = new HashMap<>();
-
                 NodeList children = item.getChildNodes();
                 for (int j = 0; j < children.getLength(); j++) {
                     if (children.item(j).getNodeType() == Node.ELEMENT_NODE) {
                         Element el = (Element) children.item(j);
-                        itemMap.put(el.getNodeName(), el.getTextContent());
+                        String value = el.getTextContent();
+                        itemMap.put(el.getNodeName(), value.isEmpty() ? null : value);
                     }
                 }
                 items.add(itemMap);

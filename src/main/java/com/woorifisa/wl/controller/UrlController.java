@@ -76,5 +76,10 @@ public class UrlController {
 //        return "apt_report";
 //    }
 
+    @GetMapping("/market-analysis")
+    public String marketAnalysis() {
+        return "market_analysis";
+    }
+
 }
 
