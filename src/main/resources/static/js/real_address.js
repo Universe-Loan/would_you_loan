@@ -49,19 +49,40 @@ function loadDistricts() {
     fetch(url)
         .then(response => response.json())
         .then(data => {
+            const excludedCodes = ['280', '190', '130', '110', '270', '170', '460'];
+
             const districts = data.StanReginCd[1].row.filter(item => {
                 return item.region_cd.startsWith(cityCode) &&
-                    item.sgg_cd !== '000' &&
+                    (item.sgg_cd !== '000' || item.locallow_nm === '부천시') &&
                     item.umd_cd === '000' &&
-                    item.ri_cd === '00';
+                    item.ri_cd === '00' &&
+                    !excludedCodes.includes(item.sgg_cd);
             });
 
             const districtSelect = document.getElementById('district');
             districtSelect.innerHTML = '<option value="">선택하세요</option>';
+
+            const specialCodes = {
+                '28': '280', '19': '190', '13': '130', '11': '110',
+                '27': '270', '17': '170', '46': '460'
+            };
+
             districts.forEach(district => {
                 const option = document.createElement('option');
                 option.value = district.region_cd.slice(0, 5);
-                option.textContent = district.locallow_nm;
+
+                let displayName = district.locallow_nm;
+                const sggCode = district.sgg_cd;
+
+                if (specialCodes[sggCode.slice(0, 2)]) {
+                    const specialCode = specialCodes[sggCode.slice(0, 2)];
+                    const specialDistrict = data.StanReginCd[1].row.find(d => d.sgg_cd === specialCode);
+                    if (specialDistrict) {
+                        displayName = `${specialDistrict.locallow_nm} ${displayName}`;
+                    }
+                }
+
+                option.textContent = displayName;
                 districtSelect.appendChild(option);
             });
 
