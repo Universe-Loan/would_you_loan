@@ -70,7 +70,12 @@
                 <input type="hidden" id="selectedDistrict" name="district">
                 <input type="hidden" id="selectedNeighborhood" name="neighborhood">
                 <input type="hidden" id="selectedApartment" name="apartment">
-                <input type="hidden" id="selectedLawdCd" name="lawdCd">
+
+                <input type="hidden" id="selectedSidoCode" name="sidoCode" value="">
+                <input type="hidden" id="selectedSigunguCode" name="sigunguCode" value="">
+                <input type="hidden" id="selectedLawdCode" name="lawdCode" value="">
+                <input type="hidden" id="selectedKaptCode" name="KaptCode" value="">
+
                 <input type="hidden" name="dealYmd" value="202311">
                 <input type="hidden" name="pageNo" value="1">
                 <input type="hidden" name="numOfRows" value="10">
@@ -148,10 +153,13 @@
         const district = document.getElementById('selectedDistrict').value;
         const neighborhood = document.getElementById('selectedNeighborhood').value;
         const apartment = document.getElementById('selectedApartment').value;
-        const lawdCd = document.getElementById('selectedLawdCd').value;
+        // const sidoCode = document.getElementById('selectedSidoCode').value;
+        // const sigunguCode = document.getElementById('selectedSigunguCode').value;
+        const lawdCode = document.getElementById('selectedLawdCode').value;
+        const KaptCode = document.getElementById('selectedKaptCode').value;
 
         // 모든 필수 정보가 선택되었는지 확인합니다.
-        if (!city || !district || !neighborhood || !apartment || !lawdCd) {
+        if (!city || !district || !neighborhood || !apartment || !lawdCode) {
             alert('아파트 정보를 먼저 선택해주세요.');
             return;
         }
@@ -162,7 +170,10 @@
             district: district,
             neighborhood: neighborhood,
             apartment: apartment,
-            lawdCd: lawdCd
+            // sidoCode: sidoCode,
+            // sigunguCode: sigunguCode,
+            lawdCode: lawdCode,
+            KaptCode: KaptCode
         });
 
         // 리다이렉트합니다.

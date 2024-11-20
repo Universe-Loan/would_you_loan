@@ -56,14 +56,19 @@ public class AptInfoController {
                                   @RequestParam String district,
                                   @RequestParam String neighborhood,
                                   @RequestParam String apartment,
-                                  @RequestParam String lawdCd,
+//                                  @RequestParam String sidoCode,
+//                                  @RequestParam String sigunguCode,
+                                  @RequestParam String lawdCode,
+                                  @RequestParam String kaptCode,
                                   RedirectAttributes redirectAttributes) {
 
         redirectAttributes.addAttribute("city", city);
         redirectAttributes.addAttribute("district", district);
         redirectAttributes.addAttribute("neighborhood", neighborhood);
         redirectAttributes.addAttribute("apartment", apartment);
-        redirectAttributes.addAttribute("lawdCd", lawdCd);
+        redirectAttributes.addAttribute("lawdCode", lawdCode);
+        redirectAttributes.addAttribute("KaptCode", kaptCode);
+
 
         return "redirect:/apt-report";
     }
@@ -73,7 +78,8 @@ public class AptInfoController {
                                 @RequestParam(required = false) String district,
                                 @RequestParam(required = false) String neighborhood,
                                 @RequestParam(required = false) String apartment,
-                                @RequestParam(required = false) String lawdCd,
+                                @RequestParam(required = false) String lawdCode,
+                                @RequestParam(required = false) String kaptCode,
                                 @RequestParam(required = false, defaultValue = "1") int pageNo,
                                 @RequestParam(required = false, defaultValue = "10") int numOfRows,
                                 Model model) {
@@ -83,7 +89,12 @@ public class AptInfoController {
         System.out.println("District: " + district);
         System.out.println("Neighborhood: " + neighborhood);
         System.out.println("Apartment: " + apartment);
-        System.out.println("lawdCd: " + lawdCd);
+        System.out.println("lawdCode: " + lawdCode);
+        System.out.println("lawdCode: " + kaptCode);
+
+        // lawdCode 앞 5자리 lawd_five 생성
+        String lawd_five = lawdCode.substring(0,5);
+        System.out.println("생성된 lawd_five: " + lawd_five);
 
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(0, new StringHttpMessageConverter(StandardCharsets.UTF_8));
@@ -93,12 +104,13 @@ public class AptInfoController {
         LocalDate currentDate = LocalDate.now();
         LocalDate NYearAgo = currentDate.minusYears(1);
 
+        // 실거래가 api 불러오기
         for (LocalDate date = NYearAgo; date.isBefore(currentDate) || date.isEqual(currentDate); date = date.plusMonths(1)) {
             String currentDealYmd = date.format(DateTimeFormatter.ofPattern("yyyyMM"));
 
             URI uri = UriComponentsBuilder.fromHttpUrl(API_BASE_URL)
                     .queryParam("serviceKey", serviceKey)
-                    .queryParam("LAWD_CD", lawdCd)
+                    .queryParam("LAWD_CD", lawd_five)  // 여기서 생성된 5자리 lawd_five 사용
                     .queryParam("DEAL_YMD", currentDealYmd)
                     .queryParam("pageNo", pageNo)
                     .queryParam("numOfRows", numOfRows)
@@ -134,6 +146,19 @@ public class AptInfoController {
         model.addAttribute("district", district);
         model.addAttribute("neighborhood", neighborhood);
         model.addAttribute("apartment", apartment);
+        model.addAttribute("lawdCode", lawdCode);
+
+        // 공동주택 기본 정보 조회 및 파싱
+        String basicInfoXml = getAptBasicInfo(kaptCode);
+        Map<String, String> basicInfoMap = parseAptBasicInfo(basicInfoXml);
+        model.addAttribute("basicInfo", basicInfoMap);
+        System.out.println("basic 호출 : " + kaptCode);
+
+        // 공동주택 상세 정보 조회 및 파싱
+        String detailInfoXml = getAptDetailInfo(kaptCode);
+        Map<String, String> detailInfoMap = parseAptDetailInfo(detailInfoXml);
+        model.addAttribute("detailInfo", detailInfoMap);
+//        System.out.println("basic 호출 : " + kaptCode);
 
         return "apt_report";
     }
@@ -220,9 +245,10 @@ public class AptInfoController {
         }
     }
 
+    // 부동산 날씨
     @GetMapping("/housing-weather")
     @ResponseBody
-    public String getHousingWeather(@RequestParam String lawdCd) {
+    public String getHousingWeather(@RequestParam String lawdCode) {
         String url = "https://data-api.kbland.kr/bfmstat/wthrchat/husePrcIndx";
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
                 .queryParam("월간주간구분코드", "01")
@@ -230,7 +256,7 @@ public class AptInfoController {
                 .queryParam("매물종별구분", "01")
                 .queryParam("면적크기코드", "00")
                 .queryParam("단위구분코드", "01")
-                .queryParam("법정동코드", lawdCd)
+                .queryParam("법정동코드", lawdCode)
                 .queryParam("지역명", "전국")
                 .queryParam("시도명", "전국")
                 .queryParam("조회시작일자", "202410")
@@ -255,7 +281,7 @@ public class AptInfoController {
                 if (dataMap.containsKey("depth2")) {
                     List<Map<String, Object>> depth2 = (List<Map<String, Object>>) dataMap.get("depth2");
                     for (Map<String, Object> item : depth2) {
-                        if (item.get("법정동코드").toString().equals(lawdCd)) {
+                        if (item.get("법정동코드").toString().equals(lawdCode)) {
                             double changeRate = Double.parseDouble(item.get("변동률").toString());
                             weather = changeRate < 0 ? "☁️" : "☀️";
                             break;
@@ -266,5 +292,96 @@ public class AptInfoController {
         }
 
         return weather;
+    }
+
+    // 공동주택 기본 정보 조회
+    private String getAptBasicInfo(String kaptCode) {
+        String baseUrl = "http://apis.data.go.kr/1613000/AptBasisInfoServiceV2/getAphusBassInfoV2";
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.getMessageConverters().add(0, new StringHttpMessageConverter(StandardCharsets.UTF_8));
+
+        URI uri = UriComponentsBuilder.fromHttpUrl(baseUrl)
+                .queryParam("serviceKey", serviceKey)
+                .queryParam("kaptCode", kaptCode)
+                .build(true)
+                .toUri();
+
+        try {
+            ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
+            return response.getBody();
+        } catch (Exception e) {
+            System.err.println("기본 정보 API 호출 중 오류 발생: " + e.getMessage());
+            return null;
+        }
+    }
+
+    // 공동주택 상세 정보 조회
+    private String getAptDetailInfo(String kaptCode) {
+        String baseUrl = "http://apis.data.go.kr/1613000/AptBasisInfoServiceV2/getAphusDtlInfoV2";
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.getMessageConverters().add(0, new StringHttpMessageConverter(StandardCharsets.UTF_8));
+
+        URI uri = UriComponentsBuilder.fromHttpUrl(baseUrl)
+                .queryParam("serviceKey", serviceKey)
+                .queryParam("kaptCode", kaptCode)
+                .build(true)
+                .toUri();
+
+        try {
+            ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
+            return response.getBody();
+        } catch (Exception e) {
+            System.err.println("상세 정보 API 호출 중 오류 발생: " + e.getMessage());
+            return null;
+        }
+    }
+
+    // 공동주택 기본 정보 파싱
+    private Map<String, String> parseAptBasicInfo(String xmlString) {
+        Map<String, String> basicInfoMap = new HashMap<>();
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(new InputSource(new StringReader(xmlString)));
+
+            Element item = (Element) document.getElementsByTagName("item").item(0);
+            if (item != null) {
+                basicInfoMap.put("kaptCode", getTextContent(item, "kaptCode"));
+                basicInfoMap.put("kaptName", getTextContent(item, "kaptName"));
+                // 필요한 다른 정보들도 추가
+            }
+        } catch (Exception e) {
+            System.err.println("기본 정보 XML 파싱 중 오류 발생: " + e.getMessage());
+        }
+        return basicInfoMap;
+    }
+
+    // 공동주택 상세 정보 파싱
+    private Map<String, String> parseAptDetailInfo(String xmlString) {
+        Map<String, String> detailInfoMap = new HashMap<>();
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(new InputSource(new StringReader(xmlString)));
+
+            Element item = (Element) document.getElementsByTagName("item").item(0);
+            if (item != null) {
+                detailInfoMap.put("kaptCode", getTextContent(item, "kaptCode"));
+                detailInfoMap.put("kaptName", getTextContent(item, "kaptName"));
+                detailInfoMap.put("codeMgr", getTextContent(item, "codeMgr"));
+                // 필요한 다른 정보들도 추가
+            }
+        } catch (Exception e) {
+            System.err.println("상세 정보 XML 파싱 중 오류 발생: " + e.getMessage());
+        }
+        return detailInfoMap;
+    }
+
+    private String getElementTextContent(Element element, String tagName) {
+        NodeList nodeList = element.getElementsByTagName(tagName);
+        if (nodeList != null && nodeList.getLength() > 0) {
+            return nodeList.item(0).getTextContent();
+        }
+        return "";
     }
 }
