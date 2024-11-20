@@ -49,36 +49,35 @@ function loadDistricts() {
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            const excludedCodes = ['280', '190', '130', '110', '270', '170', '460'];
+            const excludedCodes = ['41280', '41190', '41130', '41110', '41270', '41170', '41460'];
 
             const districts = data.StanReginCd[1].row.filter(item => {
                 return item.region_cd.startsWith(cityCode) &&
-                    (item.sgg_cd !== '000' || item.locallow_nm === '부천시') &&
+                    item.sgg_cd !== '000' &&
                     item.umd_cd === '000' &&
                     item.ri_cd === '00' &&
-                    !excludedCodes.includes(item.sgg_cd);
+                    !excludedCodes.includes(item.region_cd.slice(0, 5));
             });
 
             const districtSelect = document.getElementById('district');
             districtSelect.innerHTML = '<option value="">선택하세요</option>';
-
-            const specialCodes = {
-                '28': '280', '19': '190', '13': '130', '11': '110',
-                '27': '270', '17': '170', '46': '460'
-            };
 
             districts.forEach(district => {
                 const option = document.createElement('option');
                 option.value = district.region_cd.slice(0, 5);
 
                 let displayName = district.locallow_nm;
-                const sggCode = district.sgg_cd;
+                const regionCode = district.region_cd.slice(0, 5);
 
-                if (specialCodes[sggCode.slice(0, 2)]) {
-                    const specialCode = specialCodes[sggCode.slice(0, 2)];
-                    const specialDistrict = data.StanReginCd[1].row.find(d => d.sgg_cd === specialCode);
-                    if (specialDistrict) {
-                        displayName = `${specialDistrict.locallow_nm} ${displayName}`;
+                if (regionCode.startsWith('41') && regionCode !== '41111') {
+                    const cityDistrict = data.StanReginCd[1].row.find(d =>
+                        d.region_cd.startsWith(regionCode.slice(0, 4)) &&
+                        d.sgg_cd !== '000' &&
+                        d.umd_cd === '000' &&
+                        d.ri_cd === '00'
+                    );
+                    if (cityDistrict && cityDistrict.locallow_nm !== displayName) {
+                        displayName = `${cityDistrict.locallow_nm} ${displayName}`;
                     }
                 }
 
