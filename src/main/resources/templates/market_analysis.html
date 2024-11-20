@@ -78,7 +78,7 @@
                                 <div th:each="article : ${articles}" class="article-box">
                                     <div class="row align-items-center">
                                         <div class="col-6">
-                                            <a th:text="${article.title}" th:href="${article.url}"></a>
+                                            <a th:text="${article.title}" th:href="${article.url}" target="_blank"></a>
                                         </div>
                                         <div class="col-3 text-center">
                                             <span th:text="${article.articleDate}"></span>
