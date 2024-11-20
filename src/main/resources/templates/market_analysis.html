@@ -37,6 +37,74 @@
         color: #007bff; /* 마우스 호버 시 색상 */
         text-decoration: underline; /* 밑줄 추가 */
     }
+    /* 플로팅 버튼 */
+    #chat-floating-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+    }
+
+    .chat-button {
+        width: 60px;
+        height: 60px;
+    }
+
+    /* 채팅창 */
+    .chat-container {
+        display: none;
+        position: fixed;
+        bottom: 80px;
+        right: 20px;
+        z-index: 1000;
+        width: 600px;
+        max-height: 800px;
+        border: 1px solid #dee2e6;
+        border-radius: 10px;
+        background-color: white;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .chat-header {
+        padding: 10px;
+        border-bottom: 1px solid #dee2e6;
+        background-color: #f8f9fa;
+    }
+
+    .chat-messages {
+        padding: 10px;
+        overflow-y: auto;
+        height: 600px;
+    }
+
+    .chat-footer {
+        padding: 10px;
+        border-top: 1px solid #dee2e6;
+        display: flex;
+        gap: 10px;
+    }
+
+    .chat-footer .form-control {
+        flex: 1;
+    }
+
+    /* 로딩 아이콘 스타일 */
+    .loading-icon {
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        border: 2px solid rgba(0, 0, 0, 0.2);
+        border-top-color: #007bff;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
 </style>
 <body>
 
@@ -45,8 +113,28 @@
 
 <!--본문-->
 <div class="content-wrapper">
+    <!-- 플로팅 버튼 -->
+    <div id="chat-floating-button">
+        <button class="btn btn-primary rounded-circle chat-button">💬</button>
+    </div>
 
-<!--본문 내용 입력하기-->
+    <!-- 채팅창 -->
+    <div id="chat-container" class="chat-container">
+        <div class="chat-header">
+            <span>채팅</span>
+            <button id="close-chat" class="btn btn-sm btn-outline-secondary float-end">닫기</button>
+        </div>
+        <div id="chat-messages" class="chat-messages"></div>
+        <div class="chat-footer">
+            <input type="text" id="chat-input" class="form-control" placeholder="질문을 입력하세요" required>
+            <button id="send-button" class="btn btn-primary">전송</button>
+        </div>
+    </div>
+</div>
+
+
+
+    <!--본문 내용 입력하기-->
     <div class="container mt-4">
         <div class="row">
             <div class="col-md-6">
@@ -127,6 +215,111 @@
 <!--Javascript-->
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const floatingButton = document.getElementById("chat-floating-button");
+        const chatContainer = document.getElementById("chat-container");
+        const closeChatButton = document.getElementById("close-chat");
+        const chatForm = document.getElementById("chat-form");
+        const chatInput = document.getElementById("chat-input");
+        const sendButton = document.getElementById("send-button");
+        const chatMessages = document.getElementById("chat-messages");
+
+        // 플로팅 버튼 클릭 시 채팅창 토글
+        floatingButton.addEventListener("click", () => {
+            chatContainer.style.display = chatContainer.style.display === "none" ? "block" : "none";
+        });
+
+        // 닫기 버튼 클릭 시 채팅창 숨기기
+        closeChatButton.addEventListener("click", () => {
+            chatContainer.style.display = "none";
+        });
+
+        // 메시지 전송 함수
+        function sendMessage() {
+            const userMessage = chatInput.value.trim();
+            if (!userMessage) return;
+
+            // 사용자 메시지 표시
+            addMessage("user", userMessage);
+
+            // 로딩 중 메시지 표시 (아이콘 포함)
+            const loadingMessage = addMessage("bot", '<span class="loading-icon"></span> 로딩 중...');
+
+            // API 요청
+            fetch("/rag/chat", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    user_id: "1", // 실제 사용자 ID로 교체 필요
+                    user_question: userMessage
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // 로딩 메시지 제거
+                    removeMessage(loadingMessage);
+
+                    // 서버 응답 데이터 표시
+                    const { answer, title, article_date, company, url } = data;
+                    addMessage("bot", `${answer}`);
+                    if (title) {
+                        addMessage("bot", `관련 기사: ${title} (${company}, ${article_date}) <a href="${url}" target="_blank">[링크]</a>`);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    removeMessage(loadingMessage);
+                    addMessage("bot", "오류가 발생했습니다. 다시 시도해주세요.");
+                });
+
+            // 입력창 비우기
+            chatInput.value = "";
+        }
+
+        // 전송 버튼 클릭 시 메시지 전송
+        sendButton.addEventListener("click", sendMessage);
+
+        // 엔터 키로 메시지 전송
+        chatInput.addEventListener("keypress", (event) => {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // 메시지를 추가하는 함수
+        function addMessage(sender, message) {
+            const messageBubble = document.createElement("div");
+            messageBubble.style.marginBottom = "10px";
+            messageBubble.style.padding = "10px";
+            messageBubble.style.borderRadius = "10px";
+
+            if (sender === "user") {
+                messageBubble.style.backgroundColor = "#d1ecf1";
+                messageBubble.style.alignSelf = "flex-end";
+            } else {
+                messageBubble.style.backgroundColor = "#f8f9fa";
+                messageBubble.style.alignSelf = "flex-start";
+            }
+
+            messageBubble.innerHTML = message;
+            chatMessages.appendChild(messageBubble);
+            chatMessages.scrollTop = chatMessages.scrollHeight; // 스크롤을 최신 메시지로 이동
+            return messageBubble; // 메시지 엘리먼트 반환
+        }
+
+        // 메시지를 제거하는 함수
+        function removeMessage(messageElement) {
+            if (messageElement && messageElement.parentNode) {
+                messageElement.parentNode.removeChild(messageElement);
+            }
+        }
+    });
+
+</script>
 <!-- 사용자 정의 JS -->
 <script th:src="@{/js/home.js}"></script>
 <th:block th:replace="fragments/header :: scripts"></th:block>
