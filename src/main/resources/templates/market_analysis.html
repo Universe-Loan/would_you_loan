@@ -17,6 +17,26 @@
         padding: 20px;
         margin-bottom: 20px;
     }
+    .article-box {
+        padding: 10px 0; /* 간격 추가 */
+        border-bottom: 1px solid #e0e0e0; /* 하단 구분선 */
+    }
+
+    .article-box .row {
+        display: flex;
+        align-items: center;
+    }
+
+    .article-box a {
+        color: black; /* 링크 색상 */
+        text-decoration: none; /* 밑줄 제거 */
+        transition: color 0.3s ease; /* 색상 전환 효과 */
+    }
+
+    .article-box a:hover {
+        color: #007bff; /* 마우스 호버 시 색상 */
+        text-decoration: underline; /* 밑줄 추가 */
+    }
 </style>
 <body>
 
@@ -51,7 +71,50 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <div class="box">기사 감정 분석</div>
+                <div class="box">기사 감정 분석
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="article-list">
+                                <div th:each="article : ${articles}" class="article-box">
+                                    <div class="row align-items-center">
+                                        <div class="col-6">
+                                            <a th:text="${article.title}" th:href="${article.url}"></a>
+                                        </div>
+                                        <div class="col-3 text-center">
+                                            <span th:text="${article.articleDate}"></span>
+                                        </div>
+                                        <div class="col-3 text-end">
+                                            <span th:text="${article.company}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 페이지네이션 -->
+                    <div class="pagination mt-4 justify-content-center">
+                        <ul class="pagination justify-content-center">
+                            <!-- 이전 버튼 -->
+                            <li class="page-item" th:if="${currentPage > 0}">
+                                <a class="page-link" th:href="@{/market-analysis(page=${currentPage - 1}, size=10)}">이전</a>
+                            </li>
+
+                            <!-- 페이지 번호 -->
+                            <li class="page-item" th:each="pageNum : ${#numbers.sequence(startPage, endPage)}"
+                                th:classappend="${pageNum == currentPage} ? 'active'">
+                                <a class="page-link" th:href="@{/market-analysis(page=${pageNum}, size=10)}"
+                                   th:text="${pageNum + 1}"></a>
+                            </li>
+
+                            <!-- 다음 버튼 -->
+                            <li class="page-item" th:if="${currentPage < totalPages - 1}">
+                                <a class="page-link" th:href="@{/market-analysis(page=${currentPage + 1}, size=10)}">다음</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
