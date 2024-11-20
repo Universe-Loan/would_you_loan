@@ -85,12 +85,6 @@ function loadDistricts() {
                 districtSelect.appendChild(option);
             });
 
-            // 구 선택 시 이벤트 리스너 추가
-            districtSelect.addEventListener('change', function() {
-                const selectedLawdCd = this.value;
-                // 선택된 법정 코드를 hidden input에 저장
-                document.getElementById('selectedLawdCd').value = selectedLawdCd;
-            });
         })
         .catch(error => console.error('Error:', error));
 }
@@ -119,6 +113,18 @@ function loadNeighborhoods() {
                 option.textContent = neighborhood.locallow_nm;
                 neighborhoodSelect.appendChild(option);
             });
+
+            // // 동 선택 시 이벤트 리스너 추가
+            // neighborhoodSelect.addEventListener('change', function() {
+            //     const selectedNeighborhood = this.value;
+            //
+            //     // 법정동 코드 (10자리)
+            //     const lawdCode = selectedNeighborhood;
+            //
+            //     // 각 코드를 hidden input에 저장
+            //     document.getElementById('selectedLawdCode').value = lawdCode;
+            // });
+
         })
         .catch(error => console.error('Error:', error));
 }
@@ -171,7 +177,11 @@ function submitInterestProperty() {
     const district = districtSelect.selectedOptions[0].text;
     const neighborhood = neighborhoodSelect.selectedOptions[0].text;
     const apartment = apartmentSelect.selectedOptions[0].text;
-    const lawdCd = districtSelect.value;
+
+    // const sidoCode = citySelect.value;
+    // const sigunguCode = districtSelect.value.slice(2);
+    const lawdCode = neighborhoodSelect.value;
+    const kaptCode = apartmentSelect.value;
 
     const fullAddress = `${city} ${district} ${neighborhood} ${apartment}`;
 
@@ -181,12 +191,15 @@ function submitInterestProperty() {
         addressButton.textContent = fullAddress;
     }
 
-    // // hidden input에 값 설정
+    // hidden input에 값 설정
     document.getElementById('selectedCity').value = city;
     document.getElementById('selectedDistrict').value = district;
     document.getElementById('selectedNeighborhood').value = neighborhood;
     document.getElementById('selectedApartment').value = apartment;
-    document.getElementById('selectedLawdCd').value = lawdCd;
+    // document.getElementById('selectedSidoCode').value = sidoCode;
+    // document.getElementById('selectedSigunguCode').value = sigunguCode;
+    document.getElementById('selectedLawdCode').value = lawdCode;
+    document.getElementById('selectedKaptCode').value = kaptCode;
 
     // 팝업 창 닫기
     closeInterestPopup();
