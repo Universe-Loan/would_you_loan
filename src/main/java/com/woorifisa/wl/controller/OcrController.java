@@ -21,6 +21,7 @@ import java.util.Map;
 @RequestMapping("/ocr-api")
 public class OcrController {
     private final S3Client s3Client;
+    private final RestTemplate restTemplate;
 
     @Value("${aws.s3.bucket-name}")
     private String bucketName;
@@ -28,8 +29,9 @@ public class OcrController {
     @Value("${ocr.api.url}")
     private String ocrApiUrl;
 
-    public OcrController(S3Client s3Client) {
+    public OcrController(S3Client s3Client, RestTemplate restTemplate) {
         this.s3Client = s3Client;
+        this.restTemplate = restTemplate;
     }
 
     @PostMapping("/upload-result")
@@ -63,7 +65,6 @@ public class OcrController {
             HttpEntity<Map<String, String>> request = new HttpEntity<>(ocrRequestBody, headers);
 
             // HTTP Client (e.g., RestTemplate, WebClient)로 POST 요청
-            RestTemplate restTemplate = new RestTemplate();
             ResponseEntity<Map> ocrResponse = restTemplate.postForEntity(ocrApiUrl, request, Map.class);
 
             // 3. OCR 결과 반환
