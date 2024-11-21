@@ -40,6 +40,7 @@ public class NewsArticleService {
         dto.setKeywords(article.getKeywords());
         dto.setContent(article.getContent());
         dto.setUrl(article.getUrl());
+        dto.setSentiment(article.getSentiment());
         return dto;
     }
 }

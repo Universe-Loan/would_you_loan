@@ -11,4 +11,5 @@ public class NewsArticleDto {
     private String keywords;
     private String content;
     private String url;
+    private String sentiment;
 }
