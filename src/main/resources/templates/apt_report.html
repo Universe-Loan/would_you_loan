@@ -9,15 +9,17 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-tagsinput@0.8.0/dist/bootstrap-tagsinput.css" rel="stylesheet">
     <!-- 사용자 정의 CSS -->
     <link rel="stylesheet" href="/css/common.css">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMsWx9Kp3yYfRvH+8abtTE1Pi6jizoFj/6U24xg" crossorigin="anonymous">
     <style>
         body {
             background-color: #f8f9fa;
         }
         .box {
-            background-color: #ffffff;
-            border: 1px solid #dee2e6;
-            border-radius: 5px;
-            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 45px;
             margin-bottom: 20px;
         }
         /* 최근 조회 버튼 */
@@ -90,6 +92,43 @@
             }
         }
         /* 아파트 정보 */
+        .apt-env-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* 상단부터 시작 */
+            align-items: center;
+            text-align: center;
+            position: relative; /* 상대 위치 지정 */
+            margin: 0;
+            padding-top: 15px;
+            font-size: 0.8rem;
+        }
+
+        .apt-env-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ff4081, #81d4fa);
+            border-radius: 20%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px; /* 아이콘과 텍스트 사이의 간격 */
+        }
+
+        .apt-env-icon i {
+            font-size: 30px;
+            color: white;
+        }
+
+        .apt-env-item-title {
+            color: #006fe6;
+            font-weight: bold;
+        }
+
+        .apt-env-item-content {
+            color: gray;
+        }
+
         .apt-price {
             font-family: Arial, sans-serif;
         }
@@ -218,7 +257,7 @@
             height: 200px;
         }
         .ratio-box {
-            height: 160px;
+            height: 140px;
         }
         .chart-box {
             height: 300px;
@@ -239,24 +278,9 @@
 <!--본문-->
 <div class="content-wrapper">
     <!--본문 내용 입력하기-->
-
-    <div th:if="${basicInfo}">
-        <p>아파트 코드: <span th:text="${basicInfo.kaptCode}"></span></p>
-        <p>아파트 이름: <span th:text="${basicInfo.kaptName}"></span></p>
-        <!-- 기타 기본 정보 표시 -->
-    </div>
-
-    <div th:if="${detailInfo}">
-        <p>관리 코드: <span th:text="${detailInfo.codeMgr}"></span></p>
-        <!-- 기타 상세 정보 표시 -->
-    </div>
-
-    <div>
-        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
-    </div>
     <div class="container mt-4">
+        <!--최근 조회내역 버튼-->
         <div class="row">
-            <!--최근 조회내역 버튼-->
             <div class="d-flex justify-content-start flex-wrap mb-3">
                 <div class="me-3">
                     <button type="button" class="btn btn-outline-primary btn-custom">상암IT타워</button>
@@ -269,8 +293,8 @@
                 </div>
             </div>
         </div>
+        <!--부동산 지표들-->
         <div class="row">
-            <!--금리 정보-->
             <div class="col-12">
                 <div class="box indicator-box">
                     <div class="row g-4">
@@ -317,91 +341,196 @@
                 </div>
             </div>
         </div>
+        <!-- 아파트 이름 -->
         <div class="row">
-            <div class="col-6">
-                <!-- 아파트 상세정보 -->
-                <div>
-                    <div class="box apt-name">
-                        <h3 th:text="${apartment != null ? apartment : '아파트 정보 없음'}"></h3>
-                        <p th:text="${city != null and district != null and neighborhood != null ?
-              city + ' ' + district + ' ' + neighborhood : '주소 정보 없음'}"></p>
-                    </div>
-                    <div class="box apt-info p-5">
-                        <div class="apt-details text-center pb-4">
-                            <p class="m-0">
-                                아파트 | 매매 | 전용 <span id="squareMeters">235.31</span>m²
-                                (<span id="pyeong"></span>평)<br></br>
-                                총 12층 | 총 32개 동 | 600세대
-                            </p>
+            <div class="col-12">
+                <div class="box apt-name d-flex flex-column justify-content-center bg-primary text-white p-3">
+                    <h3 class="mt-2 ms-2 fw-semibold" th:text="${apartment != null ? apartment : '아파트 정보 없음'}"></h3>
+                    <h6 class="ms-2" th:text="${city != null and district != null and neighborhood != null ?
+      city + ' ' + district + ' ' + neighborhood : '주소 정보 없음'}"></h6>
+                </div>
+            </div>
+        </div>
+        <!--아파트정보 & 아파트실거래 차트-->
+        <div class="row d-flex align-items-stretch">
+            <!-- 아파트 정보 -->
+            <div class="col-6 d-flex flex-column">
+                <!-- 아파트 상세 정보 -->
+                <div class="box apt-info">
+                    <div class="apt-details text-center pb-4">
+                        <div class="my-2">아파트 | 매매 | 전용 <span id="squareMeters">235.31</span>m² (<span id="pyeong"></span>평)</div>
+                        <div class="my-2">최고 <span th:text="${basicInfo.kaptTopFloor}"></span>층 | <span th:text="${basicInfo.kaptDongCnt}"></span>개 동 | <span th:text="${basicInfo.kaptdaCnt}"></span>세대</div>
+                        <div class="my-2">전용 면적별 세대 현황<br>
+                            60㎡ 이하 <span th:text="${basicInfo.kaptMparea_60}"></span> 세대 |
+                            60㎡~85㎡ 이하 <span th:text="${basicInfo.kaptMparea_85}"></span> 세대 |<br>
+                            85㎡~135㎡ 이하 <span th:text="${basicInfo.kaptMparea_135}"></span> 세대 |
+                            135㎡ 초과 <span th:text="${basicInfo.kaptMparea_136}"></span> 세대
                         </div>
-                        <!-- 아파트 가격정보 -->
-                        <div class="apt-content">
-                            <div class="apt-price">
-                                <div class="price-row">
-                                    <div class="price-index">
-                                        이전 실거래가
-                                        <span class="price-date">(2022.05.16)</span>
-                                    </div>
-                                    <div class="price-value" data-price="8350000000"></div>
+                    </div>
+                    <!-- 아파트 가격정보 -->
+                    <div class="apt-content">
+                        <div class="apt-price">
+                            <div class="price-row">
+                                <div class="price-index">
+                                    이전 실거래가
+                                    <span class="price-date">(2022.05.16)</span>
                                 </div>
-                                <div class="price-row">
-                                    <div class="price-index">
-                                        최근 실거래가
-                                        <span class="price-date">(2024.09.30)</span>
-                                    </div>
-                                    <div class="price-value" data-price="10600000000"></div>
+                                <div class="price-value" data-price="8350000000"></div>
+                            </div>
+                            <div class="price-row">
+                                <div class="price-index">
+                                    최근 실거래가
+                                    <span class="price-date">(2024.09.30)</span>
                                 </div>
-                                <div class="price-row">
-                                    <div class="price-index">증가율</div>
-                                    <div class="price-value" id="price-increase"></div>
-                                </div>
+                                <div class="price-value" data-price="10600000000"></div>
+                            </div>
+                            <div class="price-row">
+                                <div class="price-index">증가율</div>
+                                <div class="price-value" id="price-increase"></div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="box">
-                    여기에 추가 정보 넣고싶다 (주변지하철역, 학군지)
-                </div>
             </div>
-            <div class="col-6">
-                <!--아파트 실거래 시세 차트-->
-                <div class="box chart-box">
-                    <h5>아파트 실거래 차트</h5>
-                    <canvas id="apartmentPriceChart"></canvas>
-                </div>
-                <!--아파트 실거래 시세 표-->
-                <div class="box">
-                    <h5 th:text="${apartment + ' 실거래 매매 정보'}"></h5>
-                    <div class="container mt-5">
-                        <div style="max-height: 400px; overflow-y: auto;">
-                            <table id="MyAptTable" class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <th>거래일</th>
-                                    <th>거래금액</th>
-                                    <th>전용면적</th>
-                                    <th>층</th>
-                                    <th>건축년도</th>
-                                </tr>
-                                </thead>
-                                <tbody id="myAptTableBody">
-                                <!-- 데이터가 여기에 동적으로 추가됩니다 -->
-                                </tbody>
-                            </table>
-                        </div>
-                        <button id="loadMoreBtn2" class="btn btn-primary mt-3">더보기</button>
+            <!--아파트 실거래 차트-->
+            <div class="col-6 d-flex flex-column">
+                <div class="box flex-fill d-flex flex-column justify-content-center align-items-center">
+                    <div class="row d-flex align-items-center w-100">
+                        <h5>아파트 실거래 차트</h5>
+                        <canvas id="apartmentPriceChart"></canvas>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="row d-flex align-items-stretch">
+            <!--아파트 환경 정보-->
+            <div class="col-6 d-flex flex-column">
+                <div class="box container">
+                    <div class="row justify-content-center">
+                        <!-- 첫 번째 행 -->
+                        <div class="row">
+                            <div class="apt-env-card col-3">
+                                <div class="apt-env-icon">
+                                    <i class="bi bi-car-front-fill"></i>
+                                </div>
+                                <div class="apt-env-item">
+                                    <div class="apt-env-item-title">주차 대수</div>
+                                    <div class="apt-env-item-content">지상 <span th:text="${detailInfo.kaptdPcnt}"></span>대<br>지하 <span th:text="${detailInfo.kaptdPcntu}"></span>대</div>
+                                </div>
+                            </div>
+                            <div class="apt-env-card col-3">
+                                <div class="apt-env-icon">
+                                    <i class="bi bi-bus-front-fill"></i>
+                                </div>
+                                <div class="apt-env-item">
+                                    <div class="apt-env-item-title">버스정류장과의 거리</div>
+                                    <div class="apt-env-item-content"><span th:text="${detailInfo.kaptdWtimebus}"></span></div>
+                                </div>
+                            </div>
+                            <div class="apt-env-card col-3">
+                                <div class="apt-env-icon">
+                                    <i class="bi bi-walking"></i>
+                                </div>
+                                <div class="apt-env-item">
+                                    <div class="apt-env-item-title">지하철역과의 거리</div>
+                                    <div class="apt-env-item-content"><span th:text="${detailInfo.kaptdWtimesub}"></span></div>
+                                </div>
+                            </div>
+                            <div class="apt-env-card col-3">
+                                <div class="apt-env-icon">
+                                    <i class="bi bi-subway"></i>
+                                </div>
+                                <div class="apt-env-item">
+                                    <div class="apt-env-item-title">가까운 지하철</div>
+                                    <div class="apt-env-item-content">
+                                        <span th:text="${detailInfo.subwayLine}"></span><br>
+                                        <span th:text="${detailInfo.subwayStation}"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 두 번째 행 -->
+                        <div class="row">
+                            <div class="apt-env-card col-3">
+                                <div class="apt-env-icon">
+                                    <i class="bi bi-ev-station-fill"></i>
+                                </div>
+                                <div class="apt-env-item">
+                                    <div class="apt-env-item-title">전기차 충전</div>
+                                    <div class="apt-env-item-content">
+                                        지상 <span th:text="${detailInfo.groundElChargerCnt}"></span>대<br>
+                                        지하 <span th:text="${detailInfo.undergroundElChargerCnt}"></span>대
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="apt-env-card col-3">
+                                <div class="apt-env-icon">
+                                    <i class="bi bi-shop"></i>
+                                </div>
+                                <div class="apt-env-item">
+                                    <div class="apt-env-item-title">편의시설</div>
+                                    <div class="apt-env-item-content"><span th:text="${detailInfo.convenientFacility}"></span></div>
+                                </div>
+                            </div>
+                            <div class="apt-env-card col-3">
+                                <div class="apt-env-icon">
+                                    <i class="bi bi-book-half"></i>
+                                </div>
+                                <div class="apt-env-item">
+                                    <div class="apt-env-item-title">가까운 학교</div>
+                                    <div class="apt-env-item-content"><span th:text="${detailInfo.educationFacility}"></span></div>
+                                </div>
+                            </div>
+                            <div class="apt-env-card col-3">
+                                <div class="apt-env-icon">
+                                    <i class="bi bi-building"></i>
+                                </div>
+                                <div class="apt-env-item">
+                                    <div class="apt-env-item-title">부대시설</div>
+                                    <div class="apt-env-item-content"><span th:text="${detailInfo.welfareFacility}"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div >
+            </div>
+            <!--아파트 실거래 표-->
+            <div class="col-6 d-flex flex-column">
+                <div class="box flex-fill d-flex flex-column justify-content-center align-items-center">
+                    <div class="row d-flex align-items-center w-100">
+                        <h5 th:text="${apartment + ' 실거래 매매 정보'}"></h5>
+                        <div class="container">
+                            <div style="overflow-y: auto;">
+                                <table id="MyAptTable" class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>거래일</th>
+                                        <th>거래금액</th>
+                                        <th>전용면적</th>
+                                        <th>층</th>
+                                        <th>건축년도</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="myAptTableBody">
+                                    <!-- 데이터가 여기에 동적으로 추가됩니다 -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <button id="loadMoreBtn2" class="btn btn-primary mt-3">더보기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--대출 시뮬레이션 & LTV/DTI/DSR-->
         <div class="row d-flex">
-            <div class="col-8">
-                <!-- 대출 시뮬레이션 -->
-                <div class="box loan-simulation p-5 small">
-                    <h5 class="mb-4">대출 시뮬레이션</h5>
-                    <div class="row">
+            <!-- 대출 시뮬레이션 -->
+            <div class="col-8 d-flex flex-fill">
+                <div class="box loan-simulation small flex-fill d-flex flex-column justify-content-center align-items-center">
+                    <h5 class="mb-4 text-start w-100">대출 시뮬레이션</h5>
+                    <div class="row w-100">
                         <div class="col-md-6">
-                            <div class="card mb-3">
+                            <div class="card flex-fill">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between mb-2">
                                         <span class="fw-bold">총 필요 자금</span>
@@ -430,7 +559,7 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="card mb-3">
+                            <div class="card flex-fill">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between mb-2">
                                         <span>대출 예상기간</span>
@@ -459,7 +588,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="slider-container">
+                    <div class="slider-container mt-4">
                         <div class="slider-wrapper">
                             <input type="range" id="loanSlider" min="0" value="0" class="slider">
                             <span id="midLabel" class="slider-label">50%</span>
@@ -471,86 +600,100 @@
                     </div>
                 </div>
             </div>
-            <div class="col-4 d-flex flex-column">
-                <!-- LTV, DTI, DSR 그래프 -->
-                <div class="col-12 flex-grow-1">
-                    <div class="box ratio-box">
-                        <h6>LTV</h6>
-                        <canvas class="d-flex" id="ltvChart"></canvas>
-                    </div>
+            <!-- LTV, DTI, DSR 그래프 -->
+            <div class="col-4 d-flex flex-column flex-fill">
+                <div class="box ratio-box mb-1 flex-fill d-flex flex-column justify-content-center align-items-center">
+                    <h6>LTV</h6>
+                    <canvas id="ltvChart" class="d-flex"></canvas>
                 </div>
-                <div class="col-12 flex-grow-1">
-                    <div class="box ratio-box">DTI</div>
+                <div class="box ratio-box mb-1 flex-fill d-flex flex-column justify-content-center align-items-center mt-3">
+                    <h6>DTI</h6>
                 </div>
-                <div class="col-12 flex-grow-1">
-                    <div class="box ratio-box">DSR(스트레스 DSR?)</div>
+                <div class="box ratio-box flex-fill d-flex flex-column justify-content-center align-items-center mt-3">
+                    <h6>DSR(스트레스 DSR?)</h6>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-6">
-                <!--우리동네 실거래 차트 -->
-                <div class="box">
-                    <h5 th:text="${city + ' ' + district + ' ' + neighborhood + ' 실거래 매매 정보'}"></h5>
-                    <div class="container mt-5">
-                        <div style="max-height: 400px; overflow-y: auto;">
-                            <table id="LocalAptTable" class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <th>거래일</th>
-                                    <th>아파트명</th>
-                                    <th>거래금액</th>
-                                    <th>전용면적</th>
-                                    <th>층</th>
-                                    <th>건축년도</th>
-                                </tr>
-                                </thead>
-                                <tbody id="aptTableBody">
-                                <!-- 데이터가 여기에 동적으로 추가됩니다 -->
-                                </tbody>
-                            </table>
+
+        <!--지역구 아파트 실거래 정보-->
+        <div class="row d-flex flex-fill">
+                <!-- 지역구 실거래 표 -->
+                <div class="col-6 d-flex flex-column flex-fill">
+                    <div class="box flex-fill d-flex flex-column">
+                        <h5 th:text="${city + ' ' + district + ' ' + neighborhood + ' 실거래 매매 정보'}"></h5>
+                        <div class="container flex-fill">
+                            <div style="max-height: 250px; overflow-y: auto;">
+                                <table id="LocalAptTable" class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>거래일</th>
+                                        <th>아파트명</th>
+                                        <th>거래금액</th>
+                                        <th>전용면적</th>
+                                        <th>층</th>
+                                        <th>건축년도</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="aptTableBody">
+                                    <!-- 데이터가 여기에 동적으로 추가됩니다 -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <button id="loadMoreBtn" class="btn btn-primary mt-3">더보기</button>
                         </div>
-                        <button id="loadMoreBtn" class="btn btn-primary mt-3">더보기</button>
+                    </div>
+                </div>
+                <!-- 지역구 실거래 차트 -->
+                <div class="col-6 d-flex flex-column flex-fill">
+                    <div class="box flex-fill d-flex flex-column">
+                        <h5>월평균 실거래 가격 차트</h5>
+                        <canvas id="monthlyPriceScatterChart" class="flex-fill"></canvas>
                     </div>
                 </div>
             </div>
-            <div class="col-6">
-                <div class="box">
-                    <h5>월평균 실거래 가격 차트</h5>
-                    <canvas id="monthlyAverageChart"></canvas>
+
+        <!--지역구 부동산 기사-->
+        <div class="row d-flex flex-fill">
+                <!-- 지역구 부동산 기사 -->
+                <div class="col-6 d-flex flex-column flex-fill">
+                    <div class="box chart-box flex-fill d-flex justify-content-center align-items-center">
+                        우리동네 기사
+                    </div>
+                </div>
+                <!-- 지역구 부동산 기사 워드 클라우드 -->
+                <div class="col-6 d-flex flex-column flex-fill">
+                    <div class="box chart-box flex-fill d-flex justify-content-center align-items-center">
+                        우리동네 기사 워드 클라우드
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-6">
-                <!--우리동네 기사 -->
-                <div class="box chart-box">우리동네 기사</div>
-            </div>
-            <div class="col-6">
-                <!--우리동네 기사 워드클라우드-->
-                <div class="box chart-box">우리동네 기사 워드 클라우드</div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-6">
-                <!--우리아파트 장점-->
-                <div class="box">
-                    <h5>우리 아파트의 장점</h5>
-                    <div class="tag-cloud">
+
+        <!--아파트 단지 리뷰-->
+        <div class="row d-flex flex-fill">
+            <!-- 우리 아파트 단지 장점 -->
+            <div class="col-6 d-flex flex-column flex-fill">
+                <div class="box flex-fill d-flex flex-column">
+                    <h5 class="text-start">우리 아파트의 장점</h5>
+                    <div class="tag-cloud flex-fill d-flex justify-content-center align-items-center">
                         <div class="tag-cloud-ad" id="advantageCloud">
-                        <!-- 태그들은 JavaScript로 동적으로 생성됩니다 -->
+                            <!-- 태그들은 JavaScript로 동적으로 생성됩니다 -->
                         </div>
                     </div>
                     <div class="container mt-3">
                         <select class="form-select" id="apartmentAdvantages" name="apartmentAdvantages[]" multiple data-allow-clear="true" data-suggestions-threshold="0" style="display: none;">
-                            <option value="깨끗함">깨끗함</option>
-                            <option value="조용함">조용함</option>
-                            <option value="편의시설">편의시설</option>
-                            <option value="교통">교통</option>
-                            <option value="주차">주차</option>
-                            <option value="안전">안전</option>
-                            <option value="관리상태">관리상태</option>
-                            <option value="이웃관계">이웃관계</option>
+                            <option value="조용해요">조용해요</option>
+                            <option value="교통이 편리해요">교통이 편리해요</option>
+                            <option value="주차가 편리해요">주차가 편리해요</option>
+                            <option value="보안이 좋아요">보안이 좋아요</option>
+                            <option value="관리 상태가 좋아요">관리 상태가 좋아요</option>
+                            <option value="이웃들이 좋아요">이웃들이 좋아요</option>
+                            <option value="학군이 좋아요">학군이 좋아요</option>
+                            <option value="커뮤니티 시설이 잘 되어 있어요">커뮤니티 시설이 잘 되어 있어요</option>
+                            <option value="상가가 잘 되어 있어요">상가가 잘 되어 있어요</option>
+                            <option value="단지 내 유치원/어린이집이 있어요">단지 내 유치원/어린이집이 있어요</option>
+                            <option value="주변 의료 환경이 좋아요">주변 의료 환경이 좋아요</option>
+                            <option value="근처에 맛집이 많아요">근처에 맛집이 많아요</option>
+                            <option value="산책로/공원이 잘 되어 있어요">산책로/공원이 잘 되어 있어요</option>
                         </select>
                         <div class="d-flex flex-column align-items-center justify-content-center mt-3">
                             <div class="invalid-feedback text-center mb-2">장점을 하나 이상 선택해주세요.</div>
@@ -559,13 +702,13 @@
                     </div>
                 </div>
             </div>
-            <div class="col-6">
-                <!--우리아파트 단점-->
-                <div class="box">
-                    <h5>우리 아파트의 단점</h5>
-                    <div class="tag-cloud">
+            <!-- 우리 아파트 단지 단점 -->
+            <div class="col-6 d-flex flex-column flex-fill">
+                <div class="box flex-fill d-flex flex-column">
+                    <h5 class="text-start">우리 아파트의 단점</h5>
+                    <div class="tag-cloud flex-fill d-flex justify-content-center align-items-center">
                         <div class="tag-cloud-dis" id="disadvantageCloud">
-                        <!-- 태그들은 JavaScript로 동적으로 생성됩니다 -->
+                            <!-- 태그들은 JavaScript로 동적으로 생성됩니다 -->
                         </div>
                     </div>
                     <div class="container mt-3">
@@ -588,25 +731,33 @@
             </div>
         </div>
     </div>
-
 </div>
 
 <!--footer-->
 <footer th:replace="fragments/footer :: footer"></footer>
 
 <!--Javascript-->
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <!-- 사용자 정의 JS -->
 <script th:src="@{/js/home.js}"></script>
 <th:block th:replace="fragments/header :: scripts"></th:block>
 
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!--아파트 환경정보-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.js"></script>
+
+<!--차트-->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/moment"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
+
 <!--아파트 리뷰-->
 <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
 <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -815,7 +966,6 @@
         }
 
         function convertToKorean(priceString) {
-            // 콤마와 '만원' 제거 후 숫자로 변환
             let number = parseInt(priceString.replace(/,/g, '').replace('만원', '')) * 10000;
             const units = ['', '만', '억', '조'];
             let result = '';
@@ -833,23 +983,33 @@
             return result.trim() + '원';
         }
 
-        // 우리동네 아파트 실거래 차트
+        // 데이터 준비
         const localItems = /*[[${items}]]*/ [];
+        const lawdCode = /*[[${lawdCode}]]*/ '';
+        const apartment = /*[[${apartment}]]*/ '';
         let localCurrentIndex = 0;
         const localItemsPerPage = 10;
-
-        // sidoCode, sigunguCode, lawdCode를 서버에서 받아온다고 가정합니다.
-        // const sidoCode = /*[[${sidoCode}]]*/ '';
-        // const sigunguCode = /*[[${sigunguCode}]]*/ '';
-        const lawdCode = /*[[${lawdCode}]]*/ '';
+        let myAptCurrentIndex = 0;
+        const myAptItemsPerPage = 10;
 
         function loadMoreLocalItems() {
             const tableBody = document.getElementById('aptTableBody');
-            const filteredItems = localItems.filter(item =>
+            if (!tableBody) return;
+
+            // 필터링된 항목 가져오기
+            let filteredItems = localItems.filter(item =>
                 item.sggCd.startsWith(lawdCode.slice(0, 5)) &&
                 item.umdCd.startsWith(lawdCode.slice(5, 10))
             );
 
+            // 날짜 기준 최신순 정렬
+            filteredItems.sort((a, b) => {
+                const dateA = new Date(a.dealYear, a.dealMonth - 1, a.dealDay); // JS의 month는 0부터 시작
+                const dateB = new Date(b.dealYear, b.dealMonth - 1, b.dealDay);
+                return dateB - dateA; // 최신순
+            });
+
+            // 페이징 처리
             const endIndex = Math.min(localCurrentIndex + localItemsPerPage, filteredItems.length);
 
             for (let i = localCurrentIndex; i < endIndex; i++) {
@@ -867,64 +1027,70 @@
 
             localCurrentIndex = endIndex;
 
+            // "더보기" 버튼 상태 업데이트
             const loadMoreBtn = document.getElementById('loadMoreBtn');
-            loadMoreBtn.style.display = localCurrentIndex >= filteredItems.length ? 'none' : 'block';
+            if (loadMoreBtn) {
+                loadMoreBtn.style.display = localCurrentIndex >= filteredItems.length ? 'none' : 'block';
+            }
         }
-
-        document.getElementById('loadMoreBtn').addEventListener('click', loadMoreLocalItems);
-        loadMoreLocalItems(); // 초기 데이터 로드
-
-        // 현재 아파트 단지 실거래 표
-        const myAptItems = /*[[${items}]]*/ [];
-        const apartment = /*[[${apartment}]]*/ '';
-        let myAptCurrentIndex = 0;
-        const myAptItemsPerPage = 10;
 
         function loadMoreMyAptItems() {
             const tableBody = document.getElementById('myAptTableBody');
+            if (!tableBody) return;
+
+            // 현재 아파트 데이터 필터링 및 날짜 기준 최신순 정렬
+            const filteredItems = localItems
+                .filter(item => item.aptNm === apartment)
+                .sort((a, b) => {
+                    const dateA = new Date(a.dealYear, a.dealMonth - 1, a.dealDay); // JS에서 month는 0부터 시작
+                    const dateB = new Date(b.dealYear, b.dealMonth - 1, b.dealDay);
+                    return dateB - dateA; // 최신순 정렬
+                });
+
             let count = 0;
 
-            while (count < myAptItemsPerPage && myAptCurrentIndex < myAptItems.length) {
-                const item = myAptItems[myAptCurrentIndex];
-                if (item.aptNm === apartment) {
-                    const row = tableBody.insertRow();
-                    const koreanPrice = convertToKorean(item.dealAmount);
-                    row.innerHTML = `
-                <td>${item.dealYear}년 ${item.dealMonth}월 ${item.dealDay}일</td>
-                <td>${koreanPrice}</td>
-                <td>${item.excluUseAr}m²</td>
-                <td>${item.floor}층</td>
-                <td>${item.buildYear}년</td>
-            `;
-                    count++;
-                }
+            // 페이징 처리
+            while (count < myAptItemsPerPage && myAptCurrentIndex < filteredItems.length) {
+                const item = filteredItems[myAptCurrentIndex];
+                const row = tableBody.insertRow();
+                const koreanPrice = convertToKorean(item.dealAmount);
+                row.innerHTML = `
+            <td>${item.dealYear}년 ${item.dealMonth}월 ${item.dealDay}일</td>
+            <td>${koreanPrice}</td>
+            <td>${item.excluUseAr}m²</td>
+            <td>${item.floor}층</td>
+            <td>${item.buildYear}년</td>
+        `;
+                count++;
                 myAptCurrentIndex++;
             }
 
+            // "더보기" 버튼 상태 업데이트
             const loadMoreBtn = document.getElementById('loadMoreBtn2');
-            loadMoreBtn.style.display = myAptCurrentIndex >= myAptItems.length ? 'none' : 'block';
+            if (loadMoreBtn) {
+                loadMoreBtn.style.display = myAptCurrentIndex >= filteredItems.length ? 'none' : 'block';
+            }
         }
 
         function createApartmentPriceChart() {
-            const ctx = document.getElementById('apartmentPriceChart').getContext('2d');
+            const ctx = document.getElementById('apartmentPriceChart');
+            if (!ctx) return;
 
-            // 데이터 준비
-            const data = myAptItems
+            const data = localItems
                 .filter(item => item.aptNm === apartment)
                 .map(item => ({
-                    date: `${item.dealYear}-${item.dealMonth.padStart(2, '0')}-${item.dealDay.padStart(2, '0')}`,
+                    date: `${item.dealYear}-${String(item.dealMonth).padStart(2, '0')}-${String(item.dealDay).padStart(2, '0')}`,
                     price: parseInt(item.dealAmount.replace(/,/g, '').replace('만원', '')) * 10000
                 }))
                 .sort((a, b) => new Date(a.date) - new Date(b.date));
 
-            // 차트 생성
-            new Chart(ctx, {
+            new Chart(ctx.getContext('2d'), {
                 type: 'line',
                 data: {
                     labels: data.map(item => item.date),
                     datasets: [{
                         label: '실거래가',
-                        data: data.map(item => item.price / 100000000), // 억 단위로 변환
+                        data: data.map(item => item.price / 100000000),
                         borderColor: 'rgb(75, 192, 192)',
                         tension: 0.1
                     }]
@@ -956,19 +1122,70 @@
                                 }
                             }
                         }
+                    }
+                }
+            });
+        }
+
+        function createMonthlyPriceScatterChart() {
+            const ctx = document.getElementById('monthlyPriceScatterChart');
+            if (!ctx) return;
+
+            // 데이터 준비
+            const scatterData = localItems.map(item => ({
+                x: parseInt(item.dealMonth),
+                y: parseInt(item.dealAmount.replace(/,/g, '').replace('만원', '')) * 10000 / 100000000 // 억 단위 변환
+            }));
+
+            // 차트 생성
+            new Chart(ctx.getContext('2d'), {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: '월별 거래 가격 (억 원)',
+                        data: scatterData,
+                        backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                        pointRadius: 5,
+                        pointHoverRadius: 7
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            position: 'bottom',
+                            min: 1,
+                            max: 12,
+                            title: {
+                                display: true,
+                                text: '월'
+                            },
+                            ticks: {
+                                stepSize: 1,
+                                callback: function(value) {
+                                    return value + '월';
+                                }
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: '거래 가격 (억 원)'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '억';
+                                }
+                            }
+                        }
                     },
                     plugins: {
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
-                                    let label = context.dataset.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.parsed.y !== null) {
-                                        label += context.parsed.y.toFixed(2) + '억 원';
-                                    }
-                                    return label;
+                                    const point = context.raw;
+                                    return `${point.x}월: ${point.y.toFixed(2)}억 원`;
                                 }
                             }
                         }
@@ -977,82 +1194,14 @@
             });
         }
 
-        document.getElementById('loadMoreBtn2').addEventListener('click', loadMoreMyAptItems);
-        loadMoreMyAptItems(); // 초기 데이터 로드
-        createApartmentPriceChart(); // 차트 생성
-
-        // 월평균 실거래 가격 계산 함수
-        function calculateMonthlyAverages(items) {
-            const monthlyData = {};
-
-            items.forEach(item => {
-                const yearMonth = `${item.dealYear}-${item.dealMonth.padStart(2, '0')}`;
-                const price = parseInt(item.dealAmount.replace(/,/g, '').replace('만원', '')) * 10000;
-
-                if (!monthlyData[yearMonth]) {
-                    monthlyData[yearMonth] = { total: 0, count: 0 };
-                }
-                monthlyData[yearMonth].total += price;
-                monthlyData[yearMonth].count++;
-            });
-
-            const averages = Object.entries(monthlyData).map(([yearMonth, data]) => ({
-                date: yearMonth,
-                averagePrice: Math.round(data.total / data.count)
-            }));
-
-            return averages.sort((a, b) => a.date.localeCompare(b.date));
-        }
-
-        // 차트 데이터 준비
-        function prepareChartData(averages) {
-            return {
-                labels: averages.map(item => item.date),
-                datasets: [{
-                    label: '월평균 실거래가',
-                    data: averages.map(item => item.averagePrice),
-                    borderColor: 'rgb(75, 192, 192)',
-                    tension: 0.1
-                }]
-            };
-        }
-
-        // 차트 생성 함수
-        function createChart(chartData) {
-            const ctx = document.getElementById('monthlyAverageChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'line',
-                data: chartData,
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: false,
-                            ticks: {
-                                callback: function(value) {
-                                    return new Intl.NumberFormat('ko-KR', {
-                                        style: 'currency',
-                                        currency: 'KRW',
-                                        maximumFractionDigits: 0
-                                    }).format(value);
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        // 실행 코드
-        document.addEventListener('DOMContentLoaded', function() {
-            const monthlyAverages = calculateMonthlyAverages(localItems);
-            const chartData = prepareChartData(monthlyAverages);
-            createChart(chartData);
-        });
+        // 실행
+        loadMoreLocalItems();
+        loadMoreMyAptItems();
+        createApartmentPriceChart();
+        createMonthlyPriceScatterChart();
     });
     /*]]>*/
 </script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
         var lawdCode = "[[${lawdCode}]]"; // Thymeleaf를 사용하여 lawdCode 값을 가져옵니다.
@@ -1061,64 +1210,89 @@
         });
     });
 </script>
-
 <!--아파트 리뷰-->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        var input = document.querySelector('#apartmentAdvantages');
-        var tagify = new Tagify(input, {
-            whitelist: ["깨끗해요", "조용해요", "편의시설이 잘 되어 있어요", "교통이 편리해요", "주차가 잘 되어 있어요", "안전해요", "관리상태가 좋아요", "이웃들이 좋아요"],
-            maxTags: 5,
-            dropdown: {
-                maxItems: 20,
-                classname: "tags-look",
-                enabled: 0,
-                closeOnSelect: false
-            }
-        });
-
-        // // 사용자 정의 태그 추가 허용
-        // tagify.on('add', function(e) {
-        //     if (!tagify.settings.whitelist.includes(e.detail.data.value)) {
-        //         if (confirm(e.detail.data.value + "은(는) 새로운 장점입니다. 추가하시겠습니까?")) {
-        //             tagify.settings.whitelist.push(e.detail.data.value);
-        //         } else {
-        //             tagify.removeTags(e.detail.data.value);
-        //         }
-        //     }
-        // });
-
-        // 폼 제출 시 유효성 검사
-        document.querySelector('form').addEventListener('submit', function(e) {
-            if (tagify.value.length === 0) {
-                e.preventDefault();
-                document.querySelector('.invalid-feedback').style.display = 'block';
-            } else {
-                document.querySelector('.invalid-feedback').style.display = 'none';
-            }
-        });
-    });
-</script>
-<!--태그 클라우드-->
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // 장점 태그 클라우드 초기화
-        initializeTagCloud('advantageCloud', {
-            'UIDesign': 10, 'Figma': 8, 'WebDesign': 12, 'Colors': 5,
-            'UserInterface': 7, 'DailyUI': 9, 'Typography': 6, 'DailyDesign': 11,
-            'UX': 4, 'learnUI': 3, 'Designer': 2, 'DesignTips': 1
-        }, ['blue', 'orange', 'yellow', 'green', 'purple', 'red']);
-
-        // 단점 태그 클라우드 초기화
-        initializeTagCloud('disadvantageCloud', {
-            'UIDesign': 10, 'Figma': 8, 'WebDesign': 12, 'Colors': 5,
-            'UserInterface': 7, 'DailyUI': 9, 'Typography': 6, 'DailyDesign': 11,
-            'UX': 4, 'learnUI': 3, 'Designer': 2, 'DesignTips': 1
-        }, ['blue', 'orange', 'yellow', 'green', 'purple', 'red']);
-
         // Tagify 초기화
-        initializeTagify('apartmentAdvantages', ["깨끗함", "조용함", "편의시설", "교통", "주차", "안전", "관리상태", "이웃관계"]);
-        initializeTagify('apartmentDisadvantages', ["소음", "주차부족", "관리비", "노후화", "교통불편", "층간소음", "편의시설부족", "안전문제"]);
+        function initializeTagify(elementId, whitelist) {
+            var input = document.getElementById(elementId);
+            new Tagify(input, {
+                whitelist: whitelist,
+                maxTags: 5,
+                enforceWhitelist: true, // 사용자가 새로운 태그를 추가할 수 없도록 설정
+                dropdown: {
+                    maxItems: 20,
+                    classname: "tags-look",
+                    enabled: 0,
+                    closeOnSelect: false
+                }
+            });
+        }
+
+        // 태그 클라우드 초기화
+        function initializeTagCloud(elementId, frequencies, colors) {
+            const tagCloud = document.getElementById(elementId);
+            const sortedTags = Object.entries(frequencies).sort((a, b) => b[1] - a[1]);
+            const fontSizes = calculateFontSizes(frequencies);
+
+            function createTags() {
+                tagCloud.innerHTML = '';
+                sortedTags.forEach(([tagText, freq], index) => {
+                    const tag = document.createElement('span');
+                    tag.textContent = '#' + tagText;
+                    tag.className = `tag tag-${colors[index % colors.length]}`;
+                    tag.style.fontSize = `${fontSizes[tagText].toFixed(2)}px`;
+                    tagCloud.appendChild(tag);
+                });
+            }
+
+            createTags();
+            window.addEventListener('resize', createTags);
+        }
+
+        // 폰트 크기 계산
+        function calculateFontSizes(frequencies) {
+            const maxFreq = Math.max(...Object.values(frequencies));
+            const minSize = 11;
+            const maxSize = 20;
+            return Object.fromEntries(
+                Object.entries(frequencies).map(([key, value]) => [
+                    key,
+                    minSize + (value / maxFreq) * (maxSize - minSize)
+                ])
+            );
+        }
+
+        // 버튼 클릭 핸들러
+        function handleAddButton(elementId) {
+            var tagify = Tagify.get(document.getElementById(elementId));
+            var invalidFeedback = document.querySelector(`#${elementId}`).nextElementSibling.querySelector('.invalid-feedback');
+
+            if (tagify.value.length === 0) {
+                invalidFeedback.style.display = 'block';
+            } else {
+                invalidFeedback.style.display = 'none';
+                console.log(`선택된 태그:`, tagify.value);
+                // 여기에 태그 추가 로직을 구현하세요
+            }
+        }
+
+        // 장점 및 단점 태그 클라우드 초기화
+        initializeTagCloud('advantageCloud', {
+            '조용해요': 10, '교통이 편리해요': 8, '주차가 편리해요': 12, '보안이 좋아요': 5,
+            '관리 상태가 좋아요': 7, '이웃들이 좋아요': 9, '학군이 좋아요': 6, '커뮤니티 시설이 잘 되어 있어요': 11,
+            '상가가 잘 되어 있어요': 4, "단지 내 유치원/어린이집이 있어요": 5, "주변 의료 환경이 좋아요": 8, "근처에 맛집이 많아요":2, "산책로/공원이 잘 되어 있어요":7
+        }, ['blue', 'orange', 'yellow', 'green', 'purple', 'red']);
+
+        initializeTagCloud('disadvantageCloud', {
+            "소음이 많아요": 8, "교통이 불편해요":8, "주차가 불편해요":1, "외부인 출입이 자유로워요":5,
+            "노후된 부분이 많아요":3, "학교가 멀어요":5, "커뮤니티 시설이 없어요":2,
+            "상가가 없어요":8, "단지 내 유치원/어린이집이 없어요":4, "주변 의료 환경이 불편해요":1, "식당이 멀어요":5, "근처에 산책로/공원이 없어요":6
+        }, ['blue', 'orange', 'yellow', 'green', 'purple', 'red']);
+
+        // 장점 및 단점 태그 입력 필드 초기화
+        initializeTagify('apartmentAdvantages', ["조용해요", "교통이 편리해요", "주차가 편리해요", "보안이 좋아요", "관리 상태가 좋아요", "이웃들이 좋아요", "학군이 좋아요", "커뮤니티 시설이 잘 되어 있어요", "상가가 잘 되어 있어요", "단지 내 유치원/어린이집이 있어요", "주변 의료 환경이 좋아요", "근처에 맛집이 많아요", "산책로/공원이 잘 되어 있어요"]);
+        initializeTagify('apartmentDisadvantages', ["소음이 많아요", "교통이 불편해요", "주차가 불편해요", "외부인 출입이 자유로워요", "노후된 부분이 많아요", "학교가 멀어요", "커뮤니티 시설이 없어요", "상가가 없어요", "단지 내 유치원/어린이집이 없어요", "주변 의료 환경이 불편해요", "식당이 멀어요", "근처에 산책로/공원이 없어요"]);
 
         // 버튼 이벤트 리스너 추가
         document.getElementById('adButton').addEventListener('click', function() {
@@ -1127,66 +1301,18 @@
         document.getElementById('disButton').addEventListener('click', function() {
             handleAddButton('apartmentDisadvantages');
         });
-    });
 
-    function initializeTagCloud(elementId, frequencies, colors) {
-        const tagCloud = document.getElementById(elementId);
-        const sortedTags = Object.entries(frequencies).sort((a, b) => b[1] - a[1]);
-        const fontSizes = calculateFontSizes(frequencies);
-
-        function createTags() {
-            tagCloud.innerHTML = '';
-            sortedTags.forEach(([tagText, freq], index) => {
-                const tag = document.createElement('span');
-                tag.textContent = '#' + tagText;
-                tag.className = `tag tag-${colors[index % colors.length]}`;
-                tag.style.fontSize = `${fontSizes[tagText].toFixed(2)}px`;
-                tagCloud.appendChild(tag);
-            });
-        }
-
-        createTags();
-        window.addEventListener('resize', createTags);
-    }
-
-    function calculateFontSizes(frequencies) {
-        const maxFreq = Math.max(...Object.values(frequencies));
-        const minSize = 13;
-        const maxSize = 24;
-        return Object.fromEntries(
-            Object.entries(frequencies).map(([key, value]) => [
-                key,
-                minSize + (value / maxFreq) * (maxSize - minSize)
-            ])
-        );
-    }
-
-    function initializeTagify(elementId, whitelist) {
-        var input = document.getElementById(elementId);
-        var tagify = new Tagify(input, {
-            whitelist: whitelist,
-            maxTags: 5,
-            dropdown: {
-                maxItems: 20,
-                classname: "tags-look",
-                enabled: 0,
-                closeOnSelect: false
+        // 폼 제출 시 유효성 검사
+        document.querySelector('form').addEventListener('submit', function(e) {
+            var advantageInput = Tagify.get(document.getElementById('apartmentAdvantages'));
+            if (advantageInput.value.length === 0) {
+                e.preventDefault();
+                document.querySelector('.invalid-feedback').style.display = 'block';
+            } else {
+                document.querySelector('.invalid-feedback').style.display = 'none';
             }
         });
-    }
-
-    function handleAddButton(elementId) {
-        var tagify = Tagify.get(document.getElementById(elementId));
-        var invalidFeedback = document.querySelector(`#${elementId}`).nextElementSibling.querySelector('.invalid-feedback');
-
-        if (tagify.value.length === 0) {
-            invalidFeedback.style.display = 'block';
-        } else {
-            invalidFeedback.style.display = 'none';
-            console.log(`선택된 태그:`, tagify.value);
-            // 여기에 태그 추가 로직을 구현하세요
-        }
-    }
+    });
 </script>
 </body>
 </html>

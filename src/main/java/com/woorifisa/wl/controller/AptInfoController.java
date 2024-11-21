@@ -56,8 +56,6 @@ public class AptInfoController {
                                   @RequestParam String district,
                                   @RequestParam String neighborhood,
                                   @RequestParam String apartment,
-//                                  @RequestParam String sidoCode,
-//                                  @RequestParam String sigunguCode,
                                   @RequestParam String lawdCode,
                                   @RequestParam String kaptCode,
                                   RedirectAttributes redirectAttributes) {
@@ -69,7 +67,6 @@ public class AptInfoController {
         redirectAttributes.addAttribute("lawdCode", lawdCode);
         redirectAttributes.addAttribute("KaptCode", kaptCode);
 
-
         return "redirect:/apt-report";
     }
 
@@ -79,7 +76,7 @@ public class AptInfoController {
                                 @RequestParam(required = false) String neighborhood,
                                 @RequestParam(required = false) String apartment,
                                 @RequestParam(required = false) String lawdCode,
-                                @RequestParam(required = false) String kaptCode,
+                                @RequestParam(required = false, name = "KaptCode") String kaptCode,
                                 @RequestParam(required = false, defaultValue = "1") int pageNo,
                                 @RequestParam(required = false, defaultValue = "10") int numOfRows,
                                 Model model) {
@@ -90,7 +87,7 @@ public class AptInfoController {
         System.out.println("Neighborhood: " + neighborhood);
         System.out.println("Apartment: " + apartment);
         System.out.println("lawdCode: " + lawdCode);
-        System.out.println("lawdCode: " + kaptCode);
+        System.out.println("kaptCode1: " + kaptCode);
 
         // lawdCode 앞 5자리 lawd_five 생성
         String lawd_five = lawdCode.substring(0,5);
@@ -152,7 +149,7 @@ public class AptInfoController {
         String basicInfoXml = getAptBasicInfo(kaptCode);
         Map<String, String> basicInfoMap = parseAptBasicInfo(basicInfoXml);
         model.addAttribute("basicInfo", basicInfoMap);
-        System.out.println("basic 호출 : " + kaptCode);
+        System.out.println("kaptCode2 basic 호출 : " + kaptCode);
 
         // 공동주택 상세 정보 조회 및 파싱
         String detailInfoXml = getAptDetailInfo(kaptCode);
@@ -348,6 +345,13 @@ public class AptInfoController {
             if (item != null) {
                 basicInfoMap.put("kaptCode", getTextContent(item, "kaptCode"));
                 basicInfoMap.put("kaptName", getTextContent(item, "kaptName"));
+                basicInfoMap.put("kaptDongCnt", getTextContent(item, "kaptDongCnt"));
+                basicInfoMap.put("kaptdaCnt", getTextContent(item, "kaptdaCnt"));
+                basicInfoMap.put("kaptTopFloor", getTextContent(item, "kaptTopFloor"));
+                basicInfoMap.put("kaptMparea_60", getTextContent(item, "kaptMparea_60"));
+                basicInfoMap.put("kaptMparea_85", getTextContent(item, "kaptMparea_85"));
+                basicInfoMap.put("kaptMparea_135", getTextContent(item, "kaptMparea_135"));
+                basicInfoMap.put("kaptMparea_136", getTextContent(item, "kaptMparea_136"));
                 // 필요한 다른 정보들도 추가
             }
         } catch (Exception e) {
@@ -368,7 +372,17 @@ public class AptInfoController {
             if (item != null) {
                 detailInfoMap.put("kaptCode", getTextContent(item, "kaptCode"));
                 detailInfoMap.put("kaptName", getTextContent(item, "kaptName"));
-                detailInfoMap.put("codeMgr", getTextContent(item, "codeMgr"));
+                detailInfoMap.put("kaptdPcnt", getTextContent(item, "kaptdPcnt"));
+                detailInfoMap.put("kaptdPcntu", getTextContent(item, "kaptdPcntu"));
+                detailInfoMap.put("welfareFacility", getTextContent(item, "welfareFacility"));
+                detailInfoMap.put("kaptdWtimebus", getTextContent(item, "kaptdWtimebus"));
+                detailInfoMap.put("subwayLine", getTextContent(item, "subwayLine"));
+                detailInfoMap.put("subwayStation", getTextContent(item, "subwayStation"));
+                detailInfoMap.put("kaptdWtimesub", getTextContent(item, "kaptdWtimesub"));
+                detailInfoMap.put("convenientFacility", getTextContent(item, "convenientFacility"));
+                detailInfoMap.put("educationFacility", getTextContent(item, "educationFacility"));
+                detailInfoMap.put("groundElChargerCnt", getTextContent(item, "groundElChargerCnt"));
+                detailInfoMap.put("undergroundElChargerCnt", getTextContent(item, "undergroundElChargerCnt"));
                 // 필요한 다른 정보들도 추가
             }
         } catch (Exception e) {
