@@ -31,4 +31,7 @@ public class NewsArticle {
 
     @Column(name = "url")
     private String url;
+
+    @Column(name = "sentiment")
+    private String sentiment;
 }
