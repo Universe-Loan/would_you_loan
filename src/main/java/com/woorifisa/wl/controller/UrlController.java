@@ -86,5 +86,10 @@ public class UrlController {
         return "my_loans";
     }
 
+    @GetMapping("/admin")
+    public String admin() {
+        return "admin";
+    }
+
 }
 
