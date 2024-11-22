@@ -1211,15 +1211,29 @@
     });
 </script>
 <!--아파트 리뷰-->
-<script>
+<script th:inline="javascript">
     document.addEventListener('DOMContentLoaded', function() {
-        // Tagify 초기화
+        // kaptCode 변수 선언
+        const kaptCode = /*[[${param.KaptCode}]]*/ null;
+        let advantagesTagify, disadvantagesTagify;
+
+        const advantagesList = ["조용해요", "교통이 편리해요", "주차가 편리해요", "보안이 좋아요",
+            "관리 상태가 좋아요", "이웃들이 좋아요", "학군이 좋아요", "커뮤니티 시설이 잘 되어 있어요",
+            "상가가 잘 되어 있어요", "단지 내 유치원/어린이집이 있어요", "주변 의료 환경이 좋아요",
+            "근처에 맛집이 많아요", "산책로/공원이 잘 되어 있어요"];
+
+        const disadvantagesList = ["소음이 많아요", "교통이 불편해요", "주차가 불편해요",
+            "외부인 출입이 자유로워요", "노후된 부분이 많아요", "학교가 멀어요", "커뮤니티 시설이 없어요",
+            "상가가 없어요", "단지 내 유치원/어린이집이 없어요", "주변 의료 환경이 불편해요",
+            "식당이 멀어요", "근처에 산책로/공원이 없어요"];
+
+        // Tagify 초기화 함수
         function initializeTagify(elementId, whitelist) {
             var input = document.getElementById(elementId);
-            new Tagify(input, {
+            return new Tagify(input, {
                 whitelist: whitelist,
                 maxTags: 5,
-                enforceWhitelist: true, // 사용자가 새로운 태그를 추가할 수 없도록 설정
+                enforceWhitelist: true,
                 dropdown: {
                     maxItems: 20,
                     classname: "tags-look",
@@ -1263,44 +1277,202 @@
             );
         }
 
-        // 버튼 클릭 핸들러
-        function handleAddButton(elementId) {
-            var tagify = Tagify.get(document.getElementById(elementId));
-            var invalidFeedback = document.querySelector(`#${elementId}`).nextElementSibling.querySelector('.invalid-feedback');
+        // 장점 버튼 클릭 핸들러
+        function handleProsButton() {
+            var invalidFeedback = document.querySelector('#apartmentAdvantages').nextElementSibling.querySelector('.invalid-feedback');
 
-            if (tagify.value.length === 0) {
+            if (!advantagesTagify || advantagesTagify.value.length === 0) {
                 invalidFeedback.style.display = 'block';
-            } else {
-                invalidFeedback.style.display = 'none';
-                console.log(`선택된 태그:`, tagify.value);
-                // 여기에 태그 추가 로직을 구현하세요
+                return;
             }
+
+            invalidFeedback.style.display = 'none';
+            const selectedTags = advantagesTagify.value.map(tag => tag.value);
+            const formData = new FormData();
+
+            formData.append('kaptCode', kaptCode);
+            selectedTags.forEach(tag => formData.append('pros', tag));
+
+            fetch('/apt-evaluation/pros', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        if (response.status === 401) {
+                            alert('로그인이 필요한 서비스입니다.');
+                            return;
+                        }
+                        throw new Error('Network response was not ok');
+                    }
+                    alert('장점이 성공적으로 저장되었습니다.');
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('장점 저장 중 오류가 발생했습니다.');
+                });
         }
 
-        // 장점 및 단점 태그 클라우드 초기화
-        initializeTagCloud('advantageCloud', {
-            '조용해요': 10, '교통이 편리해요': 8, '주차가 편리해요': 12, '보안이 좋아요': 5,
-            '관리 상태가 좋아요': 7, '이웃들이 좋아요': 9, '학군이 좋아요': 6, '커뮤니티 시설이 잘 되어 있어요': 11,
-            '상가가 잘 되어 있어요': 4, "단지 내 유치원/어린이집이 있어요": 5, "주변 의료 환경이 좋아요": 8, "근처에 맛집이 많아요":2, "산책로/공원이 잘 되어 있어요":7
-        }, ['blue', 'orange', 'yellow', 'green', 'purple', 'red']);
+// 단점 버튼 클릭 핸들러
+        function handleConsButton() {
+            var invalidFeedback = document.querySelector('#apartmentDisadvantages').nextElementSibling.querySelector('.invalid-feedback');
 
-        initializeTagCloud('disadvantageCloud', {
-            "소음이 많아요": 8, "교통이 불편해요":8, "주차가 불편해요":1, "외부인 출입이 자유로워요":5,
-            "노후된 부분이 많아요":3, "학교가 멀어요":5, "커뮤니티 시설이 없어요":2,
-            "상가가 없어요":8, "단지 내 유치원/어린이집이 없어요":4, "주변 의료 환경이 불편해요":1, "식당이 멀어요":5, "근처에 산책로/공원이 없어요":6
-        }, ['blue', 'orange', 'yellow', 'green', 'purple', 'red']);
+            if (!disadvantagesTagify || disadvantagesTagify.value.length === 0) {
+                invalidFeedback.style.display = 'block';
+                return;
+            }
 
-        // 장점 및 단점 태그 입력 필드 초기화
-        initializeTagify('apartmentAdvantages', ["조용해요", "교통이 편리해요", "주차가 편리해요", "보안이 좋아요", "관리 상태가 좋아요", "이웃들이 좋아요", "학군이 좋아요", "커뮤니티 시설이 잘 되어 있어요", "상가가 잘 되어 있어요", "단지 내 유치원/어린이집이 있어요", "주변 의료 환경이 좋아요", "근처에 맛집이 많아요", "산책로/공원이 잘 되어 있어요"]);
-        initializeTagify('apartmentDisadvantages', ["소음이 많아요", "교통이 불편해요", "주차가 불편해요", "외부인 출입이 자유로워요", "노후된 부분이 많아요", "학교가 멀어요", "커뮤니티 시설이 없어요", "상가가 없어요", "단지 내 유치원/어린이집이 없어요", "주변 의료 환경이 불편해요", "식당이 멀어요", "근처에 산책로/공원이 없어요"]);
+            invalidFeedback.style.display = 'none';
+            const selectedTags = disadvantagesTagify.value.map(tag => tag.value);
+            const formData = new FormData();
 
-        // 버튼 이벤트 리스너 추가
-        document.getElementById('adButton').addEventListener('click', function() {
-            handleAddButton('apartmentAdvantages');
+            formData.append('kaptCode', kaptCode);
+            selectedTags.forEach(tag => formData.append('cons', tag));
+
+            fetch('/apt-evaluation/cons', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        if (response.status === 401) {
+                            alert('로그인이 필요한 서비스입니다.');
+                            return;
+                        }
+                        throw new Error('Network response was not ok');
+                    }
+                    alert('단점이 성공적으로 저장되었습니다.');
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('단점 저장 중 오류가 발생했습니다.');
+                });
+        }
+
+        // 버튼에 이벤트 리스너 등록
+        document.getElementById('adButton').addEventListener('click', handleProsButton);
+        document.getElementById('disButton').addEventListener('click', handleConsButton);
+
+        // Thymeleaf로 전달받은 데이터
+        const evaluationData = /*[[${evaluationData}]]*/ {prosCounts: {}, consCounts: {}};
+
+        // 장점 데이터 변환
+        let prosData = {};
+        if (!evaluationData || !evaluationData.prosCounts) {
+            // 데이터가 없을 경우 기본값 설정
+            prosData = {
+                '조용해요': 0,
+                '교통이 편리해요': 0,
+                '주차가 편리해요': 0,
+                '보안이 좋아요': 0,
+                '관리 상태가 좋아요': 0,
+                '이웃들이 좋아요': 0,
+                '학군이 좋아요': 0,
+                '커뮤니티 시설이 잘 되어 있어요': 0,
+                '상가가 잘 되어 있어요': 0,
+                '단지 내 유치원/어린이집이 있어요': 0,
+                '주변 의료 환경이 좋아요': 0,
+                '근처에 맛집이 많아요': 0,
+                '산책로/공원이 잘 되어 있어요': 0
+            };
+        } else {
+            const prosDto = evaluationData.prosCounts;
+            prosData['조용해요'] = prosDto.quietCount || 0;
+            prosData['교통이 편리해요'] = prosDto.transportCount || 0;
+            prosData['주차가 편리해요'] = prosDto.parkingCount || 0;
+            prosData['보안이 좋아요'] = prosDto.securityCount || 0;
+            prosData['관리 상태가 좋아요'] = prosDto.maintenanceCount || 0;
+            prosData['이웃들이 좋아요'] = prosDto.neighborsCount || 0;
+            prosData['학군이 좋아요'] = prosDto.schoolCount || 0;
+            prosData['커뮤니티 시설이 잘 되어 있어요'] = prosDto.communityCount || 0;
+            prosData['상가가 잘 되어 있어요'] = prosDto.commercialCount || 0;
+            prosData['단지 내 유치원/어린이집이 있어요'] = prosDto.daycareCount || 0;
+            prosData['주변 의료 환경이 좋아요'] = prosDto.medicalCount || 0;
+            prosData['근처에 맛집이 많아요'] = prosDto.restaurantsCount || 0;
+            prosData['산책로/공원이 잘 되어 있어요'] = prosDto.parksCount || 0;
+        }
+
+        // 단점 데이터 변환
+        let consData = {};
+        if (!evaluationData || !evaluationData.consCounts) {
+            // 데이터가 없을 경우 기본값 설정
+            consData = {
+                '소음이 많아요': 0,
+                '교통이 불편해요': 0,
+                '주차가 불편해요': 0,
+                '외부인 출입이 자유로워요': 0,
+                '노후된 부분이 많아요': 0,
+                '학교가 멀어요': 0,
+                '커뮤니티 시설이 없어요': 0,
+                '상가가 없어요': 0,
+                '단지 내 유치원/어린이집이 없어요': 0,
+                '주변 의료 환경이 불편해요': 0,
+                '식당이 멀어요': 0,
+                '근처에 산책로/공원이 없어요': 0
+            };
+        } else {
+            const consDto = evaluationData.consCounts;
+            consData['소음이 많아요'] = consDto.noiseCount || 0;
+            consData['교통이 불편해요'] = consDto.badTransportCount || 0;
+            consData['주차가 불편해요'] = consDto.badParkingCount || 0;
+            consData['외부인 출입이 자유로워요'] = consDto.badSecurityCount || 0;
+            consData['노후된 부분이 많아요'] = consDto.outdatedCount || 0;
+            consData['학교가 멀어요'] = consDto.badSchoolCount || 0;
+            consData['커뮤니티 시설이 없어요'] = consDto.badCommunityCount || 0;
+            consData['상가가 없어요'] = consDto.badCommercialCount || 0;
+            consData['단지 내 유치원/어린이집이 없어요'] = consDto.badDaycareCount || 0;
+            consData['주변 의료 환경이 불편해요'] = consDto.badMedicalCount || 0;
+            consData['식당이 멀어요'] = consDto.badRestaurantsCount || 0;
+            consData['근처에 산책로/공원이 없어요'] = consDto.badParksCount || 0;
+        }
+
+        // 0인 값 제거
+        Object.keys(prosData).forEach(key => {
+            if (prosData[key] === 0) delete prosData[key];
         });
-        document.getElementById('disButton').addEventListener('click', function() {
-            handleAddButton('apartmentDisadvantages');
+
+        Object.keys(consData).forEach(key => {
+            if (consData[key] === 0) delete consData[key];
         });
+
+        // 태그 클라우드 초기화
+        initializeTagCloud('advantageCloud', prosData, ['blue', 'orange', 'yellow', 'green', 'purple', 'red']);
+        initializeTagCloud('disadvantageCloud', consData, ['blue', 'orange', 'yellow', 'green', 'purple', 'red']);
+
+        // 초기화 및 이벤트 리스너 등록
+        advantagesTagify = initializeTagify('apartmentAdvantages', advantagesList);
+        disadvantagesTagify = initializeTagify('apartmentDisadvantages', disadvantagesList);
+
+        // 기존 평가 데이터 로드
+        fetch(`/apt-evaluation?kaptCode=${kaptCode}`)
+            .then(response => {
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        console.log('로그인이 필요합니다.');
+                        return;
+                    }
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data) {
+                    // 장점 데이터 처리
+                    if (data.hasProsEvaluation && data.pros && data.pros.length > 0) {
+                        advantagesTagify.addTags(data.pros);
+                        document.getElementById('adButton').textContent = '수정하기';
+                    }
+
+                    // 단점 데이터 처리
+                    if (data.hasConsEvaluation && data.cons && data.cons.length > 0) {
+                        disadvantagesTagify.addTags(data.cons);
+                        document.getElementById('disButton').textContent = '수정하기';
+                    }
+                }
+            })
+            .catch(error => console.error('Error loading user evaluation:', error));
 
         // 폼 제출 시 유효성 검사
         document.querySelector('form').addEventListener('submit', function(e) {

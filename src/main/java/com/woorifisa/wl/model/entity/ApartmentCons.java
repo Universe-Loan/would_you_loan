@@ -9,8 +9,8 @@ import lombok.Data;
 public class ApartmentCons {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "pros_id")
-    private Long prosId;
+    @Column(name = "cons_id")
+    private Long consId;
 
     @Column(name = "user_id")
     private Long userId;

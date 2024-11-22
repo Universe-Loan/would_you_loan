@@ -1,15 +1,15 @@
 package com.woorifisa.wl.controller;
 
+import com.woorifisa.wl.service.ApartmentEvaluationService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -39,6 +39,14 @@ public class AptInfoController {
     @Value("${API_KEY_DATA_EH}")
     private String serviceKey;
     private final String API_BASE_URL = "http://apis.data.go.kr/1613000/RTMSDataSvcAptTradeDev/getRTMSDataSvcAptTradeDev";
+
+    // 24.11.22 - regular
+    private final ApartmentEvaluationService apartmentEvaluationService;
+
+    // 생성자 주입
+    public AptInfoController(ApartmentEvaluationService apartmentEvaluationService) {
+        this.apartmentEvaluationService = apartmentEvaluationService;
+    }
 
     @GetMapping("/apt-find")
     public String showAptFind(Model model) {
@@ -70,6 +78,77 @@ public class AptInfoController {
         return "redirect:/apt-report";
     }
 
+    // 24.11.22 - regular add.
+    // 장점 평가 처리
+    @PostMapping("/{kaptCode}/pros")
+    public ResponseEntity<?> saveProsEvaluation(
+            @RequestParam String kaptCode,
+            @RequestParam List<String> pros,
+            HttpSession session) {
+
+        Long userId = (Long) session.getAttribute("user_id");
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+        }
+
+        try {
+            // 이미 평가했는지 확인
+            if (apartmentEvaluationService.hasProsEvaluation(kaptCode, userId)) {
+                apartmentEvaluationService.updateProsEvaluation(kaptCode, userId, pros);
+            } else {
+                apartmentEvaluationService.saveNewProsEvaluation(kaptCode, userId, pros);
+            }
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("장점 평가 저장 중 오류가 발생했습니다.");
+        }
+    }
+
+    // 단점 평가 처리
+    @PostMapping("/{kaptCode}/cons")
+    public ResponseEntity<?> saveConsEvaluation(
+            @RequestParam String kaptCode,
+            @RequestParam List<String> cons,
+            HttpSession session) {
+
+        Long userId = (Long) session.getAttribute("user_id");
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+        }
+
+        try {
+            // 이미 평가했는지 확인
+            if (apartmentEvaluationService.hasConsEvaluation(kaptCode, userId)) {
+                apartmentEvaluationService.updateConsEvaluation(kaptCode, userId, cons);
+            } else {
+                apartmentEvaluationService.saveNewConsEvaluation(kaptCode, userId, cons);
+            }
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("단점 평가 저장 중 오류가 발생했습니다.");
+        }
+    }
+
+    @GetMapping("/apt-evaluation")
+    @ResponseBody
+    public ResponseEntity<?> getUserEvaluation(
+            @RequestParam String kaptCode,
+            HttpSession session) {
+
+        Long userId = (Long) session.getAttribute("user_id");
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+        }
+
+        Map<String, Object> evaluation =
+                apartmentEvaluationService.getUserEvaluation(kaptCode, userId);
+        return ResponseEntity.ok(evaluation);
+    }
+
+
+    // 24.11.22 - regular add.
     @GetMapping(value = "/apt-report", produces = MediaType.APPLICATION_XML_VALUE)
     public String showAptReport(@RequestParam(required = false) String city,
                                 @RequestParam(required = false) String district,
@@ -79,7 +158,7 @@ public class AptInfoController {
                                 @RequestParam(required = false, name = "KaptCode") String kaptCode,
                                 @RequestParam(required = false, defaultValue = "1") int pageNo,
                                 @RequestParam(required = false, defaultValue = "10") int numOfRows,
-                                Model model) {
+                                Model model, HttpSession session) {
 
         System.out.println("주소API Received parameters:");
         System.out.println("City: " + city);
@@ -156,6 +235,21 @@ public class AptInfoController {
         Map<String, String> detailInfoMap = parseAptDetailInfo(detailInfoXml);
         model.addAttribute("detailInfo", detailInfoMap);
 //        System.out.println("basic 호출 : " + kaptCode);
+
+        // 아파트 평가 데이터 조회 및 모델에 추가
+        if (kaptCode != null) {
+            Map<String, Object> evaluationData = apartmentEvaluationService.getApartmentEvaluation(kaptCode);
+            model.addAttribute("evaluationData", evaluationData);
+        }
+
+        Long userId = (Long) session.getAttribute("user_id");
+        model.addAttribute("isLoggedIn", userId != null);
+
+        if (userId != null && kaptCode != null) {
+            // 사용자의 평가 데이터 조회
+            Map<String, Object> userEvaluation = apartmentEvaluationService.getUserEvaluation(kaptCode, userId);
+            model.addAttribute("userEvaluation", userEvaluation);
+        }
 
         return "apt_report";
     }
