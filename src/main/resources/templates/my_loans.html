@@ -8,6 +8,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- 사용자 정의 CSS -->
     <link rel="stylesheet" href="/css/common.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
         body {
             background-color: #f8f9fa;
@@ -16,24 +18,64 @@
             background: white;
             border-radius: 15px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 45px;
+            padding: 25px;
             margin-bottom: 20px;
         }
-        #gaugeChart {
-            filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.2));
+        .credit-header {
+            color: white;
         }
+        .change-rate{
+            color: white;
+        }
+        .change-rate .detail{
+            background: #e9ecef;
+            border-radius: 15px;
+            padding: 20px;
+            color: black;
+        }
+        .account-header {
+            background: #cbd4df;
+            font-weight: bold;
+        }
+        .account-header .circle {
+            width: 10px;
+            height: 25px;
+            border-radius: 20px;
+            background-color: #6c757d;
+            margin-right: 15px;
+        }
+        .icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 15px;
+        }
+        .icon1 { background-color: #4a90e2; }
+        .icon2 { background-color: #8b572a; }
+        .icon3 { background-color: #1c1c1c; }
 
-        #gaugeLabel {
-            font-family: 'Arial', sans-serif;
+        .account-name {
+            color: #6c757d;
+        }
+        .account .line {
+            width: 95%;
+            height: 1px;
+            border-radius: 20px;
+            background-color: #cbd4df;
+            margin-right: 15px;
+            margin-bottom: 20px;
+        }
+        .account-static {
+            background: #cbd4df;
+            font-weight: bold;
             text-align: center;
+            color: #094cb0;
         }
-
-        #gaugeLabel .text-primary {
-            color: #007bff;
-        }
-
-        #gaugeLabel .text-warning {
-            color: #ffc107;
+        .ad-custom {
+            color: #0d6efd;
+            font-weight: bolder;
+            font-size: large;
         }
     </style>
 </head>
@@ -46,117 +88,210 @@
 <div class="content-wrapper">
     <!--본문 내용 입력하기-->
     <div class="container mt-4">
+        <!--신용-->
         <div class="row d-flex flex-fill">
             <!--신용점수 게이지바-->
             <div class="col-md-6 d-flex flex-column flex-fill">
                 <div class="box flex-fill d-flex justify-content-center align-items-center">
                     <div class="container position-relative">
-                        <canvas id="gaugeChart" width="300" height="150"></canvas>
-                        <div id="gaugeLabel" class="position-absolute top-50 start-50 translate-middle text-center">
-                            <div class="fs-4 fw-bold">942점</div>
-                            <div class="fs-5 fw-bold text-warning">975점</div>
-                            <div class="">상위 3% · 위험도 0.02%</div>
+                        <!-- 게이지 차트 -->
+                        <div class="container p-5 position-relative">
+                            <canvas id="gaugeChart" class="pb-0 mb-0 w-100 h-100"></canvas>
+                        </div>
+                        <!-- 게이지 텍스트 -->
+                        <div id="gaugeLabel" class="row pt-5 pb-0 mb-0 text-center position-absolute top-50">
+                            <div class="fs-4 text-primary fw-bold">942점</div>
+                            <div class="fs-5 text-warning">n개월 후 <strong>975점</strong></div>
+                            <div class="">현재 상위 3% · 위험도 0.02%</div>
                             <div class="">
                                 <span class="badge bg-danger">최소 170점 상승</span>
                                 <span class="badge bg-secondary">변경확률 5%</span>
                             </div>
-                            <div class="mt-2 text-muted">
-                                현재 560점(상위 74%) -> 최소 730점(상위 67%)
-                            </div>
                         </div>
                     </div>
-
                 </div>
             </div>
-
-            <!--신용점수 변동-->
+            <!--신용점수-->
             <div class="col-md-6 d-flex flex-column flex-fill">
-                <!--변동사항과 변동점수-->
-                <div class="box flex-fill d-flex justify-content-center align-items-center">
-                    <div class="d-flex justify-content-between align-items-center w-100">
-                        <div class="text-start">
-                            내 신용점수
+                <!--내 신용점수-->
+                <div class="box ps-4 credit-header bg-primary d-flex justify-content-between align-items-center w-100">
+                    <div class="d-flex align-items-center">
+                        <img src="https://via.placeholder.com/40" alt="Logo" class="me-3">
+                        <span class="fw-bold fs-5">내 신용점수</span>
+                    </div>
+                    <div class="small d-flex align-items-center">
+                        <div class="me-4 text-end">
+                            <div>변동사항</div>
+                            <div class="badge rounded-pill text-bg-light">있음</div>
                         </div>
                         <div class="text-end">
-                            <div>변동사항<br>있음</div>
-                        </div>
-                        <div class="text-end">
-                            <div>변동 점수<br>(12.15 대비) +153점</div>
+                            <div>직전 분기 대비</div>
+                            <div class="badge rounded-pill text-bg-light">+153</div>
                         </div>
                     </div>
                 </div>
-                <!--변동차트-->
+                <!--신용점수 변동차트-->
                 <div class="box flex-fill d-flex justify-content-center align-items-center">
-                    신용점수 변동 차트
+                    <div class="row d-flex align-items-center w-100">
+                        <h5>분기별 신용점수 (최근 2년)</h5>
+                        <canvas id="creditScoreChart" style="max-height: 200px; width: 100%;"></canvas>
+                    </div>
                 </div>
                 <!--대출금리가 바뀌어요!-->
-                <div class="box d-flex justify-content-between align-items-center">
-                    <div class="text-start">
+                <div class="box change-rate py-0 px-3 bg-primary d-flex justify-content-between align-items-center">
+                    <div class="ps-3 fw-bold text-start">
                         신용점수를 n점 올리면<br>
                         대출 금리가 0.34% 낮아져요
                     </div>
-                    <div class="text-center">
-                        <div>nnn점 대출 금리<br>4.89%</div>
+                    <div class="detail my-4 py-1 d-flex justify-content-between align-items-center">
+                        <div class="p-3 text-center">
+                            <div>nnn점일 때<br>4.89%</div>
+                        </div>
+                        <div class="px-2 text-center">
+                            <img th:src="@{/img/right-arrow.png}" style="max-height: 15px; width: auto;" alt="로고 이미지" class="m-0 p-0">
+                        </div>
+                        <div class="p-3 text-center">
+                            <div>mmm점일 때<br>9.89%</div>
+                        </div>
                     </div>
-                    <div class="text-center">
-                        <div>-></div>
+                </div>
+            </div>
+        </div>
+        <!--계좌 & 대환대출 광고-->
+        <div class="row d-flex flex-fill">
+            <!--계좌-->
+            <div class="col-8 d-flex flex-column flex-fill">
+                <!--계좌목록 헤더-->
+                <div class="row flex-fill">
+                    <div class="col-6 d-flex flex-column flex-fill">
+                        <div class="box account-header flex-fill d-flex justify-content-start align-items-center">
+                            <span class="circle"></span>입출금 계좌 목록
+                        </div>
                     </div>
-                    <div class="text-center">
-                        <div>mmm점 대출 금리<br>9.89%</div>
+                    <div class="col-6 d-flex flex-column flex-fill">
+                        <div class="box account-header flex-fill d-flex justify-content-start align-items-center">
+                            <span class="circle"></span>주택담보대출 계좌 목록
+                        </div>
+                    </div>
+                </div>
+                <!--계좌 목록-->
+                <div class="row flex-fill">
+                    <div class="col-6 d-flex flex-column flex-fill">
+                        <div class="box flex-fill d-flex justify-content-center align-items-center">
+                            <div class="account p-3 m-0 col-12">
+                                <div class="mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="icon icon1"></div>
+                                        <div>
+                                            <div class="account-name">토스뱅크 통장</div>
+                                            <div class="fw-bold">150,009원</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="icon icon2"></div>
+                                        <div>
+                                            <div class="account-name">달러라2030통장</div>
+                                            <div class="fw-bold">73,820원</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="icon icon3"></div>
+                                        <div>
+                                            <div class="account-name">우리은행 입출금</div>
+                                            <div class="fw-bold">90,000,000원</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="line"></div>
+                                <div class="d-flex align-items-center">
+                                    <div class="icon icon1"></div>
+                                    <div class="fw-bold">총합 456,789,123원</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 d-flex flex-column flex-fill">
+                        <div class="box flex-fill d-flex justify-content-center align-items-center">
+                            <div class="account p-3 m-0 col-12">
+                                <div class="mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="icon icon1"></div>
+                                        <div>
+                                            <div class="account-name">토스뱅크 통장</div>
+                                            <div class="fw-bold">150,009원</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="icon icon2"></div>
+                                        <div>
+                                            <div class="account-name">달러라2030통장</div>
+                                            <div class="fw-bold">73,820원</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="icon icon3"></div>
+                                        <div>
+                                            <div class="account-name">우리은행 주택담보대출</div>
+                                            <div class="fw-bold">90,000,000원</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="line"></div>
+                                <div class="d-flex align-items-center">
+                                    <div class="icon icon1"></div>
+                                    <div class="fw-bold">총합 456,789,123원</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--계좌 통계-->
+                <div class="row flex-fill fw-bold">
+                    <div class="col-6 d-flex flex-column flex-fill">
+                        <div class="box account-static flex-fill d-flex justify-content-center align-items-center">
+                            전월 대비 입출금 통장 증감<br>+1,123,456원 (+1.56%)
+                        </div>
+                    </div>
+                    <div class="col-6 d-flex flex-column flex-fill">
+                        <div class="box account-static flex-fill d-flex justify-content-center align-items-center">
+                            이번달 주택담보대출 상환액<br>100,000원
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row d-flex flex-fill">
-            <div class="col-md-6 d-flex flex-column flex-fill">
-                <div class="box flex-fill d-flex justify-content-center align-items-center">
-                    입출금 계좌 목록
-                </div>
-            </div>
-            <div class="col-md-6 d-flex flex-column flex-fill">
-                <div class="box flex-fill d-flex justify-content-center align-items-center">
-                    주택담보대출 계좌 목록
-                </div>
-            </div>
-        </div>
-        <div class="row d-flex flex-fill">
-            <div class="col-md-6 d-flex flex-column flex-fill">
-                <div class="box flex-fill d-flex justify-content-center align-items-center">
-                    입출금 계좌 1<br>
-                    입출금 계좌 2<br>
-                    입출금 계좌 총합
-                </div>
-            </div>
-            <div class="col-md-6 d-flex flex-column flex-fill">
-                <div class="box flex-fill d-flex justify-content-center align-items-center">
-                    주담대 계좌 1<br>
-                    주담대 계좌 2<br>
-                    주담대 계좌 총합
+            <!--대환대출 광고-->
+            <div class="col-4 d-flex flex-fill">
+                <div class="box ad-custom text-center flex-fill d-flex flex-column justify-content-center align-items-center">
+                    <!-- 이미지 -->
+                    <img th:src="@{/img/question-bell.png}" style="max-width: 60%; height: auto;" alt="로고 이미지" class="my-4">
+                    <!-- 텍스트 -->
+                    <div>
+                        <br>
+                        <div class="small fw-medium">내 대출 이자</div>
+                        <div class="small fw-medium">얼마나 줄일 수 있을까?</div>
+                        <br>
+                        <div>더 낮은 금리의 대출</div>
+                        <div>바로 찾아보기</div>
+                    </div>
+                    <a th:href="@{/change-find}">
+                        <img th:src="@{/img/go-next.png}" style="max-width: 20%; height: auto;" alt="로고 이미지" class="my-4">
+                    </a>
                 </div>
             </div>
         </div>
+        <!--자산 대비 대출 총액 그래프-->
         <div class="row d-flex flex-fill">
-            <div class="col-6 d-flex flex-column flex-fill">
-                <div class="box flex-fill d-flex justify-content-center align-items-center">
-                    전월 대비 입출금 통장 증감<br>+1,123,456원 (+1.56%)
-                </div>
-            </div>
-            <div class="col-6 d-flex flex-column flex-fill">
-                <div class="box flex-fill d-flex justify-content-center align-items-center">
-                    이번달 주택담보대출 상환액<br>100,000원
-                </div>
-            </div>
-        </div>
-        <div class="row d-flex flex-fill">
-            <div class="col-6 d-flex flex-column flex-fill">
-                <div class="box flex-fill d-flex justify-content-center align-items-center">
-                    자산 대비 대출 총액 그래프
-                </div>
-            </div>
-            <div class="col-6 d-flex flex-column flex-fill">
-                <div class="box flex-fill d-flex justify-content-center align-items-center">
-                    지금의 대출 이자가 부담이라면?<br>
-                    대환 대출 알아보러 가기
+            <div class="col-12 d-flex flex-column flex-fill">
+                <div class="box p-5 flex-fill d-flex justify-content-center align-items-center">
+                    <canvas id="myChart" style="max-height: 300px; width: 100%;"></canvas>
                 </div>
             </div>
         </div>
@@ -174,80 +309,260 @@
 <th:block th:replace="fragments/header :: scripts"></th:block>
 
 <!--차트-->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const ctx = document.getElementById('gaugeChart').getContext('2d');
-        const currentScore = 942; // 현재 점수
-        const predictedScore = 975; // 예측 점수
+    document.addEventListener("DOMContentLoaded", function () {
+
+    // 신용점수 게이지 바 그리기
+        const ctx = document.getElementById("gaugeChart").getContext("2d");
+
+        const currentScore = 702; // 현재 점수
+        const predictedScore = 875; // 예측 점수
         const maxScore = 1000; // 최대 점수
 
-        // 점수를 기준으로 바늘 위치 계산 (180도 기준)
-        const needleValue = (predictedScore / maxScore) * 180;
-
-        const data = {
-            datasets: [
-                {
-                    label: 'Current Score',
-                    data: [currentScore, maxScore - currentScore],
-                    backgroundColor: ['#007bff', '#e9ecef'], // 파란색, 회색
-                    borderWidth: 0,
-                    cutout: '70%',
-                    rotation: -90,
-                    circumference: 180, // 반원형 차트
-                },
-                {
-                    label: 'Predicted Score',
-                    data: [predictedScore, maxScore - predictedScore],
-                    backgroundColor: ['#ffc107', 'transparent'], // 노란색, 투명
-                    borderWidth: 0,
-                    cutout: '85%', // 안쪽 반원
-                    rotation: -90,
-                    circumference: 180,
-                },
-            ],
-        };
-
-        const options = {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                tooltip: { enabled: false }, // 툴팁 비활성화
-                legend: { display: false },
-            },
-        };
+        const chartRadius = 150; // 캔버스 크기로 설정해야함
 
         // 차트 생성
         const gaugeChart = new Chart(ctx, {
-            type: 'doughnut',
-            data: data,
-            options: options,
+            type: "doughnut",
+            data: {
+                datasets: [
+                    {
+                        label: 'Current Score',
+                        data: [currentScore, maxScore - currentScore],
+                        backgroundColor: ["#007bff", "#e9ecef"], // 파란색과 회색
+                        circumference: 180, // 반원형 차트
+                        rotation: 270, // 시작 위치
+                        cutout: "65%", // 내부 반지름 비율
+                    },
+                    {
+                        label: 'Predicted Score',
+                        data: [predictedScore, maxScore - predictedScore],
+                        backgroundColor: ['#ffc107', '#e9ecef'], // 노란색, 회색
+                        borderWidth: 0,
+                        cutout: '65%', // 안쪽 반원
+                        rotation: -90,
+                        circumference: 180,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { enabled: false },
+                },
+            },
+            plugins: [
+                {
+                    id: "needle",
+                    afterDatasetDraw(chart) {
+                        const {
+                            ctx,
+                            data,
+                            chartArea: { width, height },
+                        } = chart;
+
+                        const needleValue = predictedScore; // 예측 점수를 기준으로 바늘 위치 계산
+                        const dataTotal = maxScore;
+                        const angle = Math.PI + (needleValue / dataTotal) * Math.PI; // 바늘 각도 계산
+                        const centerX = width / 2; // 중심 X 좌표
+                        const centerY = chart.getDatasetMeta(0).data[0].y; // 중심 Y 좌표
+                        const needleLength = chartRadius * 0.7; // 바늘 길이: 반지름의 50%
+
+                        ctx.save();
+                        ctx.translate(centerX, centerY);
+                        ctx.rotate(angle); // 바늘 회전
+                        ctx.beginPath();
+                        ctx.moveTo(0, -5); // 바늘 시작점
+                        ctx.lineTo(needleLength, 0); // 바늘 끝점
+                        ctx.lineTo(0, 5);
+                        ctx.fillStyle = "#FF0000"; // 바늘 색상
+                        ctx.fill();
+                        ctx.restore();
+
+                        // 바늘 중심점을 표시
+                        ctx.beginPath();
+                        ctx.arc(centerX, centerY, 6, 0, Math.PI * 2);
+                        ctx.fillStyle = "#FF0000";
+                        ctx.fill();
+                        ctx.restore();
+                    },
+                },
+            ],
         });
 
-        // 바늘 생성
-        const needle = document.createElement('div');
-        needle.style.position = 'absolute';
-        needle.style.width = '2px';
-        needle.style.height = '70px';
-        needle.style.backgroundColor = '#ffc107';
-        needle.style.transformOrigin = 'bottom center';
-        needle.style.top = '50%';
-        needle.style.left = '50%';
-        needle.style.transform = `translate(-50%, -100%) rotate(${needleValue}deg)`;
+    // 신용점수 변동 차트 그리기
+        // 최근 2년 동안의 분기 데이터를 생성하는 함수
+        const generateQuarterlyDates = () => {
+            const dates = []; // 분기 데이터를 저장할 배열
+            const now = new Date(); // 현재 날짜 가져오기
+            const quarterNames = ["Q1", "Q2", "Q3", "Q4"]; // 분기 이름 배열
+            for (let i = 0; i < 8; i++) { // 8개의 분기 = 2년치
+                const quarter = quarterNames[Math.floor(now.getMonth() / 3)]; // 현재 월에 해당하는 분기 계산
+                const year = now.getFullYear(); // 현재 연도 가져오기
+                dates.unshift(`${year} ${quarter}`); // 연도와 분기를 조합하여 배열 앞에 추가
+                now.setMonth(now.getMonth() - 3); // 3개월 전으로 이동
+            }
+            return dates; // 분기 데이터 배열 반환
+        };
 
-        // 바늘 추가
-        const container = document.querySelector('.container');
-        container.appendChild(needle);
+        // 0~1000 사이의 신용점수를 랜덤하게 생성하는 함수
+        const generateCreditScores = () => Array.from({ length: 8 }, () => Math.floor(Math.random() * 1001));
 
-        // 게이지 중앙 텍스트 업데이트
-        const gaugeLabel = document.getElementById('gaugeLabel');
-        gaugeLabel.innerHTML = `
-        <div class="fs-4 fw-bold text-primary">${currentScore}점</div>
-        <div class="fs-5 fw-bold text-warning">${predictedScore}점</div>
-    `;
+        // 분기 데이터와 신용점수 데이터 생성
+        const labels = generateQuarterlyDates(); // 분기 라벨 생성
+        const creditScores = generateCreditScores(); // 신용점수 데이터 생성
+
+        // 차트를 그리기 위한 설정
+        const ctxPast = document.getElementById("creditScoreChart").getContext("2d");
+        new Chart(ctxPast, {
+            type: "line", // 선형 차트
+            data: {
+                labels: labels, // 분기 라벨 설정
+                datasets: [
+                    {
+                        label: "신용점수", // 데이터 레이블
+                        data: creditScores, // 신용점수 데이터
+                        borderColor: "#007bff", // 선 색상
+                        backgroundColor: "rgba(0, 123, 255, 0.2)", // 선 아래 채우기 색상
+                        fill: true, // 선 아래를 채우도록 설정
+                        tension: 0.3, // 선 부드럽게 설정
+                        pointBackgroundColor: "#007bff", // 데이터 포인트 색상
+                        pointBorderColor: "#fff", // 데이터 포인트 외곽선 색상
+                        pointRadius: 5, // 데이터 포인트 크기
+                    },
+                ],
+            },
+            options: {
+                responsive: true, // 반응형 차트
+                maintainAspectRatio: false, // 비율 유지 비활성화
+                plugins: {
+                    legend: {
+                        display: true, // 범례 표시
+                        position: "top", // 범례 위치
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return `신용점수: ${context.raw}`; // 툴팁에 신용점수 표시
+                            },
+                        },
+                    },
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: false, // X축 제목 표시
+                            text: "분기", // X축 제목 텍스트
+                        },
+                    },
+                    y: {
+                        min: 0, // Y축 최소값
+                        max: 1000, // Y축 최대값
+                        title: {
+                            display: false, // Y축 제목 표시
+                            text: "신용점수", // Y축 제목 텍스트
+                        },
+                    },
+                },
+            },
+        });
+
+    // 자산 대비 대출 그래프 그리기
+        const ctxAssetDebt = document.getElementById('myChart').getContext('2d');
+
+// 내 자본과 대출 총액 데이터
+        const myCapital = [10, 20, 15, 25, 30, 20, 15, 25, 30, 20, 15, 25]; // 내 자본 데이터
+        const totalLoan = [30, 40, 35, 45, 50, 40, 35, 45, 50, 40, 35, 45]; // 대출 총액 데이터
+
+// 자본 대비 부채 비율 계산
+        const debtRatio = totalLoan.map((loan, index) => {
+            return ((loan / myCapital[index]) * 100).toFixed(2); // 비율 계산 (%)
+        });
+
+// 차트 생성
+        const chart = new Chart(ctxAssetDebt, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], // x축 레이블
+                datasets: [
+                    {
+                        label: '내 자본',
+                        data: myCapital,
+                        backgroundColor: 'rgba(0, 51, 153, 0.8)', // 파란색
+                        borderColor: 'rgba(0, 51, 153, 1)',
+                        borderWidth: 1,
+                        categoryPercentage: 0.8,
+                        barPercentage: 0.8,
+                    },
+                    {
+                        label: '대출 총액',
+                        data: totalLoan,
+                        backgroundColor: 'rgba(70, 130, 180, 0.8)', // 파란 회색
+                        borderColor: 'rgba(70, 130, 180, 1)',
+                        borderWidth: 1,
+                        categoryPercentage: 0.8,
+                        barPercentage: 0.8,
+                    },
+                    {
+                        label: '자본 대비 부채 비율 (%)',
+                        data: debtRatio,
+                        type: 'line', // 라인 차트
+                        borderColor: 'rgba(255, 99, 71, 1)', // 빨간색
+                        borderWidth: 2,
+                        fill: false, // 배경 없음
+                        pointBackgroundColor: 'rgba(255, 99, 71, 1)', // 점 색상
+                        pointRadius: 4, // 점 크기
+                        tension: 0.3, // 부드러운 라인
+                        yAxisID: 'y2', // 두 번째 y축에 할당
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        stacked: false, // x축 스택 비활성화
+                        grid: {
+                            display: false,
+                        },
+                    },
+                    y: {
+                        beginAtZero: true, // y축 0부터 시작
+                        title: {
+                            display: true,
+                            text: '금액 (원)',
+                        },
+                    },
+                    y2: {
+                        beginAtZero: true, // 두 번째 y축도 0부터 시작
+                        position: 'right', // 오른쪽 y축
+                        title: {
+                            display: true,
+                            text: '부채 비율 (%)',
+                        },
+                        grid: {
+                            drawOnChartArea: false, // 메인 y축과 겹치지 않음
+                        },
+                    },
+                },
+                plugins: {
+                    legend: {
+                        display: true, // 범례 표시
+                        position: 'top',
+                    },
+                },
+            },
+        });
+
+
+
     });
 </script>
+
+
 
 </body>
 </html>
