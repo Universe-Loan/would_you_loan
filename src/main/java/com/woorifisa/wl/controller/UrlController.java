@@ -81,5 +81,10 @@ public class UrlController {
 //        return "market_analysis";
 //    }
 
+    @GetMapping("/my-loans")
+    public String myLoans() {
+        return "my_loans";
+    }
+
 }
 
