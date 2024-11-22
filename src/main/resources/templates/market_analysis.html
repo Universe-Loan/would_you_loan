@@ -165,7 +165,19 @@
                             <div class="article-list">
                                 <div th:each="article : ${articles}" class="article-box">
                                     <div class="row align-items-center">
-                                        <div class="col-6">
+                                        <!-- 아이콘을 위한 새로운 열 추가 -->
+                                        <div class="col-1">
+                                            <img th:if="${article.sentiment == '긍정'}"
+                                                 th:src="@{/img/planet_good.png}"
+                                                 alt="긍정"
+                                                 style="width: 24px; height: 24px;">
+                                            <img th:if="${article.sentiment == '부정'}"
+                                                 th:src="@{/img/planet_bad.png}"
+                                                 alt="부정"
+                                                 style="width: 24px; height: 24px;">
+                                        </div>
+                                        <!-- 기존 열들의 크기 조정 -->
+                                        <div class="col-5">
                                             <a th:text="${article.title}" th:href="${article.url}" target="_blank"></a>
                                         </div>
                                         <div class="col-3 text-center">
