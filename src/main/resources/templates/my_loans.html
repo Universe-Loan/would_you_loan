@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 사용자 정의 CSS -->
+    <link rel="stylesheet" href="/css/common.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .box {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 45px;
+            margin-bottom: 20px;
+        }
+        #gaugeChart {
+            filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.2));
+        }
+
+        #gaugeLabel {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+        }
+
+        #gaugeLabel .text-primary {
+            color: #007bff;
+        }
+
+        #gaugeLabel .text-warning {
+            color: #ffc107;
+        }
+    </style>
+</head>
+<body>
+
+<!--헤더-->
+<header th:replace="fragments/header :: nav"></header>
+
+<!--본문-->
+<div class="content-wrapper">
+    <!--본문 내용 입력하기-->
+    <div class="container mt-4">
+        <div class="row d-flex flex-fill">
+            <!--신용점수 게이지바-->
+            <div class="col-md-6 d-flex flex-column flex-fill">
+                <div class="box flex-fill d-flex justify-content-center align-items-center">
+                    <div class="container position-relative">
+                        <canvas id="gaugeChart" width="300" height="150"></canvas>
+                        <div id="gaugeLabel" class="position-absolute top-50 start-50 translate-middle text-center">
+                            <div class="fs-4 fw-bold">942점</div>
+                            <div class="fs-5 fw-bold text-warning">975점</div>
+                            <div class="">상위 3% · 위험도 0.02%</div>
+                            <div class="">
+                                <span class="badge bg-danger">최소 170점 상승</span>
+                                <span class="badge bg-secondary">변경확률 5%</span>
+                            </div>
+                            <div class="mt-2 text-muted">
+                                현재 560점(상위 74%) -> 최소 730점(상위 67%)
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!--신용점수 변동-->
+            <div class="col-md-6 d-flex flex-column flex-fill">
+                <!--변동사항과 변동점수-->
+                <div class="box flex-fill d-flex justify-content-center align-items-center">
+                    <div class="d-flex justify-content-between align-items-center w-100">
+                        <div class="text-start">
+                            내 신용점수
+                        </div>
+                        <div class="text-end">
+                            <div>변동사항<br>있음</div>
+                        </div>
+                        <div class="text-end">
+                            <div>변동 점수<br>(12.15 대비) +153점</div>
+                        </div>
+                    </div>
+                </div>
+                <!--변동차트-->
+                <div class="box flex-fill d-flex justify-content-center align-items-center">
+                    신용점수 변동 차트
+                </div>
+                <!--대출금리가 바뀌어요!-->
+                <div class="box d-flex justify-content-between align-items-center">
+                    <div class="text-start">
+                        신용점수를 n점 올리면<br>
+                        대출 금리가 0.34% 낮아져요
+                    </div>
+                    <div class="text-center">
+                        <div>nnn점 대출 금리<br>4.89%</div>
+                    </div>
+                    <div class="text-center">
+                        <div>-></div>
+                    </div>
+                    <div class="text-center">
+                        <div>mmm점 대출 금리<br>9.89%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex flex-fill">
+            <div class="col-md-6 d-flex flex-column flex-fill">
+                <div class="box flex-fill d-flex justify-content-center align-items-center">
+                    입출금 계좌 목록
+                </div>
+            </div>
+            <div class="col-md-6 d-flex flex-column flex-fill">
+                <div class="box flex-fill d-flex justify-content-center align-items-center">
+                    주택담보대출 계좌 목록
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex flex-fill">
+            <div class="col-md-6 d-flex flex-column flex-fill">
+                <div class="box flex-fill d-flex justify-content-center align-items-center">
+                    입출금 계좌 1<br>
+                    입출금 계좌 2<br>
+                    입출금 계좌 총합
+                </div>
+            </div>
+            <div class="col-md-6 d-flex flex-column flex-fill">
+                <div class="box flex-fill d-flex justify-content-center align-items-center">
+                    주담대 계좌 1<br>
+                    주담대 계좌 2<br>
+                    주담대 계좌 총합
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex flex-fill">
+            <div class="col-6 d-flex flex-column flex-fill">
+                <div class="box flex-fill d-flex justify-content-center align-items-center">
+                    전월 대비 입출금 통장 증감<br>+1,123,456원 (+1.56%)
+                </div>
+            </div>
+            <div class="col-6 d-flex flex-column flex-fill">
+                <div class="box flex-fill d-flex justify-content-center align-items-center">
+                    이번달 주택담보대출 상환액<br>100,000원
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex flex-fill">
+            <div class="col-6 d-flex flex-column flex-fill">
+                <div class="box flex-fill d-flex justify-content-center align-items-center">
+                    자산 대비 대출 총액 그래프
+                </div>
+            </div>
+            <div class="col-6 d-flex flex-column flex-fill">
+                <div class="box flex-fill d-flex justify-content-center align-items-center">
+                    지금의 대출 이자가 부담이라면?<br>
+                    대환 대출 알아보러 가기
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--footer-->
+<footer th:replace="fragments/footer :: footer"></footer>
+
+<!--Javascript-->
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- 사용자 정의 JS -->
+<script th:src="@{/js/home.js}"></script>
+<th:block th:replace="fragments/header :: scripts"></th:block>
+
+<!--차트-->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const ctx = document.getElementById('gaugeChart').getContext('2d');
+        const currentScore = 942; // 현재 점수
+        const predictedScore = 975; // 예측 점수
+        const maxScore = 1000; // 최대 점수
+
+        // 점수를 기준으로 바늘 위치 계산 (180도 기준)
+        const needleValue = (predictedScore / maxScore) * 180;
+
+        const data = {
+            datasets: [
+                {
+                    label: 'Current Score',
+                    data: [currentScore, maxScore - currentScore],
+                    backgroundColor: ['#007bff', '#e9ecef'], // 파란색, 회색
+                    borderWidth: 0,
+                    cutout: '70%',
+                    rotation: -90,
+                    circumference: 180, // 반원형 차트
+                },
+                {
+                    label: 'Predicted Score',
+                    data: [predictedScore, maxScore - predictedScore],
+                    backgroundColor: ['#ffc107', 'transparent'], // 노란색, 투명
+                    borderWidth: 0,
+                    cutout: '85%', // 안쪽 반원
+                    rotation: -90,
+                    circumference: 180,
+                },
+            ],
+        };
+
+        const options = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                tooltip: { enabled: false }, // 툴팁 비활성화
+                legend: { display: false },
+            },
+        };
+
+        // 차트 생성
+        const gaugeChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: data,
+            options: options,
+        });
+
+        // 바늘 생성
+        const needle = document.createElement('div');
+        needle.style.position = 'absolute';
+        needle.style.width = '2px';
+        needle.style.height = '70px';
+        needle.style.backgroundColor = '#ffc107';
+        needle.style.transformOrigin = 'bottom center';
+        needle.style.top = '50%';
+        needle.style.left = '50%';
+        needle.style.transform = `translate(-50%, -100%) rotate(${needleValue}deg)`;
+
+        // 바늘 추가
+        const container = document.querySelector('.container');
+        container.appendChild(needle);
+
+        // 게이지 중앙 텍스트 업데이트
+        const gaugeLabel = document.getElementById('gaugeLabel');
+        gaugeLabel.innerHTML = `
+        <div class="fs-4 fw-bold text-primary">${currentScore}점</div>
+        <div class="fs-5 fw-bold text-warning">${predictedScore}점</div>
+    `;
+    });
+</script>
+
+</body>
+</html>
