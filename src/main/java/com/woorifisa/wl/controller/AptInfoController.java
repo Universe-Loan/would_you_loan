@@ -1,11 +1,11 @@
 package com.woorifisa.wl.controller;
 
+import com.woorifisa.wl.model.dto.NewsArticleDto;
 import com.woorifisa.wl.service.ApartmentEvaluationService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.*;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,12 +40,17 @@ public class AptInfoController {
     private String serviceKey;
     private final String API_BASE_URL = "http://apis.data.go.kr/1613000/RTMSDataSvcAptTradeDev/getRTMSDataSvcAptTradeDev";
 
+    @Value("${vector.api.url}")
+    private String vectorSearchApi;
+
     // 24.11.22 - regular
     private final ApartmentEvaluationService apartmentEvaluationService;
+    private final RestTemplate restTemplate;
 
     // 생성자 주입
-    public AptInfoController(ApartmentEvaluationService apartmentEvaluationService) {
+    public AptInfoController(ApartmentEvaluationService apartmentEvaluationService, RestTemplate restTemplate) {
         this.apartmentEvaluationService = apartmentEvaluationService;
+        this.restTemplate = restTemplate;
     }
 
     @GetMapping("/apt-find")
@@ -249,6 +254,52 @@ public class AptInfoController {
             // 사용자의 평가 데이터 조회
             Map<String, Object> userEvaluation = apartmentEvaluationService.getUserEvaluation(kaptCode, userId);
             model.addAttribute("userEvaluation", userEvaluation);
+        }
+
+
+        // 24.11.22 Vector_Search Part
+        // POST 요청을 위한 데이터 준비
+        Map<String, String> requestBody = new HashMap<>();
+        requestBody.put("report_location", district); // 예: "용산구"
+
+        // HTTP 헤더 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        // HTTP 요청 엔티티 생성
+        HttpEntity<Map<String, String>> request = new HttpEntity<>(requestBody, headers);
+
+        try {
+            ResponseEntity<List<NewsArticleDto>> response = restTemplate.exchange(
+                    vectorSearchApi,
+                    HttpMethod.POST,
+                    request,
+                    new ParameterizedTypeReference<>() {
+                    }
+            );
+            if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+                List<NewsArticleDto> articles = response.getBody();
+
+                // 최신순으로 정렬
+                articles.sort((a, b) -> {
+                    LocalDate dateA = LocalDate.parse(a.getArticleDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                    LocalDate dateB = LocalDate.parse(b.getArticleDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                    return dateB.compareTo(dateA); // 최신순: 큰 날짜가 앞으로 오도록 정렬
+                });
+
+                // 뉴스 기사 데이터
+                model.addAttribute("newsArticles", articles);
+
+                // 워드 클라우드용 키워드 빈도수 계산
+                Map<String, Integer> keywordFrequency = calculateKeywordFrequency(articles);
+                model.addAttribute("keywordFrequency", keywordFrequency);
+            }
+        } catch (Exception e) {
+            // 에러 로깅
+            System.err.println("Error fetching news: " + e.getMessage());
+            e.printStackTrace();
+            // 에러 처리
+            model.addAttribute("newsError", "뉴스 데이터를 불러오는 중 오류가 발생했습니다.");
         }
 
         return "apt_report";
@@ -491,5 +542,20 @@ public class AptInfoController {
             return nodeList.item(0).getTextContent();
         }
         return "";
+    }
+
+    // 24.11.22 vector_search
+    private Map<String, Integer> calculateKeywordFrequency(List<NewsArticleDto> articles) {
+        Map<String, Integer> frequency = new HashMap<>();
+        for (NewsArticleDto article : articles) {
+            List<String> keywordsList = article.getKeywordsList();
+            for (String keyword : keywordsList) {
+                String trimmedKeyword = keyword.trim();
+                if (!trimmedKeyword.isEmpty()) {
+                    frequency.merge(trimmedKeyword, 1, Integer::sum);
+                }
+            }
+        }
+        return frequency;
     }
 }
