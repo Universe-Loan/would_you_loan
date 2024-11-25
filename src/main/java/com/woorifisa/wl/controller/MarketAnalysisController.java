@@ -1,21 +1,30 @@
 package com.woorifisa.wl.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woorifisa.wl.model.dto.NewsArticleDto;
 import com.woorifisa.wl.service.NewsArticleService;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.io.InputStream;
+import java.net.URI;
+import java.util.*;
 
 @Controller
 @RequestMapping("/market-analysis")
 public class MarketAnalysisController {
     private final NewsArticleService newsArticleService;
+    private final RestTemplate restTemplate;
 
-    public MarketAnalysisController(NewsArticleService newsArticleService) {
+    public MarketAnalysisController(NewsArticleService newsArticleService, RestTemplate restTemplate) {
         this.newsArticleService = newsArticleService;
+        this.restTemplate = restTemplate;
     }
 
     @GetMapping
@@ -44,4 +53,135 @@ public class MarketAnalysisController {
 
         return "market_analysis"; // 렌더링할 템플릿 이름
     }
+
+    @GetMapping("/geojson-weather")
+    @ResponseBody
+    public ResponseEntity<?> getGeoJsonWithWeather() {
+        try {
+            // GeoJSON 파일 읽기
+            Map<String, Object> geoJsonData;
+            String geoJsonPath = "static/geojson/administrative_districts_simplified.geojson";
+            InputStream geoJsonStream = new ClassPathResource(geoJsonPath).getInputStream();
+            ObjectMapper objectMapper = new ObjectMapper();
+            geoJsonData = objectMapper.readValue(geoJsonStream, Map.class);
+            System.out.println("GeoJSON data successfully loaded.");
+
+            // 모든 SIG_CD를 추출하여 날씨 데이터 호출
+            Map<String, String> weatherMap = new HashMap<>();
+            if (geoJsonData != null && geoJsonData.containsKey("features")) {
+                List<Map<String, Object>> features = (List<Map<String, Object>>) geoJsonData.get("features");
+                Set<String> sigCdSet = new HashSet<>();
+
+                // 모든 SIG_CD를 추출
+                for (Map<String, Object> feature : features) {
+                    Map<String, Object> properties = (Map<String, Object>) feature.get("properties");
+                    String sigCd = (String) properties.get("SIG_CD");
+                    if (sigCd != null) {
+                        sigCdSet.add(sigCd);
+                    }
+                }
+
+                System.out.println("Extracted SIG_CD values: " + sigCdSet);
+
+                // 각 SIG_CD에 대해 날씨 데이터 호출
+                for (String sigCd : sigCdSet) {
+                    String weather = fetchWeatherDataForSigCd(sigCd);
+                    if (weather != null) {
+                        weatherMap.put(sigCd, weather);
+                        System.out.println("Fetched weather for SIG_CD " + sigCd + ": " + weather);
+                    }
+                }
+            }
+
+            // GeoJSON 데이터와 날씨 정보 병합
+            if (geoJsonData != null && geoJsonData.containsKey("features")) {
+                List<Map<String, Object>> features = (List<Map<String, Object>>) geoJsonData.get("features");
+
+                features.forEach(feature -> {
+                    Map<String, Object> properties = (Map<String, Object>) feature.get("properties");
+                    String sigCd = (String) properties.get("SIG_CD");
+                    System.out.println("Processing SIG_CD: " + sigCd);
+
+                    // 날씨 정보 추가
+                    String weather = weatherMap.getOrDefault(sigCd, "정보 없음");
+                    System.out.println("Weather for SIG_CD " + sigCd + ": " + weather);
+                    properties.put("weather", weather);
+                });
+            }
+
+            System.out.println("GeoJSON and weather data successfully merged.");
+            return ResponseEntity.ok(geoJsonData);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error processing GeoJSON and weather data: " + e.getMessage());
+        }
+    }
+
+    /**
+     * 특정 SIG_CD에 대해 날씨 데이터를 호출합니다.
+     */
+    public String fetchWeatherDataForSigCd(String sigCd) {
+        try {
+            System.out.println("Fetching weather data for SIG_CD: " + sigCd);
+            String url = "https://data-api.kbland.kr/bfmstat/wthrchat/husePrcIndx";
+            UriComponentsBuilder weatherUri = UriComponentsBuilder.fromHttpUrl(url)
+                    .queryParam("월간주간구분코드", "01")
+                    .queryParam("매매전세코드", "01")
+                    .queryParam("매물종별구분", "01")
+                    .queryParam("면적크기코드", "00")
+                    .queryParam("단위구분코드", "01")
+                    .queryParam("법정동코드", sigCd)
+                    .queryParam("지역명", "전국")
+                    .queryParam("시도명", "전국")
+                    .queryParam("조회시작일자", "202410")
+                    .queryParam("조회종료일자", "202410")
+                    .queryParam("selectedTab", "0")
+                    .queryParam("changeRatio", "true")
+                    .queryParam("mapType", "false")
+                    .queryParam("페이지번호", "")
+                    .queryParam("페이지목록수", "")
+                    .queryParam("zoomLevel", "8")
+                    .queryParam("탭구분코드", "0");
+
+            System.out.println("Weather API URL: " + weatherUri.toUriString());
+
+            ResponseEntity<Map> response = restTemplate.getForEntity(weatherUri.toUriString(), Map.class);
+            System.out.println("Weather API response status: " + response.getStatusCode());
+
+            Map<String, Object> data = response.getBody();
+            System.out.println("data: " + data);
+
+            String weather = "☁️"; // 기본값
+            if (data != null && data.containsKey("dataBody")) {
+                Map<String, Object> dataBody = (Map<String, Object>) data.get("dataBody");
+
+                if (dataBody.containsKey("data")) {
+                    Map<String, Object> dataMap = (Map<String, Object>) dataBody.get("data");
+
+                    if (dataMap.containsKey("depth2")) {
+                        List<Map<String, Object>> depth2 = (List<Map<String, Object>>) dataMap.get("depth2");
+
+                        for (Map<String, Object> item : depth2) {
+                            System.out.println(item);
+                            if (item.get("법정동코드").toString().equals(sigCd)) {
+                                double changeRate = Double.parseDouble(item.get("변동률").toString());
+                                weather = changeRate < 0 ? "☁️" : "☀️";
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return weather;
+
+        } catch (Exception e) {
+            System.err.println("Error fetching weather data for SIG_CD " + sigCd + ": " + e.getMessage());
+            e.printStackTrace();
+            return "정보 없음";
+        }
+    }
+
 }

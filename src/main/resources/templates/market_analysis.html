@@ -4,10 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Title</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- 사용자 정의 CSS -->
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 사용자 정의 CSS -->
     <link rel="stylesheet" href="/css/common.css">
+
+    <!--js-->
+
+    <!--지도그리기-->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <style>
     body {
@@ -175,7 +180,16 @@
         </div>
         <div class="row flex-fill">
             <div class="col-12 d-flex flex-fill">
-                <div class="box flex-fill d-flex justify-content-center align-items-center">부동산 날씨</div>
+                <div class="box flex-fill d-flex justify-content-center align-items-center">
+                    <div class="container">
+                        <div class="d-flex flex-wrap justify-content-center mb-4">
+                            <div id="buttonContainer" class="btn-group" role="group" aria-label="지역 선택"></div>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <svg width="800" height="600" class="bg-white"></svg>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -249,6 +263,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
+    // 챗봇
         const floatingButton = document.getElementById("chat-floating-button");
         const chatContainer = document.getElementById("chat-container");
         const closeChatButton = document.getElementById("close-chat");
@@ -349,6 +364,111 @@
                 messageElement.parentNode.removeChild(messageElement);
             }
         }
+
+    // 날씨 지도
+        // GeoJSON 데이터를 사용하여 지도에 날씨 정보를 시각화
+        d3.json('/market-analysis/geojson-weather').then(data => {
+            const width = 800;
+            const height = 600;
+
+            // SVG 및 그룹 요소 생성
+            const svg = d3.select("svg").attr("width", width).attr("height", height);
+            const g = svg.append("g");
+
+            // 지도 투영 설정
+            const projection = d3.geoMercator().fitSize([width, height], data);
+            const pathGenerator = d3.geoPath().projection(projection);
+
+            // 줌 설정
+            const zoom = d3.zoom()
+                .scaleExtent([5, 8])
+                .on("zoom", event => g.attr("transform", event.transform));
+
+            svg.call(zoom);
+
+            // 색상 스케일
+            const weatherColorScale = d3.scaleOrdinal()
+                .domain(["☀️", "☁️", "정보 없음"])
+                .range(["#FFD700", "#87CEEB", "#CCCCCC"]);
+
+            // 지도 업데이트 함수
+            const updateMap = (regionCode) => {
+                const filteredFeatures = regionCode
+                    ? data.features.filter(feature => feature.properties.SIG_CD.startsWith(regionCode))
+                    : data.features;
+
+                g.selectAll("path").remove(); // 기존 경로 제거
+
+                g.selectAll("path")
+                    .data(filteredFeatures)
+                    .enter()
+                    .append("path")
+                    .attr("d", pathGenerator)
+                    .attr("fill", d => {
+                        const weather = d.properties.weather || "정보 없음";
+                        return weatherColorScale(weather);
+                    })
+                    .attr("stroke", "white")
+                    .attr("stroke-width", 0.5);
+
+                // 줌 및 이동
+                if (regionCode) {
+                    const bounds = pathGenerator.bounds({ type: "FeatureCollection", features: filteredFeatures });
+                    const dx = bounds[1][0] - bounds[0][0];
+                    const dy = bounds[1][1] - bounds[0][1];
+                    const x = (bounds[0][0] + bounds[1][0]) / 2;
+                    const y = (bounds[0][1] + bounds[1][1]) / 2;
+                    const scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / width, dy / height)));
+                    const translate = [width / 2 - scale * x, height / 2 - scale * y];
+
+                    svg.transition().duration(750).call(
+                        zoom.transform,
+                        d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale)
+                    );
+                } else {
+                    svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity);
+                }
+            };
+
+            // 지역 버튼 생성
+            const regions = [
+                { name: "서울특별시", code: "11" },
+                { name: "부산광역시", code: "26" },
+                { name: "대구광역시", code: "27" },
+                { name: "인천광역시", code: "28" },
+                { name: "광주광역시", code: "29" },
+                { name: "대전광역시", code: "30" },
+                { name: "울산광역시", code: "31" },
+                { name: "세종특별자치시", code: "36" },
+                { name: "경기도", code: "41" },
+                { name: "강원도", code: "51" },
+                { name: "충청북도", code: "43" },
+                { name: "충청남도", code: "44" },
+                { name: "전라북도", code: "45" },
+                { name: "전라남도", code: "46" },
+                { name: "경상북도", code: "47" },
+                { name: "경상남도", code: "48" },
+                { name: "제주특별자치도", code: "50" }
+            ];
+
+            const buttonContainer = d3.select("#buttonContainer");
+            buttonContainer.append("button")
+                .attr("class", "btn btn-outline-primary mx-1 my-1")
+                .text("전국")
+                .on("click", () => updateMap(""));
+
+            regions.forEach(region => {
+                buttonContainer.append("button")
+                    .attr("class", "btn btn-outline-primary mx-1 my-1")
+                    .text(region.name)
+                    .on("click", () => updateMap(region.code));
+            });
+
+            // 초기 지도 렌더링
+            updateMap("");
+        }).catch(error => {
+            console.error("Error loading GeoJSON or weather data:", error);
+        });
     });
 
 </script>
