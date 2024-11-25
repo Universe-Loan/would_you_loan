@@ -145,13 +145,18 @@ public class MarketAnalysisController {
                     .queryParam("zoomLevel", "8")
                     .queryParam("탭구분코드", "0");
 
-            System.out.println("Weather API URL: " + weatherUri.toUriString());
 
-            ResponseEntity<Map> response = restTemplate.getForEntity(weatherUri.toUriString(), Map.class);
-            System.out.println("Weather API response status: " + response.getStatusCode());
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity entity = new HttpEntity(headers);
+            ResponseEntity<Map> response = restTemplate.exchange(
+                    weatherUri.build().encode().toUri(), // 한글 깨짐 현상 방지
+                    HttpMethod.GET,
+                    entity,
+                    Map.class);
 
             Map<String, Object> data = response.getBody();
-            System.out.println("data: " + data);
 
             String weather = "☁️"; // 기본값
             if (data != null && data.containsKey("dataBody")) {
@@ -160,15 +165,21 @@ public class MarketAnalysisController {
                 if (dataBody.containsKey("data")) {
                     Map<String, Object> dataMap = (Map<String, Object>) dataBody.get("data");
 
-                    if (dataMap.containsKey("depth2")) {
-                        List<Map<String, Object>> depth2 = (List<Map<String, Object>>) dataMap.get("depth2");
+                    if (dataMap.containsKey("depth1")) {
+                        List<Map<String, Object>> depth1 = (List<Map<String, Object>>) dataMap.get("depth1");
+//                        System.out.println("Depth1: " + depth1);
 
-                        for (Map<String, Object> item : depth2) {
+                        for (Map<String, Object> item : depth1) {
                             System.out.println(item);
-                            if (item.get("법정동코드").toString().equals(sigCd)) {
-                                double changeRate = Double.parseDouble(item.get("변동률").toString());
-                                weather = changeRate < 0 ? "☁️" : "☀️";
-                                break;
+                            if (item.get("법정동코드").toString().startsWith(sigCd)) {
+                                if (item.get("변동률") == null) {
+                                    weather = "☁️";
+                                } else {
+                                    double changeRate = Double.parseDouble(item.get("변동률").toString());
+                                    System.out.println("Change Rate: " + changeRate);
+                                    weather = changeRate < 0 ? "☁️" : "☀️";
+                                    break;
+                                }
                             }
                         }
                     }
