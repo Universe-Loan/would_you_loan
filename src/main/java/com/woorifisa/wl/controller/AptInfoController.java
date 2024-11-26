@@ -59,6 +59,61 @@ public class AptInfoController {
         return "apt_find";
     }
 
+    // 사용자 연소득 및 지역 -> apt-list
+    @PostMapping("/real-income/submit")
+    public String handleIncomeSubmission(
+            @RequestParam("cityCode") String cityCode,
+            @RequestParam("districtCode") String districtCode,
+            @RequestParam("cityText") String cityText,
+            @RequestParam("districtText") String districtText,
+            @RequestParam("annualIncome") String annualIncome,
+            RedirectAttributes redirectAttributes) {
+
+        // Hidden Input에서 전달된 값 확인
+        System.out.println("City Code: " + cityCode);
+        System.out.println("District Code: " + districtCode);
+        System.out.println("City Text: " + cityText);
+        System.out.println("District Text: " + districtText);
+        System.out.println("Annual Income: " + annualIncome);
+
+        // Redirect 시 전달할 값 설정
+        redirectAttributes.addAttribute("cityCode", cityCode);
+        redirectAttributes.addAttribute("districtCode", districtCode);
+        redirectAttributes.addAttribute("cityText", cityText);
+        redirectAttributes.addAttribute("districtText", districtText);
+        redirectAttributes.addAttribute("annualIncome", annualIncome);
+
+        // 리다이렉트 처리
+        return "redirect:/apt-list";
+    }
+
+    @GetMapping("/apt-list")
+    public String showAptList(
+            @RequestParam(required = false) String cityCode,
+            @RequestParam(required = false) String districtCode,
+            @RequestParam(required = false) String cityText,
+            @RequestParam(required = false) String districtText,
+            @RequestParam(required = false) String annualIncome,
+            Model model) {
+
+        // 모델에 데이터 추가
+        model.addAttribute("cityCode", cityCode);
+        model.addAttribute("districtCode", districtCode);
+        model.addAttribute("cityText", cityText);
+        model.addAttribute("districtText", districtText);
+        model.addAttribute("annualIncome", annualIncome);
+
+        // 디버깅 로그
+        System.out.println("City Code: " + cityCode);
+        System.out.println("District Code: " + districtCode);
+        System.out.println("City Text: " + cityText);
+        System.out.println("District Text: " + districtText);
+        System.out.println("Annual Income: " + annualIncome);
+
+        return "apt_list"; // Thymeleaf 템플릿 이름
+    }
+
+    // 아파트 단지명으로 아파트 검색하기
     @GetMapping("/address/popup")
     public String showAddressPopup() {
         return "real_address_popup";

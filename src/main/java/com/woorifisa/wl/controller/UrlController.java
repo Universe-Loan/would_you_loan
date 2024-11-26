@@ -75,7 +75,13 @@ public class UrlController {
 //    public String aptReport() {
 //        return "apt_report";
 //    }
+//
+//    @GetMapping("/apt-list")
+//    public String aptList() {
+//        return "apt_list";
+//    }
 
+//    MarketAnalysisController에서 연결
 //    @GetMapping("/market-analysis")
 //    public String marketAnalysis() {
 //        return "market_analysis";
@@ -91,7 +97,7 @@ public class UrlController {
         return "admin";
     }
 
-    @GetMapping("/login_extra")
+    @GetMapping("/login-extra")
     public String loginExtra() {
         return "login_extra";
     }

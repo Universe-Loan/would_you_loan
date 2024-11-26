@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="realIncomePopup" id="realIncomePopup" class="popup">
+  <div class="popup-content bg-white rounded-lg shadow-lg p-5">
+    <div class="row d-flex justify-content-end align-items-center mb-4">
+      <button type="button" class="btn-close col-1" onclick="closeIncomePopup()" aria-label="Close"></button>
+    </div>
+    <div class="row d-flex justify-content-between align-items-center mb-4">
+      <div class="mb-4">
+        <label for="annualIncome" class="col-11 text-primary fs-5 fw-bold">연소득을 입력해주세요(세전)</label>
+        <input type="number" id="annualIncome" class="form-control" placeholder="연소득을 입력해주세요" min="0">
+      </div>
+    </div>
+    <div class="row d-flex justify-content-between align-items-center mb-4">
+      <div class="col-11 text-primary fs-5 fw-bold">찾고싶은 지역을 입력해주세요</div>
+    </div>
+    <form id="incomeForm" action="/real-income/submit" method="post">
+      <div class="mb-4">
+        <label for="incomeCity" class="form-label fw-bold">시/도</label>
+        <select class="form-select" id="incomeCity" onchange="loadIncomeDistricts()">
+          <option value="" selected disabled>선택하세요</option>
+          <option value="11">서울특별시</option>
+          <option value="41">경기도</option>
+        </select>
+      </div>
+      <div class="mb-4">
+        <label for="incomeDistrict" class="form-label fw-bold">시/군/구</label>
+        <select class="form-select" id="incomeDistrict">
+          <option value="" selected disabled>선택하세요</option>
+        </select>
+      </div>
+      <div class="text-center">
+        <input type="hidden" name="cityCode" id="hiddenCityCode">
+        <input type="hidden" name="districtCode" id="hiddenDistrictCode">
+        <input type="hidden" name="cityText" id="hiddenCityText">
+        <input type="hidden" name="districtText" id="hiddenDistrictText">
+        <input type="hidden" name="annualIncome" id="hiddenAnnualIncome">
+
+        <button type="submit" class="btn btn-primary btn px-5" onclick="submitIncome()">완료</button>
+      </div>
+    </form>
+  </div>
+</div>
+</body>
+</html>
