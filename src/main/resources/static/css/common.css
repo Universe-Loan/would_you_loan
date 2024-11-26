@@ -1,3 +1,15 @@
+/* body */
+body {
+    padding-top: 56px;
+    font-family: "Pretendard Variable", Pretendard,
+    -apple-system, BlinkMacSystemFont,
+    system-ui, Roboto,
+    "Helvetica Neue", "Segoe UI",
+    "Apple SD Gothic Neo", "Noto Sans KR",
+    "Malgun Gothic", "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+}
+
 /* header */
 .navbar {
     position: fixed;
@@ -21,11 +33,6 @@
 }
 
 /* 본문 */
-body {
-    font-family: Arial, sans-serif;
-    padding-top: 56px;
-}
-
 .content-wrapper {
     flex: 1 0 auto;
     margin-bottom: 100px !important;
