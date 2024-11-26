@@ -35,7 +35,7 @@
     </style>
 </head>
 
-<body>
+<body class="loan-personal-info">
 
 <!--헤더-->
 <header th:replace="fragments/header :: nav"></header>
@@ -70,11 +70,11 @@
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">상세주소</label>
-                    <input type="text" class="form-control" value="101동 601호" readonly>
+                    <input type="text" class="form-control" value="101동 601호">
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label">전용면적</label>
-                    <input type="text" class="form-control" value="43m²" readonly>
+                    <label class="form-label">전용면적(m²)</label>
+                    <input type="text" class="form-control" value="43">
                 </div>
             </div>
             <div class="row mb-3">
@@ -120,46 +120,6 @@
                         <label class="btn btn-outline-primary btn-square" for="firstTimeBuyer1">예</label>
                         <input type="radio" class="btn-check" name="firstTimeBuyer" id="firstTimeBuyer2" value="아니오" autocomplete="off">
                         <label class="btn btn-outline-primary btn-square" for="firstTimeBuyer2">아니오</label>
-                    </div>
-                </div>
-                <div class="col-md-12 mb-2">
-                    <span>현재 주택 보유 여부:</span>
-                    <div class="btn-group" role="group" aria-label="현재 주택 보유 여부">
-                        <input type="radio" class="btn-check" name="houseOwnership" id="houseOwnership1" value="무주택" autocomplete="off">
-                        <label class="btn btn-outline-primary btn-square" for="houseOwnership1">무주택</label>
-                        <input type="radio" class="btn-check" name="houseOwnership" id="houseOwnership2" value="1주택" autocomplete="off">
-                        <label class="btn btn-outline-primary btn-square" for="houseOwnership2">1주택</label>
-                        <input type="radio" class="btn-check" name="houseOwnership" id="houseOwnership3" value="2주택 이상" autocomplete="off">
-                        <label class="btn btn-outline-primary btn-square" for="houseOwnership3">2주택 이상</label>
-                    </div>
-                </div>
-                <div class="col-md-12 mb-2">
-                    <span>직업:</span>
-                    <div class="btn-group" role="group" aria-label="직업">
-                        <input type="radio" class="btn-check" name="occupation" id="occupation1" value="직장인" autocomplete="off">
-                        <label class="btn btn-outline-primary btn-square" for="occupation1">직장인</label>
-                        <input type="radio" class="btn-check" name="occupation" id="occupation2" value="개인사업자" autocomplete="off">
-                        <label class="btn btn-outline-primary btn-square" for="occupation2">개인사업자</label>
-                        <input type="radio" class="btn-check" name="occupation" id="occupation3" value="임대사업자" autocomplete="off">
-                        <label class="btn btn-outline-primary btn-square" for="occupation3">임대사업자</label>
-                        <input type="radio" class="btn-check" name="occupation" id="occupation4" value="공무원" autocomplete="off">
-                        <label class="btn btn-outline-primary btn-square" for="occupation4">공무원</label>
-                        <input type="radio" class="btn-check" name="occupation" id="occupation5" value="프리랜서, 아르바이트" autocomplete="off">
-                        <label class="btn btn-outline-primary btn-square" for="occupation5">프리랜서, 아르바이트</label>
-                        <input type="radio" class="btn-check" name="occupation" id="occupation6" value="무직(주부 등)" autocomplete="off">
-                        <label class="btn btn-outline-primary btn-square" for="occupation6">무직(주부 등)</label>
-                    </div>
-                </div>
-                <div class="row align-items-end">
-                    <div class="col-md-5">
-                        <label for="annualIncome" class="form-label">소득 정보(세전 연소득):</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="annualIncome" placeholder="예: 50,000,000" oninput="formatNumber(this)">
-                        </div>
-                    </div>
-                    <div class="col-md-5">
-                        <label for="employmentDate" class="form-label">입사연월:</label>
-                        <input type="month" class="form-control" id="employmentDate">
                     </div>
                 </div>
             </div>

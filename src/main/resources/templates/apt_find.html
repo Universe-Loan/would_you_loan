@@ -7,130 +7,188 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- 사용자 정의 CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <link rel="stylesheet" th:href="@{/css/popup.css}">
     <style>
-        .search-section {
-            text-align: center;
-            padding: 50px 0;
+        body {
+            background-color: #f8f9fa;
         }
-        .search-section img {
-            width: 100px;
+        .box {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding-block: 40px;
         }
-        .search-section h2 {
-            color: #007bff;
-            margin-top: 60px;
-            margin-bottom: 60px;
-        }
-        .search-section h4 {
-            color: black;
-            margin-top: 60px;
-            margin-bottom: 60px;
-        }
-        .tag {
-            margin: 5px;
-        }
-        .card-section {
-            background-color: #212529;
-            padding: 20px;
-        }
+
         .card {
-            background-color: #343a40;
-            color: white;
+            background-color: white;
+            border-color: white;
+            color: gray;
+            border-radius: 15px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         .card img {
-            height: 150px;
+            height: 100px;
             object-fit: cover;
+        }
+        .hover-card {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .hover-card:hover {
+            transform: translateY(-5px);
+            cursor: pointer;
+        }
+        .recent-search {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px auto;
+        }
+
+        .view-header {
+            color: white;
+            background: #0d6efd;
+        }
+
+        .view {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            background-color: white;
+        }
+
+        .view:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+        }
+
+        .view img {
+            transition: transform 0.3s ease-in-out;
+            max-height: 100px;
+        }
+
+        .view:hover img {
+            transform: scale(1.05);
+        }
+
+        .view-title {
+            color: gray;
         }
     </style>
 </head>
-<body>
+<body class="apt-find">
 
 <!--헤더-->
 <header th:replace="fragments/header :: nav"></header>
 
 <!--본문-->
 <div class="content-wrapper">
-
-    <!--본문 내용 입력하기-->
-    <div class="search-section">
-        <img src="https://via.placeholder.com/100" alt="House Icon">
-        <h2>관심있는 동네<br>관심있는 부동산</h2>
-        <h4>여기에서 확인해보세요</h4>
-        <div>
-            <button class="btn btn-outline-gray tag">상암IT타워</button>
-            <button class="btn btn-outline-gray tag">상암IT타워</button>
-        </div>
-        <form id="searchForm" action="/search-apartment" method="post" onsubmit="return submitInterestProperty();">
-            <div class="d-flex justify-content-center">
-                <div class="col-md-6 mb-1">
-                    <button type="button" class="form-control text-center" onclick="openInterestPopup()">새로운 아파트 단지 검색하기</button>
-                </div>
-                <input type="hidden" id="selectedCity" name="city">
-                <input type="hidden" id="selectedDistrict" name="district">
-                <input type="hidden" id="selectedNeighborhood" name="neighborhood">
-                <input type="hidden" id="selectedApartment" name="apartment">
-
-                <input type="hidden" id="selectedSidoCode" name="sidoCode" value="">
-                <input type="hidden" id="selectedSigunguCode" name="sigunguCode" value="">
-                <input type="hidden" id="selectedLawdCode" name="lawdCode" value="">
-                <input type="hidden" id="selectedKaptCode" name="KaptCode" value="">
-
-                <input type="hidden" name="dealYmd" value="202311">
-                <input type="hidden" name="pageNo" value="1">
-                <input type="hidden" name="numOfRows" value="10">
+    <div class="d-flex">
+        <!-- 아파트 찾기 -->
+        <div class="box col-9 me-4 d-flex flex-column">
+            <!-- 찾아줘 내 아파트 -->
+            <div class="text-center mb-5">
+                <p class="fs-1 fw-bold text-primary mt-5">찾아줘 내 아파트!</p>
+                <p class="mt-4">어떤 방식으로 아파트를 찾아드릴까요?</p>
             </div>
-        </form>
-        <div>
-            <div class="col-md-12 mb-1">
-                <!-- 리포트 보기 버튼 -->
-                <button type="submit" class="btn btn-outline-primary" onclick="viewReport()">리포트 보기</button>
+            <!-- 아파트 추천 & 찾기 -->
+            <div class="row d-flex justify-content-center align-items-center mb-3 flex-fill">
+                <div class="col-md-5 mb-4">
+                    <div class="card h-100 shadow-sm hover-card" onclick="openIncomePopup()">
+                        <div class="card-body text-center">
+                            <i class="fas fa-home fa-3x text-primary mb-3"></i>
+                            <h5 class="card-title fw-bold">내 아파트 추천</h5>
+                            <p class="card-text">내 소득으로 살 수 있는 아파트는 어디일까?</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5 mb-4">
+                    <form id="searchForm" action="/search-apartment" method="post" onsubmit="return submitInterestProperty();">
+                        <div class="card h-100 shadow-sm hover-card" onclick="openInterestPopup()">
+                            <div class="card-body text-center">
+                                <i class="fas fa-search fa-3x text-primary mb-3"></i>
+                                <h5 class="card-title fw-bold">아파트 이름으로 찾기</h5>
+                                <p class="card-text">보고 싶은 아파트 바로 검색해 보기</p>
+                            </div>
+                        </div>
+                        <div class="hidden-input">
+                            <!-- 숨겨진 입력 필드들 -->
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- 최근 조회내역 -->
+            <div class="recent-search">
+                <div class="d-flex justify-content-start align-items-center flex-nowrap gap-2 overflow-auto">
+                    <div class="fw-bold text-secondary me-3">최근 조회내역</div>
+                    <div id="recentSearchButtons" class="d-flex flex-wrap gap-2">
+                        <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill">
+                            상암IT타워
+                            <i class="fas fa-times ml-2 delete-btn" onclick="deleteSearchItem(event)"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill">
+                            월드컵경기장
+                            <i class="fas fa-times ml-2 delete-btn" onclick="deleteSearchItem(event)"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill">
+                            한남더힐
+                            <i class="fas fa-times ml-2 delete-btn" onclick="deleteSearchItem(event)"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill">
+                            반포자이
+                            <i class="fas fa-times ml-2 delete-btn" onclick="deleteSearchItem(event)"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 조회수 TOP3 -->
+        <div class="col-3 d-flex flex-column">
+            <div class="view-header d-flex align-items-center mb-4 p-3 rounded-3 shadow-sm">
+                <i class="fas fa-trophy text-warning me-2"></i>
+                <div class="fs-6 fw-bold">조회수 TOP3 아파트</div>
+            </div>
+            <div class="d-flex flex-column flex-fill gap-4">
+                <div class="view flex-fill shadow-sm rounded-3 overflow-hidden">
+                    <div class="position-relative">
+                        <img src="https://via.placeholder.com/300x150" class="card-img-top" alt="한남더힐">
+                        <span class="position-absolute top-0 start-0 bg-primary text-white px-2 py-1 m-2 rounded-pill">1위</span>
+                    </div>
+                    <div class="view-body d-flex flex-column p-3">
+                        <div class="view-text text-muted mb-1"><i class="fas fa-map-marker-alt me-1"></i>서울특별시 용산구</div>
+                        <h5 class="view-title fw-bold">한남더힐</h5>
+                    </div>
+                </div>
+                <div class="view flex-fill shadow-sm rounded-3 overflow-hidden">
+                    <div class="position-relative">
+                        <img src="https://via.placeholder.com/300x150" class="card-img-top" alt="반포자이">
+                        <span class="position-absolute top-0 start-0 bg-primary text-white px-2 py-1 m-2 rounded-pill">2위</span>
+                    </div>
+                    <div class="view-body d-flex flex-column p-3">
+                        <div class="view-text text-muted mb-1"><i class="fas fa-map-marker-alt me-1"></i>서울특별시 송파구</div>
+                        <h5 class="view-title fw-bold">반포자이</h5>
+                    </div>
+                </div>
+                <div class="view flex-fill shadow-sm rounded-3 overflow-hidden">
+                    <div class="position-relative">
+                        <img src="https://via.placeholder.com/300x150" class="card-img-top" alt="나인한남">
+                        <span class="position-absolute top-0 start-0 bg-primary text-white px-2 py-1 m-2 rounded-pill">3위</span>
+                    </div>
+                    <div class="view-body d-flex flex-column p-3">
+                        <div class="view-text text-muted mb-1"><i class="fas fa-map-marker-alt me-1"></i>서울특별시 용산구</div>
+                        <h5 class="view-title fw-bold">나인한남</h5>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
-    <div class="card-section mx-5 p-4">
-        <div class="container p-3">
-            <h5 class="text-white mb-5">조회수 TOP3 리포트 바로보기</h5>
-            <div class="row row-cols-1 row-cols-md-3 g-4 mb-3">
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="https://via.placeholder.com/300x150" class="card-img-top" alt="...">
-                        <div class="card-body d-flex flex-column">
-                            <p class="card-text">글로벌 | 포스트잇</p>
-                            <h5 class="card-title">한남더힐</h5>
-                            <p class="card-text mt-auto">2024.11.08</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="https://via.placeholder.com/300x150" class="card-img-top" alt="...">
-                        <div class="card-body d-flex flex-column">
-                            <p class="card-text">글로벌 | 포스트잇</p>
-                            <h5 class="card-title">반포자이</h5>
-                            <p class="card-text mt-auto">2024.11.08</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="https://via.placeholder.com/300x150" class="card-img-top" alt="...">
-                        <div class="card-body d-flex flex-column">
-                            <p class="card-text">임실 | 포스트잇</p>
-                            <h5 class="card-title">트리마제</h5>
-                            <p class="card-text mt-auto">2024.11.08</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
 </div>
+
 
 <!--팝업창-->
 <div th:replace="real_address_popup :: interestPropertyPopup"></div>
+<div th:replace="real_income_popup :: realIncomePopup"></div>
 
 <!--header-->
 <th:block th:replace="fragments/header :: scripts"></th:block>
@@ -144,41 +202,61 @@
 <!-- 사용자 정의 JS -->
 <script th:src="@{/js/home.js}"></script>
 <script th:src="@{/js/real_address.js}"></script>
+<script th:src="@{/js/real_income.js}"></script>
 
-<!--우리지역 아파트 정보 리포트 페이지로 넘겨주기-->
 <script>
-    function viewReport() {
-        // hidden input에서 선택된 값들을 가져옵니다.
-        const city = document.getElementById('selectedCity').value;
-        const district = document.getElementById('selectedDistrict').value;
-        const neighborhood = document.getElementById('selectedNeighborhood').value;
-        const apartment = document.getElementById('selectedApartment').value;
-        // const sidoCode = document.getElementById('selectedSidoCode').value;
-        // const sigunguCode = document.getElementById('selectedSigunguCode').value;
-        const lawdCode = document.getElementById('selectedLawdCode').value;
-        const KaptCode = document.getElementById('selectedKaptCode').value;
+// 최근 조회내역 버튼 삭제
+    function deleteSearchItem(event) {
+        // 이벤트의 기본 동작을 막습니다 (버튼 클릭 이벤트가 전파되는 것을 방지)
+        event.stopPropagation();
 
-        // 모든 필수 정보가 선택되었는지 확인합니다.
-        if (!city || !district || !neighborhood || !apartment || !lawdCode) {
-            alert('아파트 정보를 먼저 선택해주세요.');
-            return;
+        // 클릭된 삭제 버튼의 부모 요소(버튼 전체)를 찾습니다
+        const buttonToRemove = event.target.closest('button');
+
+        // 버튼을 삭제합니다
+        if (buttonToRemove) {
+            buttonToRemove.remove();
         }
 
-        // URL 파라미터를 구성합니다.
-        const params = new URLSearchParams({
-            city: city,
-            district: district,
-            neighborhood: neighborhood,
-            apartment: apartment,
-            // sidoCode: sidoCode,
-            // sigunguCode: sigunguCode,
-            lawdCode: lawdCode,
-            KaptCode: KaptCode
-        });
-
-        // 리다이렉트합니다.
-        window.location.href = `/apt-report?${params.toString()}`;
+        // 로컬 스토리지에서 해당 항목을 제거하는 로직을 여기에 추가할 수 있습니다
+        // 예: removeFromLocalStorage(buttonToRemove.textContent.trim());
     }
+
+    // 모든 최근 조회 내역을 삭제하는 함수
+    function clearAllSearchHistory() {
+        const recentSearchButtons = document.getElementById('recentSearchButtons');
+        recentSearchButtons.innerHTML = '';
+
+        // 로컬 스토리지에서 모든 항목을 제거하는 로직을 여기에 추가할 수 있습니다
+        // 예: localStorage.removeItem('recentSearches');
+    }
+
+    // 페이지 로드 시 로컬 스토리지에서 최근 조회 내역을 불러오는 함수
+    function loadRecentSearches() {
+        // 로컬 스토리지에서 데이터를 불러오는 로직을 여기에 구현할 수 있습니다
+        // 예:
+        // const recentSearches = JSON.parse(localStorage.getItem('recentSearches')) || [];
+        // recentSearches.forEach(search => addSearchButton(search));
+    }
+
+    // 새로운 검색 항목을 추가하는 함수
+    function addSearchButton(searchText) {
+        const recentSearchButtons = document.getElementById('recentSearchButtons');
+        const newButton = document.createElement('button');
+        newButton.className = 'btn btn-outline-secondary btn-sm rounded-pill';
+        newButton.innerHTML = `
+            ${searchText}
+            <i class="fas fa-times ml-2 delete-btn" onclick="deleteSearchItem(event)"></i>
+        `;
+        recentSearchButtons.appendChild(newButton);
+
+        // 로컬 스토리지에 새 항목을 추가하는 로직을 여기에 구현할 수 있습니다
+        // 예: addToLocalStorage(searchText);
+    }
+
+    // 페이지 로드 시 최근 조회 내역을 불러옵니다
+    window.onload = loadRecentSearches;
+
 </script>
 
 </body>

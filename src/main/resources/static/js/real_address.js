@@ -20,13 +20,21 @@ fetchApiKey();
 
 // 팝업창 열기
 function openInterestPopup() {
-    document.getElementById('interestPropertyPopup').style.display = 'block';
+    const popup = document.getElementById('interestPropertyPopup');
+    popup.style.display = 'block';
+
+    // 팝업 중앙에 위치하도록 스타일 추가
+    document.body.classList.add('popup-active');
     resetSelections();
 }
 
 // 팝업창 닫기
 function closeInterestPopup() {
-    document.getElementById('interestPropertyPopup').style.display = 'none';
+    const popup = document.getElementById('interestPropertyPopup');
+    popup.style.display = 'none';
+
+    // 팝업 활성화 상태 제거
+    document.body.classList.remove('popup-active');
 }
 
 // 선택 초기화
@@ -114,17 +122,6 @@ function loadNeighborhoods() {
                 neighborhoodSelect.appendChild(option);
             });
 
-            // // 동 선택 시 이벤트 리스너 추가
-            // neighborhoodSelect.addEventListener('change', function() {
-            //     const selectedNeighborhood = this.value;
-            //
-            //     // 법정동 코드 (10자리)
-            //     const lawdCode = selectedNeighborhood;
-            //
-            //     // 각 코드를 hidden input에 저장
-            //     document.getElementById('selectedLawdCode').value = lawdCode;
-            // });
-
         })
         .catch(error => console.error('Error:', error));
 }
@@ -178,97 +175,41 @@ function submitInterestProperty() {
     const neighborhood = neighborhoodSelect.selectedOptions[0].text;
     const apartment = apartmentSelect.selectedOptions[0].text;
 
-    // const sidoCode = citySelect.value;
-    // const sigunguCode = districtSelect.value.slice(2);
     const lawdCode = neighborhoodSelect.value;
     const kaptCode = apartmentSelect.value;
 
     const fullAddress = `${city} ${district} ${neighborhood} ${apartment}`;
 
-    // 주소 입력 필드에 선택된 주소 설정
-    const addressButton = document.querySelector('button.form-control');
-    if (addressButton) {
-        addressButton.textContent = fullAddress;
-    }
+    // Check where this function is called
+    const isAptFindPage = document.body.classList.contains('apt-find');
+    const isLoanPersonalInfoPage = document.body.classList.contains('loan-personal-info');
 
-    // hidden input에 값 설정
-    document.getElementById('selectedCity').value = city;
-    document.getElementById('selectedDistrict').value = district;
-    document.getElementById('selectedNeighborhood').value = neighborhood;
-    document.getElementById('selectedApartment').value = apartment;
-    // document.getElementById('selectedSidoCode').value = sidoCode;
-    // document.getElementById('selectedSigunguCode').value = sigunguCode;
-    document.getElementById('selectedLawdCode').value = lawdCode;
-    document.getElementById('selectedKaptCode').value = kaptCode;
+    if (isAptFindPage) {
+        // Redirect to apartment report page
+        if (!city || !district || !neighborhood || !apartment || !lawdCode) {
+            alert('아파트 정보를 먼저 선택해주세요.');
+            return;
+        }
 
-    // 팝업 창 닫기
-    closeInterestPopup();
+        const params = new URLSearchParams({
+            city: city,
+            district: district,
+            neighborhood: neighborhood,
+            apartment: apartment,
+            lawdCode: lawdCode,
+            KaptCode: kaptCode
+        });
 
-    // 부모 창의 함수 호출 (있다면)
-    if (window.opener && typeof window.opener.onAddressSelected === 'function') {
-        window.opener.onAddressSelected(fullAddress);
+        window.location.href = `/apt-report?${params.toString()}`;
+    } else if (isLoanPersonalInfoPage) {
+        // Update the address field and close the popup
+        const addressButton = document.querySelector('button.form-control');
+        if (addressButton) {
+            addressButton.textContent = fullAddress;
+        }
+
+        closeInterestPopup();
+    } else {
+        alert('적합한 페이지에서만 동작합니다.');
     }
 }
-
-//
-// // 사용자 검색기록 저장 및 다음 페이지로 넘어가기
-// function formatNumber(input) {
-//     // 숫자 이외의 문자 제거
-//     let value = input.value.replace(/[^\d]/g, '');
-//
-//     // 천 단위 쉼표 추가
-//     value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-//
-//     // 포맷된 값을 입력 필드에 설정
-//     input.value = value;
-// }
-//
-// function submitLoanApplication() {
-//     // 모든 필수 입력 필드 확인
-//     const address = document.querySelector('button.form-control').textContent;
-//     const loanAmount = document.getElementById('loanAmount').value;
-//     const loanTerm = document.getElementById('loanTerm').value;
-//     const loanPurpose = document.querySelector('input[name="loanPurpose"]:checked')?.value;
-//     const firstTimeBuyer = document.querySelector('input[name="firstTimeBuyer"]:checked')?.value;
-//     const houseOwnership = document.querySelector('input[name="houseOwnership"]:checked')?.value;
-//     const occupation = document.querySelector('input[name="occupation"]:checked')?.value;
-//     const annualIncome = document.getElementById('annualIncome').value;
-//     const employmentDate = document.getElementById('employmentDate').value;
-//
-//     // 모든 필드가 입력되었는지 확인
-//     if (
-//         !address ||
-//         address === '주소 검색하기' ||
-//         !loanAmount ||
-//         !loanTerm ||
-//         !loanPurpose ||
-//         !firstTimeBuyer ||
-//         !houseOwnership ||
-//         !occupation ||
-//         !annualIncome ||
-//         !employmentDate
-//     ) {
-//         alert('모든 항목을 입력해주세요.');
-//         return;
-//     }
-//
-//     // 입력된 데이터를 객체로 만듦
-//     const loanApplicationData = {
-//         address,
-//         loanAmount,
-//         loanTerm,
-//         loanPurpose,
-//         firstTimeBuyer,
-//         houseOwnership,
-//         occupation,
-//         annualIncome,
-//         employmentDate
-//     };
-//
-//     // 데이터를 서버에 저장하거나
-//     // 데이터를 로컬 스토리지에 저장
-//     localStorage.setItem('loanApplicationData', JSON.stringify(loanApplicationData));
-//
-//     // 다음 페이지로 이동
-//     window.location.href = '/loan-list'; // 실제 다음 페이지 URL로 변경해야 합니다.
-// }
