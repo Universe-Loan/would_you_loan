@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- 사용자 정의 CSS -->
+    <link rel="stylesheet" href="/css/common.css">
+
+    <style>
+        body {
+            background-color: #e0e4ed;
+        }
+        .box {
+            background: white;
+            border-radius: 15px;
+            padding: 80px;
+            margin-bottom: 20px;
+            box-shadow:
+                    -10px -10px 15px rgba(255,255,255,0.5),
+                    10px 10px 15px rgba(70,70,70,0.12);
+        }
+        h2 {
+            color: #007bff;
+            font-weight: bold;
+        }
+        .line {
+            background-color: #007bff;
+            width: 50%;
+            height: 1px;
+            display: flex;
+            justify-self: center;
+            margin-bottom: 20px;
+        }
+        .form-label {
+            font-size: larger;
+            font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 5px;
+            color: #007bff;
+        }
+        .circle {
+            width: 10px;
+            height: 25px;
+            border-radius: 20px;
+            background-color: #007bff;
+            margin-right: 15px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        .btn-outline-primary {
+            color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-outline-primary:hover {
+            background-color: #007bff;
+            color: white;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+    </style>
+</head>
+<body>
+
+<!--헤더-->
+<header th:replace="fragments/header :: nav"></header>
+
+<!--본문-->
+<div class="content-wrapper">
+
+<!--본문 내용 입력하기-->
+    <div class="container box mt-5">
+        <h2 class="mb-4 text-center">
+            <span class="circle"></span>추가 정보 입력</h2>
+        <div class="line"></div>
+        <p class="mb-0 text-center" style="color: gray">더 나은 서비스를 위해 몇 가지 추가 정보를 입력해 주세요</p>
+        <p class="mb-4 text-center" style="color: gray">제출된 정보는 회원님의 프로필에 반영됩니다.</p>
+
+        <div class="row justify-content-center">
+            <form id="additionalInfoForm" class="col-11">
+                <div class="mb-3">
+                    <label for="housingStatus" class="form-label">현재 주택 보유 여부</label>
+                    <div class="form-text">현재 보유 중인 주택의 수를 선택해 주세요.</div>
+                    <select class="form-select" id="housingStatus" required>
+                        <option value="">선택해주세요</option>
+                        <option value="zero-apt">무주택</option>
+                        <option value="one-apt">1주택</option>
+                        <option value="two-more-apt">2주택 이상</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="annualIncome" class="form-label">연간 소득</label>
+                    <div class="form-text">세전 연간 소득을 입력해 주세요.</div>
+                    <input type="text" class="form-control" id="annualIncome" placeholder="예) 50,000,000원" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">직업</label>
+                    <div class="form-text">현재 종사하고 있는 직업을 선택해 주세요.</div>
+                    <div class="btn-group d-flex flex-wrap" role="group" aria-label="직업 선택">
+                        <input type="radio" class="btn-check" name="occupation" id="occupation1" value="직장인" autocomplete="off" required>
+                        <label class="btn btn-outline-primary mb-2 me-2" for="occupation1">직장인</label>
+
+                        <input type="radio" class="btn-check" name="occupation" id="occupation2" value="개인사업자" autocomplete="off">
+                        <label class="btn btn-outline-primary mb-2 me-2" for="occupation2">개인사업자</label>
+
+                        <input type="radio" class="btn-check" name="occupation" id="occupation3" value="임대사업자" autocomplete="off">
+                        <label class="btn btn-outline-primary mb-2 me-2" for="occupation3">임대사업자</label>
+
+                        <input type="radio" class="btn-check" name="occupation" id="occupation4" value="공무원" autocomplete="off">
+                        <label class="btn btn-outline-primary mb-2 me-2" for="occupation4">공무원</label>
+
+                        <input type="radio" class="btn-check" name="occupation" id="occupation5" value="프리랜서/아르바이트" autocomplete="off">
+                        <label class="btn btn-outline-primary mb-2 me-2" for="occupation5">프리랜서/아르바이트</label>
+
+                        <input type="radio" class="btn-check" name="occupation" id="occupation6" value="무직(주부, 학생 등)" autocomplete="off">
+                        <label class="btn btn-outline-primary mb-2 me-2" for="occupation6">무직(주부, 학생 등)</label>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="employmentDate" class="form-label">입사 연월</label>
+                    <div class="form-text">현재 직장에 입사한 연월을 입력해 주세요.</div>
+                    <input type="month" class="form-control" id="employmentDate" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">제출하기</button>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<!--footer-->
+<footer th:replace="fragments/footer :: footer"></footer>
+
+<!--Javascript-->
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- 사용자 정의 JS -->
+<script th:src="@{/js/home.js}"></script>
+<th:block th:replace="fragments/header :: scripts"></th:block>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.getElementById('additionalInfoForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('추가 정보가 성공적으로 제출되었습니다!');
+    });
+</script>
+</body>
+</html>

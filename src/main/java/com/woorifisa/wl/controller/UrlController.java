@@ -91,5 +91,10 @@ public class UrlController {
         return "admin";
     }
 
+    @GetMapping("/login_extra")
+    public String loginExtra() {
+        return "login_extra";
+    }
+
 }
 

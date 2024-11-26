@@ -6,6 +6,7 @@
     <title>Title</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <!-- 사용자 정의 CSS -->
     <link rel="stylesheet" href="/css/common.css">
 
@@ -107,6 +108,16 @@
         flex: 1;
     }
 
+    .region-button {
+        width: 100%; /* 버튼 전체 폭 */
+        margin-bottom: 10px; /* 버튼 간격 */
+        text-align: center; /* 텍스트 정렬 */
+    }
+    .region-button:hover {
+        background-color: #f1f1f1;
+        transition: background-color 0.3s ease-in-out;
+    }
+
     /* 로딩 아이콘 스타일 */
     .loading-icon {
         display: inline-block;
@@ -182,11 +193,13 @@
             <div class="col-12 d-flex flex-fill">
                 <div class="box flex-fill d-flex justify-content-center align-items-center">
                     <div class="container">
-                        <div class="d-flex flex-wrap justify-content-center mb-4">
-                            <div id="buttonContainer" class="btn-group" role="group" aria-label="지역 선택"></div>
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            <svg width="800" height="600" class="bg-white"></svg>
+                        <div class="row d-flex flex-wrap justify-content-center">
+                            <div id="buttonContainer" class="col-md-3">
+                                <!-- 지역 버튼들이 여기에 생성됩니다 -->
+                            </div>
+                            <div class="col-md-9">
+                                <svg id="weatherMap" style="width: 100%; min-height: 500px" class="border bg-white"></svg>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -368,11 +381,12 @@
     // 날씨 지도
         // GeoJSON 데이터를 사용하여 지도에 날씨 정보를 시각화
         d3.json('/market-analysis/geojson-weather').then(data => {
-            const width = 800;
-            const height = 600;
+            const svgElement = document.getElementById("weatherMap");
+            const width = svgElement.clientWidth; // SVG 요소의 실제 너비를 가져옴
+            const height = svgElement.clientHeight; // SVG 요소의 실제 높이를 가져옴
 
             // SVG 및 그룹 요소 생성
-            const svg = d3.select("svg").attr("width", width).attr("height", height);
+            const svg = d3.select("#weatherMap").attr("width", width).attr("height", height);
             const g = svg.append("g");
 
             // 지도 투영 설정
@@ -381,7 +395,7 @@
 
             // 줌 설정
             const zoom = d3.zoom()
-                .scaleExtent([5, 8])
+                .scaleExtent([20, 50])
                 .on("zoom", event => g.attr("transform", event.transform));
 
             svg.call(zoom);
@@ -409,7 +423,21 @@
                         return weatherColorScale(weather);
                     })
                     .attr("stroke", "white")
-                    .attr("stroke-width", 0.5);
+                    .attr("stroke-width", 0.5)
+                    .on("mouseover", function (event, d) {
+                        const weather = d.properties.weather || "정보 없음";
+                        const changeRate = d.properties.변동률 || "N/A";
+                        d3.select(this).attr("stroke", "black").attr("stroke-width", 1);
+                        showTooltip(event, `<div style="text-align:center;">
+                    <span style="font-size:20px;">${weather}</span><br>
+                    ${d.properties.SIG_KOR_NM}<br>
+                    변동률: ${changeRate}
+                </div>`);
+                    })
+                    .on("mouseout", function () {
+                        d3.select(this).attr("stroke", "white").attr("stroke-width", 0.5);
+                        hideTooltip();
+                    });
 
                 // 줌 및 이동
                 if (regionCode) {
@@ -452,23 +480,50 @@
             ];
 
             const buttonContainer = d3.select("#buttonContainer");
+
+// 전국 버튼 추가
             buttonContainer.append("button")
-                .attr("class", "btn btn-outline-primary mx-1 my-1")
-                .text("전국")
+                .attr("class", "btn btn-primary btn-sm m-2")
+                .html('<i class="fas fa-globe"></i> 전국')
                 .on("click", () => updateMap(""));
 
+// 지역별 버튼 추가
             regions.forEach(region => {
                 buttonContainer.append("button")
-                    .attr("class", "btn btn-outline-primary mx-1 my-1")
-                    .text(region.name)
+                    .attr("class", "btn btn-outline-primary btn-sm m-2")
+                    .html(`<i class="fas fa-map-marker-alt"></i> ${region.name}`)
                     .on("click", () => updateMap(region.code));
             });
 
             // 초기 지도 렌더링
             updateMap("");
+
+            // 툴팁 표시
+            const tooltip = d3.select("body")
+                .append("div")
+                .attr("class", "tooltip")
+                .style("position", "absolute")
+                .style("background", "rgba(0,0,0,0.7)")
+                .style("color", "#fff")
+                .style("padding", "5px")
+                .style("border-radius", "5px")
+                .style("visibility", "hidden");
+
+            function showTooltip(event, content) {
+                tooltip.html(content)
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY + 10) + "px")
+                    .style("visibility", "visible");
+            }
+
+            function hideTooltip() {
+                tooltip.style("visibility", "hidden");
+            }
+
         }).catch(error => {
             console.error("Error loading GeoJSON or weather data:", error);
         });
+
     });
 
 </script>
