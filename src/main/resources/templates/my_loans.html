@@ -179,37 +179,18 @@
                     <div class="col-6 d-flex flex-column flex-fill">
                         <div class="box flex-fill d-flex justify-content-center align-items-center">
                             <div class="account p-3 m-0 col-12">
-                                <div class="mb-3">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon icon1"></div>
-                                        <div>
-                                            <div class="account-name">토스뱅크 통장</div>
-                                            <div class="fw-bold">150,009원</div>
-                                        </div>
-                                    </div>
+                                <!-- 각 계좌 정보 -->
+                                <div id="accountContainer">
+                                    <!-- 계좌 목록이 여기에 동적으로 추가됨 -->
                                 </div>
-                                <div class="mb-3">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon icon2"></div>
-                                        <div>
-                                            <div class="account-name">달러라2030통장</div>
-                                            <div class="fw-bold">73,820원</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon icon3"></div>
-                                        <div>
-                                            <div class="account-name">우리은행 입출금</div>
-                                            <div class="fw-bold">90,000,000원</div>
-                                        </div>
-                                    </div>
-                                </div>
+
+                                <!-- 구분선 -->
                                 <div class="line"></div>
+
+                                <!-- 총합 -->
                                 <div class="d-flex align-items-center">
                                     <div class="icon icon1"></div>
-                                    <div class="fw-bold">총합 456,789,123원</div>
+                                    <div class="fw-bold" id="totalBalance"></div>
                                 </div>
                             </div>
                         </div>
@@ -217,37 +198,12 @@
                     <div class="col-6 d-flex flex-column flex-fill">
                         <div class="box flex-fill d-flex justify-content-center align-items-center">
                             <div class="account p-3 m-0 col-12">
-                                <div class="mb-3">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon icon1"></div>
-                                        <div>
-                                            <div class="account-name">토스뱅크 통장</div>
-                                            <div class="fw-bold">150,009원</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon icon2"></div>
-                                        <div>
-                                            <div class="account-name">달러라2030통장</div>
-                                            <div class="fw-bold">73,820원</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon icon3"></div>
-                                        <div>
-                                            <div class="account-name">우리은행 주택담보대출</div>
-                                            <div class="fw-bold">90,000,000원</div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <!-- 대출 목록이 들어갈 컨테이너 -->
+                                <div id="loanContainer"></div>
                                 <div class="line"></div>
                                 <div class="d-flex align-items-center">
                                     <div class="icon icon1"></div>
-                                    <div class="fw-bold">총합 456,789,123원</div>
+                                    <div class="fw-bold" id="totalLoan"></div>
                                 </div>
                             </div>
                         </div>
@@ -561,8 +517,120 @@
 
     });
 </script>
+<script th:inline="javascript">
+    // 세션에서 userId 가져오기
+    const userId = "[[${session.user_id}]]";
 
+    // API 호출 및 데이터 표시
+    fetch('/mydata-api/account', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+            'user_id': userId
+        })
+    })
+        .then(response => response.json())
+        .then(accounts => {  // 배열로 직접 반환됨
+            const accountContainer = document.getElementById('accountContainer');
+            let totalBalance = 0;
+            let html = '';
 
+            accounts.forEach(account => {
+                const balance = parseInt(account.balance);
+                totalBalance += balance;
+
+                const iconClass = getIconClass(account.bank_name);
+
+                html += `
+                <div class="mb-3">
+                    <div class="d-flex align-items-center">
+                        <div class="icon ${iconClass}"></div>
+                        <div>
+                            <div class="account-name">${account.account_name}</div>
+                            <div class="fw-bold">${balance.toLocaleString()}원</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            });
+
+            accountContainer.innerHTML = html;
+            document.getElementById('totalBalance').textContent = `총합 ${totalBalance.toLocaleString()}원`;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('accountContainer').innerHTML =
+                '<div class="text-danger">계좌 정보를 불러오는데 실패했습니다.</div>';
+        });
+
+    // 은행별 아이콘 클래스 반환
+    function getIconClass(bankName) {
+        const iconMap = {
+            '국민은행': 'icon1',
+            '우리은행': 'icon2',
+            '신한은행': 'icon3'
+        };
+        return iconMap[bankName] || 'icon1';
+    }
+</script>
+<script th:inline="javascript">
+    // const userId = "[[${session.user_id}]]";
+
+    fetch('/mydata-api/loan', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+            'user_id': userId
+        })
+    })
+        .then(response => response.json())
+        .then(loans => {
+            const loanContainer = document.getElementById('loanContainer');
+            let totalLoanAmount = 0;
+            let html = '';
+
+            loans.forEach(loan => {
+                const amount = parseInt(loan.loan_amount);
+                totalLoanAmount += amount;
+
+                const iconClass = getIconClass(loan.bank_name);
+
+                html += `
+               <div class="mb-3">
+                   <div class="d-flex align-items-center">
+                       <div class="icon ${iconClass}"></div>
+                       <div>
+                           <div class="account-name">${loan.loan_name}</div>
+                           <div class="fw-bold">${amount.toLocaleString()}원</div>
+                       </div>
+                   </div>
+               </div>
+           `;
+            });
+
+            loanContainer.innerHTML = html;
+            document.getElementById('totalLoan').textContent = `총 대출금액 ${totalLoanAmount.toLocaleString()}원`;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('loanContainer').innerHTML =
+                '<div class="text-danger">대출 정보를 불러오는데 실패했습니다.</div>';
+        });
+
+    function getIconClass(bankName) {
+        const iconMap = {
+            '국민은행': 'icon1',
+            '우리은행': 'icon2',
+            '신한은행': 'icon3',
+            'IBK기업은행': 'icon6'
+        };
+        return iconMap[bankName] || 'icon1';
+    }
+</script>
 
 </body>
 </html>
