@@ -213,8 +213,8 @@
                 <!--계좌 통계-->
                 <div class="row flex-fill fw-bold">
                     <div class="col-6 d-flex flex-column flex-fill">
-                        <div class="box account-static flex-fill d-flex justify-content-center align-items-center">
-                            전월 대비 입출금 통장 증감<br>+1,123,456원 (+1.56%)
+                        <div class="box account-static flex-fill d-flex justify-content-center align-items-center" id="accountChange">
+                            <!--  전월 대비 입출금 통장 증감 -->
                         </div>
                     </div>
                     <div class="col-6 d-flex flex-column flex-fill">
@@ -571,32 +571,36 @@
         })
     })
         .then(response => response.json())
-        .then(accounts => {  // 배열로 직접 반환됨
+        .then(data => {
             const accountContainer = document.getElementById('accountContainer');
-            let totalBalance = 0;
             let html = '';
 
-            accounts.forEach(account => {
+            data.accounts.forEach(account => {
                 const balance = parseInt(account.balance);
-                totalBalance += balance;
-
                 const iconClass = getIconClass(account.bank_name);
 
                 html += `
-                <div class="mb-3">
-                    <div class="d-flex align-items-center">
-                        <div class="icon ${iconClass}"></div>
-                        <div>
-                            <div class="account-name">${account.account_name}</div>
-                            <div class="fw-bold">${balance.toLocaleString()}원</div>
+                    <div class="mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="icon ${iconClass}"></div>
+                            <div>
+                                <div class="account-name">${account.account_name}</div>
+                                <div class="fw-bold">${balance.toLocaleString()}원</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            `;
+                `;
             });
 
             accountContainer.innerHTML = html;
-            document.getElementById('totalBalance').textContent = `총합 ${totalBalance.toLocaleString()}원`;
+
+            // 총액과 변동률 표시
+            document.getElementById('totalBalance').textContent = `총합 ${data.currentTotal.toLocaleString()}원`;
+
+            // 변동액과 변동률 표시
+            const sign = data.changeAmount >= 0 ? '+' : '';
+            document.getElementById('accountChange').innerHTML =
+                `전월 대비 입출금 통장 증감<br>${sign}${data.changeAmount.toLocaleString()}원 (${sign}${data.changeRate.toFixed(2)}%)`;
         })
         .catch(error => {
             console.error('Error:', error);
@@ -644,6 +648,8 @@
 
             accountContainer.innerHTML = html;
             document.getElementById('totalBalance').textContent = `총합 ${totalBalance.toLocaleString()}원`;
+            document.getElementById('accountChange').innerHTML =
+                `전월 대비 입출금 통장 증감<br>로그인이 필요한 서비스입니다.`;
         });
 
     // 은행별 아이콘 클래스 반환
