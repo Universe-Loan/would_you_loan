@@ -6,6 +6,7 @@
     <title>Title</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fonts-archive/Pretendard/Pretendard.css" type="text/css" />
     <!-- 사용자 정의 CSS -->
     <link rel="stylesheet" href="/css/common.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -217,8 +218,8 @@
                         </div>
                     </div>
                     <div class="col-6 d-flex flex-column flex-fill">
-                        <div class="box account-static flex-fill d-flex justify-content-center align-items-center">
-                            이번달 주택담보대출 상환액<br>100,000원
+                        <div class="box account-static flex-fill d-flex justify-content-center align-items-center" id="returnLoan">
+                            <!-- 이번달 대출 상환액 -->
                         </div>
                     </div>
                 </div>
@@ -425,28 +426,76 @@
             },
         });
 
-    // 자산 대비 대출 그래프 그리기
+        // 24.11.26 정규가 수정했음
+        // 자산 대비 대출 그래프 그리기
         const ctxAssetDebt = document.getElementById('myChart').getContext('2d');
 
-// 내 자본과 대출 총액 데이터
-        const myCapital = [10, 20, 15, 25, 30, 20, 15, 25, 30, 20, 15, 25]; // 내 자본 데이터
-        const totalLoan = [30, 40, 35, 45, 50, 40, 35, 45, 50, 40, 35, 45]; // 대출 총액 데이터
+        // 내 자본과 대출 총액 데이터
+        fetch(`/asset/chart?userId=${userId}`)
+            .then(response => response.json())
+            .then(data => {
+                createChart(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // 더미 데이터 생성
+                const dummyData = {
+                    assets: [
+                        { year: 2024, month: 1, amount: 47500000 },
+                        { year: 2024, month: 2, amount: 58000000 },
+                        { year: 2024, month: 3, amount: 48500000 },
+                        { year: 2024, month: 4, amount: 58800000 },
+                        { year: 2024, month: 5, amount: 59200000 },
+                        { year: 2024, month: 6, amount: 49500000 },
+                        { year: 2024, month: 7, amount: 59800000 },
+                        { year: 2024, month: 8, amount: 50000000 },
+                        { year: 2024, month: 9, amount: 60200000 },
+                        { year: 2024, month: 10, amount: 50400000 },
+                        { year: 2024, month: 11, amount: 60600000 },
+                        { year: 2024, month: 12, amount: 50800000 }
+                    ],
+                    debts: [
+                        { year: 2024, month: 1, amount: 44300000 },
+                        { year: 2024, month: 2, amount: 34200000 },
+                        { year: 2024, month: 3, amount: 44100000 },
+                        { year: 2024, month: 4, amount: 34250000 },
+                        { year: 2024, month: 5, amount: 44300000 },
+                        { year: 2024, month: 6, amount: 34400000 },
+                        { year: 2024, month: 7, amount: 44500000 },
+                        { year: 2024, month: 8, amount: 34400000 },
+                        { year: 2024, month: 9, amount: 44350000 },
+                        { year: 2024, month: 10, amount: 34400000 },
+                        { year: 2024, month: 11, amount: 44450000 },
+                        { year: 2024, month: 12, amount: 34500000 }
+                    ]
+                };
+                createChart(dummyData);
+            })
+    });
 
-// 자본 대비 부채 비율 계산
+    function createChart(data) {
+        const myCapital = data.assets.map(asset => asset.amount);
+        const totalLoan = data.debts.map(debt => debt.amount);
+
+        // 동적으로 라벨 생성
+        const labels = data.assets.map(asset => `${asset.year}.${asset.month}`);
+
+        // 자본 대비 부채 비율 계산
         const debtRatio = totalLoan.map((loan, index) => {
-            return ((loan / myCapital[index]) * 100).toFixed(2); // 비율 계산 (%)
+            return ((loan / myCapital[index]) * 100).toFixed(2);
         });
 
-// 차트 생성
-        const chart = new Chart(ctxAssetDebt, {
+        const ctxAssetDebt = document.getElementById('myChart').getContext('2d');
+
+        new Chart(ctxAssetDebt, {
             type: 'bar',
             data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], // x축 레이블
+                labels: labels,
                 datasets: [
                     {
                         label: '내 자본',
                         data: myCapital,
-                        backgroundColor: 'rgba(0, 51, 153, 0.8)', // 파란색
+                        backgroundColor: 'rgba(0, 51, 153, 0.8)',
                         borderColor: 'rgba(0, 51, 153, 1)',
                         borderWidth: 1,
                         categoryPercentage: 0.8,
@@ -455,7 +504,7 @@
                     {
                         label: '대출 총액',
                         data: totalLoan,
-                        backgroundColor: 'rgba(70, 130, 180, 0.8)', // 파란 회색
+                        backgroundColor: 'rgba(70, 130, 180, 0.8)',
                         borderColor: 'rgba(70, 130, 180, 1)',
                         borderWidth: 1,
                         categoryPercentage: 0.8,
@@ -464,61 +513,51 @@
                     {
                         label: '자본 대비 부채 비율 (%)',
                         data: debtRatio,
-                        type: 'line', // 라인 차트
-                        borderColor: 'rgba(255, 99, 71, 1)', // 빨간색
+                        type: 'line',
+                        borderColor: 'rgba(255, 99, 71, 1)',
                         borderWidth: 2,
-                        fill: false, // 배경 없음
-                        pointBackgroundColor: 'rgba(255, 99, 71, 1)', // 점 색상
-                        pointRadius: 4, // 점 크기
-                        tension: 0.3, // 부드러운 라인
-                        yAxisID: 'y2', // 두 번째 y축에 할당
-                    },
-                ],
+                        fill: false,
+                        pointBackgroundColor: 'rgba(255, 99, 71, 1)',
+                        pointRadius: 4,
+                        tension: 0.3,
+                        yAxisID: 'y2',
+                    }
+                ]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
-                    x: {
-                        stacked: false, // x축 스택 비활성화
-                        grid: {
-                            display: false,
-                        },
-                    },
                     y: {
-                        beginAtZero: true, // y축 0부터 시작
+                        beginAtZero: true,
                         title: {
                             display: true,
-                            text: '금액 (원)',
-                        },
+                            text: '금액 (원)'
+                        }
                     },
                     y2: {
-                        beginAtZero: true, // 두 번째 y축도 0부터 시작
-                        position: 'right', // 오른쪽 y축
+                        beginAtZero: true,
+                        position: 'right',
                         title: {
                             display: true,
-                            text: '부채 비율 (%)',
+                            text: '부채 비율 (%)'
                         },
                         grid: {
-                            drawOnChartArea: false, // 메인 y축과 겹치지 않음
-                        },
-                    },
+                            drawOnChartArea: false
+                        }
+                    }
                 },
                 plugins: {
                     legend: {
-                        display: true, // 범례 표시
+                        display: true,
                         position: 'top',
                     },
                 },
             },
         });
+    }
 
-
-
-    });
-</script>
-<script th:inline="javascript">
-    // 세션에서 userId 가져오기
+    // 세션에서 userId 가져오기 24.11.26 정규가 추가함
     const userId = "[[${session.user_id}]]";
 
     // API 호출 및 데이터 표시
@@ -561,8 +600,50 @@
         })
         .catch(error => {
             console.error('Error:', error);
-            document.getElementById('accountContainer').innerHTML =
-                '<div class="text-danger">계좌 정보를 불러오는데 실패했습니다.</div>';
+            // 더미 데이터
+            const dummyAccounts = [
+                {
+                    account_name: "예적금 1",
+                    balance: 18500000,
+                    bank_name: "국민은행"
+                },
+                {
+                    account_name: "예적금 2",
+                    balance: 12000000,
+                    bank_name: "신한은행"
+                },
+                {
+                    account_name: "예적금 3",
+                    balance: 15500000,
+                    bank_name: "우리은행"
+                },
+            ];
+
+            const accountContainer = document.getElementById('accountContainer');
+            let totalBalance = 0;
+            let html = '';
+
+            dummyAccounts.forEach(account => {
+                const balance = parseInt(account.balance);
+                totalBalance += balance;
+
+                const iconClass = getIconClass(account.bank_name);
+
+                html += `
+               <div class="mb-3">
+                   <div class="d-flex align-items-center">
+                       <div class="icon ${iconClass}"></div>
+                       <div>
+                           <div class="account-name">${account.account_name}</div>
+                           <div class="fw-bold">${balance.toLocaleString()}원</div>
+                       </div>
+                   </div>
+               </div>
+           `;
+            });
+
+            accountContainer.innerHTML = html;
+            document.getElementById('totalBalance').textContent = `총합 ${totalBalance.toLocaleString()}원`;
         });
 
     // 은행별 아이콘 클래스 반환
@@ -574,9 +655,6 @@
         };
         return iconMap[bankName] || 'icon1';
     }
-</script>
-<script th:inline="javascript">
-    // const userId = "[[${session.user_id}]]";
 
     fetch('/mydata-api/loan', {
         method: 'POST',
@@ -588,7 +666,8 @@
         })
     })
         .then(response => response.json())
-        .then(loans => {
+        .then(data => {
+            const loans = data.loans;
             const loanContainer = document.getElementById('loanContainer');
             let totalLoanAmount = 0;
             let html = '';
@@ -614,11 +693,55 @@
 
             loanContainer.innerHTML = html;
             document.getElementById('totalLoan').textContent = `총 대출금액 ${totalLoanAmount.toLocaleString()}원`;
+            document.getElementById('returnLoan').innerHTML = `이번달 대출 상환액<br>${data.totalMonthlyPayment.toLocaleString()}원`;
         })
         .catch(error => {
             console.error('Error:', error);
-            document.getElementById('loanContainer').innerHTML =
-                '<div class="text-danger">대출 정보를 불러오는데 실패했습니다.</div>';
+            // 더미 데이터
+            const dummyLoans = [
+                {
+                    loan_name: "대출 정보 1",
+                    loan_amount: 350000000,
+                    bank_name: "하나은행"
+                },
+                {
+                    loan_name: "대출 정보 2",
+                    loan_amount: 45000000,
+                    bank_name: "신한은행"
+                },
+                {
+                    loan_name: "대출 정보 3",
+                    loan_amount: 50000000,
+                    bank_name: "우리은행"
+                }
+            ];
+
+            const loanContainer = document.getElementById('loanContainer');
+            let totalLoanAmount = 0;
+            let html = '';
+
+            dummyLoans.forEach(loan => {
+                const amount = parseInt(loan.loan_amount);
+                totalLoanAmount += amount;
+
+                const iconClass = getIconClass(loan.bank_name);
+
+                html += `
+          <div class="mb-3">
+              <div class="d-flex align-items-center">
+                  <div class="icon ${iconClass}"></div>
+                  <div>
+                      <div class="account-name">${loan.loan_name}</div>
+                      <div class="fw-bold">${amount.toLocaleString()}원</div>
+                  </div>
+              </div>
+          </div>
+      `;
+            });
+
+            loanContainer.innerHTML = html;
+            document.getElementById('totalLoan').textContent = `총 대출금액 ${totalLoanAmount.toLocaleString()}원`;
+            document.getElementById('returnLoan').innerHTML = `이번달 대출 상환액<br>로그인이 필요한 서비스입니다`;
         });
 
     function getIconClass(bankName) {
@@ -626,7 +749,6 @@
             '국민은행': 'icon1',
             '우리은행': 'icon2',
             '신한은행': 'icon3',
-            'IBK기업은행': 'icon6'
         };
         return iconMap[bankName] || 'icon1';
     }
