@@ -1,5 +1,7 @@
 package com.woorifisa.wl.controller;
 
+import com.woorifisa.wl.model.entity.AssetRecord;
+import com.woorifisa.wl.repository.AssetRecordRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -21,6 +23,7 @@ import java.util.Map;
 @RequestMapping("/mydata-api")
 public class MyDataController {
     private final RestTemplate restTemplate;
+    private final AssetRecordRepository assetRecordRepository;
 
     @Value("${mydataloan.api.url}")
     private String MyDataLoanApiUrl;
@@ -29,8 +32,9 @@ public class MyDataController {
     private String MyDataAccountApiUrl;
 
 
-    public MyDataController(RestTemplate restTemplate) {
+    public MyDataController(RestTemplate restTemplate, AssetRecordRepository assetRecordRepository) {
         this.restTemplate = restTemplate;
+        this.assetRecordRepository = assetRecordRepository;
     }
 
     @PostMapping("/loan")
@@ -81,6 +85,7 @@ public class MyDataController {
     public ResponseEntity<?> loadMyDataAccount(
             @RequestParam("user_id") String userId) {
         try {
+            // 1. MyData API 호출하여 현재 계좌 정보 조회
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -92,12 +97,48 @@ public class MyDataController {
 
             // HTTP Client (e.g., RestTemplate, WebClient)로 POST 요청
             ResponseEntity<List> myDataAccountResponse = restTemplate.postForEntity(MyDataAccountApiUrl, request, List.class);
+            List<Map> accounts = myDataAccountResponse.getBody();
 
-            return ResponseEntity.ok(myDataAccountResponse.getBody());
+            // 2. 현재 계좌 잔액 총합 계산
+            long currentTotalBalance = 0;
+            for (Map<String, Object> account : accounts) {
+                currentTotalBalance += Long.parseLong(account.get("balance").toString());
+            }
+
+            // 3. 지난달 자산 기록 조회
+            LocalDate now = LocalDate.now();
+            LocalDate lastMonth = now.minusMonths(1);
+
+            AssetRecord lastMonthRecord = assetRecordRepository.findByUserIdAndYearAndMonthAndAssetType(
+                    Long.parseLong(userId),
+                    lastMonth.getYear(),
+                    lastMonth.getMonthValue(),
+                    "ASSET"
+            );
+
+            // 4. 변동률 계산
+            double changeRate = 0.0;
+            if (lastMonthRecord != null) {
+                long lastMonthAmount = lastMonthRecord.getAmount();
+                changeRate = ((double)(currentTotalBalance - lastMonthAmount) / lastMonthAmount) * 100;
+            }
+
+            // 5. 응답 데이터 구성
+            Map<String, Object> response = new HashMap<>();
+            response.put("accounts", accounts);
+            response.put("currentTotal", currentTotalBalance);
+            response.put("lastMonthAmount", lastMonthRecord != null ? lastMonthRecord.getAmount() : 0);
+            response.put("changeRate", changeRate);
+            response.put("changeAmount", lastMonthRecord != null ?
+                    currentTotalBalance - lastMonthRecord.getAmount() : 0);
+
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Error occurred: " + e.getMessage());
         }
     }
+
+
 
     // 원리금균등상환 월상환금 계산
     private long calculateMonthlyPayment(long principal, double annualRate, int years) {
