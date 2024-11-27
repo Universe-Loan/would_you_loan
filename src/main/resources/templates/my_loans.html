@@ -101,13 +101,7 @@
                         </div>
                         <!-- 게이지 텍스트 -->
                         <div id="gaugeLabel" class="row pt-5 pb-0 mb-0 text-center position-absolute top-50">
-                            <div class="fs-4 text-primary fw-bold">942점</div>
-                            <div class="fs-5 text-warning">n개월 후 <strong>975점</strong></div>
-                            <div class="">현재 상위 3% · 위험도 0.02%</div>
-                            <div class="">
-                                <span class="badge bg-danger">최소 170점 상승</span>
-                                <span class="badge bg-secondary">변경확률 5%</span>
-                            </div>
+                            <!--  동적으로 불러온다  -->
                         </div>
                     </div>
                 </div>
@@ -115,21 +109,8 @@
             <!--신용점수-->
             <div class="col-md-6 d-flex flex-column flex-fill">
                 <!--내 신용점수-->
-                <div class="box ps-4 credit-header bg-primary d-flex justify-content-between align-items-center w-100">
-                    <div class="d-flex align-items-center">
-                        <img src="https://via.placeholder.com/40" alt="Logo" class="me-3">
-                        <span class="fw-bold fs-5">내 신용점수</span>
-                    </div>
-                    <div class="small d-flex align-items-center">
-                        <div class="me-4 text-end">
-                            <div>변동사항</div>
-                            <div class="badge rounded-pill text-bg-light">있음</div>
-                        </div>
-                        <div class="text-end">
-                            <div>직전 분기 대비</div>
-                            <div class="badge rounded-pill text-bg-light">+153</div>
-                        </div>
-                    </div>
+                <div class="box ps-4 credit-header bg-primary d-flex justify-content-between align-items-center w-100" id="creditScoreHeader">
+                    <!-- 동적으로 불러온다 -->
                 </div>
                 <!--신용점수 변동차트-->
                 <div class="box flex-fill d-flex justify-content-center align-items-center">
@@ -139,22 +120,22 @@
                     </div>
                 </div>
                 <!--대출금리가 바뀌어요!-->
-                <div class="box change-rate py-0 px-3 bg-primary d-flex justify-content-between align-items-center">
-                    <div class="ps-3 fw-bold text-start">
-                        신용점수를 n점 올리면<br>
-                        대출 금리가 0.34% 낮아져요
-                    </div>
-                    <div class="detail my-4 py-1 d-flex justify-content-between align-items-center">
-                        <div class="p-3 text-center">
-                            <div>nnn점일 때<br>4.89%</div>
-                        </div>
-                        <div class="px-2 text-center">
-                            <img th:src="@{/img/right-arrow.png}" style="max-height: 15px; width: auto;" alt="로고 이미지" class="m-0 p-0">
-                        </div>
-                        <div class="p-3 text-center">
-                            <div>mmm점일 때<br>9.89%</div>
-                        </div>
-                    </div>
+                <div class="box change-rate py-0 px-3 bg-primary d-flex justify-content-between align-items-center" id="changeLoanPoint">
+<!--                    <div class="ps-3 fw-bold text-start">-->
+<!--                        신용점수를 n점 올리면<br>-->
+<!--                        대출 금리가 0.34% 낮아져요-->
+<!--                    </div>-->
+<!--                    <div class="detail my-4 py-1 d-flex justify-content-between align-items-center">-->
+<!--                        <div class="p-3 text-center">-->
+<!--                            <div>nnn점일 때<br>4.89%</div>-->
+<!--                        </div>-->
+<!--                        <div class="px-2 text-center">-->
+<!--                            <img th:src="@{/img/right-arrow.png}" style="max-height: 15px; width: auto;" alt="로고 이미지" class="m-0 p-0">-->
+<!--                        </div>-->
+<!--                        <div class="p-3 text-center">-->
+<!--                            <div>mmm점일 때<br>9.89%</div>-->
+<!--                        </div>-->
+<!--                    </div>-->
                 </div>
             </div>
         </div>
@@ -269,162 +250,166 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
 
-    // 신용점수 게이지 바 그리기
-        const ctx = document.getElementById("gaugeChart").getContext("2d");
+        // 신용점수 게이지 바 그리기
+        fetch(`/credit-score/${userId}`)
+            .then(response => response.json())
+            .then(data => {
+                // 게이지 및 차트 생성부
+                // 데이터 시간순 정렬
+                const sortedData = data.sort((a, b) =>
+                    (a.year - b.year) || (a.quarter - b.quarter)
+                );
 
-        const currentScore = 702; // 현재 점수
-        const predictedScore = 875; // 예측 점수
-        const maxScore = 1000; // 최대 점수
+                // 실제 데이터로 차트 생성
+                createGaugeChart(
+                    sortedData[sortedData.length - 1].credit_score,
+                    Math.max(...sortedData.map(d => d.credit_score))
+                );
+                createCreditScoreChart(
+                    sortedData.map(d => `${d.year} Q${d.quarter}`),
+                    sortedData.map(d => d.credit_score)
+                );
 
-        const chartRadius = 150; // 캔버스 크기로 설정해야함
+                // 게이지 아래 라벨부
+                // 현재 스코어 (가장 최근 데이터)
+                const currentScore = sortedData[sortedData.length - 1];
 
-        // 차트 생성
-        const gaugeChart = new Chart(ctx, {
-            type: "doughnut",
-            data: {
-                datasets: [
-                    {
-                        label: 'Current Score',
-                        data: [currentScore, maxScore - currentScore],
-                        backgroundColor: ["#007bff", "#e9ecef"], // 파란색과 회색
-                        circumference: 180, // 반원형 차트
-                        rotation: 270, // 시작 위치
-                        cutout: "65%", // 내부 반지름 비율
-                    },
-                    {
-                        label: 'Predicted Score',
-                        data: [predictedScore, maxScore - predictedScore],
-                        backgroundColor: ['#ffc107', '#e9ecef'], // 노란색, 회색
-                        borderWidth: 0,
-                        cutout: '65%', // 안쪽 반원
-                        rotation: -90,
-                        circumference: 180,
-                    },
-                ],
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false },
-                    tooltip: { enabled: false },
-                },
-            },
-            plugins: [
-                {
-                    id: "needle",
-                    afterDatasetDraw(chart) {
-                        const {
-                            ctx,
-                            data,
-                            chartArea: { width, height },
-                        } = chart;
+                // 3달 뒤의 예측 점수 (현재 점수보다 약간 높게 설정)
+                const predictedScore = Math.min(1000, currentScore.credit_score + 33);
 
-                        const needleValue = predictedScore; // 예측 점수를 기준으로 바늘 위치 계산
-                        const dataTotal = maxScore;
-                        const angle = Math.PI + (needleValue / dataTotal) * Math.PI; // 바늘 각도 계산
-                        const centerX = width / 2; // 중심 X 좌표
-                        const centerY = chart.getDatasetMeta(0).data[0].y; // 중심 Y 좌표
-                        const needleLength = chartRadius * 0.7; // 바늘 길이: 반지름의 50%
+                // 상위 퍼센트를 위험도로 변환 (100% - percentile)
+                const riskRate = (100 - currentScore.percentile).toFixed(2);
 
-                        ctx.save();
-                        ctx.translate(centerX, centerY);
-                        ctx.rotate(angle); // 바늘 회전
-                        ctx.beginPath();
-                        ctx.moveTo(0, -5); // 바늘 시작점
-                        ctx.lineTo(needleLength, 0); // 바늘 끝점
-                        ctx.lineTo(0, 5);
-                        ctx.fillStyle = "#FF0000"; // 바늘 색상
-                        ctx.fill();
-                        ctx.restore();
+                // 점수 상승 목표 (900점 또는 다음 등급까지의 차이)
+                const targetScore = currentScore.credit_grade > 1 ?
+                    Math.min(900, currentScore.credit_score + 50) : currentScore.credit_score;
+                const scoreToIncrease = targetScore - currentScore.credit_score;
 
-                        // 바늘 중심점을 표시
-                        ctx.beginPath();
-                        ctx.arc(centerX, centerY, 6, 0, Math.PI * 2);
-                        ctx.fillStyle = "#FF0000";
-                        ctx.fill();
-                        ctx.restore();
-                    },
-                },
-            ],
-        });
+                // 변경 확률 계산 (예시: 현재 점수가 높을수록 변경확률 낮아짐)
+                const changeProb = Math.max(5, Math.round(100 - currentScore.percentile / 2));
 
-    // 신용점수 변동 차트 그리기
-        // 최근 2년 동안의 분기 데이터를 생성하는 함수
-        const generateQuarterlyDates = () => {
-            const dates = []; // 분기 데이터를 저장할 배열
-            const now = new Date(); // 현재 날짜 가져오기
-            const quarterNames = ["Q1", "Q2", "Q3", "Q4"]; // 분기 이름 배열
-            for (let i = 0; i < 8; i++) { // 8개의 분기 = 2년치
-                const quarter = quarterNames[Math.floor(now.getMonth() / 3)]; // 현재 월에 해당하는 분기 계산
-                const year = now.getFullYear(); // 현재 연도 가져오기
-                dates.unshift(`${year} ${quarter}`); // 연도와 분기를 조합하여 배열 앞에 추가
-                now.setMonth(now.getMonth() - 3); // 3개월 전으로 이동
-            }
-            return dates; // 분기 데이터 배열 반환
-        };
+                // gaugeLabel 업데이트
+                document.getElementById('gaugeLabel').innerHTML = `
+                    <div class="fs-4 text-primary fw-bold">${currentScore.credit_score}점</div>
+                    <div class="fs-5 text-warning">3개월 후 <strong>${predictedScore}점</strong></div>
+                    <div class="">현재 상위 ${currentScore.percentile}% · 위험도 ${riskRate}%</div>
+                    <div class="">
+                        ${scoreToIncrease > 0 ?
+                    `<span class="badge bg-danger">최소 ${scoreToIncrease}점 상승</span>`
+                    : '<span class="badge bg-success">목표 달성!</span>'}
+                        <span class="badge bg-secondary">변경확률 ${changeProb}%</span>
+                    </div>
+                `;
 
-        // 0~1000 사이의 신용점수를 랜덤하게 생성하는 함수
-        const generateCreditScores = () => Array.from({ length: 8 }, () => Math.floor(Math.random() * 1001));
+                // 현재와 직전 분기 데이터
+                const currentScore2 = sortedData[sortedData.length - 1];
+                const previousScore = sortedData[sortedData.length - 2];
 
-        // 분기 데이터와 신용점수 데이터 생성
-        const labels = generateQuarterlyDates(); // 분기 라벨 생성
-        const creditScores = generateCreditScores(); // 신용점수 데이터 생성
+                // 점수 변동 계산
+                const scoreDiff = currentScore2.credit_score - previousScore.credit_score;
+                const hasChange = scoreDiff !== 0;
 
-        // 차트를 그리기 위한 설정
-        const ctxPast = document.getElementById("creditScoreChart").getContext("2d");
-        new Chart(ctxPast, {
-            type: "line", // 선형 차트
-            data: {
-                labels: labels, // 분기 라벨 설정
-                datasets: [
-                    {
-                        label: "신용점수", // 데이터 레이블
-                        data: creditScores, // 신용점수 데이터
-                        borderColor: "#007bff", // 선 색상
-                        backgroundColor: "rgba(0, 123, 255, 0.2)", // 선 아래 채우기 색상
-                        fill: true, // 선 아래를 채우도록 설정
-                        tension: 0.3, // 선 부드럽게 설정
-                        pointBackgroundColor: "#007bff", // 데이터 포인트 색상
-                        pointBorderColor: "#fff", // 데이터 포인트 외곽선 색상
-                        pointRadius: 5, // 데이터 포인트 크기
-                    },
-                ],
-            },
-            options: {
-                responsive: true, // 반응형 차트
-                maintainAspectRatio: false, // 비율 유지 비활성화
-                plugins: {
-                    legend: {
-                        display: true, // 범례 표시
-                        position: "top", // 범례 위치
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function (context) {
-                                return `신용점수: ${context.raw}`; // 툴팁에 신용점수 표시
-                            },
-                        },
-                    },
-                },
-                scales: {
-                    x: {
-                        title: {
-                            display: false, // X축 제목 표시
-                            text: "분기", // X축 제목 텍스트
-                        },
-                    },
-                    y: {
-                        min: 0, // Y축 최소값
-                        max: 1000, // Y축 최대값
-                        title: {
-                            display: false, // Y축 제목 표시
-                            text: "신용점수", // Y축 제목 텍스트
-                        },
-                    },
-                },
-            },
-        });
+                // 헤더 업데이트
+                const creditHeader = document.getElementById('creditScoreHeader');
+                creditHeader.innerHTML = `
+                   <div class="d-flex align-items-center">
+                       <img src="https://via.placeholder.com/40" alt="Logo" class="me-3">
+                       <span class="fw-bold fs-5">내 신용점수</span>
+                   </div>
+                   <div class="small d-flex align-items-center">
+                       <div class="me-4 text-end">
+                           <div>변동사항</div>
+                           <div class="badge rounded-pill text-bg-light">
+                               ${hasChange ? '있음' : '없음'}
+                           </div>
+                       </div>
+                       <div class="text-end">
+                           <div>직전 분기 대비</div>
+                           <div class="badge rounded-pill text-bg-light ${scoreDiff > 0 ? 'text-success' : scoreDiff < 0 ? 'text-danger' : ''}">
+                               ${scoreDiff > 0 ? '+' : ''}${scoreDiff}
+                           </div>
+                       </div>
+                   </div>
+               `;
+
+
+                // 신용점수에 따른 예상 금리 계산 (예시)
+                const getCurrentRate = (score) => {
+                    if (score >= 900) return 3.5;
+                    if (score >= 800) return 4.5;
+                    if (score >= 700) return 5.5;
+                    if (score >= 600) return 6.5;
+                    return 7.5;
+                }
+
+                const currentRate = getCurrentRate(currentScore.credit_score);
+                const targetRate = getCurrentRate(targetScore);
+                const rateDiff = (currentRate - targetRate).toFixed(2);
+
+                // HTML 업데이트
+                document.getElementById('changeLoanPoint').innerHTML = `
+                   <div class="ps-3 fw-bold text-start">
+                       신용점수를 ${targetScore - currentScore.credit_score}점 올리면<br>
+                       대출 금리가 ${rateDiff}%<br>
+                       낮아져요
+                   </div>
+                   <div class="detail my-4 py-1 d-flex justify-content-between align-items-center">
+                       <div class="p-3 text-center">
+                           <div>${currentScore.credit_score}점일 때<br>${currentRate.toFixed(2)}%</div>
+                       </div>
+                       <div class="px-2 text-center">
+                           <img src="/img/right-arrow.png" style="max-height: 15px; width: auto;" alt="로고 이미지" class="m-0 p-0">
+                       </div>
+                       <div class="p-3 text-center">
+                           <div>${targetScore}점일 때<br>${targetRate.toFixed(2)}%</div>
+                       </div>
+                   </div>
+               `;
+
+            })
+            .catch(error => {
+                console.error('API Error:', error);
+
+                // API 호출 실패시 더미 데이터 생성
+                const currentScore = 702;
+                const predictedScore = 875;
+                createGaugeChart(currentScore, predictedScore);
+
+                // 분기별 더미 데이터 생성
+                const labels = generateQuarterlyDates();
+                const creditScores = generateCreditScores();
+                createCreditScoreChart(labels, creditScores);
+
+                // 더미 데이터로 표시 (원본과 동일한 형식)
+                document.getElementById('gaugeLabel').innerHTML = `
+                    <div class="fs-4 text-primary fw-bold">942점</div>
+                    <div class="fs-5 text-warning">3개월 후 <strong>975점</strong></div>
+                    <div class="">현재 상위 3% · 위험도 0.02%</div>
+                    <div class="">
+                        <span class="badge bg-danger">최소 170점 상승</span>
+                        <span class="badge bg-secondary">변경확률 5%</span>
+                    </div>
+                `;
+
+                document.getElementById('changeLoanPoint').innerHTML = `
+                   <div class="ps-3 fw-bold text-start">
+                       신용점수를 50점 올리면<br>
+                       대출 금리가 0.34%<br>
+                       낮아져요
+                   </div>
+                   <div class="detail my-4 py-1 d-flex justify-content-between align-items-center">
+                       <div class="p-3 text-center">
+                           <div>942점일 때<br>4.89%</div>
+                       </div>
+                       <div class="px-2 text-center">
+                           <img src="/img/right-arrow.png" style="max-height: 15px; width: auto;" alt="로고 이미지" class="m-0 p-0">
+                       </div>
+                       <div class="p-3 text-center">
+                           <div>992점일 때<br>4.55%</div>
+                       </div>
+                   </div>
+               `;
+            });
 
         // 24.11.26 정규가 수정했음
         // 자산 대비 대출 그래프 그리기
@@ -472,6 +457,158 @@
                 createChart(dummyData);
             })
     });
+
+    // 게이지 차트 생성 함수
+    function createGaugeChart(currentScore, predictedScore) {
+        const ctx = document.getElementById("gaugeChart").getContext("2d");
+        const maxScore = 1000;
+        const chartRadius = 150;
+
+        return new Chart(ctx, {
+            type: "doughnut",
+            data: {
+                datasets: [
+                    {
+                        label: 'Current Score',
+                        data: [currentScore, maxScore - currentScore],
+                        backgroundColor: ["#007bff", "#e9ecef"],
+                        circumference: 180,
+                        rotation: 270,
+                        cutout: "65%",
+                    },
+                    {
+                        label: 'Predicted Score',
+                        data: [predictedScore, maxScore - predictedScore],
+                        backgroundColor: ['#ffc107', '#e9ecef'],
+                        borderWidth: 0,
+                        cutout: '65%',
+                        rotation: -90,
+                        circumference: 180,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { enabled: false },
+                },
+            },
+            plugins: [
+                {
+                    id: "needle",
+                    afterDatasetDraw(chart) {
+                        const {
+                            ctx,
+                            data,
+                            chartArea: { width, height },
+                        } = chart;
+
+                        const needleValue = predictedScore;
+                        const dataTotal = maxScore;
+                        const angle = Math.PI + (needleValue / dataTotal) * Math.PI;
+                        const centerX = width / 2;
+                        const centerY = chart.getDatasetMeta(0).data[0].y;
+                        const needleLength = chartRadius * 0.7;
+
+                        ctx.save();
+                        ctx.translate(centerX, centerY);
+                        ctx.rotate(angle);
+                        ctx.beginPath();
+                        ctx.moveTo(0, -5);
+                        ctx.lineTo(needleLength, 0);
+                        ctx.lineTo(0, 5);
+                        ctx.fillStyle = "#FF0000";
+                        ctx.fill();
+                        ctx.restore();
+
+                        ctx.beginPath();
+                        ctx.arc(centerX, centerY, 6, 0, Math.PI * 2);
+                        ctx.fillStyle = "#FF0000";
+                        ctx.fill();
+                        ctx.restore();
+                    },
+                },
+            ],
+        });
+    }
+
+    // 신용점수 변동 차트 생성 함수
+    function createCreditScoreChart(labels, creditScores) {
+        const ctxPast = document.getElementById("creditScoreChart").getContext("2d");
+        return new Chart(ctxPast, {
+            type: "line",
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: "신용점수",
+                        data: creditScores,
+                        borderColor: "#007bff",
+                        backgroundColor: "rgba(0, 123, 255, 0.2)",
+                        fill: true,
+                        tension: 0.3,
+                        pointBackgroundColor: "#007bff",
+                        pointBorderColor: "#fff",
+                        pointRadius: 5,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: "top",
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return `신용점수: ${context.raw}`;
+                            },
+                        },
+                    },
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: false,
+                            text: "분기",
+                        },
+                    },
+                    y: {
+                        min: 0,
+                        max: 1000,
+                        title: {
+                            display: false,
+                            text: "신용점수",
+                        },
+                    },
+                },
+            },
+        });
+    }
+
+    // 분기 데이터 생성 함수 (더미용)
+    function generateQuarterlyDates() {
+        const dates = [];
+        const now = new Date();
+        const quarterNames = ["Q1", "Q2", "Q3", "Q4"];
+        for (let i = 0; i < 8; i++) {
+            const quarter = quarterNames[Math.floor(now.getMonth() / 3)];
+            const year = now.getFullYear();
+            dates.unshift(`${year} ${quarter}`);
+            now.setMonth(now.getMonth() - 3);
+        }
+        return dates;
+    }
+
+    // 신용점수 생성 함수 (더미용)
+    function generateCreditScores() {
+        return Array.from({ length: 8 }, () => Math.floor(Math.random() * 1001));
+    }
 
     function createChart(data) {
         const myCapital = data.assets.map(asset => asset.amount);
@@ -758,6 +895,8 @@
         };
         return iconMap[bankName] || 'icon1';
     }
+
+
 </script>
 
 </body>
