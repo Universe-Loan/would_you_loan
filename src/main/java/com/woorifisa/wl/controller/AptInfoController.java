@@ -95,7 +95,60 @@ public class AptInfoController {
             @RequestParam(required = false) String cityText,
             @RequestParam(required = false) String districtText,
             @RequestParam(required = false) String annualIncome,
+            @RequestParam(required = false, defaultValue = "1") int pageNo,
+            @RequestParam(required = false, defaultValue = "10") int numOfRows,
             Model model) {
+
+        // lawdCode 앞 5자리 lawd_five 생성
+        String lawd_five = districtCode;
+        System.out.println("생성된 lawd_five: " + lawd_five);
+
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.getMessageConverters().add(0, new StringHttpMessageConverter(StandardCharsets.UTF_8));
+
+        // n년치 데이터 불러오기
+        List<Map<String, String>> allItems = new ArrayList<>();
+        LocalDate currentDate = LocalDate.now();
+        LocalDate NYearAgo = currentDate.minusYears(1);
+
+        // 실거래가 api 불러오기
+        for (LocalDate date = NYearAgo; date.isBefore(currentDate) || date.isEqual(currentDate); date = date.plusMonths(1)) {
+            String currentDealYmd = date.format(DateTimeFormatter.ofPattern("yyyyMM"));
+
+            URI uri = UriComponentsBuilder.fromHttpUrl(API_BASE_URL)
+                    .queryParam("serviceKey", serviceKey)
+                    .queryParam("LAWD_CD", lawd_five)  // 여기서 생성된 5자리 lawd_five 사용
+                    .queryParam("DEAL_YMD", currentDealYmd)
+                    .queryParam("pageNo", pageNo)
+                    .queryParam("numOfRows", numOfRows)
+                    .build(true)
+                    .toUri();
+
+            System.out.println("API 호출 URL: " + uri.toString());
+
+            try {
+                ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
+                System.out.println("API 응답 상태 코드: " + response.getStatusCode());
+
+                String xmlResponse = response.getBody();
+                List<Map<String, String>> items = parseXmlResponse(xmlResponse);
+                allItems.addAll(items);
+
+            } catch (Exception e) {
+                System.err.println("API 호출 중 오류 발생 (" + currentDealYmd + "): " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+
+        // 최신순으로 정렬
+        allItems.sort((a, b) -> {
+            String dateA = getDateString(a);
+            String dateB = getDateString(b);
+            return dateB.compareTo(dateA);
+        });
+
+        // 모델에 데이터 추가
+        model.addAttribute("items", allItems); // 세션에 저장
 
         // 모델에 데이터 추가
         model.addAttribute("cityCode", cityCode);
@@ -105,11 +158,13 @@ public class AptInfoController {
         model.addAttribute("annualIncome", annualIncome);
 
         // 디버깅 로그
-        System.out.println("City Code: " + cityCode);
-        System.out.println("District Code: " + districtCode);
-        System.out.println("City Text: " + cityText);
-        System.out.println("District Text: " + districtText);
-        System.out.println("Annual Income: " + annualIncome);
+        System.out.println("1 City Code: " + cityCode);
+        System.out.println("1 District Code: " + districtCode);
+        System.out.println("1 City Text: " + cityText);
+        System.out.println("1 District Text: " + districtText);
+        System.out.println("1 Annual Income: " + annualIncome);
+
+        System.out.println("1 items" + allItems);
 
         return "apt_list"; // Thymeleaf 템플릿 이름
     }

@@ -65,7 +65,31 @@
         </div>
     </div>
     <div class="box">
-        <div th:text="items"></div>
+        <div class="col-6 d-flex flex-column flex-fill">
+            <div class="box flex-fill d-flex flex-column">
+                <h5 th:text="${city + ' ' + district + ' ' + neighborhood + ' 실거래 매매 정보'}"></h5>
+                <div class="container flex-fill">
+                    <div style="max-height: 250px; overflow-y: auto;">
+                        <table id="LocalAptTable" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>거래일</th>
+                                <th>아파트명</th>
+                                <th>거래금액</th>
+                                <th>전용면적</th>
+                                <th>층</th>
+                                <th>건축년도</th>
+                            </tr>
+                            </thead>
+                            <tbody id="aptTableBody">
+                            <!-- 데이터가 여기에 동적으로 추가됩니다 -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <button id="loadMoreBtn" class="btn btn-primary mt-3">더보기</button>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="box d-flex align-items-center flex-fill">
         <div class="icon me-3"></div>
@@ -101,94 +125,156 @@
 <th:block th:replace="fragments/header :: scripts"></th:block>
 
 <script>
-    // 사용자 ID를 Thymeleaf에서 동적으로 설정
-    const userId = "[[${session.user_id}]]";
-    const annualIncome = parseInt("[[${annualIncome}]]") || 0; // 서버에서 전달된 연 소득 (숫자로 변환)
+    document.addEventListener('DOMContentLoaded', function() {
+        // 사용자 ID를 Thymeleaf에서 동적으로 설정
+        const userId = "[[${session.user_id}]]";
+        const annualIncome = parseInt("[[${annualIncome}]]") || 0; // 서버에서 전달된 연 소득 (숫자로 변환)
 
-    if (isNaN(annualIncome) || annualIncome <= 0) {
-        console.error('연 소득(annualIncome)이 유효하지 않습니다.');
-        document.getElementById('pirResult').textContent = '연 소득 정보를 확인해주세요.';
-        document.getElementById('pirPrice').textContent = '연 소득 정보를 확인해주세요.';
-    }
+        if (isNaN(annualIncome) || annualIncome <= 0) {
+            console.error('연 소득(annualIncome)이 유효하지 않습니다.');
+            document.getElementById('pirResult').textContent = '연 소득 정보를 확인해주세요.';
+            document.getElementById('pirPrice').textContent = '연 소득 정보를 확인해주세요.';
+        }
 
-    if (userId && userId.trim() !== "") {
-        // API 호출
-        fetch('/mydata-api/account', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: new URLSearchParams({ 'user_id': userId })
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('계좌 데이터를 불러오는데 실패했습니다.');
-                }
-                return response.json();
+        if (userId && userId.trim() !== "") {
+            // API 호출
+            fetch('/mydata-api/account', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({'user_id': userId})
             })
-            .then(data => {
-                const totalBalance = data.currentTotal || 0;
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('계좌 데이터를 불러오는데 실패했습니다.');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const totalBalance = data.currentTotal || 0;
 
-                // 총합 표시 업데이트
-                document.getElementById('totalBalance').textContent = `${totalBalance.toLocaleString()}원`;
+                    // 총합 표시 업데이트
+                    document.getElementById('totalBalance').textContent = `${totalBalance.toLocaleString()}원`;
 
-                // K-HAI 대출 가능 금액 계산
-                calculateAndDisplayLoanAmount(totalBalance);
+                    // K-HAI 대출 가능 금액 계산
+                    calculateAndDisplayLoanAmount(totalBalance);
 
-                // PIR 계산
-                calculatePIR(totalBalance, annualIncome);
-            })
-            .catch(error => {
-                console.error('Error fetching account data:', error);
-                document.getElementById('totalBalance').textContent = '데이터를 불러오는데 실패했습니다.';
+                    // PIR 계산
+                    calculatePIR(totalBalance, annualIncome);
+                })
+                .catch(error => {
+                    console.error('Error fetching account data:', error);
+                    document.getElementById('totalBalance').textContent = '데이터를 불러오는데 실패했습니다.';
+                });
+        } else {
+            console.error('User ID가 제공되지 않았습니다.');
+            document.getElementById('totalBalance').textContent = '사용자 정보를 확인해주세요.';
+        }
+
+        // PIR 지수 계산
+        function calculatePIR(totalBalance, annualIncome) {
+            const pirResult = annualIncome * 11.2;
+            const pirPrice = pirResult + totalBalance;
+
+            // HTML 업데이트
+            document.getElementById('pirResult').textContent = `${pirResult.toLocaleString()}원`;
+            document.getElementById('pirPrice').textContent = `${pirPrice.toLocaleString()}원`;
+        }
+
+        // K-HAI 계산 함수 정의
+        function calculateLoanAmount(monthlyIncome, interestRate, loanTermMonths) {
+            // 월 상환 가능 금액: 소득의 25.7%
+            const monthlyRepayment = monthlyIncome * 0.257;
+
+            // 월 이자율
+            const monthlyInterestRate = interestRate / 12;
+
+            // 대출 가능 금액(PV) 계산
+            const loanAmount = (monthlyRepayment *
+                (Math.pow(1 + monthlyInterestRate, loanTermMonths) - 1) /
+                (monthlyInterestRate * Math.pow(1 + monthlyInterestRate, loanTermMonths)));
+
+            return loanAmount;
+        }
+
+        // 대출 가능 금액 계산 및 업데이트
+        function calculateAndDisplayLoanAmount(totalBalance) {
+            const monthlyIncome = annualIncome / 12; // 월 소득
+            const interestRate = 0.04; // 연 이자율 (4%)
+            const loanTermMonths = 20 * 12; // 대출 기간 (20년)
+
+            // 대출 가능 금액 계산
+            const loanAmount = calculateLoanAmount(monthlyIncome, interestRate, loanTermMonths);
+
+            // K-HAI 추천 아파트 금액 계산
+            const KHAIPrice = loanAmount + totalBalance;
+
+            // K-HAI 결과 업데이트
+            document.getElementById('khaiResult').textContent = `${loanAmount.toLocaleString()}원`;
+            document.getElementById('khaiPrice').textContent = `${KHAIPrice.toLocaleString()}원`;
+        }
+
+
+// 해당 구 실거래 데이터 준비
+        const localItems = /*[[${allItems}]]*/ [];
+        // const lawdCode = /*[[${lawdCode}]]*/ '';
+        const citycode = /*[[${cityCode}*/ '';
+
+        console.log(citycode);
+
+        const lawdCode = 1117000000;
+        // const apartment = /*[[${apartment}]]*/ '';
+
+        let localCurrentIndex = 0;
+        const localItemsPerPage = 10;
+        let myAptCurrentIndex = 0;
+        const myAptItemsPerPage = 10;
+
+        function loadMoreLocalItems() {
+            const tableBody = document.getElementById('aptTableBody');
+            if (!tableBody) return;
+
+            // 필터링된 항목 가져오기
+            let filteredItems = localItems.filter(item =>
+                item.sggCd.startsWith(lawdCode.slice(0, 5)) &&
+                item.umdCd.startsWith(lawdCode.slice(5, 10))
+            );
+
+            // 날짜 기준 최신순 정렬
+            filteredItems.sort((a, b) => {
+                const dateA = new Date(a.dealYear, a.dealMonth - 1, a.dealDay); // JS의 month는 0부터 시작
+                const dateB = new Date(b.dealYear, b.dealMonth - 1, b.dealDay);
+                return dateB - dateA; // 최신순
             });
-    } else {
-        console.error('User ID가 제공되지 않았습니다.');
-        document.getElementById('totalBalance').textContent = '사용자 정보를 확인해주세요.';
-    }
 
-    // PIR 지수 계산
-    function calculatePIR(totalBalance, annualIncome) {
-        const pirResult = annualIncome * 11.2;
-        const pirPrice = pirResult + totalBalance;
+            // 페이징 처리
+            const endIndex = Math.min(localCurrentIndex + localItemsPerPage, filteredItems.length);
 
-        // HTML 업데이트
-        document.getElementById('pirResult').textContent = `${pirResult.toLocaleString()}원`;
-        document.getElementById('pirPrice').textContent = `${pirPrice.toLocaleString()}원`;
-    }
+            for (let i = localCurrentIndex; i < endIndex; i++) {
+                const item = filteredItems[i];
+                const row = tableBody.insertRow();
+                row.innerHTML = `
+            <td>${item.dealYear}년 ${item.dealMonth}월 ${item.dealDay}일</td>
+            <td>${item.aptNm}</td>
+            <td>${convertToKorean(item.dealAmount)}</td>
+            <td>${item.excluUseAr}m²</td>
+            <td>${item.floor}층</td>
+            <td>${item.buildYear}년</td>
+        `;
+            }
 
-    // K-HAI 계산 함수 정의
-    function calculateLoanAmount(monthlyIncome, interestRate, loanTermMonths) {
-        // 월 상환 가능 금액: 소득의 25.7%
-        const monthlyRepayment = monthlyIncome * 0.257;
+            localCurrentIndex = endIndex;
 
-        // 월 이자율
-        const monthlyInterestRate = interestRate / 12;
+            // "더보기" 버튼 상태 업데이트
+            const loadMoreBtn = document.getElementById('loadMoreBtn');
+            if (loadMoreBtn) {
+                loadMoreBtn.style.display = localCurrentIndex >= filteredItems.length ? 'none' : 'block';
+            }
+        }
 
-        // 대출 가능 금액(PV) 계산
-        const loanAmount = (monthlyRepayment *
-            (Math.pow(1 + monthlyInterestRate, loanTermMonths) - 1) /
-            (monthlyInterestRate * Math.pow(1 + monthlyInterestRate, loanTermMonths)));
-
-        return loanAmount;
-    }
-
-    // 대출 가능 금액 계산 및 업데이트
-    function calculateAndDisplayLoanAmount(totalBalance) {
-        const monthlyIncome = annualIncome / 12; // 월 소득
-        const interestRate = 0.04; // 연 이자율 (4%)
-        const loanTermMonths = 20 * 12; // 대출 기간 (20년)
-
-        // 대출 가능 금액 계산
-        const loanAmount = calculateLoanAmount(monthlyIncome, interestRate, loanTermMonths);
-
-        // K-HAI 추천 아파트 금액 계산
-        const KHAIPrice = loanAmount + totalBalance;
-
-        // K-HAI 결과 업데이트
-        document.getElementById('khaiResult').textContent = `${loanAmount.toLocaleString()}원`;
-        document.getElementById('khaiPrice').textContent = `${KHAIPrice.toLocaleString()}원`;
-    }
+        loadMoreLocalItems();
+    });
 </script>
 
 
