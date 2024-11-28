@@ -160,6 +160,7 @@ function loadApartments() {
 
 // 선택된 주소 입력
 function submitInterestProperty() {
+    const userId = globalUserId;
     const citySelect = document.getElementById('city');
     const districtSelect = document.getElementById('district');
     const neighborhoodSelect = document.getElementById('neighborhood');
@@ -200,7 +201,9 @@ function submitInterestProperty() {
             KaptCode: kaptCode
         });
 
-        window.location.href = `/apt-report?${params.toString()}`;
+        const go_url = `/apt-report?${params.toString()}`;
+        saveSearchRecord(apartment, go_url, userId)
+        window.location.href = go_url;
     } else if (isLoanPersonalInfoPage) {
         // Update the address field and close the popup
         const addressButton = document.querySelector('button.form-control');
@@ -212,4 +215,28 @@ function submitInterestProperty() {
     } else {
         alert('적합한 페이지에서만 동작합니다.');
     }
+}
+
+// 검색 기록 저장 함수 추가
+function saveSearchRecord(apartName, go_url, userId) {
+
+    console.log(userId);
+
+    fetch('/search-apt-record/save-search', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+            'userId': userId,
+            'apartName': apartName,
+            'url': go_url
+    })
+    })
+        .then(response => {
+            if (!response.ok) {
+                console.error('Failed to save search record');
+            }
+        })
+        .catch(error => console.error('Error saving search record:', error));
 }
