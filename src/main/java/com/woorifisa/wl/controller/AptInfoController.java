@@ -70,13 +70,6 @@ public class AptInfoController {
             @RequestParam("annualIncome") String annualIncome,
             RedirectAttributes redirectAttributes) {
 
-        // Hidden Input에서 전달된 값 확인
-        System.out.println("City Code: " + cityCode);
-        System.out.println("District Code: " + districtCode);
-        System.out.println("City Text: " + cityText);
-        System.out.println("District Text: " + districtText);
-        System.out.println("Annual Income: " + annualIncome);
-
         // Redirect 시 전달할 값 설정
         redirectAttributes.addAttribute("cityCode", cityCode);
         redirectAttributes.addAttribute("districtCode", districtCode);
@@ -156,15 +149,6 @@ public class AptInfoController {
         model.addAttribute("cityText", cityText);
         model.addAttribute("districtText", districtText);
         model.addAttribute("annualIncome", annualIncome);
-
-        // 디버깅 로그
-        System.out.println("1 City Code: " + cityCode);
-        System.out.println("1 District Code: " + districtCode);
-        System.out.println("1 City Text: " + cityText);
-        System.out.println("1 District Text: " + districtText);
-        System.out.println("1 Annual Income: " + annualIncome);
-
-        System.out.println("1 items" + allItems);
 
         return "apt_list"; // Thymeleaf 템플릿 이름
     }
@@ -275,14 +259,6 @@ public class AptInfoController {
                                 @RequestParam(required = false, defaultValue = "1") int pageNo,
                                 @RequestParam(required = false, defaultValue = "10") int numOfRows,
                                 Model model, HttpSession session) {
-
-        System.out.println("주소API Received parameters:");
-        System.out.println("City: " + city);
-        System.out.println("District: " + district);
-        System.out.println("Neighborhood: " + neighborhood);
-        System.out.println("Apartment: " + apartment);
-        System.out.println("lawdCode: " + lawdCode);
-        System.out.println("kaptCode1: " + kaptCode);
 
         // lawdCode 앞 5자리 lawd_five 생성
         String lawd_five = lawdCode.substring(0,5);

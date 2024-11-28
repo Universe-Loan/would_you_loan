@@ -258,16 +258,6 @@
                     (a.year - b.year) || (a.quarter - b.quarter)
                 );
 
-                // 실제 데이터로 차트 생성
-                createGaugeChart(
-                    sortedData[sortedData.length - 1].credit_score,
-                    Math.max(...sortedData.map(d => d.credit_score))
-                );
-                createCreditScoreChart(
-                    sortedData.map(d => `${d.year} Q${d.quarter}`),
-                    sortedData.map(d => d.credit_score)
-                );
-
                 // 게이지 아래 라벨부
                 // 현재 스코어 (가장 최근 데이터)
                 const currentScore = sortedData[sortedData.length - 1];
@@ -275,17 +265,17 @@
                 // 3달 뒤의 예측 점수 (현재 점수보다 약간 높게 설정)
                 const predictedScore = Math.min(1000, currentScore.credit_score + 33);
 
-                // 상위 퍼센트를 위험도로 변환 (100% - percentile)
-                const riskRate = (100 - currentScore.percentile).toFixed(2);
+                // 실제 데이터로 차트 생성
+                createGaugeChart(
+                    currentScore.credit_score,
+                    predictedScore
+                );
+                createCreditScoreChart(
+                    sortedData.map(d => `${d.year} Q${d.quarter}`),
+                    sortedData.map(d => d.credit_score)
+                );
 
-                // 점수 상승 목표 (900점 또는 다음 등급까지의 차이)
-                const targetScore = currentScore.credit_grade > 1 ?
-                    Math.min(900, currentScore.credit_score + 50) : currentScore.credit_score;
-                const scoreToIncrease = targetScore - currentScore.credit_score;
-
-                // 변경 확률 계산 (예시: 현재 점수가 높을수록 변경확률 낮아짐)
-                const changeProb = Math.max(5, Math.round(100 - currentScore.percentile / 2));
-
+                // 게이지 아래 라벨부
                 // gaugeLabel 업데이트
                 document.getElementById('gaugeLabel').innerHTML = `
                     <div class="d-flex justify-content-center align-items-center gauge-text">
