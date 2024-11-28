@@ -124,22 +124,7 @@
                 <div class="d-flex justify-content-start align-items-center flex-nowrap gap-2 overflow-auto">
                     <div class="fw-bold text-secondary me-3">최근 조회내역</div>
                     <div id="recentSearchButtons" class="d-flex flex-wrap gap-2">
-                        <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill">
-                            상암IT타워
-                            <i class="fas fa-times ml-2 delete-btn" onclick="deleteSearchItem(event)"></i>
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill">
-                            월드컵경기장
-                            <i class="fas fa-times ml-2 delete-btn" onclick="deleteSearchItem(event)"></i>
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill">
-                            한남더힐
-                            <i class="fas fa-times ml-2 delete-btn" onclick="deleteSearchItem(event)"></i>
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill">
-                            반포자이
-                            <i class="fas fa-times ml-2 delete-btn" onclick="deleteSearchItem(event)"></i>
-                        </button>
+                        <!-- 동적으로 추가될 버튼들 -->
                     </div>
                 </div>
             </div>
@@ -201,62 +186,114 @@
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <!-- 사용자 정의 JS -->
+<script th:inline="javascript">
+    const globalUserId = /*[[${session.user_id}]]*/ '';
+</script>
+
 <script th:src="@{/js/home.js}"></script>
 <script th:src="@{/js/real_address.js}"></script>
 <script th:src="@{/js/real_income.js}"></script>
 
-<script>
-// 최근 조회내역 버튼 삭제
-    function deleteSearchItem(event) {
-        // 이벤트의 기본 동작을 막습니다 (버튼 클릭 이벤트가 전파되는 것을 방지)
-        event.stopPropagation();
 
-        // 클릭된 삭제 버튼의 부모 요소(버튼 전체)를 찾습니다
-        const buttonToRemove = event.target.closest('button');
+<script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        const userId = /*[[${session.user_id}]]*/ '';
+        loadSearchRecords();
 
-        // 버튼을 삭제합니다
-        if (buttonToRemove) {
-            buttonToRemove.remove();
+        function loadSearchRecords() {
+            fetch(`/search-apt-record/${userId}`)
+                .then(response => response.json())
+                .then(records => {
+                    const container = document.getElementById('recentSearchButtons');
+                    if (!records || records.length === 0) {
+                        container.innerHTML = '<div class="text-secondary">조회내역이 없습니다.</div>';
+                        return;
+                    }
+
+                        container.innerHTML = records.map(record => `
+                           <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill"
+                                   data-url-id="${record.urlId}"
+                                   onclick="window.location.href='${record.url}'">
+                               ${record.apartName}
+                               <i class="fas fa-times ml-2 delete-btn" onclick="event.stopPropagation(); deleteSearchItem(event, ${record.urlId})"></i>
+                           </button>
+                       `).join('');
+                    })
+                    .catch(error => {
+                        console.error('Error loading search records:', error);
+                        const container = document.getElementById('recentSearchButtons');
+                        container.innerHTML = '<div class="text-secondary">조회내역이 없습니다.</div>';
+                    });
         }
 
-        // 로컬 스토리지에서 해당 항목을 제거하는 로직을 여기에 추가할 수 있습니다
-        // 예: removeFromLocalStorage(buttonToRemove.textContent.trim());
-    }
+        window.deleteSearchItem = function(event, urlId) {
+            event.stopPropagation();
 
-    // 모든 최근 조회 내역을 삭제하는 함수
-    function clearAllSearchHistory() {
-        const recentSearchButtons = document.getElementById('recentSearchButtons');
-        recentSearchButtons.innerHTML = '';
+            fetch(`/search-apt-record/${urlId}?userId=${userId}`, {
+                method: 'DELETE'
+            })
+                .then(response => {
+                    if (response.ok) {
+                        event.target.closest('button').remove();
+                    }
+                })
+                .catch(error => console.error('Error deleting search record:', error));
+        }
+    });
+</script>
 
-        // 로컬 스토리지에서 모든 항목을 제거하는 로직을 여기에 추가할 수 있습니다
-        // 예: localStorage.removeItem('recentSearches');
-    }
-
-    // 페이지 로드 시 로컬 스토리지에서 최근 조회 내역을 불러오는 함수
-    function loadRecentSearches() {
-        // 로컬 스토리지에서 데이터를 불러오는 로직을 여기에 구현할 수 있습니다
-        // 예:
-        // const recentSearches = JSON.parse(localStorage.getItem('recentSearches')) || [];
-        // recentSearches.forEach(search => addSearchButton(search));
-    }
-
-    // 새로운 검색 항목을 추가하는 함수
-    function addSearchButton(searchText) {
-        const recentSearchButtons = document.getElementById('recentSearchButtons');
-        const newButton = document.createElement('button');
-        newButton.className = 'btn btn-outline-secondary btn-sm rounded-pill';
-        newButton.innerHTML = `
-            ${searchText}
-            <i class="fas fa-times ml-2 delete-btn" onclick="deleteSearchItem(event)"></i>
-        `;
-        recentSearchButtons.appendChild(newButton);
-
-        // 로컬 스토리지에 새 항목을 추가하는 로직을 여기에 구현할 수 있습니다
-        // 예: addToLocalStorage(searchText);
-    }
-
-    // 페이지 로드 시 최근 조회 내역을 불러옵니다
-    window.onload = loadRecentSearches;
+<script>
+// // 최근 조회내역 버튼 삭제
+//     function deleteSearchItem(event) {
+//         // 이벤트의 기본 동작을 막습니다 (버튼 클릭 이벤트가 전파되는 것을 방지)
+//         event.stopPropagation();
+//
+//         // 클릭된 삭제 버튼의 부모 요소(버튼 전체)를 찾습니다
+//         const buttonToRemove = event.target.closest('button');
+//
+//         // 버튼을 삭제합니다
+//         if (buttonToRemove) {
+//             buttonToRemove.remove();
+//         }
+//
+//         // 로컬 스토리지에서 해당 항목을 제거하는 로직을 여기에 추가할 수 있습니다
+//         // 예: removeFromLocalStorage(buttonToRemove.textContent.trim());
+//     }
+//
+//     // 모든 최근 조회 내역을 삭제하는 함수
+//     function clearAllSearchHistory() {
+//         const recentSearchButtons = document.getElementById('recentSearchButtons');
+//         recentSearchButtons.innerHTML = '';
+//
+//         // 로컬 스토리지에서 모든 항목을 제거하는 로직을 여기에 추가할 수 있습니다
+//         // 예: localStorage.removeItem('recentSearches');
+//     }
+//
+//     // 페이지 로드 시 로컬 스토리지에서 최근 조회 내역을 불러오는 함수
+//     function loadRecentSearches() {
+//         // 로컬 스토리지에서 데이터를 불러오는 로직을 여기에 구현할 수 있습니다
+//         // 예:
+//         // const recentSearches = JSON.parse(localStorage.getItem('recentSearches')) || [];
+//         // recentSearches.forEach(search => addSearchButton(search));
+//     }
+//
+//     // 새로운 검색 항목을 추가하는 함수
+//     function addSearchButton(searchText) {
+//         const recentSearchButtons = document.getElementById('recentSearchButtons');
+//         const newButton = document.createElement('button');
+//         newButton.className = 'btn btn-outline-secondary btn-sm rounded-pill';
+//         newButton.innerHTML = `
+//             ${searchText}
+//             <i class="fas fa-times ml-2 delete-btn" onclick="deleteSearchItem(event)"></i>
+//         `;
+//         recentSearchButtons.appendChild(newButton);
+//
+//         // 로컬 스토리지에 새 항목을 추가하는 로직을 여기에 구현할 수 있습니다
+//         // 예: addToLocalStorage(searchText);
+//     }
+//
+//     // 페이지 로드 시 최근 조회 내역을 불러옵니다
+//     window.onload = loadRecentSearches;
 
 </script>
 
