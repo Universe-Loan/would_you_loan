@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@SessionAttributes("items")
 @Controller
 public class AptInfoController {
 
@@ -277,7 +278,8 @@ public class AptInfoController {
         });
 
         // 모델에 데이터 추가
-        model.addAttribute("items", allItems);
+        model.addAttribute("items", allItems); // 세션에 저장
+
         model.addAttribute("city", city);
         model.addAttribute("district", district);
         model.addAttribute("neighborhood", neighborhood);

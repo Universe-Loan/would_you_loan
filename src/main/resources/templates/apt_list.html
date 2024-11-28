@@ -58,11 +58,14 @@
         <div class="col-6 d-flex flex-column">
             <div class="box flex-fill">
                 PIR 지수 : KB아파트 PIR(24 3Q) - 서울 11.2,  경기 9, 인천 8.1<br>
-                PIR 추천 아파트 가격: <span th:text="${annualIncome}*11.2"></span><br>
+                PIR 추천 아파트 가격: <span id="pirResult">0원</span><br> <span id="pirPrice">0원</span><br>
                 적정부담액: 소득의 25.7% 이하를 원리금분할상환으로 부담할 때<br>
-                K-HAI 지수(대출금리 4%, 대출만기 20년) : <span id="khaiResult">0원</span>
+                K-HAI 지수(대출금리 4%, 대출만기 20년) : <span id="khaiResult">0원</span> <span id="khaiPrice">0원</span>
             </div>
         </div>
+    </div>
+    <div class="box">
+        <div th:text="items"></div>
     </div>
     <div class="box d-flex align-items-center flex-fill">
         <div class="icon me-3"></div>
@@ -100,6 +103,13 @@
 <script>
     // 사용자 ID를 Thymeleaf에서 동적으로 설정
     const userId = "[[${session.user_id}]]";
+    const annualIncome = parseInt("[[${annualIncome}]]") || 0; // 서버에서 전달된 연 소득 (숫자로 변환)
+
+    if (isNaN(annualIncome) || annualIncome <= 0) {
+        console.error('연 소득(annualIncome)이 유효하지 않습니다.');
+        document.getElementById('pirResult').textContent = '연 소득 정보를 확인해주세요.';
+        document.getElementById('pirPrice').textContent = '연 소득 정보를 확인해주세요.';
+    }
 
     if (userId && userId.trim() !== "") {
         // API 호출
@@ -124,6 +134,9 @@
 
                 // K-HAI 대출 가능 금액 계산
                 calculateAndDisplayLoanAmount(totalBalance);
+
+                // PIR 계산
+                calculatePIR(totalBalance, annualIncome);
             })
             .catch(error => {
                 console.error('Error fetching account data:', error);
@@ -132,6 +145,16 @@
     } else {
         console.error('User ID가 제공되지 않았습니다.');
         document.getElementById('totalBalance').textContent = '사용자 정보를 확인해주세요.';
+    }
+
+    // PIR 지수 계산
+    function calculatePIR(totalBalance, annualIncome) {
+        const pirResult = annualIncome * 11.2;
+        const pirPrice = pirResult + totalBalance;
+
+        // HTML 업데이트
+        document.getElementById('pirResult').textContent = `${pirResult.toLocaleString()}원`;
+        document.getElementById('pirPrice').textContent = `${pirPrice.toLocaleString()}원`;
     }
 
     // K-HAI 계산 함수 정의
@@ -152,18 +175,22 @@
 
     // 대출 가능 금액 계산 및 업데이트
     function calculateAndDisplayLoanAmount(totalBalance) {
-        const annualIncome = 50000000; // 연 소득
         const monthlyIncome = annualIncome / 12; // 월 소득
         const interestRate = 0.04; // 연 이자율 (4%)
         const loanTermMonths = 20 * 12; // 대출 기간 (20년)
 
         // 대출 가능 금액 계산
-        const loanAmount = calculateLoanAmount(monthlyIncome, interestRate, loanTermMonths) + totalBalance;
+        const loanAmount = calculateLoanAmount(monthlyIncome, interestRate, loanTermMonths);
+
+        // K-HAI 추천 아파트 금액 계산
+        const KHAIPrice = loanAmount + totalBalance;
 
         // K-HAI 결과 업데이트
         document.getElementById('khaiResult').textContent = `${loanAmount.toLocaleString()}원`;
+        document.getElementById('khaiPrice').textContent = `${KHAIPrice.toLocaleString()}원`;
     }
 </script>
+
 
 </body>
 </html>
