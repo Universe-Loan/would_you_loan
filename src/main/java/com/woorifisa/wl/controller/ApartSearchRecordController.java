@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -40,14 +41,21 @@ public class ApartSearchRecordController {
     @PostMapping("/save-search")
     public ResponseEntity<?> saveSearchRecord(
             @RequestParam Long userId,
+            @RequestParam String city,
+            @RequestParam String district,
             @RequestParam String apartName,
             @RequestParam String url) {
         try {
-            ApartSearchRecord savedRecord = apartSearchRecordService.saveSearchRecord(userId, apartName, url);
+            ApartSearchRecord savedRecord = apartSearchRecordService.saveSearchRecord(userId, city, district, apartName, url);
             return ResponseEntity.ok(convertToDto(savedRecord));
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Error saving search record: " + e.getMessage());
         }
+    }
+
+    @GetMapping("/top3")
+    public ResponseEntity<List<Map<String, Object>>> getTop3Apartments() {
+        return ResponseEntity.ok(apartSearchRecordService.getTop3SearchedApartments());
     }
 
     private ApartSearchRecordDto convertToDto(ApartSearchRecord record) {

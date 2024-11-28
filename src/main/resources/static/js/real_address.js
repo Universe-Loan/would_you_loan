@@ -202,7 +202,7 @@ function submitInterestProperty() {
         });
 
         const go_url = `/apt-report?${params.toString()}`;
-        saveSearchRecord(apartment, go_url, userId)
+        saveSearchRecord(apartment, go_url, userId, city, district)
         window.location.href = go_url;
     } else if (isLoanPersonalInfoPage) {
         // Update the address field and close the popup
@@ -218,10 +218,7 @@ function submitInterestProperty() {
 }
 
 // 검색 기록 저장 함수 추가
-function saveSearchRecord(apartName, go_url, userId) {
-
-    console.log(userId);
-
+function saveSearchRecord(apartName, go_url, userId, city, district) {
     fetch('/search-apt-record/save-search', {
         method: 'POST',
         headers: {
@@ -229,6 +226,8 @@ function saveSearchRecord(apartName, go_url, userId) {
         },
         body: new URLSearchParams({
             'userId': userId,
+            'city': city,
+            'district': district,
             'apartName': apartName,
             'url': go_url
     })

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -24,16 +25,21 @@ public class ApartSearchRecordService {
         apartSearchRecordRepository.deleteByUrlIdAndUserId(urlId, userId);
     }
 
-    public ApartSearchRecord saveSearchRecord(Long userId, String apartName, String url) {
-        // 중복 체크
+    public ApartSearchRecord saveSearchRecord(Long userId, String city, String district, String apartName, String url) {
         if (apartSearchRecordRepository.existsByUserIdAndUrl(userId, url)) {
-            return null; // 또는 기존 레코드 반환
+            return null;
         }
 
         ApartSearchRecord record = new ApartSearchRecord();
         record.setUserId(userId);
+        record.setCity(city);
+        record.setDistrict(district);
         record.setApartName(apartName);
         record.setUrl(url);
         return apartSearchRecordRepository.save(record);
+    }
+
+    public List<Map<String, Object>> getTop3SearchedApartments() {
+        return apartSearchRecordRepository.findTop3BySearchCount();
     }
 }
