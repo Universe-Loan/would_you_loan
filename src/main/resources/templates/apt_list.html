@@ -9,6 +9,25 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css" />
   <!-- 사용자 정의 CSS -->
     <link rel="stylesheet" href="/css/common.css">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .box {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 45px;
+            margin-bottom: 20px;
+        }
+        .icon {
+            width: 50px;
+            height: 50px;
+            background-color: #e9ecef;
+            border-radius: 50%;
+        }
+    </style>
 </head>
 <body>
 
@@ -17,10 +36,56 @@
 
 <!--본문-->
 <div class="content-wrapper">
+    <div th:text="'주소 정보: ' + ${cityCode} + ' ' + ${cityText} + ' ' + ${districtCode} + ' ' + ${districtText}"></div>
+    <div th:text="'연소득: ' + ${annualIncome}"></div>
+    <div>입출금 계좌 총합: <span id="totalBalance" class="text-primary fw-bold">0원</span></div>
 
-    <div th:text="${cityCode} + ' ' + ${cityText} + ' ' + ${districtCode} + ' ' + ${districtText} + ' ' + ${annualIncome}"></div>
-
+    <div class="row">
+        <div class="col-6 d-flex flex-column">
+            <div class="box flex-fill">
+                현재 내 자산을 기준으로 대출을 받으면<br>
+                ${서울특별시} ${영등포구}에서<br>
+                ${n}년 동안 내 소득의 ${25}% 이하를<br>
+                매달 원리금분할상환 방식으로<br>
+                부담하는 아파트를 추천해드릴게요.
+            </div>
+            <div class="box flex-fill">
+                <button class="btn btn-primary">지역</button>
+                <button class="btn btn-primary">상환기간</button>
+                <button class="btn btn-primary">소득대비 비율</button>
+            </div>
+        </div>
+        <div class="col-6 d-flex flex-column">
+            <div class="box flex-fill">
+                PIR 지수 : KB아파트 PIR(24 3Q) - 서울 11.2,  경기 9, 인천 8.1<br>
+                PIR 추천 아파트 가격: <span th:text="${annualIncome}*11.2"></span><br>
+                적정부담액: 소득의 25.7% 이하를 원리금분할상환으로 부담할 때<br>
+                K-HAI 지수(대출금리 4%, 대출만기 20년) : <span id="khaiResult">0원</span>
+            </div>
+        </div>
+    </div>
+    <div class="box d-flex align-items-center flex-fill">
+        <div class="icon me-3"></div>
+        <div>
+            <h6>문래힐스테이트 저층</h6>
+            <p class="price">매매 18억</p>
+            <p>203/165m² · 방5 · 남향 · 23층</p>
+            <p>2호선 문래역 엘리베이터 입주가능 전세가능</p>
+            <p>씨티베이그린공인중개사사무소</p>
+        </div>
+    </div>
+    <div class="box d-flex align-items-center flex-fill">
+        <div class="icon me-3"></div>
+        <div>
+            <h6>문래힐스테이트 저층</h6>
+            <p class="price">매매 18억</p>
+            <p>203/165m² · 방5 · 남향 · 23층</p>
+            <p>2호선 문래역 엘리베이터 입주가능 전세가능</p>
+            <p>씨티베이그린공인중개사사무소</p>
+        </div>
+    </div>
 </div>
+
 
 <!--footer-->
 <footer th:replace="fragments/footer :: footer"></footer>
@@ -31,5 +96,74 @@
 <!-- 사용자 정의 JS -->
 <script th:src="@{/js/home.js}"></script>
 <th:block th:replace="fragments/header :: scripts"></th:block>
+
+<script>
+    // 사용자 ID를 Thymeleaf에서 동적으로 설정
+    const userId = "[[${session.user_id}]]";
+
+    if (userId && userId.trim() !== "") {
+        // API 호출
+        fetch('/mydata-api/account', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({ 'user_id': userId })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('계좌 데이터를 불러오는데 실패했습니다.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const totalBalance = data.currentTotal || 0;
+
+                // 총합 표시 업데이트
+                document.getElementById('totalBalance').textContent = `${totalBalance.toLocaleString()}원`;
+
+                // K-HAI 대출 가능 금액 계산
+                calculateAndDisplayLoanAmount(totalBalance);
+            })
+            .catch(error => {
+                console.error('Error fetching account data:', error);
+                document.getElementById('totalBalance').textContent = '데이터를 불러오는데 실패했습니다.';
+            });
+    } else {
+        console.error('User ID가 제공되지 않았습니다.');
+        document.getElementById('totalBalance').textContent = '사용자 정보를 확인해주세요.';
+    }
+
+    // K-HAI 계산 함수 정의
+    function calculateLoanAmount(monthlyIncome, interestRate, loanTermMonths) {
+        // 월 상환 가능 금액: 소득의 25.7%
+        const monthlyRepayment = monthlyIncome * 0.257;
+
+        // 월 이자율
+        const monthlyInterestRate = interestRate / 12;
+
+        // 대출 가능 금액(PV) 계산
+        const loanAmount = (monthlyRepayment *
+            (Math.pow(1 + monthlyInterestRate, loanTermMonths) - 1) /
+            (monthlyInterestRate * Math.pow(1 + monthlyInterestRate, loanTermMonths)));
+
+        return loanAmount;
+    }
+
+    // 대출 가능 금액 계산 및 업데이트
+    function calculateAndDisplayLoanAmount(totalBalance) {
+        const annualIncome = 50000000; // 연 소득
+        const monthlyIncome = annualIncome / 12; // 월 소득
+        const interestRate = 0.04; // 연 이자율 (4%)
+        const loanTermMonths = 20 * 12; // 대출 기간 (20년)
+
+        // 대출 가능 금액 계산
+        const loanAmount = calculateLoanAmount(monthlyIncome, interestRate, loanTermMonths) + totalBalance;
+
+        // K-HAI 결과 업데이트
+        document.getElementById('khaiResult').textContent = `${loanAmount.toLocaleString()}원`;
+    }
+</script>
+
 </body>
 </html>
