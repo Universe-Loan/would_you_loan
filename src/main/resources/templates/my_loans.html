@@ -92,17 +92,15 @@
         <!--신용-->
         <div class="row d-flex flex-fill">
             <!--신용점수 게이지바-->
-            <div class="col-md-6 d-flex flex-column flex-fill">
-                <div class="box flex-fill d-flex justify-content-center align-items-center">
-                    <div class="container position-relative">
-                        <!-- 게이지 차트 -->
-                        <div class="container p-5 position-relative">
-                            <canvas id="gaugeChart" class="pb-0 mb-0 w-100 h-100"></canvas>
-                        </div>
-                        <!-- 게이지 텍스트 -->
-                        <div id="gaugeLabel" class="row pt-5 pb-0 mb-0 text-center position-absolute top-50">
-                            <!--  동적으로 불러온다  -->
-                        </div>
+            <div class="box col-md-6 d-flex flex-fill flex-column justify-content-center align-items-center">
+                <div class="container position-relative">
+                    <!-- 게이지 차트 -->
+                    <div class="container p-5 position-relative">
+                        <canvas id="gaugeChart" class="pb-0 mb-0 w-100 h-100"></canvas>
+                    </div>
+                    <!-- 게이지 텍스트 -->
+                    <div id="gaugeLabel" class="pt-5 pb-0 mb-0 text-center position-absolute top-50 top-0 start-50 translate-middle-x">
+                        <!--  동적으로 불러온다  -->
                     </div>
                 </div>
             </div>
@@ -113,7 +111,7 @@
                     <!-- 동적으로 불러온다 -->
                 </div>
                 <!--신용점수 변동차트-->
-                <div class="box flex-fill d-flex justify-content-center align-items-center">
+                <div class="box flex-fill d-flex justify-content-between align-items-center">
                     <div class="row d-flex align-items-center w-100">
                         <h5>분기별 신용점수 (최근 2년)</h5>
                         <canvas id="creditScoreChart" style="max-height: 200px; width: 100%;"></canvas>
@@ -290,15 +288,21 @@
 
                 // gaugeLabel 업데이트
                 document.getElementById('gaugeLabel').innerHTML = `
-                    <div class="fs-4 text-primary fw-bold">${currentScore.credit_score}점</div>
-                    <div class="fs-5 text-warning">3개월 후 <strong>${predictedScore}점</strong></div>
-                    <div class="">현재 상위 ${currentScore.percentile}% · 위험도 ${riskRate}%</div>
-                    <div class="">
-                        ${scoreToIncrease > 0 ?
-                    `<span class="badge bg-danger">최소 ${scoreToIncrease}점 상승</span>`
-                    : '<span class="badge bg-success">목표 달성!</span>'}
-                        <span class="badge bg-secondary">변경확률 ${changeProb}%</span>
+                    <div class="d-flex justify-content-center align-items-center gauge-text">
+                        <div class="text-center">
+                            <div class="fs-4 text-primary fw-bold">${currentScore.credit_score}점</div>
+                            <div class="fs-5 text-warning">3개월 후 <strong>${predictedScore}점</strong></div>
+                            <p class="mt-4 mb-2 text-secondary">
+                                <i class="fas fa-info-circle me-2"></i>
+                                신용점수는 카드 소비 패턴과 현재의 자산 및 부채로 평가한 결과예요.
+                            </p>
+                            <p class="mb-0 text-muted">
+                                <i class="fas fa-robot me-2"></i>
+                                예측 점수는 과거의 신용점수를 바탕으로 AI가 예측했어요.
+                            </p>
+                        </div>
                     </div>
+
                 `;
 
                 // 현재와 직전 분기 데이터
