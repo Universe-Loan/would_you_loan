@@ -15,6 +15,12 @@ public class ApartSearchRecord {
     @Column(name = "user_id")
     private Long userId;
 
+    @Column(name = "city")
+    private String city;
+
+    @Column(name = "district")
+    private String district;
+
     @Column(name = "apart_name")
     private String apartName;
 
