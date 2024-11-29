@@ -9,6 +9,8 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css" />
   <!-- 사용자 정의 CSS -->
     <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" th:href="@{/css/popup.css}">
+
 
     <style>
         body {
@@ -34,25 +36,41 @@
 <!--헤더-->
 <header th:replace="fragments/header :: nav"></header>
 
+
 <!--본문-->
 <div class="content-wrapper">
     <div th:text="'주소 정보: ' + ${cityCode} + ' ' + ${cityText} + ' ' + ${districtCode} + ' ' + ${districtText}"></div>
-    <div th:text="'연소득: ' + ${annualIncome}"></div>
     <div>입출금 계좌 총합: <span id="totalBalance" class="text-primary fw-bold">0원</span></div>
+    <div>연소득 : 일단은 아래 사용자 input값으로 계산</div>
+    <!-- 연소득은 DB에서 받아와야함 -->
+    <!-- 일단은 아래 사용자 input값으로 계산 -->
+    <!--    <div th:text="'연소득: ' + ${annualIncome}"></div>-->
 
     <div class="row">
         <div class="col-6 d-flex flex-column">
             <div class="box flex-fill">
                 현재 내 자산을 기준으로 대출을 받으면<br>
-                ${서울특별시} ${영등포구}에서<br>
-                ${n}년 동안 내 소득의 ${25}% 이하를<br>
+                <span th:text="${cityText} + ' ' + ${districtText}"></span>에서<br>
+                <p id="outputText"></p>
                 매달 원리금분할상환 방식으로<br>
-                부담하는 아파트를 추천해드릴게요.
+                부담하는 아파트를 추천해드릴게요.<br>
+                * 대출 금리는
+
             </div>
             <div class="box flex-fill">
-                <button class="btn btn-primary">지역</button>
-                <button class="btn btn-primary">상환기간</button>
-                <button class="btn btn-primary">소득대비 비율</button>
+                <button class="btn btn-primary" onclick="openIncomePopup()">다른 지역에서 찾아보기</button>
+                <div>
+                    <label for="incomeInput">소득 (원):</label>
+                    <input type="number" id="incomeInput" placeholder="50000000" min="0" step="1">
+                </div>
+                <div>
+                    <label for="yearsInput">기간 (년):</label>
+                    <input type="number" id="yearsInput" placeholder="20" min="1" step="1">
+                </div>
+                <div>
+                    <label for="percentageInput">소득 비율 (%):</label>
+                    <input type="number" id="percentageInput" placeholder="25" min="0" max="100" step="1">
+                </div>
             </div>
         </div>
         <div class="col-6 d-flex flex-column">
@@ -69,13 +87,13 @@
     </div>
 
 <!--  추천 아파트 무한 스크롤 생성  -->
-    <!--  정렬 기준  -->
+    <!--  정렬 기준 버튼  -->
     <div class="btn-group bg-secondary p-2 g-2 mb-3 rounded-pill shadow" role="group" aria-label="Sort options">
-        <input type="radio" class="btn-check" name="sortOptions" id="sortLowPrice" autocomplete="off" checked>
-        <label class="btn btn-secondary btn-sm rounded-pill px-3 py-2 fw-bold" for="sortLowPrice">낮은 실거래가 순</label>
-
-        <input type="radio" class="btn-check" name="sortOptions" id="sortHighPrice" autocomplete="off">
+        <input type="radio" class="btn-check" name="sortOptions" id="sortHighPrice" autocomplete="off" checked>
         <label class="btn btn-secondary btn-sm rounded-pill px-3 py-2 fw-bold" for="sortHighPrice">높은 실거래가 순</label>
+
+        <input type="radio" class="btn-check" name="sortOptions" id="sortLowPrice" autocomplete="off">
+        <label class="btn btn-secondary btn-sm rounded-pill px-3 py-2 fw-bold" for="sortLowPrice">낮은 실거래가 순</label>
 
         <input type="radio" class="btn-check" name="sortOptions" id="sortRecent" autocomplete="off">
         <label class="btn btn-secondary btn-sm rounded-pill px-3 py-2 fw-bold" for="sortRecent">최근 거래일 순</label>
@@ -87,22 +105,62 @@
 </div>
 
 
+<!--팝업창-->
+<div th:replace="real_income_popup :: realIncomePopup"></div>
+
+<!--header-->
+<th:block th:replace="fragments/header :: scripts"></th:block>
+
 <!--footer-->
 <footer th:replace="fragments/footer :: footer"></footer>
 
 <!--Javascript-->
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 <!-- 사용자 정의 JS -->
 <script th:src="@{/js/home.js}"></script>
-<th:block th:replace="fragments/header :: scripts"></th:block>
+<script th:src="@{/js/real_income.js}"></script>
 
 <script th:inline="javascript">
     document.addEventListener('DOMContentLoaded', function () {
 
+        ///////////////////////////////////////////
+        // 연소득 데이터 DB에서 받아오는 것으로 수정해야함
+        ///////////////////////////////////////////
+        let annualIncome = 50000000; // 연소득 수정해야함
+
+        const incomeInput = document.getElementById('incomeInput');
+        const yearsInput = document.getElementById('yearsInput');
+        const percentageInput = document.getElementById('percentageInput');
+        const outputText = document.getElementById('outputText');
+
+        // Function to update output text dynamically
+        function updateOutput() {
+            const income = parseInt(incomeInput.value) || 50000000; // Default to 5000 if empty
+            const years = parseInt(yearsInput.value) || '20'; // Default to '20' if empty
+            const percentage = parseInt(percentageInput.value) || 25; // Default to 25 if empty
+
+            annualIncome = income; // 연소득 수정해야함
+
+            outputText.innerHTML = `${years}년 동안 내 소득 ${income}만 원의 ${percentage}% 이하를<br>`;
+        }
+
+        // Event listeners for real-time updates
+        incomeInput.addEventListener('input', updateOutput);
+        yearsInput.addEventListener('input', updateOutput);
+        percentageInput.addEventListener('input', updateOutput);
+
+        // Initialize output on page load
+        updateOutput();
+
         // 타임리프에서 데이터 받기
         const userId = /*[[${session.user_id}]]*/ '';
-        const annualIncome = parseInt(/*[[${annualIncome}]]*/ 0) || 0;
+
+        //
+        // 데이터 DB에서 받아오는 것으로 연소득 수정해야함
+        // const annualIncome = parseInt(/*[[${annualIncome}]]*/ 0) || 0;
+
         const items = /*[[${items}]]*/ [];
         const cityText = /*[[${cityText}]]*/ '';
         const districtText = /*[[${districtText}]]*/ '';
@@ -136,6 +194,12 @@
 
                     // 추천 아파트 가격 차트 생성
                     createComparisonChart(annualIncome, totalBalance);
+
+                    // Max Recommended Price 계산
+                    const maxRecommendedPrice = calculateMaxRecommendedPrice(totalBalance, annualIncome);
+
+                    const filteredApartments = filterApartmentsByPrice(items, maxRecommendedPrice);
+                    renderFilteredApartments(filteredApartments);
                 })
                 .catch(error => {
                     console.error('Error fetching account data:', error);
@@ -286,28 +350,39 @@
         const container = document.getElementById('apartmentContainer');
         const loadingIndicator = document.getElementById('loadingIndicator');
 
-        // Sorting function
-        function sortApartments(criteria) {
-            displayedApartments = [...items].sort((a, b) => {
-                if (criteria === 'lowPrice') {
-                    const priceA = parseInt(a.dealAmount.replace(/,/g, ''), 10);
-                    const priceB = parseInt(b.dealAmount.replace(/,/g, ''), 10);
-                    return priceA - priceB;
-                } else if (criteria === 'highPrice') {
-                    const priceA = parseInt(a.dealAmount.replace(/,/g, ''), 10);
-                    const priceB = parseInt(b.dealAmount.replace(/,/g, ''), 10);
-                    return priceB - priceA;
-                } else if (criteria === 'recentDeal') {
-                    const dateA = new Date(a.dealYear, a.dealMonth - 1, a.dealDay);
-                    const dateB = new Date(b.dealYear, b.dealMonth - 1, b.dealDay);
-                    return dateB - dateA; // 최신 거래일 순
-                }
-            });
+        let maxRecommendedPrice = 0; // Initialize max price
 
-            // Clear and re-render apartments
-            container.innerHTML = '';
-            currentIndex = 0;
-            renderMoreApartments();
+        // Function to calculate maxRecommendedPrice
+        function calculateMaxRecommendedPrice(totalBalance, annualIncome) {
+            if (isNaN(totalBalance) || isNaN(annualIncome)) {
+                console.error('Invalid totalBalance or annualIncome:', totalBalance, annualIncome);
+                return 0;
+            }
+
+            const pirPrice = annualIncome * 11.2 + totalBalance; // PIR-based price
+            const monthlyIncome = annualIncome / 12;
+            const loanAmount = calculateLoanAmount(monthlyIncome, 0.04, 20 * 12);
+            const roundedKHAIPrice = Math.round((loanAmount + totalBalance) / 10000) * 10000;
+
+            console.log('PIR Price:', pirPrice);
+            console.log('K-HAI Price:', roundedKHAIPrice);
+
+            maxRecommendedPrice = Math.max(pirPrice, roundedKHAIPrice);
+            console.log('Final Max Recommended Price:', maxRecommendedPrice);
+            return maxRecommendedPrice;
+        }
+
+        // Function to filter apartments
+        function filterApartmentsByPrice(apartments, maxRecommendedPrice) {
+            return apartments.filter(apartment => {
+                const dealAmount = parseInt(apartment.dealAmount.replace(/,/g, '').replace(/[^0-9]/g, ''), 10) * 10000;
+                if (isNaN(dealAmount)) {
+                    console.error('Invalid dealAmount:', apartment.dealAmount);
+                    return false;
+                }
+                console.log('Filtering Max Recommended Price:', maxRecommendedPrice);
+                return dealAmount <= maxRecommendedPrice;
+            });
         }
 
         // Function to create a card
@@ -385,6 +460,68 @@
             return cardDiv;
         }
 
+        // Event listeners for sorting
+        document.getElementById('sortLowPrice').addEventListener('change', () => {
+            sortApartments('lowPrice');
+        });
+
+        document.getElementById('sortHighPrice').addEventListener('change', () => {
+            sortApartments('highPrice');
+        });
+
+        document.getElementById('sortRecent').addEventListener('change', () => {
+            sortApartments('recentDeal');
+        });
+
+        // Function to handle sorting
+        function sortApartments(criteria) {
+            displayedApartments.sort((a, b) => {
+                if (criteria === 'lowPrice' || criteria === 'highPrice') {
+                    const priceA = parseInt(a.dealAmount.replace(/,/g, ''), 10);
+                    const priceB = parseInt(b.dealAmount.replace(/,/g, ''), 10);
+                    return criteria === 'lowPrice' ? priceA - priceB : priceB - priceA; // 높은 실거래가 순
+                } else if (criteria === 'recentDeal') {
+                    const dateA = new Date(a.dealYear, a.dealMonth - 1, a.dealDay);
+                    const dateB = new Date(b.dealYear, b.dealMonth - 1, b.dealDay);
+                    return dateB - dateA; // 최근 거래일 순
+                }
+            });
+
+            container.innerHTML = '';
+            currentIndex = 0;
+            renderFilteredApartments();
+        }
+
+        // Function to render filtered apartments
+        function renderFilteredApartments() {
+            if (isLoading) return;
+            isLoading = true;
+            loadingIndicator.classList.remove('d-none');
+
+            setTimeout(() => {
+                const endIndex = Math.min(currentIndex + itemsPerLoad, displayedApartments.length);
+                for (let i = currentIndex; i < endIndex; i++) {
+                    const card = createApartmentCard(displayedApartments[i]);
+                    container.appendChild(card);
+                }
+                currentIndex = endIndex;
+                isLoading = false;
+                loadingIndicator.classList.add('d-none');
+
+                if (currentIndex >= displayedApartments.length) {
+                    window.removeEventListener('scroll', handleScroll);
+                }
+            }, 500);
+        }
+
+        // Infinite scroll handler
+        function handleScroll() {
+            const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+            if (scrollTop + clientHeight >= scrollHeight - 100 && !isLoading && currentIndex < displayedApartments.length) {
+                renderMoreApartments();
+            }
+        }
+
         // Function to render more apartments
         function renderMoreApartments() {
             if (isLoading) return;
@@ -404,45 +541,59 @@
                 isLoading = false;
                 loadingIndicator.classList.add('d-none');
 
+                // Remove scroll event listener if all items are loaded
                 if (currentIndex >= displayedApartments.length) {
+                    console.log('All apartments loaded. Removing scroll listener.');
                     window.removeEventListener('scroll', handleScroll);
                 }
             }, 500); // Simulate API delay
         }
 
-        // Handle infinite scroll
-        function handleScroll() {
-            const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-            if (scrollTop + clientHeight >= scrollHeight - 100 && !isLoading) {
-                renderMoreApartments();
-            }
-        }
+        // Function to update displayed apartments and enable infinite scroll
+        function updateDisplayedApartments() {
+            console.log('Updating displayed apartments with maxRecommendedPrice:', maxRecommendedPrice);
+            displayedApartments = filterApartmentsByPrice(items, maxRecommendedPrice);
+            container.innerHTML = ''; // Clear existing apartments
+            currentIndex = 0; // Reset index
+            renderMoreApartments(); // Render the first batch
 
-        // Event listeners for sorting
-        document.getElementById('sortLowPrice').addEventListener('change', () => {
-            sortApartments('lowPrice');
-        });
-
-        document.getElementById('sortHighPrice').addEventListener('change', () => {
-            sortApartments('highPrice');
-        });
-
-        document.getElementById('sortRecent').addEventListener('change', () => {
-            sortApartments('recentDeal');
-        });
-
-        // Initialize
-        function init() {
-            displayedApartments = [...items]; // Default order
-            sortApartments('lowPrice'); // Default sorting: Low price
+            // Reattach scroll listener for infinite scroll
+            window.removeEventListener('scroll', handleScroll);
             window.addEventListener('scroll', handleScroll);
         }
 
-        init();
+        // Initialization
+        function init() {
+            fetch('/mydata-api/account', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({ user_id: userId })
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch account data');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const totalBalance = data.currentTotal || 0;
+                    maxRecommendedPrice = calculateMaxRecommendedPrice(totalBalance, annualIncome);
+                    updateDisplayedApartments(); // Update and render apartments
+
+                    // 기본 정렬: 높은 실거래가 순
+                    sortApartments('highPrice');
+                })
+                .catch(error => {
+                    console.error('Error fetching account data:', error);
+                });
+        }
+
+        init(); // Start initialization
+
     });
 </script>
-
-
 
 </body>
 </html>

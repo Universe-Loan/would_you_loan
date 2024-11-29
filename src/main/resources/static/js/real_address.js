@@ -1,22 +1,29 @@
-// API 키를 저장할 변수
-let API_KEY = '';
+// // API 키를 저장할 변수
+// let API_KEY = '';
+//
+// // 백엔드에서 API 키를 가져오는 함수
+// async function fetchApiKey() {
+//     try {
+//         const response = await fetch('/api/key');
+//         if (!response.ok) {
+//             throw new Error('API 키를 가져오는데 실패했습니다.');
+//         }
+//         API_KEY = await response.text();
+//         console.log('API 키를 성공적으로 가져왔습니다.');
+//     } catch (error) {
+//         console.error('API 키를 가져오는 중 오류 발생:', error);
+//     }
+// }
+//
+// // 페이지 로드 시 API 키 가져오기
+// fetchApiKey();
 
-// 백엔드에서 API 키를 가져오는 함수
-async function fetchApiKey() {
-    try {
-        const response = await fetch('/api/key');
-        if (!response.ok) {
-            throw new Error('API 키를 가져오는데 실패했습니다.');
-        }
-        API_KEY = await response.text();
-        console.log('API 키를 성공적으로 가져왔습니다.');
-    } catch (error) {
-        console.error('API 키를 가져오는 중 오류 발생:', error);
-    }
-}
 
+// real_address.js에서 먼저 API 키를 가져옴
 // 페이지 로드 시 API 키 가져오기
-fetchApiKey();
+fetchApiKey().then(() => {
+    console.log("API_KEY 준비 완료:");
+});
 
 // 팝업창 열기
 function openInterestPopup() {
