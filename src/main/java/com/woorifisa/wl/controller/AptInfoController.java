@@ -67,7 +67,7 @@ public class AptInfoController {
             @RequestParam("districtCode") String districtCode,
             @RequestParam("cityText") String cityText,
             @RequestParam("districtText") String districtText,
-            @RequestParam("annualIncome") String annualIncome,
+//            @RequestParam("annualIncome") String annualIncome,
             RedirectAttributes redirectAttributes) {
 
         // Redirect 시 전달할 값 설정
@@ -75,7 +75,7 @@ public class AptInfoController {
         redirectAttributes.addAttribute("districtCode", districtCode);
         redirectAttributes.addAttribute("cityText", cityText);
         redirectAttributes.addAttribute("districtText", districtText);
-        redirectAttributes.addAttribute("annualIncome", annualIncome);
+//        redirectAttributes.addAttribute("annualIncome", annualIncome);
 
         // 리다이렉트 처리
         return "redirect:/apt-list";
@@ -87,7 +87,7 @@ public class AptInfoController {
             @RequestParam(required = false) String districtCode,
             @RequestParam(required = false) String cityText,
             @RequestParam(required = false) String districtText,
-            @RequestParam(required = false) String annualIncome,
+//            @RequestParam(required = false) String annualIncome,
             @RequestParam(required = false, defaultValue = "1") int pageNo,
             @RequestParam(required = false, defaultValue = "10") int numOfRows,
             Model model) {
@@ -148,7 +148,7 @@ public class AptInfoController {
         model.addAttribute("districtCode", districtCode);
         model.addAttribute("cityText", cityText);
         model.addAttribute("districtText", districtText);
-        model.addAttribute("annualIncome", annualIncome);
+//        model.addAttribute("annualIncome", annualIncome);
 
         return "apt_list"; // Thymeleaf 템플릿 이름
     }

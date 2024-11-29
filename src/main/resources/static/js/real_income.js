@@ -1,14 +1,41 @@
+// API 키를 저장할 변수
+let API_KEY = '';
+
+// 백엔드에서 API 키를 가져오는 함수
+async function fetchApiKey() {
+    try {
+        const response = await fetch('/api/key');
+        if (!response.ok) {
+            throw new Error('API 키를 가져오는데 실패했습니다.');
+        }
+        API_KEY = await response.text();
+        console.log('API 키를 성공적으로 가져왔습니다.');
+    } catch (error) {
+        console.error('API 키를 가져오는 중 오류 발생:', error);
+    }
+}
+
 // 페이지 로드 시 API 키 가져오기
-fetchApiKey().then(() => {
-    console.log("API_KEY 준비 완료:");
-});
+fetchApiKey();
+
+// real_address.js에서 먼저 API 키를 가져옴
+// // 페이지 로드 시 API 키 가져오기
+// fetchApiKey().then(() => {
+//     console.log("API_KEY 준비 완료:");c
+// });
 
 // 팝업창 열기
 function openIncomePopup() {
+    console.log('openIncomePopup 함수 실행');
     const popup = document.getElementById('realIncomePopup');
-    popup.style.display = 'block';
-    document.body.classList.add('popup-active');
-    resetIncomeSelections();
+    if (popup) {
+        console.log('팝업 요소 찾음:', popup);
+        popup.style.display = 'block'; // 팝업 보이기
+        document.body.classList.add('popup-active');
+        resetIncomeSelections();
+    } else {
+        console.error('realIncomePopup 요소를 찾을 수 없음');
+    }
 }
 
 // 팝업창 닫기
@@ -60,9 +87,9 @@ function submitIncome() {
     // City와 District 선택 확인
     const citySelect = document.getElementById('incomeCity');
     const districtSelect = document.getElementById('incomeDistrict');
-    const annualIncomeInput = document.getElementById('annualIncome'); // 연소득 입력 필드
+    // const annualIncomeInput = document.getElementById('annualIncome'); // 연소득 입력 필드
 
-    if (!citySelect.value || !districtSelect.value || !annualIncomeInput.value) {
+    if (!citySelect.value || !districtSelect.value) {
         alert("모든 항목을 입력해주세요.");
         return false; // 폼 제출 방지
     }
@@ -72,7 +99,6 @@ function submitIncome() {
     document.getElementById('hiddenDistrictCode').value = districtSelect.value;
     document.getElementById('hiddenCityText').value = citySelect.options[citySelect.selectedIndex].text;
     document.getElementById('hiddenDistrictText').value = districtSelect.options[districtSelect.selectedIndex].text;
-    document.getElementById('hiddenAnnualIncome').value = annualIncomeInput.value;
 
     // Submit the form
     document.getElementById('incomeForm').submit();
