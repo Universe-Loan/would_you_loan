@@ -57,60 +57,33 @@
         </div>
         <div class="col-6 d-flex flex-column">
             <div class="box flex-fill">
-                PIR 지수 : KB아파트 PIR(24 3Q) - 서울 11.2,  경기 9, 인천 8.1<br>
-                PIR 추천 아파트 가격: <span id="pirResult">0원</span><br> <span id="pirPrice">0원</span><br>
-                적정부담액: 소득의 25.7% 이하를 원리금분할상환으로 부담할 때<br>
-                K-HAI 지수(대출금리 4%, 대출만기 20년) : <span id="khaiResult">0원</span> <span id="khaiPrice">0원</span>
-            </div>
-        </div>
-    </div>
-    <div class="box">
-        <div class="col-6 d-flex flex-column flex-fill">
-            <div class="box flex-fill d-flex flex-column">
-                <h5 th:text="${cityText + ' ' + districtText + ' 실거래 매매 정보'}"></h5>
-                <div class="container flex-fill">
-                    <div style="max-height: 250px; overflow-y: auto;">
-                        <table id="LocalAptTable" class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th>거래일</th>
-                                <th>아파트명</th>
-                                <th>거래금액</th>
-                                <th>전용면적</th>
-                                <th>층</th>
-                                <th>건축년도</th>
-                            </tr>
-                            </thead>
-                            <tbody id="aptTableBody">
-                            <!-- 데이터가 여기에 동적으로 추가됩니다 -->
-                            </tbody>
-                        </table>
-                    </div>
-                    <button id="loadMoreBtn" class="btn btn-primary mt-3">더보기</button>
+                <div class="mb-3">
+                    PIR 지수 : KB아파트 PIR(24 3Q) - 서울 11.2,  경기 9, 인천 8.1<br>
+    <!--                PIR 추천 아파트 가격: <span id="pirResult">0원</span><br> <span id="pirPrice">0원</span><br>-->
+                    K-HAI 기준 적정부담액: 소득의 25.7% 이하를 원리금분할상환으로 부담할 때<br>
+    <!--                K-HAI 지수(대출금리 4%, 대출만기 20년) : <span id="khaiResult">0원</span> <span id="khaiPrice">0원</span>-->
                 </div>
+                <canvas id="comparisonChart" width=100% height="50px"></canvas>
             </div>
         </div>
     </div>
-    <div class="box d-flex align-items-center flex-fill">
-        <div class="icon me-3"></div>
-        <div>
-            <h6>문래힐스테이트 저층</h6>
-            <p class="price">매매 18억</p>
-            <p>203/165m² · 방5 · 남향 · 23층</p>
-            <p>2호선 문래역 엘리베이터 입주가능 전세가능</p>
-            <p>씨티베이그린공인중개사사무소</p>
-        </div>
+
+<!--  추천 아파트 무한 스크롤 생성  -->
+    <!--  정렬 기준  -->
+    <div class="btn-group bg-secondary p-2 g-2 mb-3 rounded-pill shadow" role="group" aria-label="Sort options">
+        <input type="radio" class="btn-check" name="sortOptions" id="sortLowPrice" autocomplete="off" checked>
+        <label class="btn btn-secondary btn-sm rounded-pill px-3 py-2 fw-bold" for="sortLowPrice">낮은 실거래가 순</label>
+
+        <input type="radio" class="btn-check" name="sortOptions" id="sortHighPrice" autocomplete="off">
+        <label class="btn btn-secondary btn-sm rounded-pill px-3 py-2 fw-bold" for="sortHighPrice">높은 실거래가 순</label>
+
+        <input type="radio" class="btn-check" name="sortOptions" id="sortRecent" autocomplete="off">
+        <label class="btn btn-secondary btn-sm rounded-pill px-3 py-2 fw-bold" for="sortRecent">최근 거래일 순</label>
     </div>
-    <div class="box d-flex align-items-center flex-fill">
-        <div class="icon me-3"></div>
-        <div>
-            <h6>문래힐스테이트 저층</h6>
-            <p class="price">매매 18억</p>
-            <p>203/165m² · 방5 · 남향 · 23층</p>
-            <p>2호선 문래역 엘리베이터 입주가능 전세가능</p>
-            <p>씨티베이그린공인중개사사무소</p>
-        </div>
-    </div>
+
+    <!--무한 스크롤-->
+    <div id="apartmentContainer" class="row g-2"></div>
+    <div id="loadingIndicator" class="text-center my-3 d-none">로딩 중...</div>
 </div>
 
 
@@ -125,18 +98,14 @@
 <th:block th:replace="fragments/header :: scripts"></th:block>
 
 <script th:inline="javascript">
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
+
         // 타임리프에서 데이터 받기
         const userId = /*[[${session.user_id}]]*/ '';
-        const annualIncome = /*[[${annualIncome}]]*/ 0;
+        const annualIncome = parseInt(/*[[${annualIncome}]]*/ 0) || 0;
         const items = /*[[${items}]]*/ [];
-
-        if (isNaN(annualIncome) || annualIncome <= 0) {
-            console.error('연 소득(annualIncome)이 유효하지 않습니다.');
-            document.getElementById('pirResult').textContent = '연 소득 정보를 확인해주세요.';
-            document.getElementById('pirPrice').textContent = '연 소득 정보를 확인해주세요.';
-        }
-
+        const cityText = /*[[${cityText}]]*/ '';
+        const districtText = /*[[${districtText}]]*/ '';
 
         if (userId) {
             // API 호출
@@ -145,7 +114,7 @@
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: new URLSearchParams({'user_id': userId})
+                body: new URLSearchParams({ 'user_id': userId })
             })
                 .then(response => {
                     if (!response.ok) {
@@ -157,13 +126,16 @@
                     const totalBalance = data.currentTotal || 0;
 
                     // 총합 표시 업데이트
-                    document.getElementById('totalBalance').textContent = `${totalBalance.toLocaleString()}원`;
+                    document.getElementById('totalBalance').textContent = `${numberToKorean(totalBalance)}`;
 
                     // K-HAI 대출 가능 금액 계산
                     calculateAndDisplayLoanAmount(totalBalance);
 
                     // PIR 계산
                     calculatePIR(totalBalance, annualIncome);
+
+                    // 추천 아파트 가격 차트 생성
+                    createComparisonChart(annualIncome, totalBalance);
                 })
                 .catch(error => {
                     console.error('Error fetching account data:', error);
@@ -174,17 +146,42 @@
             document.getElementById('totalBalance').textContent = '사용자 정보를 확인해주세요.';
         }
 
-        // PIR 지수 계산
+// 숫자 형식 바꾸기
+        function formatNumber(number) {
+            return new Intl.NumberFormat('ko-KR').format(number);
+        }
+
+// 가격 문자열을 한글 금액 표현으로 변환
+        function numberToKorean(number) {
+            if (!number || isNaN(number)) return '0원';
+
+            const units = ['', '만', '억', '조', '경'];
+            let result = '';
+            let unitIndex = 0;
+
+            while (number > 0) {
+                const part = number % 10000;
+                if (part > 0) {
+                    result = `${formatNumber(part)}${units[unitIndex]} ` + result;
+                }
+                number = Math.floor(number / 10000);
+                unitIndex++;
+            }
+
+            return result.trim() + '원';
+        }
+
+// PIR 지수 계산
         function calculatePIR(totalBalance, annualIncome) {
             const pirResult = annualIncome * 11.2;
             const pirPrice = pirResult + totalBalance;
 
             // HTML 업데이트
-            document.getElementById('pirResult').textContent = `${pirResult.toLocaleString()}원`;
-            document.getElementById('pirPrice').textContent = `${pirPrice.toLocaleString()}원`;
+            // document.getElementById('pirResult').textContent = numberToKorean(pirResult);
+            // document.getElementById('pirPrice').textContent = numberToKorean(pirPrice);
         }
 
-        // K-HAI 계산 함수 정의
+// K-HAI 계산 함수 정의
         function calculateLoanAmount(monthlyIncome, interestRate, loanTermMonths) {
             // 월 상환 가능 금액: 소득의 25.7%
             const monthlyRepayment = monthlyIncome * 0.257;
@@ -193,14 +190,14 @@
             const monthlyInterestRate = interestRate / 12;
 
             // 대출 가능 금액(PV) 계산
-            const loanAmount = (monthlyRepayment *
-                (Math.pow(1 + monthlyInterestRate, loanTermMonths) - 1) /
-                (monthlyInterestRate * Math.pow(1 + monthlyInterestRate, loanTermMonths)));
-
-            return loanAmount;
+            return (
+                monthlyRepayment *
+                ((Math.pow(1 + monthlyInterestRate, loanTermMonths) - 1) /
+                    (monthlyInterestRate * Math.pow(1 + monthlyInterestRate, loanTermMonths)))
+            );
         }
 
-        // 대출 가능 금액 계산 및 업데이트
+// 대출 가능 금액 계산 및 업데이트
         function calculateAndDisplayLoanAmount(totalBalance) {
             const monthlyIncome = annualIncome / 12; // 월 소득
             const interestRate = 0.04; // 연 이자율 (4%)
@@ -210,71 +207,241 @@
             const loanAmount = calculateLoanAmount(monthlyIncome, interestRate, loanTermMonths);
 
             // K-HAI 추천 아파트 금액 계산
-            const KHAIPrice = loanAmount + totalBalance;
+            const roundedLoanAmount = Math.round(loanAmount / 10000) * 10000;
+            const roundedKHAIPrice = Math.round((loanAmount + totalBalance) / 10000) * 10000;
 
             // K-HAI 결과 업데이트
-            document.getElementById('khaiResult').textContent = `${loanAmount.toLocaleString()}원`;
-            document.getElementById('khaiPrice').textContent = `${KHAIPrice.toLocaleString()}원`;
+            // document.getElementById('khaiResult').textContent = numberToKorean(roundedLoanAmount);
+            // document.getElementById('khaiPrice').textContent = numberToKorean(roundedKHAIPrice);
         }
 
+// 추천 아파트 가격 차트 생성
+        function createComparisonChart(annualIncome, totalBalance) {
+            const pirResult = annualIncome * 11.2;
+            const pirPrice = pirResult + totalBalance;
+            const loanAmount = calculateLoanAmount(annualIncome / 12, 0.04, 20 * 12); // Replace with actual calculation
+            const khaiPrice = Math.round((loanAmount + totalBalance) / 10000) * 10000;
 
-        function formatNumber(number) {
-            return new Intl.NumberFormat('ko-KR').format(number);
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+            document.head.appendChild(script);
+
+            script.onload = function () {
+                const ctx = document.getElementById('comparisonChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['PIR 기준 가격', 'K-HAI 기준 가격'],
+                        datasets: [
+                            {
+                                label: '가격 비교 (원)',
+                                data: [pirPrice, khaiPrice],
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.7)', // PIR Price
+                                    'rgba(75, 192, 192, 0.7)', // K-HAI Price
+                                ],
+                                borderColor: [
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                ],
+                                borderWidth: 1,
+                            },
+                        ],
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: false,
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function (context) {
+                                        return numberToKorean(context.raw);
+                                    },
+                                },
+                            },
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function (value) {
+                                        return numberToKorean(value);
+                                    },
+                                },
+                            },
+                        },
+                    },
+                });
+            };
         }
 
-        function convertToKorean(priceString) {
-            let number = parseInt(priceString.replace(/,/g, '').replace('만원', '')) * 10000;
-            const units = ['', '만', '억', '조'];
-            let result = '';
-            let unitIndex = 0;
+// 추천 아파트 리스트 무한 스크롤 동적 생성
+        let displayedApartments = [];
+        let currentIndex = 0;
+        const itemsPerLoad = 12;
+        let isLoading = false;
 
-            while (number > 0) {
-                let part = number % 10000;
-                if (part > 0) {
-                    result = formatNumber(part) + units[unitIndex] + ' ' + result;
+        const container = document.getElementById('apartmentContainer');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+
+        // Sorting function
+        function sortApartments(criteria) {
+            displayedApartments = [...items].sort((a, b) => {
+                if (criteria === 'lowPrice') {
+                    const priceA = parseInt(a.dealAmount.replace(/,/g, ''), 10);
+                    const priceB = parseInt(b.dealAmount.replace(/,/g, ''), 10);
+                    return priceA - priceB;
+                } else if (criteria === 'highPrice') {
+                    const priceA = parseInt(a.dealAmount.replace(/,/g, ''), 10);
+                    const priceB = parseInt(b.dealAmount.replace(/,/g, ''), 10);
+                    return priceB - priceA;
+                } else if (criteria === 'recentDeal') {
+                    const dateA = new Date(a.dealYear, a.dealMonth - 1, a.dealDay);
+                    const dateB = new Date(b.dealYear, b.dealMonth - 1, b.dealDay);
+                    return dateB - dateA; // 최신 거래일 순
                 }
-                number = Math.floor(number / 10000);
-                unitIndex++;
-            }
+            });
 
-            return result.trim() + '원';
+            // Clear and re-render apartments
+            container.innerHTML = '';
+            currentIndex = 0;
+            renderMoreApartments();
         }
 
-        // 테이블 페이징 처리
-        let localCurrentIndex = 0;
-        const localItemsPerPage = 10;
+        // Function to create a card
+        function createApartmentCard(apartment) {
+            const cardDiv = document.createElement('div');
+            cardDiv.className = 'col-md-4 d-flex align-items-stretch'; // 부트스트랩의 그리드 시스템
 
-        function loadMoreLocalItems() {
-            const tableBody = document.getElementById('aptTableBody');
-            if (!tableBody) return;
+            // Inner box container for styling
+            const boxDiv = document.createElement('div');
+            boxDiv.className = 'box mb-0 d-flex align-items-center flex-fill p-4 ';
 
-            const endIndex = Math.min(localCurrentIndex + localItemsPerPage, items.length);
+            // Content section: Main container
+            const contentContainer = document.createElement('div');
+            contentContainer.className = 'w-100';
 
-            for (let i = localCurrentIndex; i < endIndex; i++) {
-                const item = items[i];
-                const row = tableBody.insertRow();
-                row.innerHTML = `
-                   <td>${item.dealYear}년 ${item.dealMonth}월 ${item.dealDay}일</td>
-                   <td>${item.aptNm}</td>
-                   <td>${convertToKorean(item.dealAmount)}</td>
-                   <td>${item.excluUseAr}m²</td>
-                   <td>${item.floor}층</td>
-                   <td>${item.buildYear}년</td>
-               `;
-            }
+            // Apartment Name
+            const aptName = document.createElement('h5');
+            aptName.textContent = apartment.aptNm;
+            aptName.className = 'text-dark fw-bold mb-2';
+            contentContainer.appendChild(aptName);
 
-            localCurrentIndex = endIndex;
+            // Price and Recent Deal Date
+            const priceDiv = document.createElement('div');
+            priceDiv.className = 'mb-2';
 
-            const loadMoreBtn = document.getElementById('loadMoreBtn');
-            if (loadMoreBtn) {
-                loadMoreBtn.style.display = localCurrentIndex >= items.length ? 'none' : 'block';
+            const price = document.createElement('span');
+            price.className = 'price text-primary fw-bold me-2'; // 여백 추가
+            price.textContent = `${numberToKorean(parseInt(apartment.dealAmount.replace(/,/g, '')) * 10000)}`;
+            priceDiv.appendChild(price);
+
+            const recentDeal = document.createElement('span');
+            recentDeal.className = 'text-muted';
+            recentDeal.textContent = `(${apartment.dealYear}년 ${apartment.dealMonth}월 ${apartment.dealDay}일)`;
+            priceDiv.appendChild(recentDeal);
+
+            contentContainer.appendChild(priceDiv);
+
+            // Location Details
+            const locationDiv = document.createElement('div');
+            locationDiv.className = 'text-muted mb-2';
+
+            const citySpan = document.createElement('span');
+            citySpan.textContent = cityText; // Ensure `cityText` is defined in the scope
+            locationDiv.appendChild(citySpan);
+
+            locationDiv.appendChild(document.createTextNode(' '));
+
+            const districtSpan = document.createElement('span');
+            districtSpan.textContent = districtText; // Ensure `districtText` is defined in the scope
+            locationDiv.appendChild(districtSpan);
+
+            locationDiv.appendChild(document.createTextNode(' '));
+
+            const umdName = document.createElement('span');
+            umdName.textContent = apartment.umdNm;
+            locationDiv.appendChild(umdName);
+
+            contentContainer.appendChild(locationDiv);
+
+            // Details
+            const details = document.createElement('p');
+            details.className = 'text-secondary mb-1';
+            details.textContent = `${apartment.aptDong}동 · 전용면적 ${apartment.excluUseAr}m² · ${apartment.floor}층`;
+            contentContainer.appendChild(details);
+
+            // Build Year
+            const buildYear = document.createElement('p');
+            buildYear.className = 'text-secondary mb-0';
+            buildYear.textContent = `건축년도 ${apartment.buildYear}년`;
+            contentContainer.appendChild(buildYear);
+
+            boxDiv.appendChild(contentContainer);
+            cardDiv.appendChild(boxDiv);
+
+            return cardDiv;
+        }
+
+        // Function to render more apartments
+        function renderMoreApartments() {
+            if (isLoading) return;
+
+            isLoading = true;
+            loadingIndicator.classList.remove('d-none');
+
+            setTimeout(() => {
+                const endIndex = Math.min(currentIndex + itemsPerLoad, displayedApartments.length);
+
+                for (let i = currentIndex; i < endIndex; i++) {
+                    const card = createApartmentCard(displayedApartments[i]);
+                    container.appendChild(card);
+                }
+
+                currentIndex = endIndex;
+                isLoading = false;
+                loadingIndicator.classList.add('d-none');
+
+                if (currentIndex >= displayedApartments.length) {
+                    window.removeEventListener('scroll', handleScroll);
+                }
+            }, 500); // Simulate API delay
+        }
+
+        // Handle infinite scroll
+        function handleScroll() {
+            const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+            if (scrollTop + clientHeight >= scrollHeight - 100 && !isLoading) {
+                renderMoreApartments();
             }
         }
 
-        // 초기 데이터 로드
-        loadMoreLocalItems();
+        // Event listeners for sorting
+        document.getElementById('sortLowPrice').addEventListener('change', () => {
+            sortApartments('lowPrice');
+        });
+
+        document.getElementById('sortHighPrice').addEventListener('change', () => {
+            sortApartments('highPrice');
+        });
+
+        document.getElementById('sortRecent').addEventListener('change', () => {
+            sortApartments('recentDeal');
+        });
+
+        // Initialize
+        function init() {
+            displayedApartments = [...items]; // Default order
+            sortApartments('lowPrice'); // Default sorting: Low price
+            window.addEventListener('scroll', handleScroll);
+        }
+
+        init();
     });
 </script>
+
 
 
 </body>
