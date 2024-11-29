@@ -296,20 +296,6 @@
 <div class="content-wrapper">
     <!--본문 내용 입력하기-->
     <div class="container mt-4">
-        <!--최근 조회내역 버튼-->
-        <div class="row">
-            <div class="d-flex justify-content-start flex-wrap mb-3">
-                <div class="me-3">
-                    <button type="button" class="btn btn-outline-primary btn-custom">상암IT타워</button>
-                </div>
-                <div class="me-3">
-                    <button type="button" class="btn btn-outline-primary btn-custom">상암월드컵경기장</button>
-                </div>
-                <div class="me-3">
-                    <button type="button" class="btn btn-outline-primary btn-custom">트리마제</button>
-                </div>
-            </div>
-        </div>
         <!--부동산 지표들-->
         <div class="row">
             <div class="col-12">
@@ -319,32 +305,32 @@
                             <div class="indicator-item">
                                 <p class="indicator-label">시장 지표</p>
                                 <h5 class="indicator-title">CD 금리</h5>
-                                <h3 class="indicator-value text-primary">4.56%</h3>
-                                <p class="indicator-sub">전일 상품지수 126,000원</p>
+                                <h3 class="indicator-value text-primary" id="cd_rate"></h3>
+<!--                                <p class="indicator-sub">전일 상품지수 126,000원</p>-->
                             </div>
                         </div>
                         <div class="col">
                             <div class="indicator-item">
                                 <p class="indicator-label">시장 지표</p>
                                 <h5 class="indicator-title">코픽스</h5>
-                                <h3 class="indicator-value text-primary">4.56%</h3>
-                                <p class="indicator-sub">전일 상품지수 126,000원</p>
+                                <h3 class="indicator-value text-primary" id="cofix_rate"></h3>
+<!--                                <p class="indicator-sub">전일 상품지수 126,000원</p>-->
                             </div>
                         </div>
                         <div class="col">
                             <div class="indicator-item">
                                 <p class="indicator-label">시장 지표</p>
                                 <h5 class="indicator-title">금융채 5년</h5>
-                                <h3 class="indicator-value text-primary">4.56%</h3>
-                                <p class="indicator-sub">전일 상품지수 126,000원</p>
+                                <h3 class="indicator-value text-primary" id="financial_rate"></h3>
+<!--                                <p class="indicator-sub">전일 상품지수 126,000원</p>-->
                             </div>
                         </div>
                         <div class="col">
                             <div class="indicator-item">
                                 <p class="indicator-label">시장 지표</p>
                                 <h5 class="indicator-title">부동산 매매거래지수</h5>
-                                <h3 class="indicator-value text-primary">4.56%</h3>
-                                <p class="indicator-sub">전일 상품지수 126,000원</p>
+                                <h3 class="indicator-value text-primary" id="trade_rate"></h3>
+<!--                                <p class="indicator-sub">전일 상품지수 126,000원</p>-->
                             </div>
                         </div>
                         <div class="col">
@@ -819,7 +805,26 @@
 <script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-tag-cloud.min.js"></script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', async function () {
+        try {
+            const response = await fetch('/market_index/total');
+            const data = await response.json();
+
+            document.getElementById('cd_rate').textContent = `${data.cd_rate}%`;
+            document.getElementById('cofix_rate').textContent = `${data.cofix_rate}%`;
+            document.getElementById('financial_rate').textContent = `${data.financial_rate}%`;
+            document.getElementById('trade_rate').textContent = `${data.trade_rate}%`;
+
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            // 에러시 기본값 표시
+                document.getElementById('cd_rate').textContent = '4.56%';
+                document.getElementById('cofix_rate').textContent = '4.56%';
+                document.getElementById('financial_rate').textContent = '4.56%';
+                document.getElementById('trade_rate').textContent = '93.6%';
+        }
+
+
         function formatNumber(number) {
             return new Intl.NumberFormat('ko-KR').format(number);
         }
@@ -841,7 +846,7 @@
 
         function updatePrices() {
             const priceValues = document.querySelectorAll('.price-value');
-            priceValues.forEach(function(element) {
+            priceValues.forEach(function (element) {
                 if (element.dataset.price) {
                     const price = parseInt(element.dataset.price);
                     element.textContent = convertToKorean(price);
@@ -909,10 +914,10 @@
                         responsive: true,
                         maintainAspectRatio: false,
                         plugins: {
-                            legend: { display: false },
+                            legend: {display: false},
                             tooltip: {
                                 callbacks: {
-                                    label: function(context) {
+                                    label: function (context) {
                                         return `${context.parsed.toFixed(1)}%`;
                                     }
                                 }
@@ -1000,7 +1005,7 @@
         // 슬라이더 이벤트 리스너 설정 (디바운싱 적용)
         const slider = document.getElementById('loanSlider');
         let debounceTimer;
-        slider.addEventListener('input', function() {
+        slider.addEventListener('input', function () {
             clearTimeout(debounceTimer);
             debounceTimer = setTimeout(() => {
                 updateLoanInfo();

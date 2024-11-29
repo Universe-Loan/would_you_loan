@@ -94,10 +94,11 @@ public class MarketAnalysisController {
             }
 
             // GeoJSON 데이터와 날씨 정보 병합
+            // 병렬 스트림을 사용한 방법
             if (geoJsonData != null && geoJsonData.containsKey("features")) {
                 List<Map<String, Object>> features = (List<Map<String, Object>>) geoJsonData.get("features");
 
-                features.forEach(feature -> {
+                features.parallelStream().forEach(feature -> {
                     Map<String, Object> properties = (Map<String, Object>) feature.get("properties");
                     String sigCd = (String) properties.get("SIG_CD");
                     System.out.println("Processing SIG_CD: " + sigCd);
