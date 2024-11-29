@@ -24,6 +24,21 @@ public class User {
     @Column(name="oauth_type")
     private String oauthType;
 
+    @Column(name="house_num")
+    private Long houseNum;
+
+    @Column(name="annual_income")
+    private Long annualIncome;
+
+    @Column(name="job")
+    private String job;
+
+    @Column(name="job_date")
+    private LocalDateTime jobDate;
+
+    @Column(name="add_info", columnDefinition = "boolean default false")
+    private boolean addInfo;
+
     @Column(name="created_at")
     private LocalDateTime createdAt;
 
