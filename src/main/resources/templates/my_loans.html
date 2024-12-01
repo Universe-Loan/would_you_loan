@@ -336,9 +336,17 @@
                     return 7.5;
                 }
 
+                const getTargetScore = (score) => {
+                    if (score >= 900) return score;
+                    if (score >= 800) return 900;
+                    if (score >= 700) return 800;
+                    if (score >= 600) return 700;
+                    return 600;
+                }
+
                 const currentRate = getCurrentRate(currentScore.credit_score);
-                const targetRate = getCurrentRate(targetScore);
-                const rateDiff = (currentRate - targetRate).toFixed(2);
+                const targetScore = getTargetScore(currentScore.credit_score);
+                const rateDiff = (currentRate - getCurrentRate(targetScore)).toFixed(2);
 
                 // HTML 업데이트
                 document.getElementById('changeLoanPoint').innerHTML = `
@@ -355,7 +363,7 @@
                            <img src="/img/right-arrow.png" style="max-height: 15px; width: auto;" alt="로고 이미지" class="m-0 p-0">
                        </div>
                        <div class="p-3 text-center">
-                           <div>${targetScore}점일 때<br>${targetRate.toFixed(2)}%</div>
+                           <div>${targetScore}점일 때<br>${getCurrentRate(targetScore).toFixed(2)}%</div>
                        </div>
                    </div>
                `;
