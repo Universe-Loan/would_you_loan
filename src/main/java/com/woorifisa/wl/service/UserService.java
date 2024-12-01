@@ -25,9 +25,14 @@ public class UserService {
         user.setAnnualIncome(userUpdateDto.getAnnualIncome());
         user.setJob(userUpdateDto.getJob());
         // YYYY-MM 형식의 String을 LocalDateTime으로 변환
-        user.setJobDate(LocalDateTime.parse(userUpdateDto.getJobDate() + "-01T00:00:00"));
+        user.setJobDate(LocalDateTime.parse(userUpdateDto.getJobDate() + "T00:00:00"));
         user.setAddInfo(userUpdateDto.isAddInfo());
 
         return userRepository.save(user);
+    }
+
+    public User findById(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
     }
 }

@@ -44,11 +44,11 @@ public class Loan {
     @Column(name = "max_apartment_price_limit", precision = 15, scale = 2)
     private BigDecimal maxApartmentPriceLimit;
 
-    @Column(name = "loan_additional_cost", precision = 10, scale = 2)
-    private BigDecimal loanAdditionalCost;
+    @Column(name = "loan_additional_cost")
+    private String loanAdditionalCost;
 
-    @Column(name = "early_repayment_fee", precision = 5, scale = 2)
-    private BigDecimal earlyRepaymentFee;
+    @Column(name = "early_repayment_fee", columnDefinition = "TEXT")
+    private String earlyRepaymentFee;
 
     @Column(name = "overdue_interest_rate")
     private String overdueInterestRate;
@@ -65,18 +65,18 @@ public class Loan {
     @Column(name = "government_support_type")
     private String governmentSupportType;
 
-    @Column(name = "credit_1_interest", precision = 5, scale = 2)
+    @Column(name = "credit_1_interest", precision = 7, scale = 4)
     private BigDecimal credit1Interest;
 
-    @Column(name = "credit_2_interest", precision = 5, scale = 2)
+    @Column(name = "credit_2_interest", precision = 7, scale = 4)
     private BigDecimal credit2Interest;
 
-    @Column(name = "credit_3_interest", precision = 5, scale = 2)
+    @Column(name = "credit_3_interest", precision = 7, scale = 4)
     private BigDecimal credit3Interest;
 
-    @Column(name = "credit_4_interest", precision = 5, scale = 2)
+    @Column(name = "credit_4_interest", precision = 7, scale = 4)
     private BigDecimal credit4Interest;
 
-    @Column(name = "credit_5_interest", precision = 5, scale = 2)
+    @Column(name = "credit_5_interest", precision = 7, scale = 4)
     private BigDecimal credit5Interest;
 }
