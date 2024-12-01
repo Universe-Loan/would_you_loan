@@ -10,7 +10,8 @@
   <!-- 사용자 정의 CSS -->
     <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" th:href="@{/css/popup.css}">
-
+<!--  아이콘  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         body {
@@ -23,12 +24,34 @@
             padding: 45px;
             margin-bottom: 20px;
         }
+        .line {
+            background-color: gray;
+            width: 100%;
+            height: 1px;
+            display: flex;
+            justify-self: center;
+            margin: 20px;
+        }
+        .custom-btn {
+            border-color: transparent;
+            transition: all 0.3s ease;
+        }
+        .custom-btn:hover {
+            background-color: rgba(108, 117, 125, 0.1);
+            border-color: transparent;
+            color: black;
+        }
+
+        .custom-btn:focus {
+            box-shadow: 0 0 0 0.25rem rgba(108, 117, 125, 0.25);
+        }
         .icon {
             width: 50px;
             height: 50px;
             background-color: #e9ecef;
             border-radius: 50%;
         }
+
     </style>
 </head>
 <body>
@@ -39,66 +62,108 @@
 <!--본문-->
 <div class="content-wrapper">
     <div class="container">
-        <div th:text="'주소 정보: ' + ${cityCode} + ' ' + ${cityText} + ' ' + ${districtCode} + ' ' + ${districtText}"></div>
-        <div>입출금 계좌 총합: <span id="totalBalance" class="text-primary fw-bold">0원</span></div>
-        <div>연소득 : 일단은 아래 사용자 input값으로 계산</div>
-        <!-- 연소득은 DB에서 받아와야함 -->
-        <!-- 일단은 아래 사용자 input값으로 계산 -->
-        <!--    <div th:text="'연소득: ' + ${annualIncome}"></div>-->
+<!--        <div th:text="'주소 정보: ' + ${cityCode} + ' ' + ${cityText} + ' ' + ${districtCode} + ' ' + ${districtText}"></div>-->
+<!--        <div>입출금 계좌 총합: <span id="totalBalance" class="text-primary fw-bold">0원</span></div>-->
+<!--        <div>연소득 : 일단은 아래 사용자 input값으로 계산</div>-->
 
         <div class="row">
             <div class="col-6 d-flex flex-column">
-                <div class="box flex-fill">
-                    현재 내 자산을 기준으로 대출을 받으면<br>
-                    <span th:text="${cityText} + ' ' + ${districtText}"></span>에서<br>
-                    <p id="outputText"></p>
-                    매달 원리금분할상환 방식으로<br>
-                    부담하는 아파트를 추천해드릴게요.<br>
-                    * 대출 금리는
-
-                </div>
-                <div class="box flex-fill">
-                    <button class="btn btn-primary" onclick="openIncomePopup()">다른 지역에서 찾아보기</button>
-                    <div>
-                        <label for="incomeInput">소득 (원):</label>
-                        <input type="number" id="incomeInput" placeholder="50000000" min="0" step="1">
-                    </div>
-                    <div>
-                        <label for="yearsInput">기간 (년):</label>
-                        <input type="number" id="yearsInput" placeholder="20" min="1" step="1">
-                    </div>
-                    <div>
-                        <label for="percentageInput">소득 비율 (%):</label>
-                        <input type="number" id="percentageInput" placeholder="25" min="0" max="100" step="1">
+                <div class="box flex-fill d-flex flex-column justify-content-center align-items-center p-3">
+                    <div class="d-flex flex-column w-100 p-5">
+                        <div id="conditionsText" class="text-muted mb-4">
+                            <p class="mb-3">
+                                현재 내 자산을 기준으로 대출을 받으면,
+                            </p>
+                            <p>
+                                <span th:text="${cityText} + ' ' + ${districtText}" class="fs-4 fw-bold text-primary mb-2"></span> 에서
+                            </p>
+                            <p id="outputText" class="mb-3"></p>
+                            <p class="mb-3">
+                                매달 원리금분할상환 방식으로<br>
+                                부담하는 아파트를 추천해드릴게요.
+                            </p>
+                            <p class="small mb-4">* 대출 금리 연 4% 기준</p>
+                            <hr class="my-4">
+                        </div>
+                        <div id="conditionsDistrict" class="mb-3">
+                            <button class="btn btn-outline-secondary text-start custom-btn w-100" onclick="openIncomePopup()">
+                                <i class="fas fa-search text-primary me-3"></i>다른 지역에서 찾아보기
+                            </button>
+                        </div>
+                        <div id="conditionsOthers" class="">
+                            <div class="d-flex align-items-center position-relative">
+                                <button id="toggleConditions" class="btn btn-outline-secondary text-start custom-btn w-100">
+                                    <i class="fas fa-search text-primary me-3"></i>다른 조건으로 찾아보기
+                                </button>
+                                <button id="closeConditions" type="button" class="btn-close position-absolute top-50 end-0 translate-middle-y me-3" aria-label="Close" style="display: none;"></button>
+                            </div>
+                            <div id="conditionsForm" style="display: none;">
+                                <div class="mb-3">
+                                    <label for="incomeInput" class="form-label">연소득 (원)</label>
+                                    <input type="number" id="incomeInput" class="form-control" placeholder="50,000,000" min="0" step="1000000">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="percentageInput" class="form-label">소득 대비 대출상환금 비율 (%)</label>
+                                    <input type="number" id="percentageInput" class="form-control" placeholder="25" min="0" max="100" step="1">
+                                </div>
+                                <div class="mb-4">
+                                    <label for="yearsInput" class="form-label">대출기간 (년)</label>
+                                    <input type="number" id="yearsInput" class="form-control" placeholder="20" min="1" max="30" step="1">
+                                </div>
+                                <button id="updateRecommendations" class="btn btn-primary w-100 rounded-pill shadow-sm mt-3">추천 아파트 업데이트</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="col-6 d-flex flex-column">
                 <div class="box flex-fill">
-                    <div class="mb-3">
-                        PIR 지수 : KB아파트 PIR(24 3Q) - 서울 11.2,  경기 9, 인천 8.1<br>
-        <!--                PIR 추천 아파트 가격: <span id="pirResult">0원</span><br> <span id="pirPrice">0원</span><br>-->
-                        K-HAI 기준 적정부담액: 소득의 25.7% 이하를 원리금분할상환으로 부담할 때<br>
-        <!--                K-HAI 지수(대출금리 4%, 대출만기 20년) : <span id="khaiResult">0원</span> <span id="khaiPrice">0원</span>-->
+                    <div class="row mb-3">
+                        <div class="col-md-5">
+                            <h5 class="text-primary fw-bold">PIR 지수</h5>
+                            <div class="text-muted">소득대비 주택가격 비율</div>
+                            <div class="small text-muted mt-0 mb-3">PIR = 주택가격 / 연소득</div>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-home text-secondary me-2"></i>서울: 11.2</li>
+                                <li><i class="fas fa-home text-secondary me-2"></i>경기: 9.0</li>
+                                <li><i class="fas fa-home text-secondary me-2"></i>인천: 8.1</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-7">
+                            <h5 class="text-primary fw-bold">K-HAI 지수</h5>
+                            <div class="text-muted">주택구입부담지수</div>
+                            <div class="small text-muted mt-0 mb-3">K-HAI = (대출상환가능소득 / 중간가구소득) * 100</div>
+                            <p><i class="fas fa-chart-line text-secondary me-2"></i>적정부담액: 소득의 25.7% 이하</p>
+                        </div>
                     </div>
-                    <canvas id="comparisonChart" width=100% height="50px"></canvas>
+                    <div class="mb-4">
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check-circle text-info me-2"></i>PIR이 높을수록 주택 구매 부담이 큼</li>
+                            <li><i class="fas fa-check-circle text-info me-2"></i>K-HAI가 100 초과 시 소득으로 대출 상환이 어려움</li>
+                            <li><i class="fas fa-check-circle text-info me-2"></i>두 지수 모두 주택 시장의 건전성을 평가하는 중요 지표</li>
+                        </ul>
+                    </div>
+
+                    <canvas id="comparisonChart" width="100%" height="30px"></canvas>
                 </div>
             </div>
         </div>
 
     <!--  추천 아파트 무한 스크롤 생성  -->
         <!--  정렬 기준 버튼  -->
-        <div class="btn-group bg-secondary p-2 g-2 mb-3 rounded-pill shadow" role="group" aria-label="Sort options">
+        <div class="box d-flex justify-content-between align-items-center bg-primary mb-3 p-3">
+            <div class="fs-4 fw-bold text-white">우주론에서 추천해드리는 아파트 목록이에요!</div>
+            <div class="btn-group bg-light p-2 g-2 rounded-pill shadow" role="group" aria-label="Sort options">
             <input type="radio" class="btn-check" name="sortOptions" id="sortHighPrice" autocomplete="off" checked>
-            <label class="btn btn-secondary btn-sm rounded-pill px-3 py-2 fw-bold" for="sortHighPrice">높은 실거래가 순</label>
+            <label class="btn btn-light btn-sm rounded-pill px-3 py-2 fw-bold" for="sortHighPrice">높은 실거래가 순</label>
 
             <input type="radio" class="btn-check" name="sortOptions" id="sortLowPrice" autocomplete="off">
-            <label class="btn btn-secondary btn-sm rounded-pill px-3 py-2 fw-bold" for="sortLowPrice">낮은 실거래가 순</label>
+            <label class="btn btn-light btn-sm rounded-pill px-3 py-2 fw-bold" for="sortLowPrice">낮은 실거래가 순</label>
 
             <input type="radio" class="btn-check" name="sortOptions" id="sortRecent" autocomplete="off">
-            <label class="btn btn-secondary btn-sm rounded-pill px-3 py-2 fw-bold" for="sortRecent">최근 거래일 순</label>
+            <label class="btn btn-light btn-sm rounded-pill px-3 py-2 fw-bold" for="sortRecent">최근 거래일 순</label>
         </div>
-
+        </div>
         <!--무한 스크롤-->
         <div id="apartmentContainer" class="row g-2"></div>
         <div id="loadingIndicator" class="text-center my-3 d-none">로딩 중...</div>
@@ -125,47 +190,48 @@
 <script th:inline="javascript">
     document.addEventListener('DOMContentLoaded', function () {
 
-        ///////////////////////////////////////////
-        // 연소득 임의 지정
-        ///////////////////////////////////////////
-        let annualIncome = 50000000; // 기본값 설정
+        const toggleButton = document.getElementById('toggleConditions');
+        const closeButton = document.getElementById('closeConditions');
+        const conditionsText = document.getElementById('conditionsText');
+        const conditionsDistrict = document.getElementById('conditionsDistrict');
+        const conditionsForm = document.getElementById('conditionsForm');
 
-        const incomeInput = document.getElementById('incomeInput');
-        const yearsInput = document.getElementById('yearsInput');
-        const percentageInput = document.getElementById('percentageInput');
-        const outputText = document.getElementById('outputText');
-
-// 출력 텍스트를 동적으로 업데이트하는 함수
-        function updateOutput() {
-            const income = parseInt(incomeInput.value) || 50000000; // 비어있으면 기본값 5000만원
-            const years = parseInt(yearsInput.value) || 20; // 비어있으면 기본값 20년
-            const percentage = parseInt(percentageInput.value) || 25; // 비어있으면 기본값 25%
-
-            annualIncome = income; // 연소득 업데이트
-
-            outputText.innerHTML = `${years}년 동안 내 소득 ${income}만 원의 ${percentage}% 이하를<br>`;
+        function toggleConditions() {
+            if (conditionsForm.style.display === 'none') {
+                conditionsText.style.display = 'none';
+                conditionsDistrict.style.display = 'none'
+                conditionsForm.style.display = 'block';
+                toggleButton.style.display = 'none';
+                closeButton.style.display = 'block';
+            } else {
+                conditionsText.style.display = 'block';
+                conditionsDistrict.style.display = 'block'
+                conditionsForm.style.display = 'none';
+                toggleButton.style.display = 'block';
+                closeButton.style.display = 'none';
+            }
         }
 
-        // Event listeners for real-time updates
-        incomeInput.addEventListener('input', updateOutput);
-        yearsInput.addEventListener('input', updateOutput);
-        percentageInput.addEventListener('input', updateOutput);
+        toggleButton.addEventListener('click', toggleConditions);
+        closeButton.addEventListener('click', toggleConditions);
 
-        // Initialize output on page load
-        updateOutput();
+        // 초기값 설정
+        let annualIncome = 50000000; // 연소득은 DB에서 가져오는 것으로 수정해야함
+        let loanTermYears = 20;
+        let incomePercentage = 25;
 
         // 타임리프에서 데이터 받기
         const userId = /*[[${session.user_id}]]*/ '';
-        //
-        // 데이터 DB에서 받아오는 것으로 연소득 수정해야함
-        // const annualIncome = parseInt(/*[[${annualIncome}]]*/ 0) || 0;
-
         const items = /*[[${items}]]*/ [];
+        const cityCode = /*[[${cityCode}]]*/ '';
         const cityText = /*[[${cityText}]]*/ '';
+        const districtCode = /*[[${districtCode}]]*/ '';
         const districtText = /*[[${districtText}]]*/ '';
 
         console.log(items)
+        console.log(cityCode)
 
+        // totalBalance 가져오기
         if (userId) {
             fetch('/mydata-api/account', {
                 method: 'POST',
@@ -183,15 +249,9 @@
                 .then(data => {
                     const totalBalance = data.currentTotal || 0;
 
-                    document.getElementById('totalBalance').textContent = `${numberToKorean(totalBalance)}`;
+                    // document.getElementById('totalBalance').textContent = `${numberToKorean(totalBalance)}`;
 
-                    calculateAndDisplayLoanAmount(totalBalance);
-                    calculatePIR(totalBalance, annualIncome);
-                    createComparisonChart(annualIncome, totalBalance);
-
-                    const maxRecommendedPrice = calculateMaxRecommendedPrice(totalBalance, annualIncome);
-                    const filteredApartments = filterApartmentsByPrice(items, maxRecommendedPrice);
-                    renderFilteredApartments(filteredApartments);
+                    updateRecommendations(totalBalance, annualIncome, loanTermYears, incomePercentage);
                 })
                 .catch(error => {
                     console.error('Error fetching account data:', error);
@@ -202,12 +262,27 @@
             document.getElementById('totalBalance').textContent = '사용자 정보를 확인해주세요.';
         }
 
-// 숫자 형식 바꾸기
+        // 사용자 input으로 추천 조건 변경
+        const incomeInput = document.getElementById('incomeInput');
+        const yearsInput = document.getElementById('yearsInput');
+        const percentageInput = document.getElementById('percentageInput');
+        const outputText = document.getElementById('outputText');
+        const updateButton = document.getElementById('updateRecommendations');
+
+        // 텍스트 출력 함수
+        function updateOutputText() {
+            outputText.innerHTML = `내 소득 <span class="fs-4 fw-bold text-primary">${numberToKorean(annualIncome)}</span>의 <span class="fs-4 fw-bold text-primary">${incomePercentage}%</span> 이하를 <span class="fs-4 fw-bold text-primary">${loanTermYears}년</span> 동안<br>`;
+        }
+
+        // 초기 출력 텍스트 설정
+        updateOutputText();
+
+        // 숫자 형식 바꾸기
         function formatNumber(number) {
             return new Intl.NumberFormat('ko-KR').format(number);
         }
 
-// 가격 문자열을 한글 금액 표현으로 변환
+        // 가격 문자열을 한글 금액 표현으로 변환
         function numberToKorean(number) {
             if (!number || isNaN(number)) return '0원';
 
@@ -227,56 +302,105 @@
             return result.trim() + '원';
         }
 
-// PIR 지수 계산
-        function calculatePIR(totalBalance, annualIncome) {
-            const pirResult = annualIncome * 11.2;
-            const pirPrice = pirResult + totalBalance;
+        // 업데이트 버튼 클릭 이벤트
+        updateButton.addEventListener('click', function () {
+            annualIncome = parseInt(incomeInput.value) || 50000000;
+            loanTermYears = parseInt(yearsInput.value) || 20;
+            incomePercentage = parseInt(percentageInput.value) || 25;
 
-            // HTML 업데이트
-            // document.getElementById('pirResult').textContent = numberToKorean(pirResult);
-            // document.getElementById('pirPrice').textContent = numberToKorean(pirPrice);
+            // 조건 폼을 닫는 동작
+            if (closeButton.style.display === 'block') {
+                toggleConditions(); // closeButton 클릭과 동일한 동작
+            }
+
+            updateOutputText();
+            updateRecommendations();
+        });
+
+        // 추천 업데이트 함수
+        function updateRecommendations() {
+            fetch('/mydata-api/account', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({ user_id: userId })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const totalBalance = data.currentTotal || 0;
+                    maxRecommendedPrice = calculateMaxRecommendedPrice(totalBalance, annualIncome, loanTermYears, incomePercentage);
+
+                    // 필터링된 아파트 목록 업데이트
+                    displayedApartments = filterApartmentsByPrice(items, maxRecommendedPrice);
+
+                    // 아파트 목록 정렬 후 다시 렌더링
+                    sortApartments('highPrice');  // 기본 정렬: 높은 가격순
+                    updateDisplayedApartments();
+
+                    // 차트 업데이트
+                    createComparisonChart(totalBalance, annualIncome, loanTermYears, incomePercentage);
+                })
+                .catch(error => {
+                    console.error('Error fetching account data:', error);
+                });
         }
 
-// K-HAI 계산 함수 정의
-        function calculateLoanAmount(monthlyIncome, interestRate, loanTermMonths) {
-            // 월 상환 가능 금액: 소득의 25.7%
-            const monthlyRepayment = monthlyIncome * 0.257;
+        // PIR vs K-HAI max값 return
+        function calculateMaxRecommendedPrice(totalBalance, annualIncome, loanTermYears, incomePercentage) {
+            const pirPrice = calculatePIR(totalBalance, annualIncome, cityCode);
+            const khaiPrice = calculateKHAI(totalBalance, annualIncome, loanTermYears, incomePercentage);
+
+            return Math.max(pirPrice, khaiPrice);
+        }
+
+        // PIR 기준 추천 아파트 가격 계산 함수
+        function calculatePIR(totalBalance, annualIncome, cityCode) {
+            let pirMultiplier;
+
+            // cityCode에 따른 PIR 가중치 설정
+            switch (cityCode) {
+                case '11':  // 서울
+                    pirMultiplier = 11.2;
+                    break;
+                case '41':  // 경기도
+                    pirMultiplier = 9;
+                    break;
+                case '28':  // 인천
+                    pirMultiplier = 8.1;
+                    break;
+            }
+
+            console.log(cityCode)
+
+            // PIR 계산
+            const pirResult = annualIncome * pirMultiplier;
+            return pirResult + totalBalance;
+        }
+
+        // K-HAI 기준 추천 아파트 가격 계산 함수
+        function calculateKHAI(totalBalance, annualIncome, loanTermYears, incomePercentage) {
+            const monthlyIncome = annualIncome / 12;
+            const interestRate = 0.04; // 연 이자율 4%
+            const loanTermMonths = loanTermYears * 12;
+
+            // 월 상환 가능 금액: 소득의 incomePercentage%
+            const monthlyRepayment = monthlyIncome * (incomePercentage / 100);
 
             // 월 이자율
             const monthlyInterestRate = interestRate / 12;
 
             // 대출 가능 금액(PV) 계산
-            return (
-                monthlyRepayment *
-                ((Math.pow(1 + monthlyInterestRate, loanTermMonths) - 1) /
-                    (monthlyInterestRate * Math.pow(1 + monthlyInterestRate, loanTermMonths)))
-            );
+            const loanAmount = monthlyRepayment * ((Math.pow(1 + monthlyInterestRate, loanTermMonths) - 1) /
+                (monthlyInterestRate * Math.pow(1 + monthlyInterestRate, loanTermMonths)));
+
+            return Math.round((loanAmount + totalBalance) / 10000) * 10000;
         }
 
-// 대출 가능 금액 계산 및 업데이트
-        function calculateAndDisplayLoanAmount(totalBalance) {
-            const monthlyIncome = annualIncome / 12; // 월 소득
-            const interestRate = 0.04; // 연 이자율 (4%)
-            const loanTermMonths = 20 * 12; // 대출 기간 (20년)
-
-            // 대출 가능 금액 계산
-            const loanAmount = calculateLoanAmount(monthlyIncome, interestRate, loanTermMonths);
-
-            // K-HAI 추천 아파트 금액 계산
-            const roundedLoanAmount = Math.round(loanAmount / 10000) * 10000;
-            const roundedKHAIPrice = Math.round((loanAmount + totalBalance) / 10000) * 10000;
-
-            // K-HAI 결과 업데이트
-            // document.getElementById('khaiResult').textContent = numberToKorean(roundedLoanAmount);
-            // document.getElementById('khaiPrice').textContent = numberToKorean(roundedKHAIPrice);
-        }
-
-// 추천 아파트 가격 차트 생성
-        function createComparisonChart(annualIncome, totalBalance) {
-            const pirResult = annualIncome * 11.2;
-            const pirPrice = pirResult + totalBalance;
-            const loanAmount = calculateLoanAmount(annualIncome / 12, 0.04, 20 * 12); // Replace with actual calculation
-            const khaiPrice = Math.round((loanAmount + totalBalance) / 10000) * 10000;
+        // 추천 아파트 가격 비교 차트 생성
+        function createComparisonChart(totalBalance, annualIncome, loanTermYears, incomePercentage) {
+            const pirPrice = calculatePIR(totalBalance, annualIncome, cityCode);
+            const khaiPrice = calculateKHAI(totalBalance, annualIncome, loanTermYears, incomePercentage);
 
             const script = document.createElement('script');
             script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
@@ -284,7 +408,13 @@
 
             script.onload = function () {
                 const ctx = document.getElementById('comparisonChart').getContext('2d');
-                new Chart(ctx, {
+
+                // 기존 차트 제거
+                if (window.myChart instanceof Chart) {
+                    window.myChart.destroy();
+                }
+
+                window.myChart = new Chart(ctx, {
                     type: 'bar',
                     data: {
                         labels: ['PIR 기준 가격', 'K-HAI 기준 가격'],
@@ -333,7 +463,7 @@
             };
         }
 
-// 추천 아파트 리스트 무한 스크롤 동적 생성
+        // 추천 아파트 리스트 무한 스크롤 동적 생성
         let displayedApartments = [];
         let currentIndex = 0;
         const itemsPerLoad = 12;
@@ -342,37 +472,12 @@
         const container = document.getElementById('apartmentContainer');
         const loadingIndicator = document.getElementById('loadingIndicator');
 
-        let maxRecommendedPrice = 0; // Initialize max price
-
-        // Function to calculate maxRecommendedPrice
-        function calculateMaxRecommendedPrice(totalBalance, annualIncome) {
-            if (isNaN(totalBalance) || isNaN(annualIncome)) {
-                console.error('Invalid totalBalance or annualIncome:', totalBalance, annualIncome);
-                return 0;
-            }
-
-            const pirPrice = annualIncome * 11.2 + totalBalance; // PIR-based price
-            const monthlyIncome = annualIncome / 12;
-            const loanAmount = calculateLoanAmount(monthlyIncome, 0.04, 20 * 12);
-            const roundedKHAIPrice = Math.round((loanAmount + totalBalance) / 10000) * 10000;
-
-            console.log('PIR Price:', pirPrice);
-            console.log('K-HAI Price:', roundedKHAIPrice);
-
-            maxRecommendedPrice = Math.max(pirPrice, roundedKHAIPrice);
-            console.log('Final Max Recommended Price:', maxRecommendedPrice);
-            return maxRecommendedPrice;
-        }
+        let maxRecommendedPrice = 0;
 
         // Function to filter apartments
         function filterApartmentsByPrice(apartments, maxRecommendedPrice) {
             return apartments.filter(apartment => {
                 const dealAmount = parseInt(apartment.dealAmount.replace(/,/g, '').replace(/[^0-9]/g, ''), 10) * 10000;
-                if (isNaN(dealAmount)) {
-                    console.error('Invalid dealAmount:', apartment.dealAmount);
-                    return false;
-                }
-                console.log('Filtering Max Recommended Price:', maxRecommendedPrice);
                 return dealAmount <= maxRecommendedPrice;
             });
         }
@@ -452,61 +557,28 @@
             return cardDiv;
         }
 
-        // Event listeners for sorting
-        document.getElementById('sortLowPrice').addEventListener('change', () => {
-            sortApartments('lowPrice');
-        });
-
-        document.getElementById('sortHighPrice').addEventListener('change', () => {
-            sortApartments('highPrice');
-        });
-
-        document.getElementById('sortRecent').addEventListener('change', () => {
-            sortApartments('recentDeal');
-        });
-
-        // Function to handle sorting
+        // 아파트 정렬 함수
         function sortApartments(criteria) {
-            displayedApartments.sort((a, b) => {
-                if (criteria === 'lowPrice' || criteria === 'highPrice') {
-                    const priceA = parseInt(a.dealAmount.replace(/,/g, ''), 10);
-                    const priceB = parseInt(b.dealAmount.replace(/,/g, ''), 10);
-                    return criteria === 'lowPrice' ? priceA - priceB : priceB - priceA; // 높은 실거래가 순
-                } else if (criteria === 'recentDeal') {
-                    const dateA = new Date(a.dealYear, a.dealMonth - 1, a.dealDay);
-                    const dateB = new Date(b.dealYear, b.dealMonth - 1, b.dealDay);
-                    return dateB - dateA; // 최근 거래일 순
-                }
-            });
-
-            container.innerHTML = '';
-            currentIndex = 0;
-            renderFilteredApartments();
+            const sortFunctions = {
+                'lowPrice': (a, b) => parseInt(a.dealAmount.replace(/,/g, ''), 10) - parseInt(b.dealAmount.replace(/,/g, ''), 10),
+                'highPrice': (a, b) => parseInt(b.dealAmount.replace(/,/g, ''), 10) - parseInt(a.dealAmount.replace(/,/g, ''), 10),
+                'recentDeal': (a, b) => new Date(b.dealYear, b.dealMonth - 1, b.dealDay) - new Date(a.dealYear, a.dealMonth - 1, a.dealDay)
+            };
+            displayedApartments.sort(sortFunctions[criteria]);
         }
 
-        // Function to render filtered apartments
-        function renderFilteredApartments() {
-            if (isLoading) return;
-            isLoading = true;
-            loadingIndicator.classList.remove('d-none');
+        // 아파트 목록 업데이트 및 렌더링 함수 (중복 코드 통합)
+        function updateDisplayedApartments() {
+            container.innerHTML = ''; // 기존 아파트 목록 초기화
+            currentIndex = 0; // 인덱스 초기화
+            renderMoreApartments(); // 새로운 아파트 목록 렌더링
 
-            setTimeout(() => {
-                const endIndex = Math.min(currentIndex + itemsPerLoad, displayedApartments.length);
-                for (let i = currentIndex; i < endIndex; i++) {
-                    const card = createApartmentCard(displayedApartments[i]);
-                    container.appendChild(card);
-                }
-                currentIndex = endIndex;
-                isLoading = false;
-                loadingIndicator.classList.add('d-none');
-
-                if (currentIndex >= displayedApartments.length) {
-                    window.removeEventListener('scroll', handleScroll);
-                }
-            }, 500);
+            // 무한 스크롤 이벤트 리스너 재설정
+            window.removeEventListener('scroll', handleScroll);
+            window.addEventListener('scroll', handleScroll);
         }
 
-        // Infinite scroll handler
+        // 무한 스크롤 처리 함수
         function handleScroll() {
             const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
             if (scrollTop + clientHeight >= scrollHeight - 100 && !isLoading && currentIndex < displayedApartments.length) {
@@ -514,47 +586,31 @@
             }
         }
 
-        // Function to render more apartments
+        // 아파트 목록 추가 렌더링 함수
         function renderMoreApartments() {
             if (isLoading) return;
-
             isLoading = true;
             loadingIndicator.classList.remove('d-none');
 
-            setTimeout(() => {
-                const endIndex = Math.min(currentIndex + itemsPerLoad, displayedApartments.length);
+            const fragment = document.createDocumentFragment();
+            const endIndex = Math.min(currentIndex + itemsPerLoad, displayedApartments.length);
 
-                for (let i = currentIndex; i < endIndex; i++) {
-                    const card = createApartmentCard(displayedApartments[i]);
-                    container.appendChild(card);
-                }
+            for (let i = currentIndex; i < endIndex; i++) {
+                const card = createApartmentCard(displayedApartments[i]);
+                fragment.appendChild(card);
+            }
 
-                currentIndex = endIndex;
-                isLoading = false;
-                loadingIndicator.classList.add('d-none');
+            container.appendChild(fragment);
+            currentIndex = endIndex;
+            isLoading = false;
+            loadingIndicator.classList.add('d-none');
 
-                // Remove scroll event listener if all items are loaded
-                if (currentIndex >= displayedApartments.length) {
-                    console.log('All apartments loaded. Removing scroll listener.');
-                    window.removeEventListener('scroll', handleScroll);
-                }
-            }, 500); // Simulate API delay
+            if (currentIndex >= displayedApartments.length) {
+                window.removeEventListener('scroll', handleScroll);
+            }
         }
 
-        // Function to update displayed apartments and enable infinite scroll
-        function updateDisplayedApartments() {
-            console.log('Updating displayed apartments with maxRecommendedPrice:', maxRecommendedPrice);
-            displayedApartments = filterApartmentsByPrice(items, maxRecommendedPrice);
-            container.innerHTML = ''; // Clear existing apartments
-            currentIndex = 0; // Reset index
-            renderMoreApartments(); // Render the first batch
-
-            // Reattach scroll listener for infinite scroll
-            window.removeEventListener('scroll', handleScroll);
-            window.addEventListener('scroll', handleScroll);
-        }
-
-        // Initialization
+        // 초기화 함수
         function init() {
             fetch('/mydata-api/account', {
                 method: 'POST',
@@ -563,26 +619,41 @@
                 },
                 body: new URLSearchParams({ user_id: userId })
             })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Failed to fetch account data');
-                    }
-                    return response.json();
-                })
+                .then(response => response.json())
                 .then(data => {
                     const totalBalance = data.currentTotal || 0;
-                    maxRecommendedPrice = calculateMaxRecommendedPrice(totalBalance, annualIncome);
-                    updateDisplayedApartments(); // Update and render apartments
+                    document.getElementById('totalBalance').textContent = numberToKorean(totalBalance);
+                    maxRecommendedPrice = calculateMaxRecommendedPrice(totalBalance, annualIncome, loanTermYears, incomePercentage);
+                    displayedApartments = filterApartmentsByPrice(items, maxRecommendedPrice);
 
-                    // 기본 정렬: 높은 실거래가 순
-                    sortApartments('highPrice');
+                    // 정렬 후 아파트 목록 렌더링
+                    sortApartments('highPrice');  // 높은 가격순으로 정렬
+                    updateDisplayedApartments(); // 정렬된 아파트 렌더링
+
+                    createComparisonChart(totalBalance, annualIncome, loanTermYears, incomePercentage);
+                    window.addEventListener('scroll', handleScroll);
                 })
                 .catch(error => {
                     console.error('Error fetching account data:', error);
                 });
         }
 
-        init(); // Start initialization
+        init(); // 초기화 실행
+
+        // 정렬 버튼 이벤트 리스너
+        document.getElementById('sortHighPrice').addEventListener('change', () => {
+            sortApartments('highPrice');
+            updateDisplayedApartments();
+        });
+        document.getElementById('sortLowPrice').addEventListener('change', () => {
+            sortApartments('lowPrice');
+            updateDisplayedApartments();
+        });
+        document.getElementById('sortRecent').addEventListener('change', () => {
+            sortApartments('recentDeal');
+            updateDisplayedApartments();
+        });
+
 
     });
 </script>
