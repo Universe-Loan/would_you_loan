@@ -85,7 +85,7 @@
 
 <!--본문-->
 <div class="content-wrapper">
-    <div class="d-flex">
+    <div class="container d-flex">
         <!-- 아파트 찾기 -->
         <div class="box col-9 me-4 d-flex flex-column">
             <!-- 찾아줘 내 아파트 -->
@@ -96,13 +96,15 @@
             <!-- 아파트 추천 & 찾기 -->
             <div class="row d-flex justify-content-center align-items-center mb-3 flex-fill">
                 <div class="col-md-5 mb-4">
-                    <div class="card h-100 shadow-sm hover-card" onclick="openIncomePopup()">
-                        <div class="card-body text-center">
-                            <i class="fas fa-home fa-3x text-primary mb-3"></i>
-                            <h5 class="card-title fw-bold">내 소득으로 찾기</h5>
-                            <p class="card-text">내 소득으로 살 수 있는 아파트는?</p>
+                    <form id="searchIncomeForm" action='/search-income' method="post" onsubmit="return submitIncome();">
+                        <div class="card h-100 shadow-sm hover-card" onclick="openIncomePopup()">
+                            <div class="card-body text-center">
+                                <i class="fas fa-home fa-3x text-primary mb-3"></i>
+                                <h5 class="card-title fw-bold">내 소득으로 찾기</h5>
+                                <p class="card-text">내 소득으로 살 수 있는 아파트는?</p>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
                 <div class="col-md-5 mb-4">
                     <form id="searchForm" action="/search-apartment" method="post" onsubmit="return submitInterestProperty();">
