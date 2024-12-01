@@ -36,74 +36,74 @@
 <!--헤더-->
 <header th:replace="fragments/header :: nav"></header>
 
-
 <!--본문-->
 <div class="content-wrapper">
-    <div th:text="'주소 정보: ' + ${cityCode} + ' ' + ${cityText} + ' ' + ${districtCode} + ' ' + ${districtText}"></div>
-    <div>입출금 계좌 총합: <span id="totalBalance" class="text-primary fw-bold">0원</span></div>
-    <div>연소득 : 일단은 아래 사용자 input값으로 계산</div>
-    <!-- 연소득은 DB에서 받아와야함 -->
-    <!-- 일단은 아래 사용자 input값으로 계산 -->
-    <!--    <div th:text="'연소득: ' + ${annualIncome}"></div>-->
+    <div class="container">
+        <div th:text="'주소 정보: ' + ${cityCode} + ' ' + ${cityText} + ' ' + ${districtCode} + ' ' + ${districtText}"></div>
+        <div>입출금 계좌 총합: <span id="totalBalance" class="text-primary fw-bold">0원</span></div>
+        <div>연소득 : 일단은 아래 사용자 input값으로 계산</div>
+        <!-- 연소득은 DB에서 받아와야함 -->
+        <!-- 일단은 아래 사용자 input값으로 계산 -->
+        <!--    <div th:text="'연소득: ' + ${annualIncome}"></div>-->
 
-    <div class="row">
-        <div class="col-6 d-flex flex-column">
-            <div class="box flex-fill">
-                현재 내 자산을 기준으로 대출을 받으면<br>
-                <span th:text="${cityText} + ' ' + ${districtText}"></span>에서<br>
-                <p id="outputText"></p>
-                매달 원리금분할상환 방식으로<br>
-                부담하는 아파트를 추천해드릴게요.<br>
-                * 대출 금리는
+        <div class="row">
+            <div class="col-6 d-flex flex-column">
+                <div class="box flex-fill">
+                    현재 내 자산을 기준으로 대출을 받으면<br>
+                    <span th:text="${cityText} + ' ' + ${districtText}"></span>에서<br>
+                    <p id="outputText"></p>
+                    매달 원리금분할상환 방식으로<br>
+                    부담하는 아파트를 추천해드릴게요.<br>
+                    * 대출 금리는
 
+                </div>
+                <div class="box flex-fill">
+                    <button class="btn btn-primary" onclick="openIncomePopup()">다른 지역에서 찾아보기</button>
+                    <div>
+                        <label for="incomeInput">소득 (원):</label>
+                        <input type="number" id="incomeInput" placeholder="50000000" min="0" step="1">
+                    </div>
+                    <div>
+                        <label for="yearsInput">기간 (년):</label>
+                        <input type="number" id="yearsInput" placeholder="20" min="1" step="1">
+                    </div>
+                    <div>
+                        <label for="percentageInput">소득 비율 (%):</label>
+                        <input type="number" id="percentageInput" placeholder="25" min="0" max="100" step="1">
+                    </div>
+                </div>
             </div>
-            <div class="box flex-fill">
-                <button class="btn btn-primary" onclick="openIncomePopup()">다른 지역에서 찾아보기</button>
-                <div>
-                    <label for="incomeInput">소득 (원):</label>
-                    <input type="number" id="incomeInput" placeholder="50000000" min="0" step="1">
-                </div>
-                <div>
-                    <label for="yearsInput">기간 (년):</label>
-                    <input type="number" id="yearsInput" placeholder="20" min="1" step="1">
-                </div>
-                <div>
-                    <label for="percentageInput">소득 비율 (%):</label>
-                    <input type="number" id="percentageInput" placeholder="25" min="0" max="100" step="1">
+            <div class="col-6 d-flex flex-column">
+                <div class="box flex-fill">
+                    <div class="mb-3">
+                        PIR 지수 : KB아파트 PIR(24 3Q) - 서울 11.2,  경기 9, 인천 8.1<br>
+        <!--                PIR 추천 아파트 가격: <span id="pirResult">0원</span><br> <span id="pirPrice">0원</span><br>-->
+                        K-HAI 기준 적정부담액: 소득의 25.7% 이하를 원리금분할상환으로 부담할 때<br>
+        <!--                K-HAI 지수(대출금리 4%, 대출만기 20년) : <span id="khaiResult">0원</span> <span id="khaiPrice">0원</span>-->
+                    </div>
+                    <canvas id="comparisonChart" width=100% height="50px"></canvas>
                 </div>
             </div>
         </div>
-        <div class="col-6 d-flex flex-column">
-            <div class="box flex-fill">
-                <div class="mb-3">
-                    PIR 지수 : KB아파트 PIR(24 3Q) - 서울 11.2,  경기 9, 인천 8.1<br>
-    <!--                PIR 추천 아파트 가격: <span id="pirResult">0원</span><br> <span id="pirPrice">0원</span><br>-->
-                    K-HAI 기준 적정부담액: 소득의 25.7% 이하를 원리금분할상환으로 부담할 때<br>
-    <!--                K-HAI 지수(대출금리 4%, 대출만기 20년) : <span id="khaiResult">0원</span> <span id="khaiPrice">0원</span>-->
-                </div>
-                <canvas id="comparisonChart" width=100% height="50px"></canvas>
-            </div>
+
+    <!--  추천 아파트 무한 스크롤 생성  -->
+        <!--  정렬 기준 버튼  -->
+        <div class="btn-group bg-secondary p-2 g-2 mb-3 rounded-pill shadow" role="group" aria-label="Sort options">
+            <input type="radio" class="btn-check" name="sortOptions" id="sortHighPrice" autocomplete="off" checked>
+            <label class="btn btn-secondary btn-sm rounded-pill px-3 py-2 fw-bold" for="sortHighPrice">높은 실거래가 순</label>
+
+            <input type="radio" class="btn-check" name="sortOptions" id="sortLowPrice" autocomplete="off">
+            <label class="btn btn-secondary btn-sm rounded-pill px-3 py-2 fw-bold" for="sortLowPrice">낮은 실거래가 순</label>
+
+            <input type="radio" class="btn-check" name="sortOptions" id="sortRecent" autocomplete="off">
+            <label class="btn btn-secondary btn-sm rounded-pill px-3 py-2 fw-bold" for="sortRecent">최근 거래일 순</label>
         </div>
+
+        <!--무한 스크롤-->
+        <div id="apartmentContainer" class="row g-2"></div>
+        <div id="loadingIndicator" class="text-center my-3 d-none">로딩 중...</div>
     </div>
-
-<!--  추천 아파트 무한 스크롤 생성  -->
-    <!--  정렬 기준 버튼  -->
-    <div class="btn-group bg-secondary p-2 g-2 mb-3 rounded-pill shadow" role="group" aria-label="Sort options">
-        <input type="radio" class="btn-check" name="sortOptions" id="sortHighPrice" autocomplete="off" checked>
-        <label class="btn btn-secondary btn-sm rounded-pill px-3 py-2 fw-bold" for="sortHighPrice">높은 실거래가 순</label>
-
-        <input type="radio" class="btn-check" name="sortOptions" id="sortLowPrice" autocomplete="off">
-        <label class="btn btn-secondary btn-sm rounded-pill px-3 py-2 fw-bold" for="sortLowPrice">낮은 실거래가 순</label>
-
-        <input type="radio" class="btn-check" name="sortOptions" id="sortRecent" autocomplete="off">
-        <label class="btn btn-secondary btn-sm rounded-pill px-3 py-2 fw-bold" for="sortRecent">최근 거래일 순</label>
-    </div>
-
-    <!--무한 스크롤-->
-    <div id="apartmentContainer" class="row g-2"></div>
-    <div id="loadingIndicator" class="text-center my-3 d-none">로딩 중...</div>
 </div>
-
 
 <!--팝업창-->
 <div th:replace="real_income_popup :: realIncomePopup"></div>
@@ -126,22 +126,22 @@
     document.addEventListener('DOMContentLoaded', function () {
 
         ///////////////////////////////////////////
-        // 연소득 데이터 DB에서 받아오는 것으로 수정해야함
+        // 연소득 임의 지정
         ///////////////////////////////////////////
-        let annualIncome = 50000000; // 연소득 수정해야함
+        let annualIncome = 50000000; // 기본값 설정
 
         const incomeInput = document.getElementById('incomeInput');
         const yearsInput = document.getElementById('yearsInput');
         const percentageInput = document.getElementById('percentageInput');
         const outputText = document.getElementById('outputText');
 
-        // Function to update output text dynamically
+// 출력 텍스트를 동적으로 업데이트하는 함수
         function updateOutput() {
-            const income = parseInt(incomeInput.value) || 50000000; // Default to 5000 if empty
-            const years = parseInt(yearsInput.value) || '20'; // Default to '20' if empty
-            const percentage = parseInt(percentageInput.value) || 25; // Default to 25 if empty
+            const income = parseInt(incomeInput.value) || 50000000; // 비어있으면 기본값 5000만원
+            const years = parseInt(yearsInput.value) || 20; // 비어있으면 기본값 20년
+            const percentage = parseInt(percentageInput.value) || 25; // 비어있으면 기본값 25%
 
-            annualIncome = income; // 연소득 수정해야함
+            annualIncome = income; // 연소득 업데이트
 
             outputText.innerHTML = `${years}년 동안 내 소득 ${income}만 원의 ${percentage}% 이하를<br>`;
         }
@@ -156,7 +156,6 @@
 
         // 타임리프에서 데이터 받기
         const userId = /*[[${session.user_id}]]*/ '';
-
         //
         // 데이터 DB에서 받아오는 것으로 연소득 수정해야함
         // const annualIncome = parseInt(/*[[${annualIncome}]]*/ 0) || 0;
@@ -165,8 +164,9 @@
         const cityText = /*[[${cityText}]]*/ '';
         const districtText = /*[[${districtText}]]*/ '';
 
+        console.log(items)
+
         if (userId) {
-            // API 호출
             fetch('/mydata-api/account', {
                 method: 'POST',
                 headers: {
@@ -183,21 +183,13 @@
                 .then(data => {
                     const totalBalance = data.currentTotal || 0;
 
-                    // 총합 표시 업데이트
                     document.getElementById('totalBalance').textContent = `${numberToKorean(totalBalance)}`;
 
-                    // K-HAI 대출 가능 금액 계산
                     calculateAndDisplayLoanAmount(totalBalance);
-
-                    // PIR 계산
                     calculatePIR(totalBalance, annualIncome);
-
-                    // 추천 아파트 가격 차트 생성
                     createComparisonChart(annualIncome, totalBalance);
 
-                    // Max Recommended Price 계산
                     const maxRecommendedPrice = calculateMaxRecommendedPrice(totalBalance, annualIncome);
-
                     const filteredApartments = filterApartmentsByPrice(items, maxRecommendedPrice);
                     renderFilteredApartments(filteredApartments);
                 })

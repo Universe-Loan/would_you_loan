@@ -61,24 +61,29 @@ public class AptInfoController {
     }
 
     // 사용자 연소득 및 지역 -> apt-list
-    @PostMapping("/real-income/submit")
-    public String handleIncomeSubmission(
-            @RequestParam("cityCode") String cityCode,
-            @RequestParam("districtCode") String districtCode,
-            @RequestParam("cityText") String cityText,
-            @RequestParam("districtText") String districtText,
-//            @RequestParam("annualIncome") String annualIncome,
-            RedirectAttributes redirectAttributes) {
+    @PostMapping("/search-income")
+    @ResponseBody // JSON 응답 반환
+    public ResponseEntity<Map<String, String>> handleIncomeSubmission(
+            @RequestParam(required = true) String cityCode,
+            @RequestParam(required = true) String districtCode,
+            @RequestParam(required = true) String cityText,
+            @RequestParam(required = true) String districtText) {
 
-        // Redirect 시 전달할 값 설정
-        redirectAttributes.addAttribute("cityCode", cityCode);
-        redirectAttributes.addAttribute("districtCode", districtCode);
-        redirectAttributes.addAttribute("cityText", cityText);
-        redirectAttributes.addAttribute("districtText", districtText);
-//        redirectAttributes.addAttribute("annualIncome", annualIncome);
+        // 서버 측 유효성 검사
+        if (cityCode == null || districtCode == null || cityCode.isEmpty() || districtCode.isEmpty() ||
+                cityText == null || districtText == null || cityText.isEmpty() || districtText.isEmpty()) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "모든 항목을 입력해주세요.");
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
 
-        // 리다이렉트 처리
-        return "redirect:/apt-list";
+        // 리다이렉트 URL 반환
+        Map<String, String> response = new HashMap<>();
+        response.put("redirectUrl", "/apt-list?cityCode=" + cityCode +
+                "&districtCode=" + districtCode +
+                "&cityText=" + cityText +
+                "&districtText=" + districtText);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/apt-list")

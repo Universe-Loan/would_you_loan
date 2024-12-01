@@ -175,6 +175,7 @@ function submitInterestProperty() {
 
     if (!citySelect.value || !districtSelect.value || !neighborhoodSelect.value || !apartmentSelect.value) {
         alert('모든 항목을 선택해주세요.');
+        console.log()
         return;
     }
 

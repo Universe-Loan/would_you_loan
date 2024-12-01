@@ -8,15 +8,33 @@ async function fetchApiKey() {
         if (!response.ok) {
             throw new Error('API 키를 가져오는데 실패했습니다.');
         }
-        API_KEY = await response.text();
-        console.log('API 키를 성공적으로 가져왔습니다.');
+
+        // response.text()의 결과를 기다린 후 trim 호출
+        const apiKeyText = await response.text(); // Promise 해결
+        API_KEY = apiKeyText.trim(); // 문자열로 변환 후 공백 제거
+        console.log('API 키를 성공적으로 가져왔습니다:');
     } catch (error) {
         console.error('API 키를 가져오는 중 오류 발생:', error);
     }
 }
 
-// 페이지 로드 시 API 키 가져오기
-fetchApiKey();
+
+fetch('/api/key')
+    .then(async response => {
+        if (!response.ok) {
+            console.error('서버 응답 오류:', await response.text());
+            throw new Error('서버 응답이 실패했습니다.');
+        }
+        return response.text();
+    })
+    .then(apiKey => {
+        API_KEY = apiKey.trim();
+        console.log('API 키:');
+    })
+    .catch(error => {
+        console.error('API 키를 가져오는 중 오류:', error);
+    });
+
 
 // real_address.js에서 먼저 API 키를 가져옴
 // // 페이지 로드 시 API 키 가져오기
@@ -84,29 +102,50 @@ function loadIncomeDistricts() {
 }
 
 function submitIncome() {
-    // City와 District 선택 확인
+    // 선택값 가져오기
     const citySelect = document.getElementById('incomeCity');
     const districtSelect = document.getElementById('incomeDistrict');
-    // const annualIncomeInput = document.getElementById('annualIncome'); // 연소득 입력 필드
 
+    // 선택값 유효성 검사
     if (!citySelect.value || !districtSelect.value) {
-        alert("모든 항목을 입력해주세요.");
-        return false; // 폼 제출 방지
+        alert("모든 항목을 입력해주세요."); // 사용자 피드백
+        return false; // 제출 방지
     }
 
-    // Hidden Input 값 설정
-    document.getElementById('hiddenCityCode').value = citySelect.value;
-    document.getElementById('hiddenDistrictCode').value = districtSelect.value;
-    document.getElementById('hiddenCityText').value = citySelect.options[citySelect.selectedIndex].text;
-    document.getElementById('hiddenDistrictText').value = districtSelect.options[districtSelect.selectedIndex].text;
+    // 폼 데이터 생성
+    const formData = new FormData();
+    formData.append('cityCode', citySelect.value);
+    formData.append('districtCode', districtSelect.value);
+    formData.append('cityText', citySelect.options[citySelect.selectedIndex].text);
+    formData.append('districtText', districtSelect.options[districtSelect.selectedIndex].text);
 
-    // Submit the form
-    document.getElementById('incomeForm').submit();
+    // 서버로 데이터 전송
+    fetch('/search-income', {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(errorData => {
+                    throw new Error(errorData.error || '처리 중 오류가 발생했습니다.');
+                });
+            }
+            return response.json(); // JSON 형태의 응답 처리
+        })
+        .then(data => {
+            // 리다이렉트 처리
+            if (data.redirectUrl) {
+                window.location.href = data.redirectUrl;
+            } else {
+                alert('리다이렉트 URL이 없습니다.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert(error.message);
+        });
+
+    return false; // 기본 제출 동작 방지
 }
 
-// Close popup
-function closeIncomePopup() {
-    const popup = document.getElementById('realIncomePopup');
-    popup.style.display = 'none';
-    document.body.classList.remove('popup-active');
-}
+
