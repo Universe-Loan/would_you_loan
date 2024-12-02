@@ -179,7 +179,12 @@
         </div>
         <div class="row flex-fill">
             <div class="col-md-6 d-flex flex-fill">
-                <div class="box flex-fill d-flex justify-content-center align-items-center">지표 3</div>
+                <div class="box flex-fill d-flex justify-content-center align-items-center">
+                    <h1>Market Analysis</h1>
+                    <div class="chart-container">
+                        <canvas id="marketChart" width="800" height="400"></canvas>
+                    </div>
+                </div>
             </div>
             <div class="col-md-6 d-flex flex-fill">
                 <div class="box flex-fill d-flex justify-content-center align-items-center">지표 4</div>
@@ -276,9 +281,12 @@
 <!--Javascript-->
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!--chart.js-->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-    // 챗봇
+
+        // 챗봇
         const floatingButton = document.getElementById("chat-floating-button");
         const chatContainer = document.getElementById("chat-container");
         const closeChatButton = document.getElementById("close-chat");
@@ -380,7 +388,78 @@
             }
         }
 
-    // 날씨 지도
+
+    // 부동산 지표
+        // Spring에서 전달된 JSON 데이터를 읽기
+        const apiResultsJson = /*[[${apiResultsJson ?: '[]'}]]*/ '[]';
+        console.log("Raw JSON:", apiResultsJson);
+
+        let apiResults = [];
+        try {
+            apiResults = JSON.parse(apiResultsJson);
+            console.log("Parsed JSON:", apiResults);
+
+            if (apiResults.length === 0) {
+                console.warn("No API results found.");
+            }
+        } catch (e) {
+            console.error("Error parsing JSON:", e.message);
+            apiResults = [];
+        }
+
+// 차트 데이터 준비
+        const chartDatasets = apiResults.flatMap((apiResult, index) => {
+            const { data } = apiResult;
+
+            return data.map(item => ({
+                x: item.PRD_DE, // 기간 (예: 201411)
+                y: parseFloat(item.DT) || 0 // 지표 값
+            }));
+        });
+
+        if (chartDatasets.length === 0) {
+            console.warn("No chart data available.");
+        }
+
+// 차트 그리기
+        const ctx = document.getElementById("marketChart").getContext("2d");
+        new Chart(ctx, {
+            type: "line",
+            data: {
+                datasets: [{
+                    label: "부동산 지표",
+                    data: chartDatasets,
+                    borderColor: "blue",
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        type: "time",
+                        time: {
+                            unit: "month",
+                            displayFormats: {
+                                month: "YYYY-MM"
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: "기간"
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: "지표 수치"
+                        }
+                    }
+                }
+            }
+        });
+
+        // 날씨 지도
         // GeoJSON 데이터를 사용하여 지도에 날씨 정보를 시각화
         d3.json('/market-analysis/geojson-weather').then(data => {
             const svgElement = document.getElementById("weatherMap");

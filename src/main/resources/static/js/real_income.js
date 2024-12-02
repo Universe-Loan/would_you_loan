@@ -4,7 +4,7 @@ let API_KEY = '';
 // 백엔드에서 API 키를 가져오는 함수
 async function fetchApiKey() {
     try {
-        const response = await fetch('/api/key');
+        const response = await fetch('/api/key/Data');
         if (!response.ok) {
             throw new Error('API 키를 가져오는데 실패했습니다.');
         }
@@ -19,7 +19,7 @@ async function fetchApiKey() {
 }
 
 
-fetch('/api/key')
+fetch('/api/key/Data')
     .then(async response => {
         if (!response.ok) {
             console.error('서버 응답 오류:', await response.text());
