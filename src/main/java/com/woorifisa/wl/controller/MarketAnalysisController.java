@@ -33,9 +33,34 @@ public class MarketAnalysisController {
     @Value("${API_KEY_KOSIS_EH}")
     private String apiKeyKOSIS;
 
-    // 부동산 지표
-    @GetMapping("/indicators")
-    public String showMarketAnalysis(Model model) {
+    // 부동산 기사, 지표
+    @GetMapping
+    public String getArticles(@RequestParam(defaultValue = "0") int page,
+                              @RequestParam(defaultValue = "10") int size,
+                              Model model) {
+        // 기사
+        Page<NewsArticleDto> articlesPage = newsArticleService.getPaginatedArticles(page, size);
+        int totalPages = articlesPage.getTotalPages();
+        int currentPage = page;
+
+        // 페이지 번호 범위 계산 (7개씩 표시)
+        int pageRange = 7; // 보여줄 페이지 번호 개수
+        int startPage = Math.max(0, currentPage - pageRange / 2);
+        int endPage = Math.min(totalPages - 1, startPage + pageRange - 1);
+
+        // 시작 페이지 보정
+        if ((endPage - startPage) < (pageRange - 1)) {
+            startPage = Math.max(0, endPage - pageRange + 1);
+        }
+
+        model.addAttribute("articles", articlesPage.getContent()); // 현재 페이지 데이터
+        model.addAttribute("currentPage", currentPage); // 현재 페이지
+        model.addAttribute("totalPages", totalPages); // 총 페이지 수
+        model.addAttribute("startPage", startPage); // 시작 페이지 번호
+        model.addAttribute("endPage", endPage); // 끝 페이지 번호
+
+
+        // 지표3
         String[] apiUrls = {
                 "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=" + apiKeyKOSIS +
                         "&itmId=T1+&objL1=ALL&objL2=&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&format=json&jsonVD=Y&prdSe=M&newEstPrdCnt=120&prdInterval=1" +
@@ -46,12 +71,12 @@ public class MarketAnalysisController {
 
         for (String apiUrl : apiUrls) {
             try {
-                System.out.println("Sending request to: " + apiUrl);
+//                System.out.println("Sending request to: " + apiUrl);
                 ResponseEntity<String> response = restTemplate.getForEntity(apiUrl, String.class);
 
                 if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
-                    System.out.println("API call successful for URL: " + apiUrl);
-                    System.out.println("Response body: " + response.getBody());
+//                    System.out.println("API call successful for URL: " + apiUrl);
+//                    System.out.println("Response body: " + response.getBody());
 
                     // JSON 응답 파싱
                     ObjectMapper objectMapper = new ObjectMapper();
@@ -75,39 +100,11 @@ public class MarketAnalysisController {
             ObjectMapper objectMapper = new ObjectMapper();
             String apiResultsJson = objectMapper.writeValueAsString(results);
             model.addAttribute("apiResultsJson", apiResultsJson);
-            System.out.println("Serialized JSON: " + apiResultsJson);
+//            System.out.println("Serialized JSON: " + apiResultsJson);
         } catch (Exception e) {
             System.err.println("Error serializing results: " + e.getMessage());
             model.addAttribute("apiResultsJson", "[]");
         }
-
-        return "market_analysis"; // View 이름
-    }
-
-    // 부동산 기사
-    @GetMapping
-    public String getArticles(@RequestParam(defaultValue = "0") int page,
-                              @RequestParam(defaultValue = "10") int size,
-                              Model model) {
-        Page<NewsArticleDto> articlesPage = newsArticleService.getPaginatedArticles(page, size);
-        int totalPages = articlesPage.getTotalPages();
-        int currentPage = page;
-
-        // 페이지 번호 범위 계산 (7개씩 표시)
-        int pageRange = 7; // 보여줄 페이지 번호 개수
-        int startPage = Math.max(0, currentPage - pageRange / 2);
-        int endPage = Math.min(totalPages - 1, startPage + pageRange - 1);
-
-        // 시작 페이지 보정
-        if ((endPage - startPage) < (pageRange - 1)) {
-            startPage = Math.max(0, endPage - pageRange + 1);
-        }
-
-        model.addAttribute("articles", articlesPage.getContent()); // 현재 페이지 데이터
-        model.addAttribute("currentPage", currentPage); // 현재 페이지
-        model.addAttribute("totalPages", totalPages); // 총 페이지 수
-        model.addAttribute("startPage", startPage); // 시작 페이지 번호
-        model.addAttribute("endPage", endPage); // 끝 페이지 번호
 
         return "market_analysis"; // 렌더링할 템플릿 이름
     }
@@ -123,7 +120,7 @@ public class MarketAnalysisController {
             InputStream geoJsonStream = new ClassPathResource(geoJsonPath).getInputStream();
             ObjectMapper objectMapper = new ObjectMapper();
             geoJsonData = objectMapper.readValue(geoJsonStream, Map.class);
-            System.out.println("GeoJSON data successfully loaded.");
+//            System.out.println("GeoJSON data successfully loaded.");
 
             // 모든 SIG_CD를 추출하여 날씨 데이터 호출
             Map<String, String> weatherMap = new HashMap<>();
@@ -140,14 +137,14 @@ public class MarketAnalysisController {
                     }
                 }
 
-                System.out.println("Extracted SIG_CD values: " + sigCdSet);
+//                System.out.println("Extracted SIG_CD values: " + sigCdSet);
 
                 // 각 SIG_CD에 대해 날씨 데이터 호출
                 for (String sigCd : sigCdSet) {
                     String weather = fetchWeatherDataForSigCd(sigCd);
                     if (weather != null) {
                         weatherMap.put(sigCd, weather);
-                        System.out.println("Fetched weather for SIG_CD " + sigCd + ": " + weather);
+//                        System.out.println("Fetched weather for SIG_CD " + sigCd + ": " + weather);
                     }
                 }
             }
@@ -160,16 +157,16 @@ public class MarketAnalysisController {
                 features.parallelStream().forEach(feature -> {
                     Map<String, Object> properties = (Map<String, Object>) feature.get("properties");
                     String sigCd = (String) properties.get("SIG_CD");
-                    System.out.println("Processing SIG_CD: " + sigCd);
+//                    System.out.println("Processing SIG_CD: " + sigCd);
 
                     // 날씨 정보 추가
                     String weather = weatherMap.getOrDefault(sigCd, "정보 없음");
-                    System.out.println("Weather for SIG_CD " + sigCd + ": " + weather);
+//                    System.out.println("Weather for SIG_CD " + sigCd + ": " + weather);
                     properties.put("weather", weather);
                 });
             }
 
-            System.out.println("GeoJSON and weather data successfully merged.");
+//            System.out.println("GeoJSON and weather data successfully merged.");
             return ResponseEntity.ok(geoJsonData);
 
         } catch (Exception e) {
@@ -184,7 +181,7 @@ public class MarketAnalysisController {
      */
     public String fetchWeatherDataForSigCd(String sigCd) {
         try {
-            System.out.println("Fetching weather data for SIG_CD: " + sigCd);
+//            System.out.println("Fetching weather data for SIG_CD: " + sigCd);
             String url = "https://data-api.kbland.kr/bfmstat/wthrchat/husePrcIndx";
             UriComponentsBuilder weatherUri = UriComponentsBuilder.fromHttpUrl(url)
                     .queryParam("월간주간구분코드", "01")
@@ -230,13 +227,13 @@ public class MarketAnalysisController {
 //                        System.out.println("Depth1: " + depth1);
 
                         for (Map<String, Object> item : depth1) {
-                            System.out.println(item);
+//                            System.out.println(item);
                             if (item.get("법정동코드").toString().startsWith(sigCd)) {
                                 if (item.get("변동률") == null) {
                                     weather = "☁️";
                                 } else {
                                     double changeRate = Double.parseDouble(item.get("변동률").toString());
-                                    System.out.println("Change Rate: " + changeRate);
+//                                    System.out.println("Change Rate: " + changeRate);
                                     weather = changeRate < 0 ? "☁️" : "☀️";
                                     break;
                                 }
