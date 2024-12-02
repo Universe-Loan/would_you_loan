@@ -10,6 +10,11 @@
   <!-- 사용자 정의 CSS -->
   <link rel="stylesheet" th:href="@{/css/common.css}">
 <style>
+  body{
+    background-size: cover; /* 이미지를 전체 영역에 맞춤 */
+    background-position: center; /* 이미지를 중앙에 배치 */
+    background-repeat: no-repeat; /* 이미지를 반복하지 않음 */
+  }
   .hero {
     height: calc(100vh - 56px); /* 뷰포트 높이에서 네비게이션 바 높이를 뺀 값 */
     min-height: 400px; /* 최소 높이 설정 */
@@ -50,7 +55,7 @@
 </style>
 </head>
 
-<body>
+<body style="background-image: url('/img/bgSpace.png')">
 <!--헤더-->
 <header th:replace="fragments/header :: nav"></header>
 

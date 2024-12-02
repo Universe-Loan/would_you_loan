@@ -1,8 +1,10 @@
 package com.woorifisa.wl.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woorifisa.wl.model.dto.NewsArticleDto;
 import com.woorifisa.wl.service.NewsArticleService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
 import org.springframework.http.*;
@@ -27,6 +29,62 @@ public class MarketAnalysisController {
         this.restTemplate = restTemplate;
     }
 
+    // 부동산 지표 api key
+    @Value("${API_KEY_KOSIS_EH}")
+    private String apiKeyKOSIS;
+
+    // 부동산 지표
+    @GetMapping("/indicators")
+    public String showMarketAnalysis(Model model) {
+        String[] apiUrls = {
+                "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=" + apiKeyKOSIS +
+                        "&itmId=T1+&objL1=ALL&objL2=&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&format=json&jsonVD=Y&prdSe=M&newEstPrdCnt=120&prdInterval=1" +
+                        "&outputFields=DT+PRD_SE+PRD_DE+C1_NM+ITM_NM+ITM_ID+C1_OBJ_NM+&orgId=390&tblId=DT_39002_01"
+        };
+
+        List<Map<String, Object>> results = new ArrayList<>();
+
+        for (String apiUrl : apiUrls) {
+            try {
+                System.out.println("Sending request to: " + apiUrl);
+                ResponseEntity<String> response = restTemplate.getForEntity(apiUrl, String.class);
+
+                if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+                    System.out.println("API call successful for URL: " + apiUrl);
+                    System.out.println("Response body: " + response.getBody());
+
+                    // JSON 응답 파싱
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    List<Map<String, Object>> apiData = objectMapper.readValue(response.getBody(), List.class);
+
+                    if (apiData != null && !apiData.isEmpty()) {
+                        results.add(Map.of("url", apiUrl, "data", apiData));
+                    } else {
+                        System.err.println("No data in response for URL: " + apiUrl);
+                    }
+                } else {
+                    System.err.println("API call failed for URL: " + apiUrl + ". Response code: " + response.getStatusCode());
+                }
+            } catch (Exception e) {
+                System.err.println("Error during API call for URL: " + apiUrl + ". Exception: " + e.getMessage());
+            }
+        }
+
+        try {
+            // JSON 직렬화하여 클라이언트로 전달
+            ObjectMapper objectMapper = new ObjectMapper();
+            String apiResultsJson = objectMapper.writeValueAsString(results);
+            model.addAttribute("apiResultsJson", apiResultsJson);
+            System.out.println("Serialized JSON: " + apiResultsJson);
+        } catch (Exception e) {
+            System.err.println("Error serializing results: " + e.getMessage());
+            model.addAttribute("apiResultsJson", "[]");
+        }
+
+        return "market_analysis"; // View 이름
+    }
+
+    // 부동산 기사
     @GetMapping
     public String getArticles(@RequestParam(defaultValue = "0") int page,
                               @RequestParam(defaultValue = "10") int size,
@@ -54,6 +112,7 @@ public class MarketAnalysisController {
         return "market_analysis"; // 렌더링할 템플릿 이름
     }
 
+    // 부동산 날씨
     @GetMapping("/geojson-weather")
     @ResponseBody
     public ResponseEntity<?> getGeoJsonWithWeather() {

@@ -9,7 +9,7 @@ public class ApiKeyController {
     @Value("${API_KEY_DATA_EH}")
     private String apiKey;
 
-    @GetMapping("/api/key")
+    @GetMapping("/api/key/DATA")
     public String getApiKey() {
         return apiKey;
     }
