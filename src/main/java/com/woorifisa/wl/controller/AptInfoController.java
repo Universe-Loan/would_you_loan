@@ -158,6 +158,29 @@ public class AptInfoController {
         return "apt_list"; // Thymeleaf 템플릿 이름
     }
 
+    @PostMapping("/list-to-report")
+    public String listToReport(@RequestParam String city,
+                               @RequestParam String district,
+                               @RequestParam String neighborhood,
+                               @RequestParam String apartment,
+                               @RequestParam String lawdCode,
+                               @RequestParam String kaptCode,
+                               RedirectAttributes redirectAttributes) {
+
+        // 필요한 변수들을 RedirectAttributes에 추가
+        redirectAttributes.addAttribute("city", city);
+        redirectAttributes.addAttribute("district", district);
+        redirectAttributes.addAttribute("neighborhood", neighborhood);
+        redirectAttributes.addAttribute("apartment", apartment);
+        redirectAttributes.addAttribute("lawdCode", lawdCode);
+        redirectAttributes.addAttribute("kaptCode", kaptCode);
+
+        // kaptCode 디버깅
+        System.out.println("Received kaptCode1: " + kaptCode);
+
+        return "redirect:/apt-report";
+    }
+
     // 아파트 단지명으로 아파트 검색하기
     @GetMapping("/address/popup")
     public String showAddressPopup() {
@@ -178,7 +201,7 @@ public class AptInfoController {
         redirectAttributes.addAttribute("neighborhood", neighborhood);
         redirectAttributes.addAttribute("apartment", apartment);
         redirectAttributes.addAttribute("lawdCode", lawdCode);
-        redirectAttributes.addAttribute("KaptCode", kaptCode);
+        redirectAttributes.addAttribute("kaptCode", kaptCode);
 
         return "redirect:/apt-report";
     }
@@ -260,10 +283,18 @@ public class AptInfoController {
                                 @RequestParam(required = false) String neighborhood,
                                 @RequestParam(required = false) String apartment,
                                 @RequestParam(required = false) String lawdCode,
-                                @RequestParam(required = false, name = "KaptCode") String kaptCode,
+                                @RequestParam(required = false) String kaptCode,
                                 @RequestParam(required = false, defaultValue = "1") int pageNo,
                                 @RequestParam(required = false, defaultValue = "10") int numOfRows,
                                 Model model, HttpSession session) {
+
+        // apt-list로부터 들어오는 변수 디버깅
+        System.out.println("Received city: " + city);
+        System.out.println("Received district: " + district);
+        System.out.println("Received neighborhood: " + neighborhood);
+        System.out.println("Received apartment: " + apartment);
+        System.out.println("Received lawdCode: " + lawdCode);
+        System.out.println("Received kaptCode2: " + kaptCode);
 
         // lawdCode 앞 5자리 lawd_five 생성
         String lawd_five = lawdCode.substring(0,5);
