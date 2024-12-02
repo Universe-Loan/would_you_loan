@@ -177,22 +177,6 @@
         }
     });
 
-    // function uploadAndProcessPDF(file) {
-    //     // 서버 연결 없이 테스트하기 위해 가짜 OCR 결과를 생성합니다.
-    //     const fakeOCRResult = {
-    //         location: '서울특별시 강남구 테헤란로 123',
-    //         buildingUse: '오피스텔',
-    //         exclusiveArea: '84.5㎡',
-    //         salePrice: '500,000,000원',
-    //         buyerAddress: '서울특별시 서초구 서초대로 456',
-    //         buyerName: '임정규'
-    //     };
-    //
-    //     // OCR 결과를 폼에 채우고 결과 컨테이너를 표시합니다.
-    //     fillOCRResult(fakeOCRResult);
-    //     showOCRResult(file);
-    // }
-
     function fillOCRResult(data) {
         document.getElementById('location').value = data.location || '';
         document.getElementById('buildingUse').value = data.building_use || '';
@@ -230,28 +214,69 @@
 
     // OCR 결과 수정 폼 제출 처리
     function submitForm() {
+        // OCR 폼 데이터
         const formData = {
             location: document.getElementById('location').value,
             buildingUse: document.getElementById('buildingUse').value,
             exclusiveArea: document.getElementById('exclusiveArea').value,
             salePrice: document.getElementById('salePrice').value,
             buyerAddress: document.getElementById('buyerAddress').value,
-            buyerName: document.getElementById('buyerName').value,
+            buyerName: document.getElementById('buyerName').value
         };
 
+        // 두 요청을 순차적으로 처리
         fetch('/record-ocr/add-ocr-result', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(formData),
+            body: JSON.stringify(formData)
         })
+            .then(response => response.json())
+            .then(ocrResult => {
+                // OCR 결과의 ID를 포함한 검증 데이터 생성
+                const verificationData = {
+                    ocrResultId: ocrResult.id,
+                    uploadAt: new Date().toISOString(),
+                    isApproved: false,
+                    // 세션에서 가져온 대출 정보들
+                    applyType: sessionLoanData.applyType,
+                    // 신규 대출 정보
+                    newLoanType: sessionLoanData.newLoan.loanType,
+                    newBankName: sessionLoanData.newLoan.bankName,
+                    newLoanName: sessionLoanData.newLoan.loanName,
+                    newAmount: sessionLoanData.newLoan.amount,
+                    newRate: sessionLoanData.newLoan.rate,
+                    newStartDate: sessionLoanData.newLoan.startDate,
+                    newEndDate: sessionLoanData.newLoan.endDate,
+                    // 기존 대출 정보
+                    prvLoanType: sessionLoanData.prvLoan.loanType,
+                    prvBankName: sessionLoanData.prvLoan.bankName,
+                    prvLoanName: sessionLoanData.prvLoan.loanName,
+                    prvAmount: sessionLoanData.prvLoan.amount,
+                    prvRate: sessionLoanData.prvLoan.rate,
+                    prvStartDate: sessionLoanData.prvLoan.startDate,
+                    prvEndDate: sessionLoanData.prvLoan.endDate
+                };
+
+                // 검증 결과 저장
+                return fetch('/verification/save', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(verificationData)
+                });
+            })
             .then(response => response.text())
-            .then(data => {
-                alert(data);
+            .then(result => {
+                alert(result);
                 location.reload();
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => {
+                console.error('Error:', error);
+                alert('저장 중 오류가 발생했습니다.');
+            });
     }
 </script>
 </body>

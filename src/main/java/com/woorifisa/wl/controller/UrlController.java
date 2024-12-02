@@ -1,7 +1,17 @@
 package com.woorifisa.wl.controller;
 
+import com.woorifisa.wl.model.dto.LoanSessionData;
+import com.woorifisa.wl.model.entity.VerificationResult;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class UrlController {
@@ -60,8 +70,15 @@ public class UrlController {
         return "loan_ocr";
     }
 
-
-
+    @PostMapping("/save-loan-session")
+    @ResponseBody
+    public Map<String, Boolean> saveLoanData(@RequestBody LoanSessionData loanData,
+                                             HttpSession session) {
+        session.setAttribute("loanData", loanData);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("success", true);
+        return response;
+    }
 
     @GetMapping("/change-find")
     public String changeFind() {

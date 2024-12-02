@@ -13,6 +13,9 @@ public class OcrResult {
     @Column(name = "ocr_result_id")
     private Long ocrResultId;
 
+    @Column(name = "document_id")
+    private Long documentId;
+
     private String location;        // 소재지
 
     @Column(name = "building_use") // 매핑 명시적으로 지정

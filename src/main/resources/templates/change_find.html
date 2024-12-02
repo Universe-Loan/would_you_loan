@@ -369,16 +369,61 @@
                     <button class="btn btn-custom2" id="summit-loan">신청하기</button></a>
                 </div>
             </div>`;
+
             // 신청하기 버튼에 이벤트 리스너 추가
+            // 기존 대출, 신규 대출 정보 OCR 페이지 세션으로 넘기기
             const applyButton = cardDiv.querySelector('.btn-custom2');
             applyButton.addEventListener('click', function() {
-                window.location.href = '/loan-ocr';
+
+                // 현재 대출 정보
+                const currentLoan = {
+                    loanType: loan.loanType,      // 기존 대출 정보
+                    bankName: loan.bankName,
+                    loanName: loan.productName,
+                    amount: parseInt(loan.amount.slice(0, -1).replace(/,/g, "")),
+                    rate: parseFloat(loan.rate.slice(0, -1)) + 0.1,
+                    startDate: loan.startDate,
+                    endDate: loan.endDate
+                };
+
+                // 신규 신청할 대출 정보
+                const newLoan = {
+                    loanType: loan.loanType,              // 신규 대출 정보
+                    bankName: "우리은행",
+                    loanName: "우리은행 대환대출",
+                    amount: parseInt(loan.amount.slice(0, -1).replace(/,/g, "")),
+                    rate: parseFloat(loan.rate.slice(0, -1)),
+                    startDate: loan.startDate,
+                    endDate: loan.endDate
+                };
+
+                // 두 정보를 하나의 객체로 합침
+                const loanData = {
+                    currentLoan: currentLoan,
+                    newLoan: newLoan,
+                    applyType: "대환"
+                };
+
+                fetch('/save-loan-session', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(loanData)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            window.location.href = '/loan-ocr';
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
             });
 
             return cardDiv;
         }
 
-
+        // 원리금 균등상환 방식 - 월 납입금 계산
         function calculateMonthlyPayment(principal, annualInterestRate, startDate, endDate) {
             // 대출 기간(월) 계산
             const start = new Date(startDate);
