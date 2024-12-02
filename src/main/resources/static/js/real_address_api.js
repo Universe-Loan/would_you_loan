@@ -166,7 +166,7 @@ function loadApartments() {
 
 // 선택된 주소 입력
 function submitInterestProperty() {
-    const userId = globalUserId;
+    // const userId = globalUserId;
     const citySelect = document.getElementById('city');
     const districtSelect = document.getElementById('district');
     const neighborhoodSelect = document.getElementById('neighborhood');
@@ -188,30 +188,6 @@ function submitInterestProperty() {
 
     const fullAddress = `${city} ${district} ${neighborhood} ${apartment}`;
 
-    // Check where this function is called
-    const isAptFindPage = document.body.classList.contains('apt-find');
-    const isLoanPersonalInfoPage = document.body.classList.contains('loan-personal-info');
-
-    if (isAptFindPage) {
-        // Redirect to apartment report page
-        if (!city || !district || !neighborhood || !apartment || !lawdCode) {
-            alert('아파트 정보를 먼저 선택해주세요.');
-            return;
-        }
-
-        const params = new URLSearchParams({
-            city: city,
-            district: district,
-            neighborhood: neighborhood,
-            apartment: apartment,
-            lawdCode: lawdCode,
-            kaptCode: kaptCode
-        });
-
-        const go_url = `/apt-report?${params.toString()}`;
-        saveSearchRecord(apartment, go_url, userId, city, district)
-        window.location.href = go_url;
-    } else if (isLoanPersonalInfoPage) {
         // Update the address field and close the popup
         const addressButton = document.querySelector('button.form-control');
         if (addressButton) {
@@ -219,9 +195,6 @@ function submitInterestProperty() {
         }
 
         closeInterestPopup();
-    } else {
-        alert('적합한 페이지에서만 동작합니다.');
-    }
 }
 
 // 검색 기록 저장 함수 추가

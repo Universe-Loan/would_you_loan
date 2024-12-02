@@ -1,39 +1,39 @@
-// API 키를 저장할 변수
-let API_KEY = '';
-
-// 백엔드에서 API 키를 가져오는 함수
-async function fetchApiKey() {
-    try {
-        const response = await fetch('/api/key/Data');
-        if (!response.ok) {
-            throw new Error('API 키를 가져오는데 실패했습니다.');
-        }
-
-        // response.text()의 결과를 기다린 후 trim 호출
-        const apiKeyText = await response.text(); // Promise 해결
-        API_KEY = apiKeyText.trim(); // 문자열로 변환 후 공백 제거
-        console.log('API 키를 성공적으로 가져왔습니다:');
-    } catch (error) {
-        console.error('API 키를 가져오는 중 오류 발생:', error);
-    }
-}
-
-
-fetch('/api/key/Data')
-    .then(async response => {
-        if (!response.ok) {
-            console.error('서버 응답 오류:', await response.text());
-            throw new Error('서버 응답이 실패했습니다.');
-        }
-        return response.text();
-    })
-    .then(apiKey => {
-        API_KEY = apiKey.trim();
-        console.log('API 키:');
-    })
-    .catch(error => {
-        console.error('API 키를 가져오는 중 오류:', error);
-    });
+// // API 키를 저장할 변수
+// let API_KEY = '';
+//
+// // 백엔드에서 API 키를 가져오는 함수
+// async function fetchApiKey() {
+//     try {
+//         const response = await fetch('/api/key');
+//         if (!response.ok) {
+//             throw new Error('API 키를 가져오는데 실패했습니다.');
+//         }
+//
+//         // response.text()의 결과를 기다린 후 trim 호출
+//         const apiKeyText = await response.text(); // Promise 해결
+//         API_KEY = apiKeyText.trim(); // 문자열로 변환 후 공백 제거
+//         console.log('API 키를 성공적으로 가져왔습니다:');
+//     } catch (error) {
+//         console.error('API 키를 가져오는 중 오류 발생:', error);
+//     }
+// }
+//
+//
+// fetch('/api/key')
+//     .then(async response => {
+//         if (!response.ok) {
+//             console.error('서버 응답 오류:', await response.text());
+//             throw new Error('서버 응답이 실패했습니다.');
+//         }
+//         return response.text();
+//     })
+//     .then(apiKey => {
+//         API_KEY = apiKey.trim();
+//         console.log('API 키:');
+//     })
+//     .catch(error => {
+//         console.error('API 키를 가져오는 중 오류:', error);
+//     });
 
 
 // real_address.js에서 먼저 API 키를 가져옴

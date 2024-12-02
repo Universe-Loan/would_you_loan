@@ -63,50 +63,52 @@ public class MarketAnalysisController {
         // 지표3
         String[] apiUrls = {
                 "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=" + apiKeyKOSIS +
-                        "&itmId=T1+&objL1=ALL&objL2=&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&format=json&jsonVD=Y&prdSe=M&newEstPrdCnt=120&prdInterval=1" +
-                        "&outputFields=DT+PRD_SE+PRD_DE+C1_NM+ITM_NM+ITM_ID+C1_OBJ_NM+&orgId=390&tblId=DT_39002_01"
+                        "&itmId=T1+&objL1=ALL&objL2=&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&format=json&jsonVD=Y&prdSe=M&newEstPrdCnt=12&prdInterval=1" +
+                        "&outputFields=OBJ_ID+OBJ_NM+OBJ_NM_ENG+NM+NM_ENG+ITM_ID+ITM_NM+ITM_NM_ENG+UNIT_NM+UNIT_NM_ENG+PRD_SE+PRD_DE+&orgId=390&tblId=DT_39002_01",
+                "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=" + apiKeyKOSIS +
+                        "&itmId=T1+&objL1=ALL&objL2=&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&format=json&jsonVD=Y&prdSe=M&newEstPrdCnt=12&prdInterval=1" +
+                        "&outputFields=OBJ_ID+OBJ_NM+OBJ_NM_ENG+NM+NM_ENG+ITM_ID+ITM_NM+ITM_NM_ENG+UNIT_NM+UNIT_NM_ENG+PRD_SE+PRD_DE+&orgId=390&tblId=DT_39002_02",
+                "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=" + apiKeyKOSIS +
+                        "&itmId=T1+&objL1=ALL&objL2=&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&format=json&jsonVD=Y&prdSe=M&newEstPrdCnt=12&prdInterval=1" +
+                        "&outputFields=OBJ_ID+OBJ_NM+OBJ_NM_ENG+NM+NM_ENG+ITM_ID+ITM_NM+ITM_NM_ENG+UNIT_NM+UNIT_NM_ENG+PRD_SE+PRD_DE+&orgId=390&tblId=DT_39002_04",
+                "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=" + apiKeyKOSIS +
+                        "&itmId=T001+&objL1=ALL&objL2=ALL&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&format=json&jsonVD=Y&prdSe=M&newEstPrdCnt=12&prdInterval=1" +
+                        "&outputFields=OBJ_ID+OBJ_NM+OBJ_NM_ENG+NM+NM_ENG+ITM_ID+ITM_NM+ITM_NM_ENG+UNIT_NM+UNIT_NM_ENG+PRD_SE+PRD_DE+&orgId=390&tblId=DT_39002_08"
         };
 
         List<Map<String, Object>> results = new ArrayList<>();
 
         for (String apiUrl : apiUrls) {
             try {
-//                System.out.println("Sending request to: " + apiUrl);
                 ResponseEntity<String> response = restTemplate.getForEntity(apiUrl, String.class);
 
                 if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
-//                    System.out.println("API call successful for URL: " + apiUrl);
-//                    System.out.println("Response body: " + response.getBody());
-
-                    // JSON 응답 파싱
                     ObjectMapper objectMapper = new ObjectMapper();
                     List<Map<String, Object>> apiData = objectMapper.readValue(response.getBody(), List.class);
 
                     if (apiData != null && !apiData.isEmpty()) {
                         results.add(Map.of("url", apiUrl, "data", apiData));
                     } else {
-                        System.err.println("No data in response for URL: " + apiUrl);
+                        System.err.println("API 응답에 데이터가 없습니다. URL: " + apiUrl);
                     }
                 } else {
-                    System.err.println("API call failed for URL: " + apiUrl + ". Response code: " + response.getStatusCode());
+                    System.err.println("API 호출 실패. URL: " + apiUrl + ". 응답 코드: " + response.getStatusCode());
                 }
             } catch (Exception e) {
-                System.err.println("Error during API call for URL: " + apiUrl + ". Exception: " + e.getMessage());
+                System.err.println("API 호출 중 오류 발생. URL: " + apiUrl + ". 예외: " + e.getMessage());
             }
         }
 
         try {
-            // JSON 직렬화하여 클라이언트로 전달
             ObjectMapper objectMapper = new ObjectMapper();
             String apiResultsJson = objectMapper.writeValueAsString(results);
             model.addAttribute("apiResultsJson", apiResultsJson);
-//            System.out.println("Serialized JSON: " + apiResultsJson);
         } catch (Exception e) {
-            System.err.println("Error serializing results: " + e.getMessage());
+            System.err.println("결과 직렬화 중 오류 발생: " + e.getMessage());
             model.addAttribute("apiResultsJson", "[]");
         }
 
-        return "market_analysis"; // 렌더링할 템플릿 이름
+        return "market_analysis";
     }
 
     // 부동산 날씨
