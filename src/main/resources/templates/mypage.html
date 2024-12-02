@@ -95,34 +95,34 @@
                 <div class="d-flex justify-content-end">
                     <button type="button" id="saveBtn" class="btn btn-primary">저장하기</button>
                     <!-- 탈퇴하기 버튼 -->
-                    <button type="button" class="btn btn-outline-danger" id="deleteAccountButton" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
-                        탈퇴하기
-                    </button>
+<!--                    <button type="button" class="btn btn-outline-danger" id="deleteAccountButton" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">-->
+<!--                        탈퇴하기-->
+<!--                    </button>-->
                 </div>
             </form>
         </div>
     </div>
 
     <!-- 탈퇴 확인 모달 -->
-    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="confirmDeleteModalLabel">탈퇴 확인</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    정말 탈퇴하시겠습니까? 탈퇴하면 계정 복구가 불가능합니다.
-                </div>
-                <div class="modal-footer">
-                    <!-- "아니오" 버튼 -->
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">아니오</button>
-                    <!-- "예" 버튼 -->
-                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">예</button>
-                </div>
-            </div>
-        </div>
-    </div>
+<!--    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">-->
+<!--        <div class="modal-dialog modal-dialog-centered">-->
+<!--            <div class="modal-content">-->
+<!--                <div class="modal-header">-->
+<!--                    <h5 class="modal-title" id="confirmDeleteModalLabel">탈퇴 확인</h5>-->
+<!--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--                </div>-->
+<!--                <div class="modal-body">-->
+<!--                    정말 탈퇴하시겠습니까? 탈퇴하면 계정 복구가 불가능합니다.-->
+<!--                </div>-->
+<!--                <div class="modal-footer">-->
+<!--                    &lt;!&ndash; "아니오" 버튼 &ndash;&gt;-->
+<!--                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">아니오</button>-->
+<!--                    &lt;!&ndash; "예" 버튼 &ndash;&gt;-->
+<!--                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">예</button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
 
 </div>
 
@@ -139,28 +139,28 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         // "예" 버튼 클릭 이벤트
-        const confirmDeleteButton = document.getElementById("confirmDeleteButton");
-        confirmDeleteButton.addEventListener("click", function () {
-            // 테스트용으로 간단한 알림과 로그
-            console.log("사용자가 탈퇴를 확인했습니다.");
-            alert("탈퇴가 완료되었습니다.");
-
-            // 모달 닫기
-            const modal = bootstrap.Modal.getInstance(document.getElementById("confirmDeleteModal"));
-            modal.hide();
-
-            // 탈퇴 이후 로직 (예: 메인 페이지로 리디렉션)
-            // window.location.href = "/"; // 메인 페이지로 이동
-        });
-
-        // "아니오" 버튼 클릭 이벤트
-        const cancelButton = document.querySelector(".btn-secondary"); // "아니오" 버튼 선택
-        cancelButton.addEventListener("click", function () {
-            // 모달 닫기
-            const modal = bootstrap.Modal.getInstance(document.getElementById("confirmDeleteModal"));
-            modal.hide();
-            console.log("사용자가 탈퇴를 취소했습니다."); // 테스트용 로그
-        });
+        // const confirmDeleteButton = document.getElementById("confirmDeleteButton");
+        // confirmDeleteButton.addEventListener("click", function () {
+        //     // 테스트용으로 간단한 알림과 로그
+        //     console.log("사용자가 탈퇴를 확인했습니다.");
+        //     alert("탈퇴가 완료되었습니다.");
+        //
+        //     // 모달 닫기
+        //     const modal = bootstrap.Modal.getInstance(document.getElementById("confirmDeleteModal"));
+        //     modal.hide();
+        //
+        //     // 탈퇴 이후 로직 (예: 메인 페이지로 리디렉션)
+        //     // window.location.href = "/"; // 메인 페이지로 이동
+        // });
+        //
+        // // "아니오" 버튼 클릭 이벤트
+        // const cancelButton = document.querySelector(".btn-secondary"); // "아니오" 버튼 선택
+        // cancelButton.addEventListener("click", function () {
+        //     // 모달 닫기
+        //     const modal = bootstrap.Modal.getInstance(document.getElementById("confirmDeleteModal"));
+        //     modal.hide();
+        //     console.log("사용자가 탈퇴를 취소했습니다."); // 테스트용 로그
+        // });
 
 
         // REST API로부터 사용자 데이터를 가져오는 함수
