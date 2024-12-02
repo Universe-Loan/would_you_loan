@@ -18,7 +18,7 @@ public class DocumentService {
         this.documentRepository = documentRepository;
     }
 
-    public void saveDocument(DocumentDto documentDto) {
+    public Long saveDocument(DocumentDto documentDto) {
         Document document = new Document();
         document.setUserId(documentDto.getUserId());
         document.setFileName(documentDto.getFileName());
@@ -26,6 +26,8 @@ public class DocumentService {
         document.setFileS3Path(documentDto.getFileS3Path());
         document.setUploadedAt(LocalDateTime.now());
 
-        documentRepository.save(document);
+        Document saveDocument = documentRepository.save(document);
+
+        return saveDocument.getDocumentId();
     }
 }

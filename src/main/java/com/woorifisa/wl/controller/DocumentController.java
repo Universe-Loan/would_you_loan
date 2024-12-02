@@ -2,6 +2,7 @@ package com.woorifisa.wl.controller;
 
 import com.woorifisa.wl.model.dto.DocumentDto;
 import com.woorifisa.wl.service.DocumentService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,8 @@ public class DocumentController {
     @PostMapping("/record-doc-info")
     public ResponseEntity<String> uploadDocument(
             @RequestParam("file") MultipartFile file,
-            @RequestParam("user_id") Long userId) {
+            @RequestParam("user_id") Long userId,
+            HttpSession session) {
         try {
             String fileName = Paths.get(file.getOriginalFilename()).getFileName().toString();
             String baseName = fileName.contains(".")
@@ -41,9 +43,13 @@ public class DocumentController {
             documentDto.setFileName(baseName);
             documentDto.setFileType(fileType);
             documentDto.setFileS3Path(fileS3Path);
-            documentService.saveDocument(documentDto);
 
-            return ResponseEntity.ok("파일 업로드 중입니다.");
+            Long documentId = documentService.saveDocument(documentDto);
+
+            // 세션에 저장
+            session.setAttribute("documentId", documentId);
+
+            return ResponseEntity.ok("파일 업로드 중입니다. ID: " + documentId);
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Error occurred: " + e.getMessage());
         }

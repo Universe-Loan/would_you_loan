@@ -16,9 +16,10 @@ public class OcrResultService {
         this.ocrResultRepository = ocrResultRepository;
     }
 
-    public void addOcrResult(OcrResultDto ocrResultDto) {
+    public Long addOcrResult(OcrResultDto ocrResultDto, Long documentId) {
         // DTO를 Entity로 변환
         OcrResult ocrResult = new OcrResult();
+        ocrResult.setDocumentId(documentId);
         ocrResult.setLocation(ocrResultDto.getLocation());
         ocrResult.setBuildingUse(ocrResultDto.getBuildingUse());
         ocrResult.setExclusiveArea(ocrResultDto.getExclusiveArea());
@@ -27,7 +28,9 @@ public class OcrResultService {
         ocrResult.setBuyerName(ocrResultDto.getBuyerName());
 
         // DB에 저장
-        ocrResultRepository.save(ocrResult);
+        OcrResult saveOcrResult = ocrResultRepository.save(ocrResult);
+
+        return saveOcrResult.getOcrResultId();
     }
 
     public void updateOcrResult(OcrResultDto ocrResultDto) {
