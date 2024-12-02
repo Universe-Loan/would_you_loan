@@ -487,6 +487,9 @@
             const cardDiv = document.createElement('div');
             cardDiv.className = 'col-md-4 d-flex align-items-stretch'; // 부트스트랩의 그리드 시스템
 
+            // apt-report로 정보 넘기는 클릭 이벤트
+            cardDiv.addEventListener('click', () => handleCardClick(apartment));
+
             // Inner box container for styling
             const boxDiv = document.createElement('div');
             boxDiv.className = 'box mb-0 d-flex align-items-center flex-fill p-4 ';
@@ -555,6 +558,86 @@
             cardDiv.appendChild(boxDiv);
 
             return cardDiv;
+        }
+
+        // 추천 아파트 카드 클릭 시 데이터 전송
+        async function handleCardClick(apartment) {
+            const bjdCode = apartment.sggCd + apartment.umdCd; // 법정동 코드 생성
+            let API_KEY = '';
+
+            // API 키 가져오기
+            try {
+                const response = await fetch('/api/key');
+                if (!response.ok) {
+                    throw new Error('API 키를 가져오는데 실패했습니다.');
+                }
+                API_KEY = await response.text();
+                console.log('API 키:', API_KEY);
+            } catch (error) {
+                console.error('API 키를 가져오는 중 오류 발생:', error);
+                alert('API 키를 가져오는 데 실패했습니다.');
+                return;
+            }
+
+            // kaptCode 호출 API URL 생성
+            const url = `http://apis.data.go.kr/1613000/AptListService2/getLegaldongAptList?serviceKey=${API_KEY}&pageNo=1&numOfRows=100&bjdCode=${bjdCode}`;
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('API 호출 실패');
+                }
+
+                const xmlResponse = await response.text();
+                const data = new window.DOMParser().parseFromString(xmlResponse, 'text/xml');
+                const items = data.getElementsByTagName('item');
+                console.log('API 응답 데이터:', items);
+
+                let kaptCode = null;
+
+                for (let item of items) {
+                    const kaptName = item.getElementsByTagName('kaptName')[0].textContent.trim().toLowerCase();
+                    if (kaptName === apartment.aptNm.trim().toLowerCase()) {
+                        kaptCode = item.getElementsByTagName('kaptCode')[0].textContent;
+                        break;
+                    }
+                }
+
+                if (!kaptCode) {
+                    console.error('kaptCode not found for apartment:', apartment.aptNm);
+                    alert(`'${apartment.aptNm}' 정보를 찾을 수 없습니다. 다시 시도해주세요.`);
+                    return;
+                }
+
+                // 필요한 작업 수행 후 데이터 POST
+                const fields = {
+                    city: cityText,
+                    district: districtText,
+                    neighborhood: apartment.umdNm,
+                    apartment: apartment.aptNm,
+                    lawdCode: bjdCode,
+                    kaptCode: kaptCode,
+                };
+                console.log('Fields being sent:', fields);
+
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/list-to-report';
+
+                Object.keys(fields).forEach(key => {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = key;
+                    input.value = fields[key];
+                    form.appendChild(input);
+                });
+
+                document.body.appendChild(form);
+                form.submit();
+            } catch (error) {
+                console.error('API 호출 중 오류 발생:', error);
+                alert('아파트 데이터를 가져오는 데 실패했습니다.');
+            }
         }
 
         // 아파트 정렬 함수

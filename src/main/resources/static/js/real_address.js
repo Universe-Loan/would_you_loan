@@ -206,7 +206,7 @@ function submitInterestProperty() {
             neighborhood: neighborhood,
             apartment: apartment,
             lawdCode: lawdCode,
-            KaptCode: kaptCode
+            kaptCode: kaptCode
         });
 
         const go_url = `/apt-report?${params.toString()}`;
