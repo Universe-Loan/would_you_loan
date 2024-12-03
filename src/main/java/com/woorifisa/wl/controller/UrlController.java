@@ -1,6 +1,8 @@
 package com.woorifisa.wl.controller;
 
+import com.woorifisa.wl.model.dto.LoanSearchDto;
 import com.woorifisa.wl.model.dto.LoanSessionData;
+import com.woorifisa.wl.model.entity.Loan;
 import com.woorifisa.wl.model.entity.VerificationResult;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -42,9 +45,26 @@ public class UrlController {
         return "loan_personal_info";
     }
 
+    // 대출 목록 페이지
     @GetMapping("/loan-list")
-    public String loanList() {
-        return "loan_list";
+    public String showLoanList(Model model, HttpSession session) {
+        // 세션에서 검색 데이터와 결과 가져오기
+        LoanSearchDto searchData = (LoanSearchDto) session.getAttribute("loanSearchData");
+        List<Loan> eligibleLoans = (List<Loan>) session.getAttribute("eligibleLoans");
+
+        // 검색 조건 전달
+        if (searchData != null) {
+            model.addAttribute("searchData", searchData);
+        }
+
+        // 검색 결과 전달
+        if (eligibleLoans != null && !eligibleLoans.isEmpty()) {
+            model.addAttribute("loans", eligibleLoans);
+        } else {
+            model.addAttribute("noResults", true);
+        }
+
+        return "loan_list";  // loan_list.html
     }
 
     // 대출 상품 개별 ID 대로 detail?id= 로 이동해야 함
