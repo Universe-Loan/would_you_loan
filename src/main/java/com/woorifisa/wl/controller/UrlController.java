@@ -5,6 +5,7 @@ import com.woorifisa.wl.model.entity.VerificationResult;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -66,7 +67,11 @@ public class UrlController {
 //    }
 
     @GetMapping("/loan-ocr")
-    public String loanOCR() {
+    public String loanOCR(Model model, HttpSession session) {
+        LoanSessionData loanData = (LoanSessionData) session.getAttribute("loanData");
+        if (loanData != null) {
+            model.addAttribute("sessionLoanData", loanData);
+        }
         return "loan_ocr";
     }
 
