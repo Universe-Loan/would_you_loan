@@ -21,7 +21,7 @@ public class VerificationController {
     public ResponseEntity<String> saveVerificationResult(@RequestBody VerificationResult verificationResult) {
         try {
             verificationResultRepository.save(verificationResult);
-            return ResponseEntity.ok("검증 결과가 성공적으로 저장되었습니다.");
+            return ResponseEntity.ok("대출 신청이 완료 되었습니다. 영업일 기준 3~4일 소요 예정입니다.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("저장 중 오류가 발생했습니다: " + e.getMessage());

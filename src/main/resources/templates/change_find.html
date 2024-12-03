@@ -252,7 +252,7 @@
                     dictLoan["amount"] = loan.loan_amount.toLocaleString() + "원";
                     dictLoan["startDate"] = loan.loan_start_date;
                     dictLoan["endDate"] = loan.loan_end_date;
-                    dictLoan["loanCategory"] = loan.loan_category;
+                    dictLoan["loanType"] = loan.loan_category;
 
                     dictLoan["payment"] = calculateMonthlyPayment(loan.loan_amount, loan.interest_rate, loan.loan_start_date, loan.loan_end_date).toLocaleString() + "원";
 
@@ -376,7 +376,7 @@
             applyButton.addEventListener('click', function() {
 
                 // 현재 대출 정보
-                const currentLoan = {
+                const prvLoan = {
                     loanType: loan.loanType,      // 기존 대출 정보
                     bankName: loan.bankName,
                     loanName: loan.productName,
@@ -399,7 +399,7 @@
 
                 // 두 정보를 하나의 객체로 합침
                 const loanData = {
-                    currentLoan: currentLoan,
+                    prvLoan: prvLoan,
                     newLoan: newLoan,
                     applyType: "대환"
                 };

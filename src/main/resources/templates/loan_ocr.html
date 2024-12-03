@@ -143,7 +143,7 @@
 <!--파일 업로드-->
 <!-- PDF.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
-<script>
+<script th:inline="javascript">
     // PDF.js 라이브러리 로드
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.worker.min.js';
 
@@ -214,6 +214,8 @@
 
     // OCR 결과 수정 폼 제출 처리
     function submitForm() {
+        const sessionLoanData = /*[[${sessionLoanData}]]*/ null;
+        console.log(sessionLoanData);
         // OCR 폼 데이터
         const formData = {
             location: document.getElementById('location').value,
@@ -235,43 +237,41 @@
             .then(response => response.json())
             .then(ocrResult => {
                 // OCR 결과의 ID를 포함한 검증 데이터 생성
-                const verificationData = {
-                    ocrResultId: ocrResult.id,
-                    uploadAt: new Date().toISOString(),
-                    isApproved: false,
-                    // 세션에서 가져온 대출 정보들
-                    applyType: sessionLoanData.applyType,
-                    // 신규 대출 정보
-                    newLoanType: sessionLoanData.newLoan.loanType,
-                    newBankName: sessionLoanData.newLoan.bankName,
-                    newLoanName: sessionLoanData.newLoan.loanName,
-                    newAmount: sessionLoanData.newLoan.amount,
-                    newRate: sessionLoanData.newLoan.rate,
-                    newStartDate: sessionLoanData.newLoan.startDate,
-                    newEndDate: sessionLoanData.newLoan.endDate,
-                    // 기존 대출 정보
-                    prvLoanType: sessionLoanData.prvLoan.loanType,
-                    prvBankName: sessionLoanData.prvLoan.bankName,
-                    prvLoanName: sessionLoanData.prvLoan.loanName,
-                    prvAmount: sessionLoanData.prvLoan.amount,
-                    prvRate: sessionLoanData.prvLoan.rate,
-                    prvStartDate: sessionLoanData.prvLoan.startDate,
-                    prvEndDate: sessionLoanData.prvLoan.endDate
-                };
+                if (sessionLoanData && sessionLoanData.newLoan) {
+                    const verificationData = {
+                        ocrResultId: ocrResult.ocrResultId,
+                        uploadAt: new Date().toISOString(),
+                        isApproved: false,
+                        applyType: sessionLoanData.applyType,
+                        newLoanType: sessionLoanData.newLoan.loanType,
+                        newBankName: sessionLoanData.newLoan.bankName,
+                        newLoanName: sessionLoanData.newLoan.loanName,
+                        newAmount: sessionLoanData.newLoan.amount,
+                        newRate: sessionLoanData.newLoan.rate,
+                        newStartDate: sessionLoanData.newLoan.startDate,
+                        newEndDate: sessionLoanData.newLoan.endDate,
+                        prvLoanType: sessionLoanData.prvLoan?.loanType,
+                        prvBankName: sessionLoanData.prvLoan?.bankName,
+                        prvLoanName: sessionLoanData.prvLoan?.loanName,
+                        prvAmount: sessionLoanData.prvLoan?.amount,
+                        prvRate: sessionLoanData.prvLoan?.rate,
+                        prvStartDate: sessionLoanData.prvLoan?.startDate,
+                        prvEndDate: sessionLoanData.prvLoan?.endDate
+                    };
 
-                // 검증 결과 저장
-                return fetch('/verification/save', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(verificationData)
-                });
+                    return fetch('/verification/save', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(verificationData)
+                    });
+                }
             })
             .then(response => response.text())
             .then(result => {
                 alert(result);
-                location.reload();
+                window.location.replace('/');
             })
             .catch(error => {
                 console.error('Error:', error);
