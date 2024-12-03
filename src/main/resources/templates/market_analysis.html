@@ -171,31 +171,48 @@
         </div>
         <div class="row flex-fill">
             <div class="col-md-6 d-flex flex-fill">
-                <div class="box flex-fill d-flex justify-content-center align-items-center">지표 1</div>
-            </div>
-            <div class="col-md-6 d-flex flex-fill">
-                <div class="box flex-fill d-flex justify-content-center align-items-center">지표 2</div>
-            </div>
-        </div>
-        <div class="row flex-fill">
-            <div class="col-md-4 d-flex flex-fill">
                 <div class="box flex-fill d-flex justify-content-center align-items-center flex-column">
-                    <h4>지역별 부동산시장소비심리지수</h4>
-                    <div class="chart-container">
-                        <canvas id="realEstateMarketChart" class="w-100" height="300px"></canvas>
+                    <h4>CD금리</h4>
+                    <canvas id="CDRateChart" class="w-100" height="200px"></canvas>
+                    <div th:each="item : ${data}" class="text-center text-muted">
+                        <p><span th:text="${item.last_data_point}"></span>의 CD금리는</p>
+                        <p><span th:text="${item.prediction}"></span>할 것이라고 AI가 예측했어요!</p>
+                        <p>정확도는 약 <span th:text="${#numbers.formatDecimal(item.probability*100, 0, 1)}"></span>% 정도예요</p>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 d-flex flex-fill">
+            <div class="col-md-6 d-flex flex-fill">
                 <div class="box flex-fill d-flex justify-content-center align-items-center flex-column">
-                    <h4>지역별 주택시장소비심리지수</h4>
-                    <canvas id="housingMarketChart" class="w-100" height="300px"></canvas>
+                    <h4>아파트 매매가격지수</h4>
+                    <canvas id="aptPriceIndicatorChart" class="w-100" height="200px"></canvas>
+                    <div class="text-center text-muted">AI가 예측한 아파트 매매가격지수 방향이에요!</div>
+                    <div th:each="item : ${seoulData}" class="text-center text-muted">
+<!--                        <p>예측 시각: <span th:text="${item.prediction_time}"></span></p>-->
+<!--                        <p>현재 지수: <span th:text="${item.current_index}"></span></p>-->
+                        <p>서울의 아파트 매매가격지수는 <span th:text="${item.prediction_value}"></span>하고,</p>
+                        <p>(약 <span th:text="${#numbers.formatDecimal(item.probability*100, 0, 1)}"></span>%의 정확도)</p>
+                    </div>
+                    <div th:each="item : ${gyeonggiData}" class="text-center text-muted">
+<!--                        <p>예측 시각: <span th:text="${item.prediction_time}"></span></p>-->
+<!--                        <p>현재 지수: <span th:text="${item.current_index}"></span></p>-->
+                        <p>경기도의 아파트 매매가격지수는 <span th:text="${item.prediction_value}"></span>할 것이에요</p>
+                        <p>(약 <span th:text="${#numbers.formatDecimal(item.probability*100, 0, 1)}"></span>%의 정확도)</p>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-4 d-flex flex-fill">
+            </div>
+        </div>
+        <div class="row flex-fill">
+            <div class="col-md-6 d-flex flex-fill">
                 <div class="box flex-fill d-flex justify-content-center align-items-center flex-column">
                     <h4>지역별 주택매매시장 소비심리지수</h4>
-                    <canvas id="housingPurchaseMarketChart" class="w-100" height="300px"></canvas>
+                    <canvas id="housingPurchaseMarketChart" class="w-100" height="200px"></canvas>
+                </div>
+            </div>
+            <div class="col-md-6 d-flex flex-fill">
+                <div class="box flex-fill d-flex justify-content-center align-items-center flex-column">
+                    <h4>전월대비 주택가격 수준(일반가구)</h4>
+                    <canvas id="housingPriceChart" class="w-100" height="200px"></canvas>
                 </div>
             </div>
         </div>
@@ -295,7 +312,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
 
 <script th:inline="javascript">
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", function () {
 
         // 챗봇
         const floatingButton = document.getElementById("chat-floating-button");
@@ -399,16 +416,126 @@
             }
         }
 
+    // CD 금리
+        // Spring에서 전달된 데이터를 JSON으로 변환
+        const cdRateData = /*[[${cdRateData}]]*/ [];
 
-    // 부동산 지표
+        // 데이터 정리
+        const labels = cdRateData.map(item => item.TIME); // YYYYMM 라벨
+        const dataValues = cdRateData.map(item => parseFloat(item.DATA_VALUE)); // 데이터 값 (연%)
+
+        // 차트 생성
+        const ctxCD = document.getElementById('CDRateChart').getContext('2d');
+        new Chart(ctxCD, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: '시장 금리 (연%)',
+                    data: dataValues,
+                    borderColor: 'blue',
+                    backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                    fill: true,
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return `연%: ${context.raw}`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: '기간 (YYYYMM)'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: '금리 (연%)'
+                        }
+                    }
+                }
+            }
+        });
+
+    // 아파트 매매거래지수
+
+        // Spring에서 전달된 데이터
+        const aptPriceIndicator = /*[[${aptPriceIndicatorData}]]*/ [];
+
+        // 데이터 정리
+        const parsedData = aptPriceIndicator.reduce((acc, item) => {
+            const region = item.region;
+            if (!acc[region]) {
+                acc[region] = [];
+            }
+            acc[region].push({
+                x: item.date,
+                y: parseFloat(item.value)
+            });
+            return acc;
+        }, {});
+
+        const datasets = Object.keys(parsedData).map((region, index) => ({
+            label: region,
+            data: parsedData[region],
+            borderColor: index === 0 ? 'red' : 'blue', // 첫 번째 데이터는 빨간색, 두 번째는 파란색
+            fill: false
+        }));
+
+        // Chart.js로 라인 차트 생성
+        const ctxIndicator = document.getElementById('aptPriceIndicatorChart').getContext('2d');
+        new Chart(ctxIndicator, {
+            type: 'line',
+            data: {
+                datasets: datasets
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'month',
+                            displayFormats: {
+                                month: 'yyyy-MM'
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: '날짜'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: '지수 값'
+                        }
+                    }
+                }
+            }
+        });
+
+    // 기타 부동산 지표
         // Spring에서 전달된 JSON 데이터를 읽기
         const apiResultsJson = /*[[${apiResultsJson}]]*/ '[]';
-        console.log("Raw JSON:", apiResultsJson);
+        // console.log("Raw JSON:", apiResultsJson);
 
         let apiResults = [];
         try {
             apiResults = JSON.parse(apiResultsJson);
-            console.log("Parsed JSON:", apiResults);
+            // console.log("Parsed JSON:", apiResults);
             if (apiResults.length === 0) {
                 console.warn("API 결과가 없습니다.");
             }
@@ -467,20 +594,86 @@
             });
         }
 
-// 부동산시장소비심리지수 차트
-        const realEstateDatasets = prepareChartData(apiResults[0].data, '부동산시장소비심리지수');
-        const ctx1 = document.getElementById('realEstateMarketChart').getContext('2d');
-        createChart(ctx1, realEstateDatasets, '지역별 부동산시장소비심리지수');
-
-// 주택시장소비심리지수 차트
-        const housingDatasets = prepareChartData(apiResults[1].data, '주택시장소비심리지수');
-        const ctx2 = document.getElementById('housingMarketChart').getContext('2d');
-        createChart(ctx2, housingDatasets, '지역별 주택시장소비심리지수');
+// // 부동산시장소비심리지수 차트
+//         const realEstateDatasets = prepareChartData(apiResults[0].data, '부동산시장소비심리지수');
+//         const ctx1 = document.getElementById('realEstateMarketChart').getContext('2d');
+//         createChart(ctx1, realEstateDatasets, '지역별 부동산시장소비심리지수');
+//
+// // 주택시장소비심리지수 차트
+//         const housingDatasets = prepareChartData(apiResults[1].data, '주택시장소비심리지수');
+//         const ctx2 = document.getElementById('housingMarketChart').getContext('2d');
+//         createChart(ctx2, housingDatasets, '지역별 주택시장소비심리지수');
 
 // 주택매매시장 소비심리지수 차트
         const housingPurchaseDatasets = prepareChartData(apiResults[2].data, '주택매매시장소비심리지수');
         const ctx3 = document.getElementById('housingPurchaseMarketChart').getContext('2d');
         createChart(ctx3, housingPurchaseDatasets, '지역별 주택매매시장소비심리지수');
+
+// 전월 대비 주택 가격 수준
+        const housingPriceDatasets = apiResults[3].data;
+
+        // 데이터 필터링
+        const filterByRegion = (region) => housingPriceDatasets.filter(item => item.C1_NM === region);
+
+        const regions = {
+            전국: filterByRegion("전국"),
+            수도권: filterByRegion("수도권"),
+            서울: filterByRegion("서울"),
+        };
+
+        // 차트 데이터 준비
+        const chartData = Object.keys(regions).map(region => {
+            return {
+                label: region,
+                data: regions[region].map(item => ({ x: item.C2_NM, y: parseFloat(item.DT) })),
+                borderColor: `hsl(${Math.random() * 360}, 70%, 50%)`,
+                backgroundColor: `hsl(${Math.random() * 360}, 70%, 80%)`,
+                fill: false,
+            };
+        });
+
+        // 차트 그리기
+        const ctx4 = document.getElementById("housingPriceChart").getContext("2d");
+
+        new Chart(ctx4, {
+            type: "bar",
+            data: {
+                datasets: chartData,
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: "top",
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return `${context.dataset.label}: ${context.raw.y}%`;
+                            },
+                        },
+                    },
+                },
+                scales: {
+                    x: {
+                        type: "category",
+                        labels: ["매우 높아짐", "다소 높아짐", "비슷 하였음", "다소 낮아짐", "매우 낮아짐", "잘 모름"],
+                        title: {
+                            display: true,
+                            text: "주택 가격 변화 수준",
+                        },
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: "비율 (%)",
+                        },
+                    },
+                },
+            },
+        });
+
 
         // 날씨 지도
         // GeoJSON 데이터를 사용하여 지도에 날씨 정보를 시각화
