@@ -31,7 +31,7 @@
         transition: box-shadow 0.3s ease, transform 0.3s ease;
         overflow: hidden;
     }
-    .box:hover {
+    .box-hover:hover {
         box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
         transform: translateY(-5px);
     }
@@ -141,15 +141,30 @@
         flex: 1;
     }
 
-    .region-button {
-        width: 100%; /* 버튼 전체 폭 */
-        margin-bottom: 10px; /* 버튼 간격 */
+    .btn-group {
+        display: flex; /* 플렉스 컨테이너로 설정 */
+        flex-wrap: wrap; /* 버튼이 여러 줄로 자동 정렬 */
+        gap: 10px; /* 버튼 간격 추가 */
+        justify-content: flex-start; /* 버튼을 왼쪽 정렬 */
+    }
+
+    .btn-check + label {
+        display: inline-flex; /* 텍스트 길이에 따라 버튼 크기 조정 */
         text-align: center; /* 텍스트 정렬 */
+        padding: 0.5rem 1rem; /* 버튼 내부 여백 */
+        white-space: nowrap; /* 텍스트가 줄바꿈되지 않도록 설정 */
     }
-    .region-button:hover {
-        background-color: #f1f1f1;
-        transition: background-color 0.3s ease-in-out;
+
+    .btn-check:hover + label {
+        background-color: #f1f1f1; /* 호버 시 배경색 */
+        transition: background-color 0.3s ease-in-out; /* 부드러운 호버 효과 */
     }
+
+    .btn-sm {
+        font-size: 0.875rem; /* 버튼 크기를 작게 조정 */
+        line-height: 1.25; /* 텍스트와 버튼의 높이 정렬 */
+    }
+
 
     /* 로딩 아이콘 스타일 */
     .loading-icon {
@@ -202,7 +217,7 @@
         </div>
         <div class="row flex-fill">
             <div class="col-md-6 d-flex flex-fill">
-                <div class="box flex-fill align-items-center" style="height: 450px">
+                <div class="box box-hover flex-fill align-items-center" style="height: 450px">
                     <h4>CD금리</h4>
                     <canvas id="CDRateChart" class="w-100 mb-4" height="200px"></canvas>
                     <div class="y-box flex-fill align-items-center">
@@ -218,7 +233,7 @@
                 </div>
             </div>
             <div class="col-md-6 d-flex flex-fill">
-                <div class="box flex-fill align-items-center" style="height: 450px">
+                <div class="box box-hover flex-fill align-items-center" style="height: 450px">
                     <h4>아파트 매매가격지수</h4>
                     <canvas id="aptPriceIndicatorChart" class="w-100" height="200px"></canvas>
                     <div class="y-box flex-fill d-flex justify-content-center align-items-center flex-column">
@@ -234,13 +249,13 @@
         </div>
         <div class="row flex-fill">
             <div class="col-md-6 d-flex flex-fill">
-                <div class="box flex-fill align-items-center">
+                <div class="box box-hover flex-fill align-items-center">
                     <h4>지역별 주택매매시장 소비심리지수</h4>
                     <canvas id="housingPurchaseMarketChart" class="w-100" height="200px"></canvas>
                 </div>
             </div>
             <div class="col-md-6 d-flex flex-fill">
-                <div class="box flex-fill align-items-center">
+                <div class="box box-hover flex-fill align-items-center">
                     <h4>전월대비 주택가격 수준(일반가구)</h4>
                     <canvas id="housingPriceChart" class="w-100" height="200px"></canvas>
                 </div>
@@ -717,175 +732,180 @@
         // 날씨 지도
         // GeoJSON 데이터를 사용하여 지도에 날씨 정보를 시각화
         // GeoJSON 데이터를 사용하여 지도에 날씨 정보를 시각화
-        d3.json('/market-analysis/geojson-weather').then(data => {
-            const svgElement = document.getElementById("weatherMap");
-            const width = svgElement.clientWidth; // SVG 요소의 실제 너비를 가져옴
-            const height = svgElement.clientHeight; // SVG 요소의 실제 높이를 가져옴
+        // GeoJSON 데이터 로드 및 초기화
+        d3.json('/market-analysis/geojson-weather')
+            .then(data => {
+                // SVG 요소 설정
+                const svgElement = document.getElementById("weatherMap");
+                const width = svgElement.clientWidth;
+                const height = svgElement.clientHeight;
 
-            // SVG 및 그룹 요소 생성
-            const svg = d3.select("#weatherMap").attr("width", width).attr("height", height);
-            const g = svg.append("g");
+                const svg = d3.select("#weatherMap").attr("width", width).attr("height", height);
+                const g = svg.append("g");
 
-            // 지도 투영 설정
-            const projection = d3.geoMercator().fitSize([width, height], data);
-            const pathGenerator = d3.geoPath().projection(projection);
+                // 지도 투영 및 경로 생성
+                const projection = d3.geoMercator().fitSize([width, height], data);
+                const pathGenerator = d3.geoPath().projection(projection);
 
-            // 줌 설정
-            const zoom = d3.zoom()
-                .scaleExtent([1, 8])
-                .on("zoom", event => g.attr("transform", event.transform));
+                // 줌 설정
+                const zoom = d3.zoom()
+                    .scaleExtent([10, 10])
+                    .on("zoom", event => g.attr("transform", event.transform));
+                svg.call(zoom);
 
-            svg.call(zoom);
+                // 색상 스케일 (날씨에 따라 채우기)
+                const weatherColorScale = d3.scaleOrdinal()
+                    .domain(["☀️", "☁️", "정보 없음"])
+                    .range(["#FFD700", "#87CEEB", "#CCCCCC"]);
 
-            // 색상 스케일
-            const weatherColorScale = d3.scaleOrdinal()
-                .domain(["☀️", "☁️", "정보 없음"])
-                .range(["#FFD700", "#87CEEB", "#CCCCCC"]);
+                // 텍스트 및 아이콘 위치 설정
+                const textConfig = {
+                    fontSizeFactor: Math.min(width, height) / 100,
+                    iconOffsetY: -2,
+                    textOffsetY: 4,
+                    iconSizeMultiplier: 0.5,
+                    textSizeMultiplier: 0.3
+                };
 
-            // 지도 업데이트 함수
-            const updateMap = (regionCode) => {
-                const filteredFeatures = regionCode
-                    ? data.features.filter(feature => feature.properties.SIG_CD.startsWith(regionCode))
-                    : data.features;
+                // 지도 업데이트 함수
+                const updateMap = (regionCode) => {
+                    const filteredFeatures = regionCode
+                        ? data.features.filter(feature => feature.properties.SIG_CD.startsWith(regionCode))
+                        : data.features;
 
-                g.selectAll("path").remove(); // 기존 경로 제거
-                g.selectAll(".hover-text").remove(); // 기존 텍스트 제거
+                    g.selectAll("path").remove();
+                    g.selectAll(".hover-text").remove();
 
-                const fontSizeFactor = Math.min(width, height) / 100; // 크기 조정 비율 계산
+                    g.selectAll("path")
+                        .data(filteredFeatures)
+                        .enter()
+                        .append("path")
+                        .attr("d", pathGenerator)
+                        .attr("fill", d => weatherColorScale(d.properties.weather || "정보 없음"))
+                        .attr("stroke", "white")
+                        .attr("stroke-width", 0.5)
+                        .on("mouseover", function (event, d) {
+                            const weather = d.properties.weather || "정보 없음";
+                            const regionName = d.properties.SIG_KOR_NM || "알 수 없음";
+                            const bounds = pathGenerator.bounds(d);
+                            const [x1, y1] = bounds[0];
+                            const [x2, y2] = bounds[1];
+                            const offsetX = (x1 + x2) / 2;
+                            const offsetY = y1;
 
-                g.selectAll("path")
-                    .data(filteredFeatures)
-                    .enter()
-                    .append("path")
-                    .attr("d", pathGenerator)
-                    .attr("fill", d => {
-                        const weather = d.properties.weather || "정보 없음";
-                        return weatherColorScale(weather);
-                    })
-                    .attr("stroke", "white")
-                    .attr("stroke-width", 0.5)
-                    .on("mouseover", function (event, d) {
-                        const weather = d.properties.weather || "정보 없음";
-                        const regionName = d.properties.SIG_KOR_NM || "알 수 없음";
-                        const bounds = pathGenerator.bounds(d); // 경계 박스 가져오기
-                        const [x1, y1] = bounds[0]; // 경계 좌측 상단
-                        const [x2, y2] = bounds[1]; // 경계 우측 하단
-                        const offsetX = (x1 + x2) / 2; // 중심 X좌표
-                        const offsetY = y1 - fontSizeFactor * 4; // 경계 상단 바깥쪽
+                            // 아이콘 추가 (날씨)
+                            svg.append("text")
+                                .attr("class", "hover-text")
+                                .attr("x", offsetX * 1.2)
+                                .attr("y", offsetY + textConfig.fontSizeFactor * textConfig.iconOffsetY)
+                                .attr("text-anchor", "middle")
+                                .attr("font-size", textConfig.fontSizeFactor * textConfig.iconSizeMultiplier + "rem")
+                                .attr("fill", "#000")
+                                .text(weather);
 
-                        // 아이콘 추가
-                        svg.append("text")
-                            .attr("class", "hover-text")
-                            .attr("x", offsetX)
-                            .attr("y", offsetY)
-                            .attr("text-anchor", "middle")
-                            .attr("font-size", fontSizeFactor + "rem") // 크기 동적으로 설정
-                            .attr("fill", "#000")
-                            .text(weather);
+                            // 텍스트 추가 (지역명)
+                            svg.append("text")
+                                .attr("class", "hover-text fw-bold")
+                                .attr("x", offsetX * 1.2)
+                                .attr("y", offsetY + textConfig.fontSizeFactor * textConfig.textOffsetY)
+                                .attr("text-anchor", "middle")
+                                .attr("font-size", textConfig.fontSizeFactor * textConfig.textSizeMultiplier + "rem")
+                                .attr("fill", "#000")
+                                .text(regionName);
 
-                        // 지역명 추가
-                        svg.append("text")
-                            .attr("class", "hover-text")
-                            .attr("x", offsetX)
-                            .attr("y", offsetY + fontSizeFactor * 3) // 텍스트 아래로 약간 위치
-                            .attr("text-anchor", "middle")
-                            .attr("font-size", fontSizeFactor * 0.5  + "rem") // 크기 동적으로 설정
-                            .attr("fill", "#000")
-                            .text(regionName);
+                            d3.select(this).attr("stroke", "black").attr("stroke-width", 1);
+                        })
+                        .on("mouseout", function () {
+                            svg.selectAll(".hover-text").remove();
+                            d3.select(this).attr("stroke", "white").attr("stroke-width", 0.5);
+                        });
 
-                        d3.select(this).attr("stroke", "black").attr("stroke-width", 1);
-                    })
-                    .on("mouseout", function () {
-                        // 아이콘과 텍스트 제거
-                        svg.selectAll(".hover-text").remove();
-                        d3.select(this).attr("stroke", "white").attr("stroke-width", 0.5);
-                    });
+                    // 줌 및 이동 애니메이션
+                    if (regionCode) {
+                        const bounds = pathGenerator.bounds({ type: "FeatureCollection", features: filteredFeatures });
+                        const dx = bounds[1][0] - bounds[0][0];
+                        const dy = bounds[1][1] - bounds[0][1];
+                        const x = (bounds[0][0] + bounds[1][0]) / 2;
+                        const y = (bounds[0][1] + bounds[1][1]) / 2;
+                        const scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / width, dy / height)));
+                        const translate = [width / 2 - scale * x, height / 2 - scale * y];
 
-                // 줌 및 이동
-                if (regionCode) {
-                    const bounds = pathGenerator.bounds({ type: "FeatureCollection", features: filteredFeatures });
-                    const dx = bounds[1][0] - bounds[0][0];
-                    const dy = bounds[1][1] - bounds[0][1];
-                    const x = (bounds[0][0] + bounds[1][0]) / 2;
-                    const y = (bounds[0][1] + bounds[1][1]) / 2;
-                    const scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / width, dy / height)));
-                    const translate = [width / 2 - scale * x, height / 2 - scale * y];
+                        svg.transition().duration(750).call(
+                            zoom.transform,
+                            d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale)
+                        );
+                    } else {
+                        svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity);
+                    }
+                };
 
-                    svg.transition().duration(750).call(
-                        zoom.transform,
-                        d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale)
-                    );
-                } else {
-                    svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity);
-                }
-            };
+                // 지역 버튼 생성
+                const regions = [
+                    { name: "서울특별시", code: "11" },
+                    { name: "부산광역시", code: "26" },
+                    { name: "대구광역시", code: "27" },
+                    { name: "인천광역시", code: "28" },
+                    { name: "광주광역시", code: "29" },
+                    { name: "대전광역시", code: "30" },
+                    { name: "울산광역시", code: "31" },
+                    { name: "세종특별자치시", code: "36" },
+                    { name: "경기도", code: "41" },
+                    { name: "강원도", code: "51" },
+                    { name: "충청북도", code: "43" },
+                    { name: "충청남도", code: "44" },
+                    { name: "전라북도", code: "45" },
+                    { name: "전라남도", code: "46" },
+                    { name: "경상북도", code: "47" },
+                    { name: "경상남도", code: "48" },
+                    { name: "제주특별자치도", code: "50" }
+                ];
 
-            // 지역 버튼 생성
-            const regions = [
-                { name: "서울특별시", code: "11" },
-                { name: "부산광역시", code: "26" },
-                { name: "대구광역시", code: "27" },
-                { name: "인천광역시", code: "28" },
-                { name: "광주광역시", code: "29" },
-                { name: "대전광역시", code: "30" },
-                { name: "울산광역시", code: "31" },
-                { name: "세종특별자치시", code: "36" },
-                { name: "경기도", code: "41" },
-                { name: "강원도", code: "51" },
-                { name: "충청북도", code: "43" },
-                { name: "충청남도", code: "44" },
-                { name: "전라북도", code: "45" },
-                { name: "전라남도", code: "46" },
-                { name: "경상북도", code: "47" },
-                { name: "경상남도", code: "48" },
-                { name: "제주특별자치도", code: "50" }
-            ];
 
-            const buttonContainer = d3.select("#buttonContainer");
+                // 버튼 컨테이너 설정
+                const buttonContainer = d3.select("#buttonContainer");
 
-            // 전국 버튼 추가
-            buttonContainer.append("button")
-                .attr("class", "btn btn-primary btn-sm m-2")
-                .html('<i class="fas fa-globe"></i> 전국')
-                .on("click", () => updateMap(""));
+// 버튼 그룹 생성
+                const radioGroup = buttonContainer.append("div")
+                    .attr("class", "btn-group") // 수평/수직 모두 가능
+                    .attr("role", "group");
 
-            // 지역별 버튼 추가
-            regions.forEach(region => {
-                buttonContainer.append("button")
-                    .attr("class", "btn btn-outline-primary btn-sm m-2")
-                    .html(`<i class="fas fa-map-marker-alt"></i> ${region.name}`)
-                    .on("click", () => updateMap(region.code));
+// 전국 버튼 추가
+                radioGroup.append("input")
+                    .attr("type", "radio")
+                    .attr("class", "btn-check")
+                    .attr("name", "region")
+                    .attr("id", "allRegions")
+                    .attr("autocomplete", "off")
+                    .attr("checked", true);
+
+                radioGroup.append("label")
+                    .attr("class", "btn btn-outline-primary btn-sm") // btn-sm 적용
+                    .attr("for", "allRegions")
+                    .html('<i class="fas fa-globe mx-2"></i> 전국')
+                    .on("click", () => updateMap(""));
+
+// 지역별 버튼 추가
+                regions.forEach(region => {
+                    radioGroup.append("input")
+                        .attr("type", "radio")
+                        .attr("class", "btn-check")
+                        .attr("name", "region")
+                        .attr("id", region.code)
+                        .attr("autocomplete", "off");
+
+                    radioGroup.append("label")
+                        .attr("class", "btn btn-outline-primary btn-sm") // btn-sm 적용
+                        .attr("for", region.code)
+                        .html(`<i class="fas fa-map-marker-alt mx-2"></i> ${region.name}`)
+                        .on("click", () => updateMap(region.code));
+                });
+
+                // 초기 지도 렌더링
+                updateMap("");
+            })
+            .catch(error => {
+                console.error("Error loading GeoJSON or weather data:", error);
             });
-
-            // 초기 지도 렌더링
-            updateMap("");
-
-            // 툴팁 표시
-            const tooltip = d3.select("body")
-                .append("div")
-                .attr("class", "tooltip")
-                .style("position", "absolute")
-                .style("background", "rgba(0,0,0,0.7)")
-                .style("color", "#fff")
-                .style("padding", "5px")
-                .style("border-radius", "5px")
-                .style("visibility", "hidden");
-
-            function showTooltip(event, content) {
-                tooltip.html(content)
-                    .style("left", (event.pageX + 10) + "px")
-                    .style("top", (event.pageY + 10) + "px")
-                    .style("visibility", "visible");
-            }
-
-            function hideTooltip() {
-                tooltip.style("visibility", "hidden");
-            }
-        }).catch(error => {
-            console.error("Error loading GeoJSON or weather data:", error);
-        });
-
-
 
     });
 
