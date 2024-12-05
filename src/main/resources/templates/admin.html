@@ -210,7 +210,7 @@
                             <td>
                                 <div th:if="${detail.verification.isApproved == null}">
                                     <button class="btn btn-success btn-sm"
-                                            th:onclick="'approveVerification(' + ${detail.verification.verificationId} + ')'">승인</button>
+                                            th:onclick="'approveVerification(' + ${detail.verification.verificationId} + ',' + ${detail.userId} + ')'">승인</button>
                                     <button class="btn btn-danger btn-sm"
                                             th:onclick="'rejectVerification(' + ${detail.verification.verificationId} + ')'">거절</button>
                                 </div>
@@ -537,6 +537,46 @@
         renderPDF();
     }
 
+
+    function approveVerification(verificationId, userId) {
+        if (!confirm('승인하시겠습니까?')) return;
+
+        fetch(`/verification/${verificationId}/approve?userId=${userId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.text())
+            .then(message => {
+                alert(message);
+                location.reload();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('승인 처리 중 오류가 발생했습니다.');
+            });
+    }
+
+    function rejectVerification(verificationId) {
+        if (!confirm('거절하시겠습니까?')) return;
+
+        fetch(`/verification/${verificationId}/reject`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.text())
+            .then(message => {
+                alert(message);
+                location.reload();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('거절 처리 중 오류가 발생했습니다.');
+            });
+    }
 </script>
 
 </body>
