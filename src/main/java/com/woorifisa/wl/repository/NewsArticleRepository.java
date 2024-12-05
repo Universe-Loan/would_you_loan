@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface NewsArticleRepository extends JpaRepository<NewsArticle, String> {
     Page<NewsArticle> findAll(Pageable pageable);
+    Page<NewsArticle> findAllBySentimentNot(String sentiment, Pageable pageable);
 }
