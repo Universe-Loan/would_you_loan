@@ -15,23 +15,31 @@
         body {
             background-color: #f8f9fa;
         }
-        .btn-round {
-            border-radius: 20px;
-            margin: 5px;
+        .box {
+            background: white;
+            border-radius: 15px;
+            padding: 70px;
+            box-shadow:
+                    -10px -10px 15px rgba(255,255,255,0.5),
+                    10px 10px 15px rgba(70,70,70,0.12);
+        }
+        h4 {
+            color: #007bff;
+            font-weight: bold;
+        }
+        .line {
+            background-color: gray;
+            width: 100%;
+            height: 1px;
+            display: flex;
+            justify-self: center;
+            margin-block: 80px;
         }
         .btn-square {
             margin: 5px;
         }
         .form-control {
             margin-bottom: 10px;
-        }
-        .rounded-box {
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 10px;
-            margin-bottom: 20px;
-            background-color: #fff;
         }
     </style>
 </head>
@@ -45,10 +53,10 @@
 <div class="content-wrapper">
 
     <!--본문 내용-->
-    <div class="container mt-4">
-        <div class="rounded-box">
-            <h5 class="mb-4">대출 조회할 아파트 단지 선택하기</h5>
-            <div class="row mb-3">
+    <div class="container">
+        <div class="box">
+            <h4 class="mb-4">대출 조회할 아파트 단지 선택하기</h4>
+            <div class="row mb-4">
                 <div class="col-md-6">
                     <label class="form-label">주소</label>
                     <button type="button" class="form-control text-start" onclick="openInterestPopup()">주소 검색하기</button>
@@ -66,7 +74,7 @@
                     <input type="text" class="form-control" value="">
                 </div>
             </div>
-            <div class="row mb-3">
+            <div class="row mb-4">
                 <div class="col-md-6">
                     <label for="loanAmount" class="form-label">대출 금액</label>
                     <input type="text" id="loanAmount" class="form-control" value="">
@@ -87,9 +95,7 @@
                     </select>
                 </div>
             </div>
-        </div>
-        <div class="rounded-box">
-            <h5 class="mb-4">상세 조건 입력</h5>
+            <h4 class="mb-4 mt-5">상세 조건 입력</h4>
             <div class="row">
                 <div class="col-md-12 mb-2">
                     <span>대출 목적:</span>
@@ -125,10 +131,8 @@
                     </div>
                 </div>
             </div>
+            <button type="button" class="btn btn-primary w-100 mt-5" onclick="submitLoanApplication()">대출 조회하기</button>
         </div>
-            <div>
-                <button type="button" class="btn btn-primary w-100" onclick="submitLoanApplication()">대출 조회하기</button>
-            </div>
     </div>
 </div>
 
@@ -151,6 +155,48 @@
 <script>
     function submitLoanApplication() {
         const userId = "[[${session.user_id}]]";
+
+        // 필수 입력값 확인 함수
+        function validateForm() {
+            const requiredFields = [
+                'selectedCity',
+                'selectedDistrict',
+                'selectedNeighborhood',
+                'selectedApartment',
+                'selectedLawdCd',
+                'loanAmount',
+                'loanTerm',
+            ];
+
+            for (const fieldId of requiredFields) {
+                const field = document.getElementById(fieldId);
+                if (!field || !field.value.trim()) {
+                    return false;
+                }
+            }
+
+            const apartmentPrice = document.querySelector('input[type="text"].form-control');
+            if (!apartmentPrice || !apartmentPrice.value.trim()) {
+                return false;
+            }
+
+            const loanPurpose = document.querySelector('input[name="loanPurpose"]:checked');
+            const firstTimeBuyer = document.querySelector('input[name="firstTimeBuyer"]:checked');
+            const loanType = document.querySelector('input[name="loanType"]:checked');
+
+            if (!loanPurpose || !firstTimeBuyer || !loanType) {
+                return false;
+            }
+
+            return true;
+        }
+
+        // 폼 검증
+        if (!validateForm()) {
+            alert('모든 정보를 입력해주세요.');
+            return;
+        }
+
         // 신용등급 조회 후 대출 검색 실행
         fetch(`/credit-score/${userId}`)
             .then(response => response.json())
@@ -160,7 +206,7 @@
                     (a.year - b.year) || (a.quarter - b.quarter)
                 );
                 const currentData = sortedData[sortedData.length - 1];
-                const creditRating = currentData.credit_grade;  // 신용등급 직접 사용
+                const creditRating = currentData.credit_grade; // 신용등급 직접 사용
 
                 const formData = {
                     // 주소 정보
@@ -176,12 +222,12 @@
                     loanTerm: document.getElementById('loanTerm').value,
 
                     // 조건 정보
-                    loanPurpose: document.querySelector('input[name="loanPurpose"]:checked')?.value,
-                    firstTimeBuyer: document.querySelector('input[name="firstTimeBuyer"]:checked')?.value,
-                    loanType: document.querySelector('input[name="loanType"]:checked')?.value,
+                    loanPurpose: document.querySelector('input[name="loanPurpose"]:checked').value,
+                    firstTimeBuyer: document.querySelector('input[name="firstTimeBuyer"]:checked').value,
+                    loanType: document.querySelector('input[name="loanType"]:checked').value,
 
                     // 신용등급 추가
-                    creditRating: creditRating
+                    creditRating: creditRating,
                 };
 
                 return fetch('/loans/search', {
@@ -189,7 +235,7 @@
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(formData)
+                    body: JSON.stringify(formData),
                 });
             })
             .then(response => response.json())
