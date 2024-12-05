@@ -27,14 +27,6 @@
             color: #007bff;
             font-weight: bold;
         }
-        .line {
-            background-color: gray;
-            width: 100%;
-            height: 1px;
-            display: flex;
-            justify-self: center;
-            margin-block: 80px;
-        }
         .btn-square {
             margin: 5px;
         }
@@ -58,8 +50,8 @@
             <h4 class="mb-4">대출 조회할 아파트 단지 선택하기</h4>
             <div class="row mb-4">
                 <div class="col-md-6">
-                    <label class="form-label">주소</label>
-                    <button type="button" class="form-control text-start" onclick="openInterestPopup()">주소 검색하기</button>
+                    <label class="form-label" for="fullAddress">주소</label>
+                    <input type="text" id="fullAddress" class="form-control text-start" onclick="openInterestPopup()" value="주소 검색하기" readonly></input>
                     <input type="hidden" id="selectedCity" name="city">
                     <input type="hidden" id="selectedDistrict" name="district">
                     <input type="hidden" id="selectedNeighborhood" name="neighborhood">
@@ -70,8 +62,8 @@
                     <input type="hidden" name="numOfRows" value="10">
                 </div>
                 <div class="col-md-6">
-                    <label class="form-label" id="aptPrice">아파트 가격</label>
-                    <input type="text" class="form-control" value="">
+                    <label for="aptPrice" class="form-label">아파트 가격</label>
+                    <input type="text" id="aptPrice" class="form-control" value="">
                 </div>
             </div>
             <div class="row mb-4">
@@ -159,11 +151,8 @@
         // 필수 입력값 확인 함수
         function validateForm() {
             const requiredFields = [
-                'selectedCity',
-                'selectedDistrict',
-                'selectedNeighborhood',
-                'selectedApartment',
-                'selectedLawdCd',
+                'fullAddress',
+                'aptPrice',
                 'loanAmount',
                 'loanTerm',
             ];
@@ -171,12 +160,20 @@
             for (const fieldId of requiredFields) {
                 const field = document.getElementById(fieldId);
                 if (!field || !field.value.trim()) {
+                    console.log(`필수 입력값 누락: ${fieldId}`); // 디버깅용 로그
                     return false;
                 }
             }
 
+            const fullAddress = document.getElementById('fullAddress');
+            if (fullAddress.value === '주소 검색하기' || !fullAddress.value.trim()) {
+                console.log('필수 입력값 누락: fullAddress (주소 검색하기 기본 값)');
+                return false;
+            }
+
             const apartmentPrice = document.querySelector('input[type="text"].form-control');
             if (!apartmentPrice || !apartmentPrice.value.trim()) {
+                console.log('필수 입력값 누락: apartmentPrice'); // 디버깅용 로그
                 return false;
             }
 
@@ -184,7 +181,16 @@
             const firstTimeBuyer = document.querySelector('input[name="firstTimeBuyer"]:checked');
             const loanType = document.querySelector('input[name="loanType"]:checked');
 
-            if (!loanPurpose || !firstTimeBuyer || !loanType) {
+            if (!loanPurpose) {
+                console.log('필수 입력값 누락: loanPurpose'); // 디버깅용 로그
+                return false;
+            }
+            if (!firstTimeBuyer) {
+                console.log('필수 입력값 누락: firstTimeBuyer'); // 디버깅용 로그
+                return false;
+            }
+            if (!loanType) {
+                console.log('필수 입력값 누락: loanType'); // 디버깅용 로그
                 return false;
             }
 
@@ -206,7 +212,7 @@
                     (a.year - b.year) || (a.quarter - b.quarter)
                 );
                 const currentData = sortedData[sortedData.length - 1];
-                const creditRating = currentData.credit_grade; // 신용등급 직접 사용
+                const creditRating = currentData.credit_grade;  // 신용등급 직접 사용
 
                 const formData = {
                     // 주소 정보
@@ -217,17 +223,17 @@
                     lawdCd: document.getElementById('selectedLawdCd').value,
 
                     // 금액 정보
-                    apartmentPrice: document.querySelector('input[type="text"].form-control').value,
+                    apartmentPrice: document.getElementById('aptPrice').value,
                     loanAmount: document.getElementById('loanAmount').value,
                     loanTerm: document.getElementById('loanTerm').value,
 
                     // 조건 정보
-                    loanPurpose: document.querySelector('input[name="loanPurpose"]:checked').value,
-                    firstTimeBuyer: document.querySelector('input[name="firstTimeBuyer"]:checked').value,
-                    loanType: document.querySelector('input[name="loanType"]:checked').value,
+                    loanPurpose: document.querySelector('input[name="loanPurpose"]:checked')?.value,
+                    firstTimeBuyer: document.querySelector('input[name="firstTimeBuyer"]:checked')?.value,
+                    loanType: document.querySelector('input[name="loanType"]:checked')?.value,
 
                     // 신용등급 추가
-                    creditRating: creditRating,
+                    creditRating: creditRating
                 };
 
                 return fetch('/loans/search', {
@@ -235,7 +241,7 @@
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(formData),
+                    body: JSON.stringify(formData)
                 });
             })
             .then(response => response.json())
@@ -250,6 +256,7 @@
                 console.error('Error:', error);
                 alert('대출 검색 중 오류가 발생했습니다.');
             });
+
     }
 
 </script>

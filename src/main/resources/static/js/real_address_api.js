@@ -188,13 +188,13 @@ function submitInterestProperty() {
 
     const fullAddress = `${city} ${district} ${neighborhood} ${apartment}`;
 
-        // Update the address field and close the popup
-        const addressButton = document.querySelector('button.form-control');
-        if (addressButton) {
-            addressButton.textContent = fullAddress;
-        }
+    // Update the address field and close the popup
+    const addressInput = document.querySelector('input#fullAddress');
+    if (addressInput) {
+        addressInput.value = fullAddress;
+    }
 
-        closeInterestPopup();
+    closeInterestPopup();
 }
 
 // 검색 기록 저장 함수 추가
