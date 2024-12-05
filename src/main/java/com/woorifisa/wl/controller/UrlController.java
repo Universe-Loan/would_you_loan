@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -185,6 +186,7 @@ public class UrlController {
 
         // 각 검증 결과에 대한 추가 정보 조회
         List<Map<String, Object>> verificationDetails = verifications.stream()
+                .sorted(Comparator.comparing(VerificationResult::getUploadAt).reversed())
                 .map(verification -> {
                     Map<String, Object> detail = new HashMap<>();
                     detail.put("verification", verification);
