@@ -24,12 +24,17 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
             "   WHEN :creditRating = 4 THEN l.credit4Interest IS NOT NULL " +
             "   WHEN :creditRating = 5 THEN l.credit5Interest IS NOT NULL " +
             "END AND " +
+            // 신용등급에 따른 금융권 필터링
+            "CASE " +
+            "   WHEN :creditRating <= 3 THEN l.financialSector IN ('0', '1') " +
+            "   WHEN :creditRating > 3 THEN l.financialSector IN ('0', '2') " +
+            "END AND " +
             // 2. 대출 한도 체크
             "l.maxLoanLimit >= :requestAmount AND " +
             // 3. 대출 기간 체크
             "l.maxLoanDuration >= :loanTerm AND " +
-            // 4. 대출 대상 유형 체크 (유형이 선택된 경우에만)
-            "(:loanType IS NULL OR l.governmentSupportType LIKE %:loanType%) AND " +
+            // 4. 대출 대상 유형 체크 (일반 상품도 포함)
+            "(:loanType IS NULL OR l.governmentSupportType LIKE %:loanType% OR l.governmentSupportType LIKE '%일반%') AND " +
             // 5. LTV 체크 (아파트 가격 * LTV비율 >= 대출 신청금액)
             ":requestAmount <= :apartmentPrice * (l.maxLoanLimit / :apartmentPrice)")
     List<Loan> findEligibleLoans(

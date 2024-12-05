@@ -35,7 +35,7 @@ public class Loan {
     @Column(name = "interest_rate_avg", precision = 5, scale = 2)
     private BigDecimal interestRateAvg;
 
-    @Column(name = "loan_limit")
+    @Column(name = "loan_limit", columnDefinition = "TEXT")
     private String loanLimit;
 
     @Column(name = "max_loan_limit", precision = 15, scale = 2)

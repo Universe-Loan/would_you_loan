@@ -90,26 +90,32 @@
                         <div class="col-md-8">
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <div class="mb-3">
-                                    <p class="mb-0">대출기관</p>
-                                    <h5 class="mb-0">상품명</h5>
+                                    <div class="mb-3">
+                                        <p class="mb-0">대출기관</p>
+                                        <h5 class="mb-0" th:text="${loan.bankName}"></h5>
+                                    </div>
+                                    <div class="mb-3">
+                                        <p class="mb-0">대출상품</p>
+                                        <h5 class="mb-0" th:text="${loan.loanName}"></h5>
+                                    </div>
                                 </div>
                             </div>
                             <div class="d-flex justify-content-between mb-3">
                                 <div>
                                     <p class="mb-0">금리</p>
-                                    <h6>3.65%</h6>
+                                    <h6 id="interestRate"></h6>
                                 </div>
                                 <div>
-                                    <p class="mb-0">대출 한도</p>
-                                    <h6>40,000만원</h6>
+                                    <p class="mb-0">대출 금액</p>
+                                    <h6 th:text="${#numbers.formatDecimal(loanAmount, 0, 'COMMA', 0, 'POINT')} + '원'"></h6>
                                 </div>
                                 <div>
                                     <p class="mb-0">대출 기간</p>
-                                    <h6>20년</h6>
+                                    <h6 th:text="${loanTerm} +'년'"></h6>
                                 </div>
                                 <div>
                                     <p class="mb-0">월 평균 상환액</p>
-                                    <h6>100,125원</h6>
+                                    <h6 id="monthlyPayment"></h6>
                                 </div>
                             </div>
                             <div class="mt-3">
@@ -120,7 +126,7 @@
                     </div>
                 <div class="col-md-3 d-flex flex-column align-items-center justify-content-center">
                     <img src="https://via.placeholder.com/300x200" alt="대출 상품 이미지" class="loan-image mb-3">
-                    <a th:href="@{/loan-ocr}"><button class="btn btn-custom">신청하기</button></a>
+                    <button class="btn btn-custom" id="summit-loan">신청하기</button>
                 </div>
             </div>
             </div>
@@ -131,43 +137,43 @@
                         <tbody>
                         <tr>
                             <th>대출금리</th>
-                            <td class="rate">4.35%</td>
+                            <td class="rate" id="interestRateDetail"></td>
                         </tr>
                         <tr>
                             <th>금리방식</th>
-                            <td>고정금리</td>
+                            <td th:text="${loan.interestRateType}"></td>
                         </tr>
                         <tr>
                             <th>상환방식</th>
-                            <td>원리금분할상환</td>
+                            <td th:text="${loan.repaymentType}"></td>
                         </tr>
                         <tr>
-                            <th>월평균 상환액</th>
-                            <td>453,254원</td>
+                            <th>월 평균 상환액</th>
+                            <td id="monthlyPaymentDetail"></td>
                         </tr>
                         <tr>
-                            <th>총 대출비용<br>(원금+총이자)</th>
-                            <td>150,929,376원</td>
+                            <th>총 대출비용<br>(총 이자)</th>
+                            <td id="totalLoanCost"></td>
                         </tr>
                         <tr>
                             <th>가입방법</th>
-                            <td>영업점, 인터넷, 스마트폰, 모집인</td>
+                            <td th:text="${loan.subscriptionMethod}"></td>
                         </tr>
                         <tr>
                             <th>대출 한도 상세</th>
-                            <td>영업점, 인터넷, 스마트폰, 모집인</td>
+                            <td th:text="${loan.loanLimit}"></td>
                         </tr>
                         <tr>
                             <th>대출부대비용</th>
-                            <td>영업점, 인터넷, 스마트폰, 모집인</td>
+                            <td id="loanAdditionalCost"></td>
                         </tr>
                         <tr>
                             <th>중도상환수수료</th>
-                            <td>영업점, 인터넷, 스마트폰, 모집인</td>
+                            <td id="earlyRepaymentFee"></td>
                         </tr>
                         <tr>
                             <th>연체이자율</th>
-                            <td>영업점, 인터넷, 스마트폰, 모집인</td>
+                            <td th:text="${loan.overdueInterestRate}"></td>
                         </tr>
                         <tr>
                         </tr>
@@ -188,5 +194,131 @@
 <!-- 사용자 정의 JS -->
 <script th:src="@{/js/home.js}"></script>
 <th:block th:replace="fragments/header :: scripts"></th:block>
+
+<script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        // 서버로부터 유저 아이디와 대출 정보를 페이지에서 불러옴
+        const userId = /*[[${session.user_id}]]*/ null; // 서버에서 전달받은 유저 아이디
+        const loanAmount = /*[[${loanAmount}]]*/ null; // 서버에서 전달받은 대출 금액
+        const loanTerm = /*[[${loanTerm}]]*/ null; // 서버에서 전달받은 대출 기간
+        const loan = /*[[${loan}]]*/ null;
+
+        let currentGrade = 1;
+
+        fetch(`/credit-score/${userId}`)
+            .then(response => response.json())
+            .then(data => {
+                const sortedData = data.sort((a, b) =>
+                    (a.year - b.year) || (a.quarter - b.quarter)
+                );
+
+                // 현재 신용 정보
+                const currentCredit = sortedData[sortedData.length - 1];
+                // 현재 신용등급
+                currentGrade = currentCredit.credit_grade;
+
+                const interestKey = `credit${currentGrade}Interest`; // 동적으로 이자율 키 생성
+                const interestRate = loan[interestKey];
+
+                // 금리를 화면에 업데이트
+                document.getElementById('interestRate').innerText = `${interestRate}%`;
+                document.getElementById('interestRateDetail').innerText = `${interestRate}%`;
+
+                // 월 비용 계산
+                const monthlyPayment = calculateMonthlyPayment(loanAmount, interestRate, loanTerm);
+                const monthlyPaymentKr = new Intl.NumberFormat('ko-KR').format(monthlyPayment);
+                document.getElementById('monthlyPayment').innerText = `${monthlyPaymentKr}원`;
+                document.getElementById('monthlyPaymentDetail').innerText = `${monthlyPaymentKr}원`;
+
+                // 대출 총비용, 총 이자 계산
+                const totalLoanCostObj = calculateTotalLoanCost(loanAmount, interestRate, loanTerm, loan.repaymentType);
+                const formattedTotalLoanCost = new Intl.NumberFormat('ko-KR').format(totalLoanCostObj.totalLoanCost) + '원';
+                const formattedTotalInterest = new Intl.NumberFormat('ko-KR').format(totalLoanCostObj.totalInterest) + '원';
+                document.getElementById('totalLoanCost').innerHTML = `${formattedTotalLoanCost}<br>${'(' + formattedTotalInterest + ')'}`;
+
+                // 대출 부대비용 줄바꿈
+                const loanAdditionalCost = formatStringWithLineBreaks(loan.loanAdditionalCost);
+                document.getElementById('loanAdditionalCost').innerHTML = loanAdditionalCost;
+
+                // 중도상환수수료 줄바꿈
+                const earlyRepaymentFee = formatStringWithLineBreaks(loan.earlyRepaymentFee);
+                document.getElementById('earlyRepaymentFee').innerHTML = earlyRepaymentFee;
+            });
+
+        const summitLoanButton = document.getElementById('summit-loan');
+
+        summitLoanButton.addEventListener('click', function () {
+            // 이벤트 실행 시 로직 작성
+            alert('대출 신청이 완료되었습니다!');
+
+            // 추가 작업 예시: 다른 페이지로 이동
+            // window.location.href = '/loan-application-success';
+        });
+
+    });
+
+    function calculateMonthlyPayment(principal, annualInterestRate, loanTermYears) {
+        // 대출 기간(월) 계산
+        const loanTermMonths = loanTermYears * 12;
+
+        // 월 이자율 계산 (연이율을 12로 나누고 100으로 나눔)
+        const monthlyRate = (annualInterestRate / 12) / 100;
+
+        // 월 납입금 계산 공식: PMT = P * r * (1 + r)^n / ((1 + r)^n - 1)
+        const monthlyPayment = principal *
+            (monthlyRate * Math.pow(1 + monthlyRate, loanTermMonths)) /
+            (Math.pow(1 + monthlyRate, loanTermMonths) - 1);
+
+        return Math.round(monthlyPayment); // 결과 반올림
+    }
+
+
+    // 대출 총비용, 총 이자 계산
+    function calculateTotalLoanCost(principal, annualInterestRate, loanTermYears, repaymentType = '원리금균등상환') {
+        const monthlyInterestRate = annualInterestRate / 12 / 100; // 월 이자율
+        const totalMonths = loanTermYears * 12; // 대출 기간 (개월)
+
+        let totalInterest = 0;
+
+        if (repaymentType === '원리금균등상환') {
+            // 원리금 균등 상환 방식
+            const monthlyPayment =
+                principal *
+                (monthlyInterestRate * Math.pow(1 + monthlyInterestRate, totalMonths)) /
+                (Math.pow(1 + monthlyInterestRate, totalMonths) - 1);
+
+            totalInterest = monthlyPayment * totalMonths - principal;
+        } else if (repaymentType === '원금균등상환') {
+            // 원금 균등 상환 방식
+            for (let i = 0; i < totalMonths; i++) {
+                const remainingPrincipal = principal - (principal / totalMonths) * i;
+                totalInterest += remainingPrincipal * monthlyInterestRate;
+            }
+        } else {
+            throw new Error('지원되지 않는 상환 방식입니다.');
+        }
+
+        const totalLoanCost = Number(principal) + Number(totalInterest); // 총 대출비용
+        return {
+            totalLoanCost: Math.round(totalLoanCost), // 반올림된 총 대출비용
+            totalInterest: Math.round(totalInterest), // 반올림된 총 이자
+        }; // 반올림하여 반환
+    }
+
+    // 대출 부대비용 줄바꿈
+    function formatStringWithLineBreaks(input) {
+        // 처음 등장하는 'ㅇ' 이후의 문자열만 줄바꿈
+        let firstOIndex = input.indexOf('ㅇ');
+        if (firstOIndex === -1) return input; // 'ㅇ'이 없으면 그대로 반환
+
+        // 첫 번째 'ㅇ'까지는 그대로 두고 이후의 'ㅇ'에서 줄바꿈 처리
+        const beforeFirstO = input.slice(0, firstOIndex + 1);
+        const afterFirstO = input.slice(firstOIndex + 1).replace(/ㅇ/g, '<br>ㅇ');
+
+        return beforeFirstO + afterFirstO;
+    }
+
+</script>
+
 </body>
 </html>
