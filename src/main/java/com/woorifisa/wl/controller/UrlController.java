@@ -2,11 +2,8 @@ package com.woorifisa.wl.controller;
 
 import com.woorifisa.wl.model.dto.LoanSearchDto;
 import com.woorifisa.wl.model.dto.LoanSessionData;
-import com.woorifisa.wl.model.entity.Loan;
-import com.woorifisa.wl.model.entity.User;
-import com.woorifisa.wl.model.entity.VerificationResult;
-import com.woorifisa.wl.repository.LoanRepository;
-import com.woorifisa.wl.repository.UserRepository;
+import com.woorifisa.wl.model.entity.*;
+import com.woorifisa.wl.repository.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,15 +14,22 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 public class UrlController {
     private final UserRepository userRepository;
     private final LoanRepository loanRepository;
+    private final VerificationResultRepository verificationResultRepository;
+    private final OcrResultRepository ocrResultRepository;
+    private final DocumentRepository documentRepository;
 
-    public UrlController(UserRepository userRepository, LoanRepository loanRepository) {
+    public UrlController(UserRepository userRepository, LoanRepository loanRepository, VerificationResultRepository verificationResultRepository, OcrResultRepository ocrResultRepository, DocumentRepository documentRepository) {
         this.userRepository = userRepository;
         this.loanRepository = loanRepository;
+        this.verificationResultRepository = verificationResultRepository;
+        this.ocrResultRepository = ocrResultRepository;
+        this.documentRepository = documentRepository;
     }
 
     @GetMapping("/")
@@ -176,7 +180,37 @@ public class UrlController {
     }
 
     @GetMapping("/admin")
-    public String admin() {
+    public String admin(Model model) {
+        List<VerificationResult> verifications = verificationResultRepository.findAll();
+
+        // 각 검증 결과에 대한 추가 정보 조회
+        List<Map<String, Object>> verificationDetails = verifications.stream()
+                .map(verification -> {
+                    Map<String, Object> detail = new HashMap<>();
+                    detail.put("verification", verification);
+
+                    // OCR 결과 조회
+                    OcrResult ocrResult = ocrResultRepository.findById(verification.getOcrResultId())
+                            .orElse(null);
+                    detail.put("ocrResult", ocrResult);
+
+                    // 문서 정보 조회
+                    if (ocrResult != null) {
+                        Document document = documentRepository.findById(ocrResult.getDocumentId())
+                                .orElse(null);
+                        detail.put("document", document);
+
+                        if (document != null) {
+                            detail.put("userId", document.getUserId());
+                        }
+                    }
+
+                    return detail;
+                })
+                .collect(Collectors.toList());
+
+        model.addAttribute("verificationDetails", verificationDetails);
+
         return "admin";
     }
 
