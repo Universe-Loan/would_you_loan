@@ -31,11 +31,11 @@
             color: #fff;
             border-radius: 20px;
         }
-        /*.btn-custom-outline {*/
-        /*    border: 1px solid #007bff;*/
-        /*    color: #007bff;*/
-        /*    border-radius: 20px;*/
-        /*}*/
+        .btn-custom-outline {
+            border: 1px solid #007bff;
+            color: #007bff;
+            border-radius: 20px;
+        }
         .badge-custom {
             background-color: #e9ecef;
             color: #495057;
@@ -90,14 +90,12 @@
                         <div class="col-md-8">
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <div class="mb-3">
-                                    <div class="mb-3">
-                                        <p class="mb-0">대출기관</p>
-                                        <h5 class="mb-0" th:text="${loan.bankName}"></h5>
-                                    </div>
-                                    <div class="mb-3">
-                                        <p class="mb-0">대출상품</p>
-                                        <h5 class="mb-0" th:text="${loan.loanName}"></h5>
-                                    </div>
+                                    <p class="mb-0">대출기관</p>
+                                    <h5 class="mb-0" th:text="${loan.bankName}"></h5>
+                                </div>
+                                <div class="mb-3">
+                                    <p class="mb-0">대출상품</p>
+                                    <h5 class="mb-0" th:text="${loan.loanName}"></h5>
                                 </div>
                             </div>
                             <div class="d-flex justify-content-between mb-3">
@@ -204,6 +202,7 @@
         const loan = /*[[${loan}]]*/ null;
 
         let currentGrade = 1;
+        let interestRate = 4;
 
         fetch(`/credit-score/${userId}`)
             .then(response => response.json())
@@ -218,7 +217,7 @@
                 currentGrade = currentCredit.credit_grade;
 
                 const interestKey = `credit${currentGrade}Interest`; // 동적으로 이자율 키 생성
-                const interestRate = loan[interestKey];
+                interestRate = loan[interestKey];
 
                 // 금리를 화면에 업데이트
                 document.getElementById('interestRate').innerText = `${interestRate}%`;
@@ -248,11 +247,53 @@
         const summitLoanButton = document.getElementById('summit-loan');
 
         summitLoanButton.addEventListener('click', function () {
-            // 이벤트 실행 시 로직 작성
-            alert('대출 신청이 완료되었습니다!');
+            // 현재 대출 정보
+            const prvLoan = {
+                loanType: "",      // 기존 대출 정보
+                bankName: "",
+                loanName: "",
+                amount: "",
+                rate: "",
+                startDate: "",
+                endDate: ""
+            };
 
-            // 추가 작업 예시: 다른 페이지로 이동
-            // window.location.href = '/loan-application-success';
+            const today = new Date();
+            const endDate = new Date(today);
+            endDate.setFullYear(endDate.getFullYear() + loanTerm);
+
+            // 신규 신청할 대출 정보
+            const newLoan = {
+                loanType: "mortgage",              // 신규 대출 정보
+                bankName: loan.bankName,
+                loanName: loan.loanName,
+                amount: loanAmount,
+                rate: interestRate,
+                startDate: formatDate(today),
+                endDate: formatDate(endDate)
+            };
+
+            // 두 정보를 하나의 객체로 합침
+            const loanData = {
+                prvLoan: prvLoan,
+                newLoan: newLoan,
+                applyType: "신규"
+            };
+
+            fetch('/save-loan-session', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(loanData)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = '/loan-ocr';
+                    }
+                })
+                .catch(error => console.error('Error:', error));
         });
 
     });
@@ -316,6 +357,13 @@
         const afterFirstO = input.slice(firstOIndex + 1).replace(/ㅇ/g, '<br>ㅇ');
 
         return beforeFirstO + afterFirstO;
+    }
+
+    function formatDate(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
     }
 
 </script>
