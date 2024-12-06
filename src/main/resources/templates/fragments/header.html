@@ -9,7 +9,7 @@
     <link rel="stylesheet" th:href="@{/css/common.css}">
 </head>
 <body>
-<nav th:fragment="nav" class="navbar navbar-expand-lg navbar-light bg-light">
+<nav th:fragment="nav" class="navbar navbar-expand-lg navbar-light">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center" th:href="@{/}">
             <img th:src="@{/img/planet.png}" alt="로고 이미지" height="30" class="">
@@ -30,20 +30,20 @@
                     <a class="nav-link" th:href="@{/market-analysis}">시장 진단</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/my-loans}">나의 대출 현황</a>
+                    <a class="nav-link" th:href="@{/my-loans}">신용 및 대출 현황</a>
                 </li>
             </ul>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/mypage}" sec:authorize="isAuthenticated()">마이페이지</a>
+                    <a class="nav-link" th:href="@{/mypage}" sec:authorize="isAuthenticated()">회원정보 수정</a>
                 </li>
                 <!-- 로그인 상태에 따라 버튼 표시 -->
                 <li class="nav-item" sec:authorize="!isAuthenticated()">
-                    <a class="btn btn-primary" th:href="@{/login}">로그인</a>
+                    <a class="btn btn-primary btn-custom" th:href="@{/login}">로그인</a>
                 </li>
                 <li class="nav-item" sec:authorize="isAuthenticated()">
                     <form th:action="@{/logout}" method="post" class="d-inline">
-                        <button type="submit" class="btn btn-danger">로그아웃</button>
+                        <button type="submit" class="btn btn-danger btn-custom">로그아웃</button>
                     </form>
                 </li>
             </ul>

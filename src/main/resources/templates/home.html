@@ -8,168 +8,224 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fonts-archive/Pretendard/Pretendard.css" type="text/css" />
   <!-- 사용자 정의 CSS -->
-  <link rel="stylesheet" th:href="@{/css/common.css}">
 <style>
-  body{
-    background-size: cover; /* 이미지를 전체 영역에 맞춤 */
-    background-position: center; /* 이미지를 중앙에 배치 */
-    background-repeat: no-repeat; /* 이미지를 반복하지 않음 */
+  body {
+    padding-top: 56px;
+    background-color: #151f5c;
+
+    font-family: "Pretendard Variable", Pretendard,
+    -apple-system, BlinkMacSystemFont,
+    system-ui, Roboto,
+    "Helvetica Neue", "Segoe UI",
+    "Apple SD Gothic Neo", "Noto Sans KR",
+    "Malgun Gothic", "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   }
-  .hero {
-    height: calc(100vh - 56px); /* 뷰포트 높이에서 네비게이션 바 높이를 뺀 값 */
-    min-height: 400px; /* 최소 높이 설정 */
-    background-color: #007bff;
+
+  /* header */
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+    background-color: #151f5c;
+  }
+  .navbar-brand {
+    font-weight: bold;
+    color: #80c1ee;
+  }
+  .navbar-brand:hover {
+    color: #b2a0f6;
+  }
+  .nav-link {
     color: white;
-    padding: 50px 0;
+  }
+  .nav-link:hover {
+    color: #80c1ee;
+  }
+  .btn-custom {
+    background-color: #151f5c;
+    color: white;
+    border: 1px solid #151f5c;
+  }
+
+  /* 본문 */
+  .content-wrapper {
+    flex: 1 0 auto;
+    margin-bottom: 100px !important;
+    padding-top: 50px;
+    padding-left: min(10%);
+    padding-right: min(10%);
+  }
+  .mainImg {
+    background: url('/img/bgSpace.jpg') no-repeat center center fixed; /* 배경 이미지 설정 */
+    background-size: cover; /* 이미지를 전체 영역에 맞춤 */
+    height: 500px; /* 배경 이미지 높이 설정 */
+    position: relative; /* 자식 요소 겹치기 */
+    filter: brightness(0.8) blur(2px); /* 밝기와 블러 처리로 배경 부드럽게 */
+    box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.5); /* 테두리 블러 효과 */
+    border-radius: 15px; /* 둥근 테두리로 세련된 느낌 추가 */
+    overflow: hidden; /* 테두리 블러가 이미지 밖으로 넘어가지 않도록 */
+  }
+  .mainImg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+            to bottom,
+            rgba(21, 31, 92, 0.7) 0%, /* 상단에 어두운 느낌 */
+            rgba(21, 31, 92, 0.5) 50%, /* 중간에 투명 */
+            rgba(21, 31, 92, 0.9) 100% /* 하단에 강한 어두움 */
+    );
+    z-index: 1; /* 배경 위에 그라데이션 레이어 추가 */
+  }
+
+    /* footer */
+  .footer {
+    z-index: 1030;
+    color: lightgray;
+    padding: 20px 0;
     text-align: center;
+    font-size: 0.9em;
+    flex-shrink: 0;
+  }
+  .box {
+    background-color: #151f5c;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    margin-bottom: 20px;
+    height: 100px;
+    width: 100%;
+    }
+
+  .onboarding-container {
+    position: absolute; /* 부모 요소(.mainImg) 위에 겹치기 */
+    top: 90%; /* mainImg 높이의 50% 위치 */
+    left: 50%; /* 중앙 정렬 */
+    transform: translate(-50%, -50%); /* 중앙 정렬 */
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: stretch; /* 카드 높이 균일 */
+    gap: 30px;
+    z-index: 2; /* 그라데이션 위에 표시 */
+    padding: 20px;
+    width: 100%; /* 부모 요소 크기에 맞춤 */
+    margin-bottom: 50px ;
   }
-  .carousel-item .hero {
-    height: 100%; /* 원하는 높이로 조정 */
+
+  .onboarding-card {
+    background-color: #2d0077; /* Lighter purple */
+    color: #fff;
+    border-radius: 20px;
+    width: 100%; /* Flex-fill will make the cards grow evenly */
+    max-width: 320px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* 카드 내 요소 간격 조정 */
+    position: relative;
+    min-height: 500px; /* 카드의 최소 높이 설정 */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* 호버 효과 */
   }
-  .carousel-control-prev,
-  .carousel-control-next {
-    width: 5%;
+  .onboarding-card:hover {
+    transform: translateY(-10px); /* 카드 살짝 상승 */
+    box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.3); /* 더 강한 그림자 */
   }
-  .carousel-control-prev-icon,
-  .carousel-control-next-icon {
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 50%;
-    padding: 10px;
+
+  .onboarding-card img {
+    height: 200px;
+    margin: 30px auto;
   }
-  .feature-icon {
-    width: 50px;
-    height: 50px;
+
+  .onboarding-card h2 {
+    font-size: 20px;
+    margin: 10px 0;
   }
-  .card {
-    border: none;
+
+  .onboarding-card p {
+    font-size: 14px;
+    line-height: 1.4;
+    margin: 10px 0;
+    color: #d1c9f0;
+  }
+
+  .onboarding-card .btn {
+    display: inline-block;
+    background-color: #a35bf0; /* Pink button */
+    color: #fff;
+    padding: 7px 15px;
+    font-size: 14px;
     border-radius: 10px;
-    overflow: hidden;
+    text-decoration: none;
+    margin: 10px auto 20px;
+    transition: background-color 0.3s ease; /* 호버 효과 */
   }
-  .card img {
-    height: 150px;
-    object-fit: cover;
+
+  .onboarding-card .btn:hover {
+    background-color: #bf75ff;
+  }
+
+
+  .clouds {
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    right: 0;
+    /*background: url('clouds.png') no-repeat bottom center;*/
+    background-size: cover;
+    height: 80px;
   }
 </style>
 </head>
 
-<body style="background-image: url('/img/bgSpace.png')">
+<body>
 <!--헤더-->
 <header th:replace="fragments/header :: nav"></header>
 
-<!--배너 슬라이드-->
-  <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        <div class="hero bg-primary text-white py-5">
-          <div class="container d-flex align-items-center">
-            <div class="text-content">
-              <h1 class="display-4">대출 찾아보기</h1>
-              <p class="lead">새로운 대출을 찾아보세요<br>기존 대출을 바꿔보세요</p>
-            </div>
-            <div class="image-content ms-auto">
-              <img src="https://via.placeholder.com/300x200" alt="대출 찾아보기 이미지" class="img-fluid rounded">
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <div class="hero bg-success text-white py-5">
-          <div class="container d-flex align-items-center">
-            <div class="text-content">
-              <h1 class="display-4">신용대출</h1>
-              <p class="lead">빠르고 간편한 신용대출<br>지금 바로 신청하세요</p>
-            </div>
-            <div class="image-content ms-auto">
-              <img src="https://via.placeholder.com/300x200" alt="신용대출 이미지" class="img-fluid rounded">
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <div class="hero bg-info text-white py-5">
-          <div class="container d-flex align-items-center">
-            <div class="text-content">
-              <h1 class="display-4">전세자금대출</h1>
-              <p class="lead">내 집 마련의 첫 걸음<br>전세자금대출로 시작하세요</p>
-            </div>
-            <div class="image-content ms-auto">
-              <img src="https://via.placeholder.com/300x200" alt="전세자금대출 이미지" class="img-fluid rounded">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">이전</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">다음</span>
-  </button>
-</div>
-
 <!--본문-->
+<div class="mainImg"></div>
 <div class="content-wrapper">
+  <div class="onboarding-container">
+    <!-- Screen 1 -->
+    <div class="onboarding-card flex-fill">
+      <img th:src="@{/img/rocket.png}" alt="Rocket">
+      <h2>내 아파트 찾기</h2>
+      <p>
+        소득을 기준으로 아파트 추천받아보세요.<br>
+        궁금했던 아파트, 리포트로 확인해보세요.<br>
+      </p>
+      <a th:href="@{/apt-find}" class="btn">바로가기</a>
+    </div>
 
-<!--본문 중간-->
-<div class="container my-5">
-  <div class="text-center mb-4">
-    <p class="text-muted">내게 맞는 금융상품, 비교하기 힘드신가요?</p>
-    <h2>뱅크샐러드는 쉽고 정확하게 비교합니다.</h2><br>
-  </div>
-  <div class="row text-center mb-5">
-    <div class="col-md-4">
-      <img src="icon1.png" alt="Icon 1" class="feature-icon mb-2">
-      <p>국내 최대 금융상품 데이터...</p>
+    <!-- Screen 2 -->
+    <div class="onboarding-card flex-fill">
+      <img th:src="@{/img/astronaut.png}" alt="Astronaut Helmet">
+      <h2>대출 찾아보기</h2>
+      <p>
+        맞춤형 대출을 추천받고 비교해보세요.<br>
+        금리 확인부터 신청까지 한 번에 이루어져요.<br>
+      </p>
+      <a th:href="@{/loan-find}" class="btn">바로가기</a>
     </div>
-    <div class="col-md-4">
-      <img src="icon2.png" alt="Icon 2" class="feature-icon mb-2">
-      <p>나만을 위한 금융비항...</p>
-    </div>
-    <div class="col-md-4">
-      <img src="icon3.png" alt="Icon 3" class="feature-icon mb-2">
-      <p>광고나 홍보 없음...</p>
-    </div>
-  </div>
-  <div class="bg-light text-dark p-4 rounded">
-    <h5 class="mb-4">조회수 TOP3 리포트 바로보기</h5>
-    <div class="row">
-      <div class="col-md-4">
-        <div class="card bg-white text-dark mb-3">
-          <img src="image1.png" class="card-img-top" alt="Image 1">
-          <div class="card-body">
-            <p class="card-text">한남더힐</p>
-            <p class="card-text"><small>2024.11.08</small></p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card bg-white text-dark mb-3">
-          <img src="image2.png" class="card-img-top" alt="Image 2">
-          <div class="card-body">
-            <p class="card-text">밴프자이</p>
-            <p class="card-text"><small>2024.11.08</small></p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card bg-white text-dark mb-3">
-          <img src="image3.png" class="card-img-top" alt="Image 3">
-          <div class="card-body">
-            <p class="card-text">트리마제</p>
-            <p class="card-text"><small>2024.11.08</small></p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
+    <!-- Screen 3 -->
+    <div class="onboarding-card flex-fill">
+      <img th:src="@{/img/telescope.png}" alt="Telescope">
+      <h2>신용 및 대출 현황</h2>
+      <p>나의 신용점수와 대출을 확인해보세요.<br>
+        신용점수 변동 없이 이자를 줄일 수 있는<br>
+        대환대출 상품 추천까지 받아보세요.</p>
+      <a th:href="@{/my-loans}" class="btn">바로가기</a>
+    </div>
+  </div>
+  <div class="box">압</div>
 </div>
 
 <!--푸터-->
