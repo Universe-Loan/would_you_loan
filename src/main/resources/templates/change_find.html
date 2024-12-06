@@ -8,25 +8,24 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css" />
     <link rel="stylesheet" th:href="@{/css/common.css}">
 <style>
-    .header {
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .top-container {
         text-align: center;
         padding: 50px 0;
     }
-    .header img {
-        width: 100px;
-        margin-bottom: 20px;
-    }
-    .header h1 {
+    .top-container h1 {
         font-size: 2.5rem;
         margin-bottom: 10px;
     }
-    .header h2 {
+    .top-container h2 {
         font-size: 1.5rem;
         color: #007bff;
     }
-
     .content {
-        padding: 50px 0;
+        padding: 30px 0;
         text-align: center;
     }
     .content p {
@@ -34,6 +33,17 @@
     }
     .content .btn {
         margin-top: 20px;
+    }
+    .btn-custom1 {
+        padding: 12px 30px;
+        font-size: 1.1rem;
+        border-radius: 30px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 123, 255, 0.2);
+    }
+    .btn-custom1:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 8px rgba(0, 123, 255, 0.3);
     }
 
     .step-one {
@@ -43,10 +53,6 @@
         border: none;
         display: none; /* 초기에는 숨김 */
     }
-    .step-one img {
-        width: 100%;
-        height: auto;
-    }
     .card {
         flex: 0 0 auto;
         width: 300px;
@@ -54,12 +60,17 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
     .icon {
-        background-color: #e0e0e0;
+        background-color: white;
+        /*border: 1px solid #dee2e6;*/
         border-radius: 50%;
         width: 40px;
         height: 40px;
         display: inline-block;
         margin-bottom: 10px;
+        background-size: cover; /* 이미지가 원 안에 채워지도록 설정 */
+        background-position: center; /* 이미지 가운데 정렬 */
+        background-repeat: no-repeat; /* 이미지 반복 방지 */
+        overflow: hidden; /* 원 밖으로 나가는 이미지 잘림 */
     }
     .card-header {
         background-color: transparent;
@@ -106,20 +117,48 @@
         display: none; /* 초기에는 숨김 */
     }
     .step-two img {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         width: 100%;
         height: auto;
     }
 
-    .card2, .table-responsive {
-        width: 100%;
-        max-width: 1400px; /* 원하는 최대 너비로 조정 가능 */
-        margin: 0 auto;
-    }
     .card2 {
+        width: 800px;
+        margin: 0 auto;
         border-radius: 10px;
         border: 1px solid #ccc;
         padding: 20px;
         background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        align-items: center;
+    }
+
+    .loan-details .badge-custom {
+        background-color: #e0e0e0;
+        color: #333;
+        border-radius: 15px;
+        padding: 5px 10px;
+        margin-bottom: 5px;
+        display: inline-block;
+    }
+
+    .loan-details .info-block {
+        margin-right: 10px; /* 요소 간 간격 */
+        text-align: left; /* 왼쪽 정렬 */
+    }
+
+    .loan-details .info-label {
+        color: #6c757d;
+        margin-bottom: 2px; /* 줄 간격 작게 */
+        line-height: 1.2;
+    }
+
+    .loan-details .info-value {
+        font-weight: bold;
+        color: #212529;
+        line-height: 1.2; /* 줄 간격 작게 */
     }
     .btn-custom2 {
         background-color: #007bff;
@@ -133,27 +172,26 @@
 <header th:replace="fragments/header :: nav"></header>
 
 <!-- 안내창 -->
-<div class="header">
+<div class="top-container">
     <div class="content">
-        <h2>낮은 금리로<br>주택담보대출 갈아타기</h2>
-        <p class="text-muted">온라인 대환대출</p><br>
-        <p>가지고 있는 대출보다 좋은 조건을 찾아볼게요</p><br>
-        <img src="https://via.placeholder.com/100" sizes="500px" alt="Chatbot">
-        <p><button type="button" class="btn btn-outline-primary btn-lg" id="loadLoansButton">현재 대출 목록 불러오기</button></p>
+        <img th:src="@{/img/Observation.png}" height="250px">
+        <h2 class="my-5 fw-bold">낮은 금리로<br>주택담보대출 갈아타기</h2>
+        <p>가지고 있는 대출보다 좋은 조건의 금리를 찾아볼게요</p><br>
+        <button type="button" class="btn btn-outline-primary btn-custom1" id="loadLoansButton">현재 대출 목록 불러오기</button>
     </div>
 </div>
 
 <!-- 대출 목록 불러오기 -->
-<div class="content step-one d-flex align-items-center justify-content-center">
+<div class="content step-one d-none align-items-center justify-content-center flex-column">
+    <h2 class="text-center text-white mb-5">갈아탈 대출을 선택하세요!</h2>
     <div class="row" id="loanList">
         <!-- 여기에 대출 카드가 동적으로 추가됩니다 -->
     </div>
 </div>
-
 <div class="content step-two">
-    <h2 class="text-center mb-5">갈아타기할 대출을 선택하세요</h2>
+    <h2 class="text-center mb-5">대출 갈아타기를 신청하세요!</h2>
     <div class="container d-flex align-items-center justify-content-center">
-        <div class="row" id="recommendedLoans">
+        <div id="recommendedLoans">
             <!-- 여기에 추천 대출 상품 카드가 동적으로 추가됩니다 -->
         </div>
     </div>
@@ -172,17 +210,15 @@
         const stepTwo = document.querySelector('.step-two');
         const recommendedLoansContainer = document.getElementById('recommendedLoans');
 
-        loadLoansButton.addEventListener('click', function() {
-            // 실제로는 서버에서 데이터를 가져와야 합니다. 여기서는 예시 데이터를 사용합니다.
+        loadLoansButton.addEventListener('click', function () {
             getCurrentLoans().then(currentLoans => {
-
                 // step-one의 내용을 비웁니다.
-                stepOne.innerHTML = '';
+                stepOne.querySelector('#loanList').innerHTML = ''; // loanList만 비웁니다.
 
                 // 새로운 row를 생성합니다.
                 const row = document.createElement('div');
                 row.className = 'row';
-                stepOne.appendChild(row);
+                stepOne.querySelector('#loanList').appendChild(row);
 
                 // 각 대출에 대해 카드를 생성하고 추가합니다.
                 currentLoans.forEach(loan => {
@@ -194,10 +230,11 @@
                 });
 
                 // step-one을 표시합니다.
-                stepOne.style.display = 'block';
+                stepOne.classList.remove('d-none'); // 표시
+                stepOne.classList.add('d-flex'); // flex 스타일 유지
 
                 // step-one으로 스크롤합니다.
-                stepOne.scrollIntoView({behavior: 'smooth'});
+                stepOne.scrollIntoView({ behavior: 'smooth' });
             });
         });
 
@@ -270,16 +307,30 @@
             }
         }
 
+        function getIconUrl(bankName) {
+            const basePath = '/img/';
+            if (bankName === '우리은행') {
+                return basePath + 'woori.png';
+            } else if (bankName === '국민은행') {
+                return basePath + 'kookmin.png';
+            } else if (bankName === '신한은행') {
+                return basePath + 'shinhan.png';
+            } else {
+                return basePath + 'earth.png';
+            }
+        }
+
         function createLoanCard(loan) {
             const cardDiv = document.createElement('div');
             cardDiv.className = 'col-md-4';
             cardDiv.innerHTML = `
                 <div class="card result-card mx-2 mb-3" id="loan-card-${loan.id}">
                     <div class="card-header d-flex align-items-center">
-                        <div class="icon me-3"></div>
+                        <div class="icon me-3 col-1"
+                                       style="background-image: url('${getIconUrl(loan.bankName)}'); background-size: cover;"></div>
                         <div class="card-title">
-                            <p class="mb-0 small">${loan.bankName}</p>
-                            <p class="mb-0">${loan.productName}</p>
+                            <p class="mb-0 small text-start">${loan.bankName}</p>
+                            <p class="mb-0 fw-bold">${loan.productName}</p>
                         </div>
                     </div>
                     <div class="card-body">
@@ -334,41 +385,44 @@
             const payment = calculateMonthlyPayment(parseInt(loan.amount.slice(0, -1).replace(/,/g, "")), rate, loan.startDate, loan.endDate);
 
             cardDiv.className = 'card2 p-5 mb-4';
+            cardDiv.style.margin = '0 auto'; // 카드를 가운데 정렬
             cardDiv.innerHTML = `
-                <div class="row">
-                    <div class="col-md-9">
-                        <div class="col-md-8">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <div class="mb-3">
-                                    <p class="mb-0">대출기관</p>
-                                    <h5 class="mb-0">${bankName}</h5>
-                                </div>
-                                <div class="mb-3">
-                                    <p class="mb-0">대출상품</p>
-                                    <h5 class="mb-0">${productName}</h5>
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-between mb-3">
-                                <div>
-                                    <p class="mb-0">금리</p>
-                                    <h6>${rate}%</h6>
-                                </div>
-                                <div>
-                                    <p class="mb-0">월 평균 상환액</p>
-                                    <h6>${payment.toLocaleString()}원</h6>
-                                </div>
-                            </div>
-                            <div class="mt-3">
-                                <span class="badge badge-custom me-2">고정금리</span>
-                                <span class="badge badge-custom">원리금분할상환</span>
-                            </div>
-                        </div>
-                    </div>
-                <div class="col-md-3 d-flex flex-column align-items-center justify-content-center">
-                    <img src="https://via.placeholder.com/300x200" alt="대출 상품 이미지" class="loan-image mb-3">
-                    <button class="btn btn-custom2" id="summit-loan">신청하기</button></a>
+        <div class="row">
+            <!-- 대출 정보 -->
+            <div class="col-md-9">
+            <div class="loan-details p-4">
+                <div class="mt-3 text-start">
+                    <span class="badge badge-custom me-2">고정금리</span>
+                    <span class="badge badge-custom">원리금분할상환</span>
                 </div>
-            </div>`;
+                <div class="d-flex justify-content-between align-items-center mt-4">
+                    <div class="info-block">
+                        <p class="info-label">대출기관</p>
+                        <h5 class="info-value">${bankName}</h5>
+                    </div>
+                    <div class="info-block">
+                        <p class="info-label">대출상품</p>
+                        <h5 class="info-value">${productName}</h5>
+                    </div>
+                    <div class="info-block">
+                        <p class="info-label">금리</p>
+                        <h5 class="info-value">${rate}%</h5>
+                    </div>
+                    <div class="info-block">
+                        <p class="info-label">월 평균 상환액</p>
+                        <h5 class="info-value">${payment.toLocaleString()}원</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <!-- 대출 이미지 및 버튼 -->
+            <div class="col-md-3 d-flex flex-column align-items-center justify-content-center loan-image-wrapper">
+            <img src="/img/HomeLoan.png" alt="로고 이미지" class="img-fluid mb-3">
+        </div>
+        </div>
+        <button class="btn btn-custom2 w-100" id="summit-loan">신청하기</button>
+
+`;
 
             // 신청하기 버튼에 이벤트 리스너 추가
             // 기존 대출, 신규 대출 정보 OCR 페이지 세션으로 넘기기
