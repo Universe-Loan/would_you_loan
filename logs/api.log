@@ -1,0 +1,65 @@
+2024-12-06 14:20:05.088 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 42579 (/Users/regular/workspace/woorifisa_final_project/would_you_loan/target/classes started by regular in /Users/regular/workspace/woorifisa_final_project/would_you_loan)
+2024-12-06 14:20:05.089 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-06 14:20:05.115 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-12-06 14:20:05.115 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-12-06 14:20:05.615 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-06 14:20:05.648 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 30 ms. Found 10 JPA repository interfaces.
+2024-12-06 14:20:06.105 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-06 14:20:06.114 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-06 14:20:06.115 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-06 14:20:06.115 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-06 14:20:06.139 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-06 14:20:06.140 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1025 ms
+2024-12-06 14:20:06.308 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-06 14:20:06.340 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.10.Final
+2024-12-06 14:20:06.359 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-06 14:20:06.474 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-06 14:20:06.488 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-06 14:20:06.725 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@557f75bb
+2024-12-06 14:20:06.726 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-12-06 14:20:07.284 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-06 14:20:07.334 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-06 14:20:07.589 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-12-06 14:20:08.743 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@593482d9, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@123b3bc4, org.springframework.security.web.context.SecurityContextHolderFilter@36e3a22a, com.woorifisa.wl.filter.AddInfoCheckFilter@3bcbff62, org.springframework.security.web.header.HeaderWriterFilter@25ac8b22, org.springframework.security.web.authentication.logout.LogoutFilter@207bb231, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@14400b22, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@122aef6a, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@66a1e3dc, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@29e72756, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@259fa14c, org.springframework.security.web.access.ExceptionTranslationFilter@5ab6f02, org.springframework.security.web.access.intercept.AuthorizationFilter@705f3482]
+2024-12-06 14:20:09.235 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-06 14:20:09.290 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-06 14:20:09.332 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-06 14:20:09.343 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-06 14:20:09.353 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 4.634 seconds (process running for 5.368)
+2024-12-06 14:20:09.519 [RMI TCP Connection(2)-192.168.0.96] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-06 14:20:09.519 [RMI TCP Connection(2)-192.168.0.96] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-12-06 14:20:09.520 [RMI TCP Connection(2)-192.168.0.96] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2024-12-06 14:48:37.931 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-06 14:48:37.935 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-12-06 14:48:37.993 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-12-06 14:48:47.227 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 45079 (/Users/regular/workspace/woorifisa_final_project/would_you_loan/target/classes started by regular in /Users/regular/workspace/woorifisa_final_project/would_you_loan)
+2024-12-06 14:48:47.228 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-06 14:48:47.255 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-12-06 14:48:47.255 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-12-06 14:48:47.908 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-06 14:48:47.955 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 40 ms. Found 10 JPA repository interfaces.
+2024-12-06 14:48:48.590 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-06 14:48:48.598 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-06 14:48:48.599 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-06 14:48:48.599 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-06 14:48:48.624 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-06 14:48:48.624 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1369 ms
+2024-12-06 14:48:48.797 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-06 14:48:48.831 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.10.Final
+2024-12-06 14:48:48.850 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-06 14:48:48.959 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-06 14:48:48.974 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-06 14:48:49.215 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@124c58e5
+2024-12-06 14:48:49.216 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-12-06 14:48:49.807 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-06 14:48:49.864 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-06 14:48:50.120 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-12-06 14:48:51.243 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3b433dc, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@ddce9cc, org.springframework.security.web.context.SecurityContextHolderFilter@98b7b2e, com.woorifisa.wl.filter.AddInfoCheckFilter@770f2d1c, org.springframework.security.web.header.HeaderWriterFilter@f14d10e, org.springframework.security.web.authentication.logout.LogoutFilter@6089d32c, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@69523013, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@655b0de0, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@18750626, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@19b23fd3, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4bdb2e8a, org.springframework.security.web.access.ExceptionTranslationFilter@b64aaa6, org.springframework.security.web.access.intercept.AuthorizationFilter@350a18d5]
+2024-12-06 14:48:51.708 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-06 14:48:51.754 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-06 14:48:51.792 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-06 14:48:51.802 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-06 14:48:51.812 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 4.915 seconds (process running for 5.346)
+2024-12-06 14:48:52.377 [RMI TCP Connection(4)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-06 14:48:52.377 [RMI TCP Connection(4)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-12-06 14:48:52.378 [RMI TCP Connection(4)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
