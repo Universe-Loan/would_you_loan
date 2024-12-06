@@ -61,15 +61,21 @@
                     <input type="hidden" name="pageNo" value="1">
                     <input type="hidden" name="numOfRows" value="10">
                 </div>
-                <div class="col-md-6">
-                    <label for="aptPrice" class="form-label">아파트 가격</label>
-                    <input type="text" id="aptPrice" class="form-control" value="">
+                <div class="col-md-6 position-relative">
+                    <label for="aptPrice" class="form-label d-flex justify-content-between">
+                        <span>아파트 가격</span>
+                        <span id="aptPriceDisplay" class="text-primary"></span>
+                    </label>
+                    <input type="number" id="aptPrice" class="form-control" value="">
                 </div>
             </div>
             <div class="row mb-4">
-                <div class="col-md-6">
-                    <label for="loanAmount" class="form-label">대출 금액</label>
-                    <input type="text" id="loanAmount" class="form-control" value="">
+                <div class="col-md-6 position-relative">
+                    <label for="loanAmount" class="form-label d-flex justify-content-between">
+                        <span>대출 금액</span>
+                        <span id="loanAmountDisplay" class="text-primary"></span>
+                    </label>
+                    <input type="number" id="loanAmount" class="form-control" value="">
                 </div>
                 <div class="col-md-6">
                     <label for="loanTerm" class="form-label">대출 기간</label>
@@ -145,6 +151,43 @@
 <footer th:replace="fragments/footer :: footer"></footer>
 
 <script>
+    // 숫자 한글로 표기
+    function formatNumber(number) {
+        return new Intl.NumberFormat('ko-KR').format(number);
+    }
+
+    function convertToKorean(number) {
+        if (number === 0) return '0원'; // 숫자가 0인 경우 처리
+        const units = ['', '만', '억', '조'];
+        let result = '';
+        let unitIndex = 0;
+        while (number > 0) {
+            const part = number % 10000; // 4자리씩 나눔
+            if (part > 0) {
+                result = formatNumber(part) + units[unitIndex] + ' ' + result;
+            }
+            number = Math.floor(number / 10000); // 다음 단위로 이동
+            unitIndex++;
+        }
+        return result.trim() + '원';
+    }
+
+    // 아파트 가격 입력 이벤트 핸들러
+    document.getElementById('aptPrice').addEventListener('input', function (event) {
+        const value = parseInt(event.target.value, 10) || 0;
+        document.getElementById('aptPriceDisplay').textContent = convertToKorean(value);
+        console.log('아파트 가격 입력값:', value);
+        console.log('변환 결과:', convertToKorean(value));
+    });
+
+    // 대출 금액 입력 이벤트 핸들러
+    document.getElementById('loanAmount').addEventListener('input', function (event) {
+        const value = parseInt(event.target.value, 10) || 0;
+        document.getElementById('loanAmountDisplay').textContent = convertToKorean(value);
+        console.log('대출 금액 입력값:', value);
+        console.log('변환 결과:', convertToKorean(value));
+    });
+
     function submitLoanApplication() {
         const userId = "[[${session.user_id}]]";
 
