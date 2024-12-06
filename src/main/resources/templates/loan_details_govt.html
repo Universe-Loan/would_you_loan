@@ -10,32 +10,34 @@
     <!-- 사용자 정의 CSS -->
     <link rel="stylesheet" href="/css/common.css">
     <style>
-        .content-container {
-            max-width: 100%;
-            margin: 0 auto;
+        body {
+            background-color: #f8f9fa;
         }
 
-        .card, .table-responsive {
-            width: 100%;
-            max-width: 1200px; /* 원하는 최대 너비로 조정 가능 */
-            margin: 0 auto;
-        }
-        .card {
-            border-radius: 10px;
-            border: 1px solid #ccc;
-            padding: 20px;
-            background-color: #fff;
+        .box {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 45px;
+            margin-bottom: 20px;
         }
         .btn-custom {
-            background-color: #007bff;
-            color: #fff;
             border-radius: 20px;
         }
-        .btn-custom-outline {
-            border: 1px solid #007bff;
-            color: #007bff;
-            border-radius: 20px;
+        .icon {
+            background-color: white;
+            /*border: 1px solid #dee2e6;*/
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: inline-block;
+            margin-bottom: 10px;
+            background-size: cover; /* 이미지가 원 안에 채워지도록 설정 */
+            background-position: center; /* 이미지 가운데 정렬 */
+            background-repeat: no-repeat; /* 이미지 반복 방지 */
+            overflow: hidden; /* 원 밖으로 나가는 이미지 잘림 */
         }
+
         .badge-custom {
             background-color: #e9ecef;
             color: #495057;
@@ -50,11 +52,10 @@
         }
 
         .table-responsive {
+            width: 95%;
             overflow-x: auto;
-            border: 1px solid #ccc;
-            border-radius: 10px;
             padding: 40px;
-            font-size: 0.8em;
+            justify-self: center;
         }
         .table-responsive th, .table-responsive td {
             text-align: center;
@@ -64,10 +65,11 @@
         .table-responsive th {
             font-weight: normal;
             color: #6c757d;
-            background-color: #ffffff;
+            white-space: nowrap; /* 텍스트 줄바꿈 방지 */
         }
         .table-responsive .rate {
             color: #007bff;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -79,105 +81,113 @@
 <!--본문-->
 <div class="content-wrapper">
     <div class="container mt-5">
-        <div class="d-flex justify-content-between mb-3">
-            <button class="btn btn-custom" onclick="history.back()">뒤로가기</button>
-        </div>
-        <div class="content-container">
-            <!--대출상세정보 카드-->
-            <div class="card p-5 mb-4">
-                <div class="row">
-                <div class="col-md-9">
-                    <div class="col-md-8">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div class="mb-3">
-                                <p class="mb-0">대출기관</p>
-                                <h5 class="mb-0" th:text="${loan.bankName}"></h5>
+        <button class="btn btn-primary btn-custom m-3" onclick="history.back()">뒤로가기</button>
+        <div class="container">
+            <!-- 대출상세정보 카드 -->
+            <div class="box shadow-sm mb-3">
+                <div class="p-4">
+                    <div class="row d-flex justify-content-center align-items-center">
+                        <div class="col-lg-8 me-5">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <div class="d-flex justify-content-start align-items-center">
+                                    <div class="icon me-3 col-1"></div>
+                                    <div>
+                                        <h6 class="text-muted mb-1">대출기관</h6>
+                                        <h4 class="mb-0" th:text="${loan.bankName}"></h4>
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                    <h6 class="text-muted mb-1">대출상품</h6>
+                                    <h4 class="mb-0" th:text="${loan.loanName}"></h4>
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <p class="mb-0">대출상품</p>
-                                <h5 class="mb-0" th:text="${loan.loanName}"></h5>
+                            <div class="row g-3">
+                                <div class="col-sm-6 col-md-2">
+                                    <div class="p-3 text-center">
+                                        <h6 class="text-muted mb-1">금리</h6>
+                                        <h5 class="mb-0" id="interestRate"></h5>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-4">
+                                    <div class="p-3 text-center">
+                                        <h6 class="text-muted mb-1">대출 금액</h6>
+                                        <h5 class="mb-0" th:text="${#numbers.formatDecimal(loanAmount, 0, 'COMMA', 0, 'POINT')} + '원'"></h5>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="p-3 text-center">
+                                        <h6 class="text-muted mb-1">대출 기간</h6>
+                                        <h5 class="mb-0" th:text="${loanTerm} +'년'"></h5>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="p-3 text-center">
+                                        <h6 class="text-muted mb-1">월 평균 상환액</h6>
+                                        <h5 class="mb-0" id="monthlyPayment"></h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <span class="badge bg-primary me-2">고정금리</span>
+                                <span class="badge bg-success">원리금분할상환</span>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-between flex-wrap">
-                            <div>
-                                <p class="mb-0">금리</p>
-                                <h6 id="interestRate"></h6>
-                            </div>
-                            <div>
-                                <p class="mb-0">대출 금액</p>
-                                <h6 th:text="${#numbers.formatDecimal(loanAmount, 0, 'COMMA', 0, 'POINT')} + '원'"></h6>
-                            </div>
-                            <div>
-                                <p class="mb-0">대출 기간</p>
-                                <h6 th:text="${loanTerm} +'년'"></h6>
-                            </div>
-                            <div>
-                                <p class="mb-0">월 평균 상환액</p>
-                                <h6 id="monthlyPayment"></h6>
-                            </div>
-                        </div>
-                        <div class="mt-3">
-                            <span class="badge badge-custom me-2">고정금리</span>
-                            <span class="badge badge-custom">원리금분할상환</span>
+                        <div class="col-lg-3 d-flex flex-column align-items-center justify-content-center mt-4 mt-lg-0">
+                            <img th:src="@{/img/ApartmentBuilding.png}" alt="로고 이미지" class="img-fluid mb-3" style="max-height: 150px;">
+                            <button class="btn btn-primary btn-lg w-100" id="summit-loan">신청하기</button>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 d-flex flex-column align-items-center justify-content-center">
-                    <img src="https://via.placeholder.com/300x200" alt="대출 상품 이미지" class="loan-image mb-3">
-                    <button class="btn btn-custom" id="summit-loan">신청하기</button>
-                </div>
             </div>
-            </div>
-            <!--대출상세정보 테이블-->
-            <div class="d-flex justify-content-center">
-                <div class="table-responsive pb-5">
-                    <table class="table">
-                        <tbody>
-                        <tr>
-                            <th>대출금리</th>
-                            <td class="rate" id="interestRateDetail"></td>
-                        </tr>
-                        <tr>
-                            <th>금리방식</th>
-                            <td th:text="${loan.interestRateType}"></td>
-                        </tr>
-                        <tr>
-                            <th>상환방식</th>
-                            <td th:text="${loan.repaymentType}"></td>
-                        </tr>
-                        <tr>
-                            <th>월 평균 상환액</th>
-                            <td id="monthlyPaymentDetail"></td>
-                        </tr>
-                        <tr>
-                            <th>총 대출비용<br>(총 이자)</th>
-                            <td id="totalLoanCost"></td>
-                        </tr>
-                        <tr>
-                            <th>가입방법</th>
-                            <td th:text="${loan.subscriptionMethod}"></td>
-                        </tr>
-                        <tr>
-                            <th>대출 한도 상세</th>
-                            <td th:text="${loan.loanLimit}"></td>
-                        </tr>
-                        <tr>
-                            <th>대출부대비용</th>
-                            <td id="loanAdditionalCost"></td>
-                        </tr>
-                        <tr>
-                            <th>중도상환수수료</th>
-                            <td id="earlyRepaymentFee"></td>
-                        </tr>
-                        <tr>
-                            <th>연체이자율</th>
-                            <td th:text="${loan.overdueInterestRate}"></td>
-                        </tr>
-                        <tr>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+
+            <!-- 대출상세정보 테이블 -->
+            <div class="box shadow-sm">
+                <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <tbody>
+                            <tr>
+                                <th class="" style="width: 30%;">대출금리</th>
+                                <td class="rate" id="interestRateDetail"></td>
+                            </tr>
+                            <tr>
+                                <th class="">금리방식</th>
+                                <td th:text="${loan.interestRateType}"></td>
+                            </tr>
+                            <tr>
+                                <th class="">상환방식</th>
+                                <td th:text="${loan.repaymentType}"></td>
+                            </tr>
+                            <tr>
+                                <th class="">월 평균 상환액</th>
+                                <td id="monthlyPaymentDetail"></td>
+                            </tr>
+                            <tr>
+                                <th class="">총 대출비용<br>(총 이자)</th>
+                                <td id="totalLoanCost"></td>
+                            </tr>
+                            <tr>
+                                <th class="">가입방법</th>
+                                <td th:text="${loan.subscriptionMethod}"></td>
+                            </tr>
+                            <tr>
+                                <th class="">대출 한도 상세</th>
+                                <td th:text="${loan.loanLimit}"></td>
+                            </tr>
+                            <tr>
+                                <th class="">대출부대비용</th>
+                                <td id="loanAdditionalCost"></td>
+                            </tr>
+                            <tr>
+                                <th class="">중도상환수수료</th>
+                                <td id="earlyRepaymentFee"></td>
+                            </tr>
+                            <tr>
+                                <th class="">연체이자율</th>
+                                <td th:text="${loan.overdueInterestRate}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
             </div>
         </div>
     </div>
@@ -228,8 +238,6 @@
                 const monthlyPaymentKr = new Intl.NumberFormat('ko-KR').format(monthlyPayment);
                 document.getElementById('monthlyPayment').innerText = `${monthlyPaymentKr}원`;
                 document.getElementById('monthlyPaymentDetail').innerText = `${monthlyPaymentKr}원`;
-
-                console.log(monthlyPayment);
 
                 // 대출 총비용, 총 이자 계산
                 const totalLoanCostObj = calculateTotalLoanCost(loanAmount, interestRate, loanTerm, loan.repaymentType);
@@ -298,8 +306,6 @@
                 .catch(error => console.error('Error:', error));
         });
 
-    });
-
     function calculateMonthlyPayment(principal, annualInterestRate, loanTermYears) {
         // 대출 기간(월) 계산
         const loanTermMonths = loanTermYears * 12;
@@ -367,6 +373,34 @@
         const day = String(date.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
     }
+
+    function getIconUrl(bankName) {
+        switch (bankName) {
+            case '우리은행':
+                return '/img/woori.png';
+            case '국민은행':
+                return '/img/kookmin.png';
+            case '신한은행':
+                return '/img/shinhan.png';
+            default:
+                return '/img/earth.png';
+        }
+    }
+
+    // 아이콘 URL 설정
+    console.log(loan)
+    console.log(loan.bankName)
+    const iconElement = document.querySelector('.icon');
+    console.log(iconElement)
+    if (iconElement) {
+        const iconUrl = getIconUrl(loan.bankName);
+        console.log(iconUrl)
+        iconElement.style.backgroundImage = `url('${iconUrl}')`;
+    } else {
+        console.warn('.icon 요소를 찾을 수 없습니다.');
+    }
+
+    });
 
 </script>
 </body>

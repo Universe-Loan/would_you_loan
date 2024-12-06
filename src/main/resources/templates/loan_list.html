@@ -657,7 +657,7 @@
     // POST 요청을 위한 form 생성 및 제출
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = financialSector === '0' ? '/loan-details-govt' : '/loan-details-bank';
+    form.action = financialSector === '0' ? '/loan-details-govt' : '/loan-details-govt';
 
     // hidden input fields 추가
     const fields = {
