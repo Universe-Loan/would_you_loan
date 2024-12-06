@@ -165,7 +165,10 @@
                 <a class="nav-link active" data-bs-toggle="tab" href="#verificationTab">대출 신청 정보</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#monitoringTab">모니터링</a>
+                <a class="nav-link" data-bs-toggle="tab" href="#userMonitoringTab">유저 모니터링</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#systemMonitoringTab">시스템 모니터링</a>
             </li>
         </ul>
 
@@ -224,32 +227,33 @@
                 </div>
             </div>
 
-            <!-- 모니터링 탭 -->
-            <div class="tab-pane fade" id="monitoringTab">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="card-title">신청 현황</h5>
-                            </div>
-                            <div class="card-body">
-                                <!-- 신청 현황 내용 -->
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="card-title">처리 현황</h5>
-                            </div>
-                            <div class="card-body">
-                                <!-- 처리 현황 내용 -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <!-- 유저 모니터링 탭 -->
+            <div class="tab-pane fade" id="userMonitoringTab">
+                <h5 class="mt-3">Springboot Log Dashboard</h5>
+                <p class="mb-3">아래 대시보드를 통해 실시간 유저 로그 데이터를 확인할 수 있습니다.</p>
+                <iframe
+                        src="http://regularmark.iptime.org:45602/app/dashboards#/view/73b0e680-0786-11ef-b8b4-83bfed27d5f6?embed=true&_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-15m,to:now))&_a=(description:'',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,syncColors:!f,syncTooltips:!f,useMargins:!t),panels:!((embeddableConfig:(enhancements:()),gridData:(h:8,i:'439adb43-4230-4a9a-ac36-6b68751057d7',w:48,x:0,y:0),id:bb84a0c0-0789-11ef-b8b4-83bfed27d5f6,panelIndex:'439adb43-4230-4a9a-ac36-6b68751057d7',type:visualization,version:'8.3.0'),(embeddableConfig:(enhancements:(),hidePanelTitles:!f),gridData:(h:8,i:'35010102-7c7f-4dd1-b697-a3f904ce4d9e',w:9,x:0,y:8),id:'6161b4a0-0786-11ef-b8b4-83bfed27d5f6',panelIndex:'35010102-7c7f-4dd1-b697-a3f904ce4d9e',title:'Total%20logs',type:visualization,version:'8.3.0'),(embeddableConfig:(enhancements:(),hidePanelTitles:!f),gridData:(h:8,i:cf643f9a-35aa-4c08-8f6c-0d09f0e6e9d6,w:12,x:9,y:8),id:'9e5ce710-0788-11ef-b8b4-83bfed27d5f6',panelIndex:cf643f9a-35aa-4c08-8f6c-0d09f0e6e9d6,title:'Log%20level%20pie',type:visualization,version:'8.3.0'),(embeddableConfig:(enhancements:()),gridData:(h:15,i:cd507541-2552-4c42-bd65-6973d6d82d59,w:27,x:21,y:8),id:cfd0bea0-078a-11ef-b8b4-83bfed27d5f6,panelIndex:cd507541-2552-4c42-bd65-6973d6d82d59,type:visualization,version:'8.3.0'),(embeddableConfig:(enhancements:()),gridData:(h:7,i:'8acc1a4d-e0b7-482f-bd71-668e5c390b3f',w:21,x:0,y:16),id:feee31d0-0786-11ef-b8b4-83bfed27d5f6,panelIndex:'8acc1a4d-e0b7-482f-bd71-668e5c390b3f',type:visualization,version:'8.3.0'),(embeddableConfig:(enhancements:(),sort:!()),gridData:(h:13,i:'9a81406a-2056-4935-9553-d452350c68c5',w:48,x:0,y:23),id:a405cb70-0786-11ef-b8b4-83bfed27d5f6,panelIndex:'9a81406a-2056-4935-c68c5',type:search,version:'8.3.0')),query:(language:kuery,query:''),tags:!(),timeRestore:!f,title:'Springboot%20Log%20Dashboard',viewMode:view)"
+                        height="1000"
+                        width="100%"
+                        frameborder="0"
+                        style="border: 1px solid #ddd; border-radius: 5px;"
+                ></iframe>
             </div>
         </div>
+
+        <!-- 시스템 모니터링 탭 -->
+        <div class="tab-pane fade" id="systemMonitoringTab">
+            <h5 class="mt-3">Grafana Dashboard</h5>
+            <p class="mb-3">아래 대시보드를 통해 실시간 시스템 로그를 확인할 수 있습니다.</p>
+            <iframe
+                    src="http://regularmark.iptime.org:45300/d/spring_boot_21/spring-boot-3-x-statistics?orgId=1&from=1733460194222&to=1733463794222"
+                    height="1000"
+                    width="100%"
+                    frameborder="0"
+                    style="border: 1px solid #ddd; border-radius: 5px;"
+            ></iframe>
+        </div>
+    </div>
 
         <!-- 상세 정보 모달 -->
         <div th:each="detail : ${verificationDetails}"
