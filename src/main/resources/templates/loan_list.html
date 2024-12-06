@@ -105,13 +105,19 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
     .icon {
-      background-color: #e0e0e0;
+      background-color: white;
+      /*border: 1px solid #dee2e6;*/
       border-radius: 50%;
       width: 40px;
       height: 40px;
       display: inline-block;
       margin-bottom: 10px;
+      background-size: cover; /* 이미지가 원 안에 채워지도록 설정 */
+      background-position: center; /* 이미지 가운데 정렬 */
+      background-repeat: no-repeat; /* 이미지 반복 방지 */
+      overflow: hidden; /* 원 밖으로 나가는 이미지 잘림 */
     }
+
     .card-header {
       background-color: transparent;
       border-bottom: none;
@@ -347,6 +353,19 @@
 
     let currentGrade; // 현재 신용등급 전역 변수
 
+    function getIconUrl(bankName) {
+      const basePath = '/img/';
+      if (bankName === '우리은행') {
+        return basePath + 'woori.png';
+      } else if (bankName === '국민은행') {
+        return basePath + 'kookmin.png';
+      } else if (bankName === '신한은행') {
+        return basePath + 'shinhan.png';
+      } else {
+        return basePath + 'earth.png';
+      }
+    }
+
     function renderLoans(loans) {
       container.innerHTML = ''; // 컨테이너 비우기
 
@@ -360,11 +379,13 @@
 
         card.innerHTML = `
         <div class="card-header d-flex align-items-center">
-            <div class="icon me-3 col-1""></div>
-            <div class="card-title mb-0">
-                <p class="mb-0 small">${loan.bankName}</p>
-                <p class="mb-0">${loan.loanName}</p>
-            </div>
+          <div class="icon me-3 col-1"
+               style="background-image: url('${getIconUrl(loan.bankName)}'); background-size: cover;">
+          </div>
+          <div class="card-title mb-0">
+            <p class="mb-0 small">${loan.bankName}</p>
+            <p class="mb-0">${loan.loanName}</p>
+        </div>
         </div>
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center mb-3 fw-bold text-primary">
