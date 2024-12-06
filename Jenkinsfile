@@ -32,7 +32,7 @@ node {
         }
 
         stage('Deploy') {
-            sshagent(credentials: ['ubuntu']) {
+            sshagent(credentials: ['Universe-Loan-Web']) {
                 sh(script: 'ssh -o StrictHostKeyChecking=no ubuntu@43.202.29.76 "sudo docker rm -f docker-sb"')
                 sh(script: 'ssh ubuntu@43.202.29.76 "sudo docker run --name docker-sb --env-file .env -e TZ=Asia/Seoul -p 8080:8080 -d -t ${DOCKER_USER_ID}/universe-loan:${BUILD_NUMBER}"')
             }
