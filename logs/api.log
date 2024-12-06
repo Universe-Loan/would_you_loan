@@ -91,3 +91,365 @@
 2024-12-06 17:39:15.442 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
 2024-12-06 17:39:15.443 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
 2024-12-06 17:39:15.447 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 4 ms
+2024-12-06 18:51:02.483 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 50262 (/Users/regular/workspace/woorifisa_final_project/would_you_loan/target/classes started by regular in /Users/regular/workspace/woorifisa_final_project/would_you_loan)
+2024-12-06 18:51:02.485 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-06 18:51:02.508 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-12-06 18:51:02.508 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-12-06 18:51:03.054 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-06 18:51:03.092 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 34 ms. Found 10 JPA repository interfaces.
+2024-12-06 18:51:03.535 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-06 18:51:03.544 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-06 18:51:03.545 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-06 18:51:03.545 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-06 18:51:03.569 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-06 18:51:03.569 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1061 ms
+2024-12-06 18:51:03.743 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-06 18:51:03.780 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.10.Final
+2024-12-06 18:51:03.800 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-06 18:51:03.914 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-06 18:51:03.929 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-06 18:51:04.187 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2d45a4af
+2024-12-06 18:51:04.188 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-12-06 18:51:04.745 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-06 18:51:04.805 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-06 18:51:05.045 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-12-06 18:51:06.180 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3e1516b8, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2b03cb8c, org.springframework.security.web.context.SecurityContextHolderFilter@69074246, com.woorifisa.wl.filter.AddInfoCheckFilter@3dfe0054, org.springframework.security.web.header.HeaderWriterFilter@2d3fabb2, org.springframework.security.web.authentication.logout.LogoutFilter@51202fc8, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@24a6e467, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@5493182, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2995f40e, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@73a5737d, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3a504092, org.springframework.security.web.access.ExceptionTranslationFilter@192e0d5b, org.springframework.security.web.access.intercept.AuthorizationFilter@191b34e9]
+2024-12-06 18:51:06.623 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-06 18:51:06.666 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-06 18:51:06.710 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-06 18:51:06.721 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-06 18:51:06.733 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 4.585 seconds (process running for 5.125)
+2024-12-06 18:51:07.290 [RMI TCP Connection(2)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-06 18:51:07.290 [RMI TCP Connection(2)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-12-06 18:51:07.291 [RMI TCP Connection(2)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2024-12-06 18:52:11.963 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 67 class path changes (0 additions, 0 deletions, 67 modifications)
+2024-12-06 18:52:11.967 [Thread-7] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2024-12-06 18:52:11.979 [Thread-7] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-06 18:52:11.982 [Thread-7] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-12-06 18:52:12.044 [Thread-7] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-12-06 18:52:12.154 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 50262 (/Users/regular/workspace/woorifisa_final_project/would_you_loan/target/classes started by regular in /Users/regular/workspace/woorifisa_final_project/would_you_loan)
+2024-12-06 18:52:12.154 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-06 18:52:12.387 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-06 18:52:12.400 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 12 ms. Found 10 JPA repository interfaces.
+2024-12-06 18:52:12.499 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-06 18:52:12.499 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-06 18:52:12.500 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-06 18:52:12.500 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-06 18:52:12.508 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-06 18:52:12.508 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 352 ms
+2024-12-06 18:52:12.552 [main] INFO  com.woorifisa.wl.WlApplicationTests - Starting WlApplicationTests using Java 21.0.4 with PID 50273 (started by regular in /Users/regular/workspace/woorifisa_final_project/would_you_loan)
+2024-12-06 18:52:12.553 [main] INFO  com.woorifisa.wl.WlApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2024-12-06 18:52:12.595 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-06 18:52:12.596 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-06 18:52:12.598 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-06 18:52:12.598 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+2024-12-06 18:52:12.677 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-2 - Added connection com.mysql.cj.jdbc.ConnectionImpl@de67f09
+2024-12-06 18:52:12.677 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+2024-12-06 18:52:12.812 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-06 18:52:12.848 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-06 18:52:13.154 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@64379bd2, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@36570402, org.springframework.security.web.context.SecurityContextHolderFilter@47c357ff, com.woorifisa.wl.filter.AddInfoCheckFilter@7462cf2c, org.springframework.security.web.header.HeaderWriterFilter@64e6d1e5, org.springframework.security.web.authentication.logout.LogoutFilter@15289d18, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@64e855e9, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@c819317, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@70727524, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@339f6ef2, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7fde3797, org.springframework.security.web.access.ExceptionTranslationFilter@6173a2c, org.springframework.security.web.access.intercept.AuthorizationFilter@5b050742]
+2024-12-06 18:52:13.252 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-06 18:52:13.305 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 47 ms. Found 10 JPA repository interfaces.
+2024-12-06 18:52:13.455 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-06 18:52:13.491 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-06 18:52:13.509 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-06 18:52:13.510 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-06 18:52:13.515 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 1.395 seconds (process running for 71.907)
+2024-12-06 18:52:13.517 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2024-12-06 18:52:13.790 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-06 18:52:13.822 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.10.Final
+2024-12-06 18:52:13.838 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-06 18:52:13.946 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-06 18:52:13.959 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-06 18:52:15.639 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-06 18:52:15.648 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-06 18:52:16.696 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-12-06 18:52:57.133 [main] INFO  com.woorifisa.wl.WlApplicationTests - Starting WlApplicationTests using Java 21.0.4 with PID 50300 (started by regular in /Users/regular/workspace/woorifisa_final_project/would_you_loan)
+2024-12-06 18:52:57.135 [main] INFO  com.woorifisa.wl.WlApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2024-12-06 18:52:57.694 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-06 18:52:57.733 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 34 ms. Found 10 JPA repository interfaces.
+2024-12-06 18:52:58.132 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-06 18:52:58.162 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.10.Final
+2024-12-06 18:52:58.178 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-06 18:52:58.287 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-06 18:52:58.300 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-06 18:53:00.063 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-06 18:53:00.074 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-06 18:53:01.122 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-12-06 18:54:03.994 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-06 18:54:03.998 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+2024-12-06 18:54:04.054 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+2024-12-06 18:54:30.416 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 50333 (/Users/regular/workspace/woorifisa_final_project/would_you_loan/target/classes started by regular in /Users/regular/workspace/woorifisa_final_project/would_you_loan)
+2024-12-06 18:54:30.418 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-06 18:54:30.442 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-12-06 18:54:30.443 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-12-06 18:54:30.950 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-06 18:54:30.986 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 31 ms. Found 10 JPA repository interfaces.
+2024-12-06 18:54:31.397 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-06 18:54:31.404 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-06 18:54:31.405 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-06 18:54:31.405 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-06 18:54:31.431 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-06 18:54:31.431 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 988 ms
+2024-12-06 18:54:31.602 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-06 18:54:31.633 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.10.Final
+2024-12-06 18:54:31.651 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-06 18:54:31.759 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-06 18:54:31.773 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-06 18:54:32.011 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@d5aeb6e
+2024-12-06 18:54:32.012 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-12-06 18:54:32.548 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-06 18:54:32.613 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-06 18:54:32.846 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-12-06 18:54:33.917 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@6f60fcd3, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@769390f1, org.springframework.security.web.context.SecurityContextHolderFilter@d2cca3d, com.woorifisa.wl.filter.AddInfoCheckFilter@31cbf14f, org.springframework.security.web.header.HeaderWriterFilter@708cc210, org.springframework.security.web.authentication.logout.LogoutFilter@8605d1a, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@3f2210f3, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@4668309f, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@570da259, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4d188879, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@c669260, org.springframework.security.web.access.ExceptionTranslationFilter@596d4f61, org.springframework.security.web.access.intercept.AuthorizationFilter@6464dc58]
+2024-12-06 18:54:34.340 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-06 18:54:34.396 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-06 18:54:34.436 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-06 18:54:34.447 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-06 18:54:34.457 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 4.365 seconds (process running for 4.907)
+2024-12-06 18:54:35.038 [RMI TCP Connection(2)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-06 18:54:35.038 [RMI TCP Connection(2)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-12-06 18:54:35.039 [RMI TCP Connection(2)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2024-12-06 18:54:38.143 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-06 18:54:38.145 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-12-06 18:54:38.204 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-12-06 18:54:43.202 [main] INFO  com.woorifisa.wl.WlApplicationTests - Starting WlApplicationTests using Java 21.0.4 with PID 50349 (started by regular in /Users/regular/workspace/woorifisa_final_project/would_you_loan)
+2024-12-06 18:54:43.204 [main] INFO  com.woorifisa.wl.WlApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2024-12-06 18:54:43.721 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-06 18:54:43.754 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 29 ms. Found 10 JPA repository interfaces.
+2024-12-06 18:54:44.146 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-06 18:54:44.178 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.10.Final
+2024-12-06 18:54:44.192 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-06 18:54:44.291 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-06 18:54:44.303 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-06 18:54:45.854 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-06 18:54:45.864 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-06 18:54:46.911 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-12-06 18:56:20.051 [main] INFO  com.woorifisa.wl.WlApplicationTests - Starting WlApplicationTests using Java 21.0.4 with PID 50394 (started by regular in /Users/regular/workspace/woorifisa_final_project/would_you_loan)
+2024-12-06 18:56:20.053 [main] INFO  com.woorifisa.wl.WlApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2024-12-06 18:56:20.570 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-06 18:56:20.604 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 29 ms. Found 10 JPA repository interfaces.
+2024-12-06 18:56:21.006 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-06 18:56:21.036 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.10.Final
+2024-12-06 18:56:21.051 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-06 18:56:21.155 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-06 18:56:21.167 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-06 18:56:22.725 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-06 18:56:22.735 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-06 18:56:23.788 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-12-06 18:56:48.149 [main] INFO  com.woorifisa.wl.WlApplicationTests - Starting WlApplicationTests using Java 21.0.4 with PID 50421 (started by regular in /Users/regular/workspace/woorifisa_final_project/would_you_loan)
+2024-12-06 18:56:48.151 [main] INFO  com.woorifisa.wl.WlApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2024-12-06 18:56:48.678 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-06 18:56:48.716 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 33 ms. Found 10 JPA repository interfaces.
+2024-12-06 18:56:49.101 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-06 18:56:49.126 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.10.Final
+2024-12-06 18:56:49.144 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-06 18:56:49.251 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-06 18:56:49.266 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-06 18:56:50.822 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-06 18:56:50.831 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-06 18:56:51.890 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-12-06 19:02:16.659 [main] INFO  com.woorifisa.wl.WlApplicationTests - Starting WlApplicationTests using Java 21.0.4 with PID 50557 (started by regular in /Users/regular/workspace/woorifisa_final_project/would_you_loan)
+2024-12-06 19:02:16.660 [main] INFO  com.woorifisa.wl.WlApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2024-12-06 19:02:17.201 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-06 19:02:17.239 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 34 ms. Found 10 JPA repository interfaces.
+2024-12-06 19:02:17.645 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-06 19:02:17.672 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.10.Final
+2024-12-06 19:02:17.687 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-06 19:02:17.791 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-06 19:02:17.802 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-06 19:02:19.383 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-06 19:02:19.392 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-06 19:02:20.425 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-12-06 19:06:17.418 [main] INFO  com.woorifisa.wl.WlApplicationTests - Starting WlApplicationTests using Java 21.0.4 with PID 50601 (started by regular in /Users/regular/workspace/woorifisa_final_project/would_you_loan)
+2024-12-06 19:06:17.420 [main] INFO  com.woorifisa.wl.WlApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2024-12-06 19:06:17.950 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-06 19:06:17.986 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 32 ms. Found 10 JPA repository interfaces.
+2024-12-06 19:06:18.371 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-06 19:06:18.398 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.10.Final
+2024-12-06 19:06:18.416 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-06 19:06:18.519 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-06 19:06:18.531 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-06 19:06:20.094 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-06 19:06:20.103 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-06 19:06:21.150 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-12-06 19:09:00.731 [main] INFO  com.woorifisa.wl.WlApplicationTests - Starting WlApplicationTests using Java 21.0.4 with PID 50628 (started by regular in /Users/regular/workspace/woorifisa_final_project/would_you_loan)
+2024-12-06 19:09:00.733 [main] INFO  com.woorifisa.wl.WlApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2024-12-06 19:09:01.283 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-06 19:09:01.326 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 39 ms. Found 10 JPA repository interfaces.
+2024-12-06 19:09:01.697 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-06 19:09:01.724 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.10.Final
+2024-12-06 19:09:01.741 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-06 19:09:01.847 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-06 19:09:01.859 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-06 19:09:03.417 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-06 19:09:03.426 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-06 19:09:04.481 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-12-06 19:10:53.367 [main] INFO  com.woorifisa.wl.WlApplicationTests - Starting WlApplicationTests using Java 21.0.4 with PID 50677 (started by regular in /Users/regular/workspace/woorifisa_final_project/would_you_loan)
+2024-12-06 19:10:53.369 [main] INFO  com.woorifisa.wl.WlApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2024-12-06 19:10:53.899 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-06 19:10:53.934 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 31 ms. Found 10 JPA repository interfaces.
+2024-12-06 19:10:54.328 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-06 19:10:54.356 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.10.Final
+2024-12-06 19:10:54.372 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-06 19:10:54.482 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-06 19:10:54.498 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-06 19:10:56.055 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-06 19:10:56.065 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-06 19:10:57.113 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-12-06 19:11:02.941 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 50687 (/Users/regular/workspace/woorifisa_final_project/would_you_loan/target/classes started by regular in /Users/regular/workspace/woorifisa_final_project/would_you_loan)
+2024-12-06 19:11:02.943 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-06 19:11:02.968 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-12-06 19:11:02.968 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-12-06 19:11:03.439 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-06 19:11:03.476 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 34 ms. Found 10 JPA repository interfaces.
+2024-12-06 19:11:03.873 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-06 19:11:03.881 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-06 19:11:03.881 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-06 19:11:03.881 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-06 19:11:03.903 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-06 19:11:03.903 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 935 ms
+2024-12-06 19:11:04.057 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-06 19:11:04.081 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.10.Final
+2024-12-06 19:11:04.095 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-06 19:11:04.193 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-06 19:11:04.204 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-06 19:11:04.439 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@69b47ce9
+2024-12-06 19:11:04.440 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-12-06 19:11:04.966 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-06 19:11:05.021 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-06 19:11:05.254 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-12-06 19:11:06.365 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@76c5872c, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@30a6aedc, org.springframework.security.web.context.SecurityContextHolderFilter@fb44595, com.woorifisa.wl.filter.AddInfoCheckFilter@47e3424d, org.springframework.security.web.header.HeaderWriterFilter@441b359f, org.springframework.security.web.authentication.logout.LogoutFilter@5b62964b, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@71181c18, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@7922009, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@28db8391, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4eb6f98e, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1f1a1b4b, org.springframework.security.web.access.ExceptionTranslationFilter@65cbda6c, org.springframework.security.web.access.intercept.AuthorizationFilter@3aaf2e4f]
+2024-12-06 19:11:06.804 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-06 19:11:06.846 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-06 19:11:06.881 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-06 19:11:06.891 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-06 19:11:06.901 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 4.274 seconds (process running for 4.673)
+2024-12-06 19:11:07.085 [RMI TCP Connection(2)-192.168.0.96] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-06 19:11:07.085 [RMI TCP Connection(2)-192.168.0.96] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-12-06 19:11:07.086 [RMI TCP Connection(2)-192.168.0.96] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2024-12-06 19:11:16.615 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-06 19:11:16.618 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-12-06 19:11:16.750 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-12-06 19:11:32.069 [main] INFO  com.woorifisa.wl.WlApplicationTests - Starting WlApplicationTests using Java 21.0.4 with PID 50698 (started by regular in /Users/regular/workspace/woorifisa_final_project/would_you_loan)
+2024-12-06 19:11:32.071 [main] INFO  com.woorifisa.wl.WlApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2024-12-06 19:11:32.582 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-06 19:11:32.619 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 32 ms. Found 10 JPA repository interfaces.
+2024-12-06 19:11:33.015 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-06 19:11:33.040 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.10.Final
+2024-12-06 19:11:33.054 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-06 19:11:33.162 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-06 19:11:33.174 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-06 19:11:34.743 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-06 19:11:34.752 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-06 19:11:35.781 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-12-06 19:15:34.237 [main] INFO  com.woorifisa.wl.WlApplicationTests - Starting WlApplicationTests using Java 21.0.4 with PID 50735 (started by regular in /Users/regular/workspace/woorifisa_final_project/would_you_loan)
+2024-12-06 19:15:34.238 [main] INFO  com.woorifisa.wl.WlApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2024-12-06 19:15:34.760 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-06 19:15:34.796 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 33 ms. Found 10 JPA repository interfaces.
+2024-12-06 19:15:35.187 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-06 19:15:35.213 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.10.Final
+2024-12-06 19:15:35.228 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-06 19:15:35.331 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-06 19:15:35.344 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-06 19:15:36.885 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-06 19:15:36.893 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-06 19:15:37.946 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-12-06 19:15:42.738 [main] INFO  com.woorifisa.wl.WlApplicationTests - Starting WlApplicationTests using Java 21.0.4 with PID 50744 (started by regular in /Users/regular/workspace/woorifisa_final_project/would_you_loan)
+2024-12-06 19:15:42.739 [main] INFO  com.woorifisa.wl.WlApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2024-12-06 19:15:43.253 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-06 19:15:43.291 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 32 ms. Found 10 JPA repository interfaces.
+2024-12-06 19:15:43.676 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-06 19:15:43.705 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.10.Final
+2024-12-06 19:15:43.721 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-06 19:15:43.819 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-06 19:15:43.835 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-06 19:15:45.389 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-06 19:15:45.397 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-06 19:15:46.453 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-12-06 19:15:51.336 [main] INFO  com.woorifisa.wl.WlApplicationTests - Starting WlApplicationTests using Java 21.0.4 with PID 50756 (started by regular in /Users/regular/workspace/woorifisa_final_project/would_you_loan)
+2024-12-06 19:15:51.338 [main] INFO  com.woorifisa.wl.WlApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2024-12-06 19:15:51.848 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-06 19:15:51.882 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 31 ms. Found 10 JPA repository interfaces.
+2024-12-06 19:15:52.263 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-06 19:15:52.290 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.10.Final
+2024-12-06 19:15:52.305 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-06 19:15:52.419 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-06 19:15:52.431 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-06 19:15:53.987 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-06 19:15:53.996 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-06 19:15:55.035 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-12-06 19:17:02.076 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 50816 (/Users/regular/workspace/woorifisa_final_project/would_you_loan/target/classes started by regular in /Users/regular/workspace/woorifisa_final_project/would_you_loan)
+2024-12-06 19:17:02.078 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-06 19:17:02.104 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-12-06 19:17:02.104 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-12-06 19:17:02.622 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-06 19:17:02.657 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 31 ms. Found 10 JPA repository interfaces.
+2024-12-06 19:17:03.098 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-06 19:17:03.106 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-06 19:17:03.107 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-06 19:17:03.107 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-06 19:17:03.131 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-06 19:17:03.131 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1027 ms
+2024-12-06 19:17:03.299 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-06 19:17:03.330 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.10.Final
+2024-12-06 19:17:03.349 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-06 19:17:03.465 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-06 19:17:03.479 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-06 19:17:03.727 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@78f9597
+2024-12-06 19:17:03.729 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-12-06 19:17:04.326 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-06 19:17:04.389 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-06 19:17:04.656 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-12-06 19:17:05.798 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@325fbc86, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6c6327e7, org.springframework.security.web.context.SecurityContextHolderFilter@786f01b4, com.woorifisa.wl.filter.AddInfoCheckFilter@aeadda0, org.springframework.security.web.header.HeaderWriterFilter@7303bd03, org.springframework.security.web.authentication.logout.LogoutFilter@4b9cd527, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@424e06a4, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@723c93fe, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@528e9012, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@409199, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@784840fb, org.springframework.security.web.access.ExceptionTranslationFilter@1899bc4c, org.springframework.security.web.access.intercept.AuthorizationFilter@58dd1970]
+2024-12-06 19:17:06.263 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-06 19:17:06.307 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-06 19:17:06.346 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-06 19:17:06.356 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-06 19:17:06.366 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 4.64 seconds (process running for 5.195)
+2024-12-06 19:17:06.646 [RMI TCP Connection(2)-192.168.0.96] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-06 19:17:06.646 [RMI TCP Connection(2)-192.168.0.96] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-12-06 19:17:06.647 [RMI TCP Connection(2)-192.168.0.96] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2024-12-06 19:17:09.649 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-06 19:17:09.651 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-12-06 19:17:09.709 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-12-06 19:19:53.809 [main] INFO  com.woorifisa.wl.WlApplicationTests - Starting WlApplicationTests using Java 21.0.4 with PID 50866 (started by regular in /Users/regular/workspace/woorifisa_final_project/would_you_loan)
+2024-12-06 19:19:53.811 [main] INFO  com.woorifisa.wl.WlApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2024-12-06 19:19:54.327 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-06 19:19:54.361 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 30 ms. Found 10 JPA repository interfaces.
+2024-12-06 19:19:54.767 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-06 19:19:54.794 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.10.Final
+2024-12-06 19:19:54.809 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-06 19:19:54.914 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-06 19:19:54.927 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-06 19:19:56.481 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-06 19:19:56.490 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-06 19:19:57.540 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
