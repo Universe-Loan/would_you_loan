@@ -36,3 +36,4 @@ build/
 .env
 *.class
 .DS_Store
+*.log
