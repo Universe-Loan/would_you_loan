@@ -19,8 +19,6 @@
 2024-12-07 12:28:59.889 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
 2024-12-07 12:29:00.950 [restartedMain] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
 2024-12-07 12:29:00.972 [restartedMain] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
-
-Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
 2024-12-07 12:38:36.855 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 2324 (C:\ITStudy\private\FINAL\would_you_loan\target\classes started by eunhyea in C:\ITStudy\private\FINAL\would_you_loan)
 2024-12-07 12:38:36.860 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
 2024-12-07 12:38:36.911 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
