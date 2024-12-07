@@ -103,9 +103,48 @@
     width: 100%;
     }
 
+  .main-text {
+    color: white;
+    position: absolute; /* 부모 요소(.mainImg) 위에 겹치기 */
+    top: 30%; /* mainImg 높이의 50% 위치 */
+    left: 50%; /* 중앙 정렬 */
+    transform: translate(-50%, -50%); /* 중앙 정렬 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; /* 자식 요소를 가운데 정렬 */
+    gap: 5px;
+    z-index: 2; /* 그라데이션 위에 표시 */
+    padding: 20px;
+    width: 100%; /* 부모 요소 크기에 맞춤 */
+    margin-bottom: 50px ;
+  }
+
+  .typing-effect {
+    display: inline-block;
+    overflow: hidden; /* 글자가 넘치지 않도록 설정 */
+    white-space: nowrap; /* 텍스트가 줄 바꿈되지 않도록 설정 */
+    border-right: 3px solid white; /* 커서 효과 */
+    height: 50%; /* 부모 요소 높이와 조정 가능 */
+  }
+
+  /* 커서 깜박임 애니메이션 */
+  .blink {
+    animation: blink 0.5s step-end infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% {
+      border-color: white; /* 커서가 보이는 상태 */
+    }
+    50% {
+      border-color: transparent; /* 커서가 사라지는 상태 */
+    }
+  }
+
   .onboarding-container {
     position: absolute; /* 부모 요소(.mainImg) 위에 겹치기 */
-    top: 90%; /* mainImg 높이의 50% 위치 */
+    top: 87%; /* mainImg 높이의 50% 위치 */
     left: 50%; /* 중앙 정렬 */
     transform: translate(-50%, -50%); /* 중앙 정렬 */
     display: flex;
@@ -192,6 +231,10 @@
 <!--본문-->
 <div class="mainImg"></div>
 <div class="content-wrapper">
+  <div class="main-text">
+    <div class="display-1 fw-bold" style="color: #ffffff">우주론</div>
+    <div id="typing-effect" class="typing-effect fs-3 lean"></div>
+  </div>
   <div class="onboarding-container">
     <!-- Screen 1 -->
     <div class="onboarding-card flex-fill">
@@ -225,7 +268,6 @@
       <a th:href="@{/my-loans}" class="btn">바로가기</a>
     </div>
   </div>
-  <div class="box">압</div>
 </div>
 
 <!--푸터-->
@@ -238,5 +280,32 @@
 <!-- 사용자 정의 JS -->
 <script th:src="@{/js/home.js}"></script>
 <th:block th:replace="fragments/header :: scripts"></th:block>
+
+<script>
+  function typeText(elementId, text, speed) {
+    const element = document.getElementById(elementId);
+    let index = 0;
+
+    function type() {
+      if (index < text.length) {
+        element.textContent += text[index];
+        index++;
+        setTimeout(type, speed);
+      } else {
+        // 텍스트 출력 완료 후 커서 깜박임 효과 추가
+        element.classList.add('blink');
+      }
+    }
+
+    type();
+  }
+
+  // 텍스트 타이핑 시작
+  document.addEventListener('DOMContentLoaded', function () {
+    typeText('typing-effect', 'Would You Loan?', 150); // 150ms 간격으로 타이핑
+  });
+
+
+</script>
 </body>
 </html>
