@@ -11,9 +11,8 @@
 
     <!-- 사용자 정의 CSS -->
     <link rel="stylesheet" href="/css/common.css">
-
-    <!--js-->
-
+    <!--  아이콘  -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <!--지도그리기-->
     <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
@@ -37,9 +36,15 @@
     }
     h4 {
         margin-bottom: 45px;
+        justify-content: center;
+        align-items: center;
+    }
+    .badge-custom {
+        border: 2px solid red;
+        color: red;
     }
     .y-box {
-        background: #cbd4df;
+        background: #e1e9f6;
         border-radius: 0 0 15px 15px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         width: 100%;
@@ -56,8 +61,9 @@
         color: #333; /* 텍스트 색상을 어두운 색으로 변경 */
     }
 
-    .y-box:hover {
-        background: #bac6d4;
+    .predict-text {
+        color: #0d6efd;
+        font-weight: bold;
     }
     .box-header {
         background-color: #0d6efd;
@@ -164,7 +170,10 @@
         font-size: 0.875rem; /* 버튼 크기를 작게 조정 */
         line-height: 1.25; /* 텍스트와 버튼의 높이 정렬 */
     }
-
+    .btn-custom {
+        width: ;
+        border-radius: 5px; /* 둥근 테두리 */
+    }
 
     /* 로딩 아이콘 스타일 */
     .loading-icon {
@@ -218,27 +227,34 @@
         <div class="row flex-fill">
             <div class="col-md-6 d-flex flex-fill">
                 <div class="box box-hover flex-fill align-items-center" style="height: 450px">
-                    <h4>CD금리</h4>
+                    <h4>
+                        CD금리
+                        <span class="badge rounded-pill badge-custom">AI가 예측했어요! <i class="bi bi-robot"></i>  </span>
+                    </h4>
                     <canvas id="CDRateChart" class="w-100 mb-4" height="200px"></canvas>
                     <div class="y-box flex-fill align-items-center">
                         <div th:each="item : ${data}" class="text-center">
                             <div>현재 CD 금리는 3.28%이에요</div>
-                            <div><span th:text="${item.last_data_point}"></span>의 CD금리는
-                                <span th:text="${item.prediction}" class="fs-4 fw-bold text-primary"></span>
-                                <!--                        <p>정확도는 약 <span th:text="${#numbers.formatDecimal(item.probability*100, 0, 1)}"></span>% 정도예요</p>-->
-                            </div>
+                            <span th:text="${item.last_data_point}"></span>의 CD금리는
+                                <!-- <p>정확도는 약 <span th:text="${#numbers.formatDecimal(item.probability*100, 0, 1)}"></span>% 정도예요</p>-->
+                            <div>
+                            <span th:text="${item.prediction}" class="fs-4 predict-text"></span>
                             할 것이라고 AI가 예측했어요!
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 d-flex flex-fill">
                 <div class="box box-hover flex-fill align-items-center" style="height: 450px">
-                    <h4>아파트 매매가격지수</h4>
+                    <h4>
+                        아파트 매매가격지수
+                        <span class="badge rounded-pill badge-custom">AI가 예측했어요! <i class="bi bi-robot"></i> </span>
+                    </h4>
                     <canvas id="aptPriceIndicatorChart" class="w-100" height="200px"></canvas>
                     <div class="y-box flex-fill d-flex justify-content-center align-items-center flex-column">
                         <div th:each="item : ${data}"><span th:text="${item.last_data_point}"></span>의 아파트 매매가격지수는</div>
-                        <div class="y-box-highlight fs-4 fw-bold text-primary">
+                        <div class="y-box-highlight fs-4 predict-text">
                             <span th:each="item : ${seoulData}">서울은 <span th:text="${item.prediction_value}"></span>,</span>
                             <span th:each="item : ${gyeonggiData}">경기도는 <span th:text="${item.prediction_value}"></span></span>
                         </div>
@@ -478,7 +494,7 @@
                 datasets: [{
                     label: '시장 금리 (연%)',
                     data: dataValues,
-                    borderColor: '#0d6efd',
+                    borderColor: '#6ea8fe',
                     backgroundColor: 'rgba(0, 123, 255, 0.1)',
                     fill: true,
                 }]
@@ -542,7 +558,7 @@
         const datasets = Object.keys(parsedData).map((region, index) => ({
             label: region,
             data: parsedData[region],
-            borderColor: index === 0 ? '#0d6efd' : '#32cd32', // 첫 번째 데이터는 빨간색, 두 번째는 파란색
+            borderColor: index === 0 ? '#6ea8fe' : '#75b697', // 첫 번째 데이터는 빨간색, 두 번째는 파란색
             fill: false
         }));
 
@@ -604,7 +620,7 @@
                 data: data.filter(item => item.C1_NM === region && item.ITM_NM === indicatorName)
                     .map(item => ({ x: item.PRD_DE, y: parseFloat(item.DT) }))
                     .sort((a, b) => a.x.localeCompare(b.x)),
-                borderColor: region === '전국' ? '#0d6efd' : region === '수도권' ? '#32cd32' : '#7705ed',
+                borderColor: region === '전국' ? '#6ea8fe' : region === '수도권' ? '#75b798' : '#a370f7',
                 fill: false
             }));
         }
@@ -678,8 +694,8 @@
             return {
                 label: region,
                 data: regions[region].map(item => ({ x: item.C2_NM, y: parseFloat(item.DT) })),
-                borderColor: region === '전국' ? '#0d6efd' : region === '수도권' ? '#32cd32' : '#7705ed',
-                backgroundColor: region === '전국' ? '#0d6efd' : region === '수도권' ? '#32cd32' : '#7705ed',
+                borderColor: region === '전국' ? '#6ea8fe' : region === '수도권' ? '#75b798' : '#a370f7',
+                backgroundColor: region === '전국' ? '#6ea8fe' : region === '수도권' ? '#75b798' : '#a370f7',
                 // borderColor: `hsl(${Math.random() * 360}, 70%, 50%)`,
                 // backgroundColor: `hsl(${Math.random() * 360}, 70%, 80%)`,
                 fill: false,
@@ -864,12 +880,12 @@
                 // 버튼 컨테이너 설정
                 const buttonContainer = d3.select("#buttonContainer");
 
-// 버튼 그룹 생성
+                // 버튼 그룹 생성
                 const radioGroup = buttonContainer.append("div")
                     .attr("class", "btn-group") // 수평/수직 모두 가능
                     .attr("role", "group");
 
-// 전국 버튼 추가
+                // 전국 버튼 추가
                 radioGroup.append("input")
                     .attr("type", "radio")
                     .attr("class", "btn-check")
@@ -879,7 +895,7 @@
                     .attr("checked", true);
 
                 radioGroup.append("label")
-                    .attr("class", "btn btn-outline-primary btn-sm") // btn-sm 적용
+                    .attr("class", "btn btn-outline-primary btn-sm btn-custom") // btn-sm 적용
                     .attr("for", "allRegions")
                     .html('<i class="fas fa-globe mx-2"></i> 전국')
                     .on("click", () => updateMap(""));
