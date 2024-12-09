@@ -73,6 +73,11 @@ function loadDistricts() {
                     !excludedCodes.includes(item.region_cd.slice(0, 5));
             });
 
+            // 오름차순 정렬
+            districts.sort((a, b) => a.locallow_nm.localeCompare(b.locallow_nm));
+            // 내림차순 정렬
+            // districts.sort((a, b) => b.locallow_nm.localeCompare(a.locallow_nm));
+
             const districtSelect = document.getElementById('district');
             districtSelect.innerHTML = '<option value="">선택하세요</option>';
 
@@ -119,6 +124,10 @@ function loadNeighborhoods() {
         .then(response => response.json())
         .then(data => {
             const neighborhoods = data.StanReginCd[1].row.filter(item => item.umd_cd !== '000');
+
+            // 오름차순 정렬
+            neighborhoods.sort((a, b) => a.locallow_nm.localeCompare(b.locallow_nm));
+
             const neighborhoodSelect = document.getElementById('neighborhood');
             neighborhoodSelect.innerHTML = '<option value="">선택하세요</option>';
             neighborhoods.forEach(neighborhood => {
@@ -151,6 +160,7 @@ function loadApartments() {
         .then(str => (new window.DOMParser()).parseFromString(str, "text/xml"))
         .then(data => {
             const items = data.getElementsByTagName('item');
+
             const apartmentSelect = document.getElementById('apartment');
             apartmentSelect.innerHTML = '<option value="">선택하세요</option>';
 
