@@ -353,7 +353,7 @@
         </h5>
         <div class="box">
             <!-- 기사 리스트-->
-            <div class="article-list">
+            <div id="articleList" class="article-list">
                 <div th:each="article : ${articles}" class="article-box">
                     <div class="row align-items-center">
                         <!-- 행성 아이콘 -->
@@ -381,26 +381,27 @@
                         </div>
                     </div>
                 </div>
-
             </div>
+
             <!-- 페이지네이션 -->
-            <div class="pagination mt-4 justify-content-center">
+            <div id="pagination" class="pagination mt-4 justify-content-center">
                 <ul class="pagination justify-content-center">
                     <!-- 이전 버튼 -->
                     <li class="page-item" th:if="${currentPage > 0}">
-                        <a class="page-link" th:href="@{/market-analysis(page=${currentPage - 1}, size=10)}">이전</a>
+                        <a class="page-link" href="javascript:void(0)" onclick="loadPage(${currentPage - 1})">이전</a>
                     </li>
 
                     <!-- 페이지 번호 -->
                     <li class="page-item" th:each="pageNum : ${#numbers.sequence(startPage, endPage)}"
                         th:classappend="${pageNum == currentPage} ? 'active'">
-                        <a class="page-link" th:href="@{/market-analysis(page=${pageNum}, size=10)}"
+                        <a class="page-link" href="javascript:void(0)"
+                           th:onclick="'loadPage(' + ${pageNum} + ')'"
                            th:text="${pageNum + 1}"></a>
                     </li>
 
                     <!-- 다음 버튼 -->
                     <li class="page-item" th:if="${currentPage < totalPages - 1}">
-                        <a class="page-link" th:href="@{/market-analysis(page=${currentPage + 1}, size=10)}">다음</a>
+                        <a class="page-link" href="javascript:void(0)" onclick="loadPage(${currentPage + 1})">다음</a>
                     </li>
                 </ul>
             </div>
@@ -1011,6 +1012,81 @@
             });
 
     });
+
+    function loadPage(page) {
+        fetch(`/market-analysis/api/articles?page=${page}&size=10`)
+            .then(response => response.json())
+            .then(data => {
+                // 기사 목록 업데이트
+                const articleList = document.getElementById('articleList');
+                articleList.innerHTML = data.articles.map(article => `
+                <div class="article-box">
+                    <div class="row align-items-center">
+                        <div class="col-2 d-flex justify-content-center text-center">
+                            ${article.sentiment === '긍정' ? `
+                                <div class="d-flex align-items-start">
+                                    <img src="/img/planet_good.png" alt="긍정" class="me-2" style="width: 24px; height: 24px;">
+                                    <span class="fw-bold mt-1" style="color: #dc3545">좋아요</span>
+                                </div>
+                            ` : `
+                                <div class="d-flex align-items-start">
+                                    <img src="/img/planet_bad.png" alt="부정" class="me-2" style="width: 24px; height: 24px;">
+                                    <span class="fw-bold mt-1" style="color: gray">나빠요</span>
+                                </div>
+                            `}
+                        </div>
+                        <div class="col-6 text-start">
+                            <a href="${article.url}" target="_blank" class="text-decoration-none">${article.title}</a>
+                        </div>
+                        <div class="col-2 text-end">
+                            <span>${article.company}</span>
+                        </div>
+                        <div class="col-2 text-center">
+                            <span>${article.articleDate}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+                // 페이지네이션 업데이트
+                const pagination = document.getElementById('pagination');
+                let paginationHtml = '<ul class="pagination justify-content-center">';
+
+                // 이전 버튼
+                if (data.currentPage > 0) {
+                    paginationHtml += `
+                    <li class="page-item">
+                        <a class="page-link" href="javascript:void(0)" onclick="loadPage(${data.currentPage - 1})">이전</a>
+                    </li>
+                `;
+                }
+
+                // 페이지 번호
+                for (let i = data.startPage; i <= data.endPage; i++) {
+                    paginationHtml += `
+                    <li class="page-item ${i === data.currentPage ? 'active' : ''}">
+                        <a class="page-link" href="javascript:void(0)" onclick="loadPage(${i})">${i + 1}</a>
+                    </li>
+                `;
+                }
+
+                // 다음 버튼
+                if (data.currentPage < data.totalPages - 1) {
+                    paginationHtml += `
+                    <li class="page-item">
+                        <a class="page-link" href="javascript:void(0)" onclick="loadPage(${data.currentPage + 1})">다음</a>
+                    </li>
+                `;
+                }
+
+                paginationHtml += '</ul>';
+                pagination.innerHTML = paginationHtml;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('페이지를 불러오는 중 오류가 발생했습니다.');
+            });
+    }
 
 </script>
 <!-- 사용자 정의 JS -->
