@@ -98,6 +98,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         HttpSession session = attributes.getRequest().getSession();
         session.setAttribute("user_id", user.getUserId());
         session.setAttribute("name", user.getName());
+        session.setAttribute("user_role", user.getRole());
     }
 
     // 세션에 오류 메시지를 저장
