@@ -90,6 +90,9 @@ function loadIncomeDistricts() {
                     item.ri_cd === '00';
             });
 
+            // 오름차순 정렬
+            districts.sort((a, b) => a.locallow_nm.localeCompare(b.locallow_nm));
+
             districts.forEach(district => {
                 const option = document.createElement('option');
                 option.value = district.region_cd.slice(0, 5);

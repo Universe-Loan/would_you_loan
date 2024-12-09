@@ -194,7 +194,7 @@
 
 <script th:src="@{/js/home.js}"></script>
 <script th:src="@{/js/real_income.js}"></script>
-<script th:src="@{/js/real_address.js}"></script>
+<script th:src="@{/js/real_address_api.js}"></script>
 
 
 
@@ -280,7 +280,7 @@
                         ${item.url !== '#' ? `onclick="window.location.href='${item.url}'"` : ''}
                         style="${item.url !== '#' ? 'cursor: pointer;' : ''}">
                        <div class="position-relative">
-                           <img src="https://via.placeholder.com/300x150" class="card-img-top" alt="${item.apartName}">
+                           <img src="/img/skyline.png" class="card-img-top" alt="${item.apartName}">
                            <span class="position-absolute top-0 start-0 bg-primary text-white px-2 py-1 m-2 rounded-pill">${index + 1}위</span>
                        </div>
                        <div class="view-body d-flex flex-column p-3">

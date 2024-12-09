@@ -24,6 +24,12 @@
             padding: 45px;
             margin-bottom: 20px;
         }
+        .apt-card .box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+            border-color: #007bff;
+            transition: all 0.3s ease-in-out;
+        }
         .line {
             background-color: gray;
             width: 100%;
@@ -51,6 +57,7 @@
             background-color: #e9ecef;
             border-radius: 50%;
         }
+
 
     </style>
 </head>
@@ -488,7 +495,7 @@
         // Function to create a card
         function createApartmentCard(apartment) {
             const cardDiv = document.createElement('div');
-            cardDiv.className = 'col-md-4 d-flex align-items-stretch'; // 부트스트랩의 그리드 시스템
+            cardDiv.className = 'col-md-4 d-flex align-items-stretch apt-card'; // 부트스트랩의 그리드 시스템
 
             // apt-report로 정보 넘기는 클릭 이벤트
             cardDiv.addEventListener('click', () => handleCardClick(apartment));

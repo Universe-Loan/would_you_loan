@@ -31,10 +31,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.StringReader;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @SessionAttributes("items")
 @Controller
@@ -119,55 +116,66 @@ public class AptInfoController {
         restTemplate.getMessageConverters().add(0, new StringHttpMessageConverter(StandardCharsets.UTF_8));
 
         // n년치 데이터 불러오기
-        List<Map<String, String>> allItems = new ArrayList<>();
+        Set<Map<String, String>> allItems = new HashSet<>(); // 중복 방지를 위해 Set 사용
         LocalDate currentDate = LocalDate.now();
         LocalDate NYearAgo = currentDate.minusYears(1);
 
         // 실거래가 api 불러오기
         for (LocalDate date = NYearAgo; date.isBefore(currentDate) || date.isEqual(currentDate); date = date.plusMonths(1)) {
             String currentDealYmd = date.format(DateTimeFormatter.ofPattern("yyyyMM"));
+            int currentPageNo = 1;
+            boolean hasMoreData = true;
 
-            URI uri = UriComponentsBuilder.fromHttpUrl(API_BASE_URL)
-                    .queryParam("serviceKey", serviceKey)
-                    .queryParam("LAWD_CD", lawd_five)  // 여기서 생성된 5자리 lawd_five 사용
-                    .queryParam("DEAL_YMD", currentDealYmd)
-                    .queryParam("pageNo", pageNo)
-                    .queryParam("numOfRows", numOfRows)
-                    .build(true)
-                    .toUri();
+            while (hasMoreData) {
+                URI uri = UriComponentsBuilder.fromHttpUrl(API_BASE_URL)
+                        .queryParam("serviceKey", serviceKey)
+                        .queryParam("LAWD_CD", lawd_five)
+                        .queryParam("DEAL_YMD", currentDealYmd)
+                        .queryParam("pageNo", currentPageNo)
+                        .queryParam("numOfRows", numOfRows)
+                        .build(true)
+                        .toUri();
 
-            System.out.println("API 호출 URL: " + uri.toString());
+                System.out.println("API 호출 URL: " + uri.toString());
 
-            try {
-                ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
-                System.out.println("API 응답 상태 코드: " + response.getStatusCode());
+                try {
+                    ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
+                    System.out.println("API 응답 상태 코드: " + response.getStatusCode());
 
-                String xmlResponse = response.getBody();
-                List<Map<String, String>> items = parseXmlResponse(xmlResponse);
-                allItems.addAll(items);
+                    String xmlResponse = response.getBody();
+                    List<Map<String, String>> items = parseXmlResponse(xmlResponse);
 
-            } catch (Exception e) {
-                System.err.println("API 호출 중 오류 발생 (" + currentDealYmd + "): " + e.getMessage());
-                e.printStackTrace();
+                    if (items.isEmpty()) {
+                        hasMoreData = false;
+                    } else {
+                        allItems.addAll(items);
+                        currentPageNo++;
+                    }
+
+                } catch (Exception e) {
+                    System.err.println("API 호출 중 오류 발생 (" + currentDealYmd + ", 페이지: " + currentPageNo + "): " + e.getMessage());
+                    e.printStackTrace();
+                    hasMoreData = false; // 오류 발생 시 다음 월로 이동
+                }
             }
         }
 
-        // 최신순으로 정렬
-        allItems.sort((a, b) -> {
+// 최신순으로 정렬
+        List<Map<String, String>> sortedItems = new ArrayList<>(allItems);
+        sortedItems.sort((a, b) -> {
             String dateA = getDateString(a);
             String dateB = getDateString(b);
             return dateB.compareTo(dateA);
         });
 
-        // 모델에 데이터 추가
-        model.addAttribute("items", allItems); // 세션에 저장
+// 모델에 데이터 추가
+        model.addAttribute("items", sortedItems);
 
-        // 모델에 데이터 추가
+// 모델에 데이터 추가
         model.addAttribute("cityCode", cityCode);
         model.addAttribute("districtCode", districtCode);
         model.addAttribute("cityText", cityText);
         model.addAttribute("districtText", districtText);
-//        model.addAttribute("annualIncome", annualIncome);
 
         return "apt_list"; // Thymeleaf 템플릿 이름
     }
@@ -320,7 +328,7 @@ public class AptInfoController {
         // n년치 데이터 불러오기
         List<Map<String, String>> allItems = new ArrayList<>();
         LocalDate currentDate = LocalDate.now();
-        LocalDate NYearAgo = currentDate.minusYears(1);
+        LocalDate NYearAgo = currentDate.minusYears(5);
 
         // 실거래가 api 불러오기
         for (LocalDate date = NYearAgo; date.isBefore(currentDate) || date.isEqual(currentDate); date = date.plusMonths(1)) {
@@ -360,6 +368,8 @@ public class AptInfoController {
 
         // 모델에 데이터 추가
         model.addAttribute("items", allItems); // 세션에 저장
+        System.out.println("sortedItems.size: " + allItems.size());
+
 
         model.addAttribute("city", city);
         model.addAttribute("district", district);
