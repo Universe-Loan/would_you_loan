@@ -10,8 +10,12 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css" />
     <!-- 사용자 정의 CSS -->
     <link rel="stylesheet" href="/css/common.css">
+    <!--bootstrap icons-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMsWx9Kp3yYfRvH+8abtTE1Pi6jizoFj/6U24xg" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
             background-color: #f8f9fa;
@@ -108,7 +112,7 @@
         .apt-env-icon {
             width: 50px;
             height: 50px;
-            background: linear-gradient(135deg, #ff4081, #81d4fa);
+            /*background: linear-gradient(135deg, #ff4081, #81d4fa);*/
             border-radius: 20%;
             display: flex;
             justify-content: center;
@@ -118,7 +122,7 @@
 
         .apt-env-icon i {
             font-size: 30px;
-            color: white;
+            color: #006fe6;
         }
 
         .apt-env-item-title {
@@ -361,7 +365,15 @@
                 <!-- 아파트 상세 정보 -->
                 <div class="box apt-info">
                     <div class="apt-details text-center pb-4">
-                        <div class="my-2">아파트 | 매매 | 전용 <span id="squareMeters">235.31</span>m² (<span id="pyeong"></span>평)</div>
+                        <div class="my-2">아파트 | 매매
+                            <span>
+<!--                                <label for="excluUseArSelect" class="form-label">전용면적 종류</label>-->
+                                <select id="excluUseArSelect" class="form-select">
+                                    <option value="" selected>전용면적</option>
+                                </select>
+                            </span>
+                        </div>
+<!--                            전용 <span th:text="${basicInfo.kaptTarea}" id="squareMeters">235.31</span>m² (<span id="pyeong"></span>평)</div>-->
                         <div class="my-2">최고 <span th:text="${basicInfo.kaptTopFloor}"></span>층 | <span th:text="${basicInfo.kaptDongCnt}"></span>개 동 | <span th:text="${basicInfo.kaptdaCnt}"></span>세대</div>
                         <div class="my-2">전용 면적별 세대 현황<br>
                             60㎡ 이하 <span th:text="${basicInfo.kaptMparea_60}"></span> 세대 |
@@ -378,18 +390,18 @@
                                     이전 실거래가
                                     <span class="price-date">(2022.05.16)</span>
                                 </div>
-                                <div class="price-value" data-price="8350000000"></div>
+                                <div class="price-value" data-price="8350000000">8억 3천 5백만 원</div>
                             </div>
                             <div class="price-row">
                                 <div class="price-index">
                                     최근 실거래가
                                     <span class="price-date">(2024.09.30)</span>
                                 </div>
-                                <div class="price-value" data-price="10600000000"></div>
+                                <div class="price-value" data-price="10600000000">10억 6천만 원</div>
                             </div>
                             <div class="price-row">
                                 <div class="price-index">증가율</div>
-                                <div class="price-value" id="price-increase"></div>
+                                <div class="price-value" id="price-increase">26.71%</div>
                             </div>
                         </div>
                     </div>
@@ -414,7 +426,7 @@
                         <div class="row">
                             <div class="apt-env-card col-3">
                                 <div class="apt-env-icon">
-                                    <i class="bi bi-car-front-fill"></i>
+                                    <i class="bi bi-p-square-fill"></i>
                                 </div>
                                 <div class="apt-env-item">
                                     <div class="apt-env-item-title">주차 대수</div>
@@ -432,7 +444,7 @@
                             </div>
                             <div class="apt-env-card col-3">
                                 <div class="apt-env-icon">
-                                    <i class="bi bi-walking"></i>
+                                    <i class="bi bi-stopwatch-fill"></i>
                                 </div>
                                 <div class="apt-env-item">
                                     <div class="apt-env-item-title">지하철역과의 거리</div>
@@ -441,7 +453,7 @@
                             </div>
                             <div class="apt-env-card col-3">
                                 <div class="apt-env-icon">
-                                    <i class="bi bi-subway"></i>
+                                    <i class="fa-solid fa-train-subway"></i>
                                 </div>
                                 <div class="apt-env-item">
                                     <div class="apt-env-item-title">가까운 지하철</div>
@@ -455,7 +467,7 @@
                         <div class="row">
                             <div class="apt-env-card col-3">
                                 <div class="apt-env-icon">
-                                    <i class="bi bi-ev-station-fill"></i>
+                                    <i class="fa-solid fa-charging-station"></i>
                                 </div>
                                 <div class="apt-env-item">
                                     <div class="apt-env-item-title">전기차 충전</div>
@@ -467,7 +479,7 @@
                             </div>
                             <div class="apt-env-card col-3">
                                 <div class="apt-env-icon">
-                                    <i class="bi bi-shop"></i>
+                                    <i class="fa-solid fa-map-location-dot"></i>
                                 </div>
                                 <div class="apt-env-item">
                                     <div class="apt-env-item-title">편의시설</div>
@@ -476,7 +488,7 @@
                             </div>
                             <div class="apt-env-card col-3">
                                 <div class="apt-env-icon">
-                                    <i class="bi bi-book-half"></i>
+                                    <i class="fa-solid fa-school"></i>
                                 </div>
                                 <div class="apt-env-item">
                                     <div class="apt-env-item-title">가까운 학교</div>
@@ -485,7 +497,7 @@
                             </div>
                             <div class="apt-env-card col-3">
                                 <div class="apt-env-icon">
-                                    <i class="bi bi-building"></i>
+                                    <i class="fa-solid fa-dumbbell"></i>
                                 </div>
                                 <div class="apt-env-item">
                                     <div class="apt-env-item-title">부대시설</div>
@@ -1056,85 +1068,148 @@
         let myAptCurrentIndex = 0;
         const myAptItemsPerPage = 10;
 
-        function loadMoreLocalItems() {
-            const tableBody = document.getElementById('aptTableBody');
-            if (!tableBody) return;
+        // 셀렉트 박스 업데이트
+        const selectBox = document.getElementById('excluUseArSelect');
 
-            // 필터링된 항목 가져오기
-            let filteredItems = localItems.filter(item =>
-                item.sggCd.startsWith(lawdCode.slice(0, 5)) &&
-                item.umdCd.startsWith(lawdCode.slice(5, 10))
-            );
+        // 중복 제거 및 정렬된 결과 생성
+        const uniqueExcluUseArs = [...new Set(localItems.map(item => Math.floor(item.excluUseAr)))]
+            .sort((a, b) => a - b); // 오름차순 정렬
 
-            // 날짜 기준 최신순 정렬
-            filteredItems.sort((a, b) => {
-                const dateA = new Date(a.dealYear, a.dealMonth - 1, a.dealDay); // JS의 month는 0부터 시작
+        // 정렬된 값을 셀렉트 박스에 추가
+        uniqueExcluUseArs.forEach(value => {
+            const option = document.createElement('option');
+            option.value = value; // 실제 전송되는 값
+            option.textContent = value; // 사용자에게 보여지는 값
+            selectBox.appendChild(option);
+        });
+
+        // 공통: 날짜 기준 정렬 함수
+        function sortByDateDescending(items) {
+            return items.sort((a, b) => {
+                const dateA = new Date(a.dealYear, a.dealMonth - 1, a.dealDay);
                 const dateB = new Date(b.dealYear, b.dealMonth - 1, b.dealDay);
-                return dateB - dateA; // 최신순
+                return dateB - dateA;
             });
+        }
 
-            // 페이징 처리
-            const endIndex = Math.min(localCurrentIndex + localItemsPerPage, filteredItems.length);
+        // 공통: HTML 업데이트 함수
+        function updateTableBody(tableBody, items, startIndex, itemsPerPage) {
+            let count = 0;
 
-            for (let i = localCurrentIndex; i < endIndex; i++) {
-                const item = filteredItems[i];
+            while (count < itemsPerPage && startIndex < items.length) {
+                const item = items[startIndex];
                 const row = tableBody.insertRow();
                 row.innerHTML = `
             <td>${item.dealYear}년 ${item.dealMonth}월 ${item.dealDay}일</td>
-            <td>${item.aptNm}</td>
+            <td>${item.aptNm || ''}</td>
             <td>${convertToKorean(item.dealAmount)}</td>
             <td>${item.excluUseAr}m²</td>
             <td>${item.floor}층</td>
             <td>${item.buildYear}년</td>
         `;
+                count++;
+                startIndex++;
             }
 
-            localCurrentIndex = endIndex;
+            return startIndex;
+        }
 
-            // "더보기" 버튼 상태 업데이트
-            const loadMoreBtn = document.getElementById('loadMoreBtn');
+        // 공통: "더보기" 버튼 상태 업데이트
+        function updateLoadMoreButton(loadMoreBtn, currentIndex, totalItems) {
             if (loadMoreBtn) {
-                loadMoreBtn.style.display = localCurrentIndex >= filteredItems.length ? 'none' : 'block';
+                loadMoreBtn.style.display = currentIndex >= totalItems ? 'none' : 'block';
             }
         }
 
+        // 아파트 정보: 최근 거래 및 이전 거래 데이터
+        function updateRealEstatePrices(localItems, apartment) {
+            // 데이터 필터링 및 날짜 기준으로 최신순 정렬
+            const filteredItems = sortByDateDescending(
+                localItems.filter(item => item.aptNm === apartment)
+            );
+
+            const recentDeal = filteredItems[0];
+            const previousDeal = filteredItems[1];
+
+            // 값 설정
+            const recentAmount = recentDeal ? recentDeal.dealAmount : null;
+            const previousAmount = previousDeal ? previousDeal.dealAmount : null;
+
+            const recentDate = recentDeal
+                ? `${recentDeal.dealYear}.${String(recentDeal.dealMonth).padStart(2, '0')}.${String(recentDeal.dealDay).padStart(2, '0')}`
+                : "날짜 없음";
+
+            const previousDate = previousDeal
+                ? `${previousDeal.dealYear}.${String(previousDeal.dealMonth).padStart(2, '0')}.${String(previousDeal.dealDay).padStart(2, '0')}`
+                : "날짜 없음";
+
+            // 증가율 계산
+            let priceIncrease = "데이터 없음";
+            if (recentAmount && previousAmount) {
+                const increaseRate = ((recentAmount - previousAmount) / previousAmount) * 100;
+                priceIncrease = `${increaseRate.toFixed(2)}%`; // 소수점 2자리까지 표시
+            }
+
+            // HTML 요소 선택
+            const recentPriceElement = document.querySelector(".price-row:nth-child(2) .price-value");
+            const previousPriceElement = document.querySelector(".price-row:nth-child(1) .price-value");
+            const priceIncreaseElement = document.getElementById("price-increase");
+
+            // HTML 업데이트
+            if (recentPriceElement) {
+                recentPriceElement.textContent = recentAmount ? convertToKorean(recentAmount) : "데이터 없음";
+                recentPriceElement.setAttribute("data-price", recentAmount || "");
+                document.querySelector(".price-row:nth-child(2) .price-date").textContent = `(${recentDate})`;
+            }
+
+            if (previousPriceElement) {
+                previousPriceElement.textContent = previousAmount ? convertToKorean(previousAmount) : "데이터 없음";
+                previousPriceElement.setAttribute("data-price", previousAmount || "");
+                document.querySelector(".price-row:nth-child(1) .price-date").textContent = `(${previousDate})`;
+            }
+
+            if (priceIncreaseElement) {
+                priceIncreaseElement.textContent = priceIncrease;
+            }
+        }
+
+        // 예제 호출
+        updateRealEstatePrices(localItems, apartment);
+
+
+        // 아파트 단지 실거래 매매 내역
         function loadMoreMyAptItems() {
             const tableBody = document.getElementById('myAptTableBody');
             if (!tableBody) return;
 
-            // 현재 아파트 데이터 필터링 및 날짜 기준 최신순 정렬
-            const filteredItems = localItems
-                .filter(item => item.aptNm === apartment)
-                .sort((a, b) => {
-                    const dateA = new Date(a.dealYear, a.dealMonth - 1, a.dealDay); // JS에서 month는 0부터 시작
-                    const dateB = new Date(b.dealYear, b.dealMonth - 1, b.dealDay);
-                    return dateB - dateA; // 최신순 정렬
-                });
+            const filteredItems = sortByDateDescending(
+                localItems.filter(item => item.aptNm === apartment)
+            );
 
-            let count = 0;
+            myAptCurrentIndex = updateTableBody(tableBody, filteredItems, myAptCurrentIndex, myAptItemsPerPage);
 
-            // 페이징 처리
-            while (count < myAptItemsPerPage && myAptCurrentIndex < filteredItems.length) {
-                const item = filteredItems[myAptCurrentIndex];
-                const row = tableBody.insertRow();
-                const koreanPrice = convertToKorean(item.dealAmount);
-                row.innerHTML = `
-            <td>${item.dealYear}년 ${item.dealMonth}월 ${item.dealDay}일</td>
-            <td>${koreanPrice}</td>
-            <td>${item.excluUseAr}m²</td>
-            <td>${item.floor}층</td>
-            <td>${item.buildYear}년</td>
-        `;
-                count++;
-                myAptCurrentIndex++;
-            }
-
-            // "더보기" 버튼 상태 업데이트
             const loadMoreBtn = document.getElementById('loadMoreBtn2');
-            if (loadMoreBtn) {
-                loadMoreBtn.style.display = myAptCurrentIndex >= filteredItems.length ? 'none' : 'block';
-            }
+            updateLoadMoreButton(loadMoreBtn, myAptCurrentIndex, filteredItems.length);
         }
+
+        // 지역구 아파트 실거래 매매 내역
+        function loadMoreLocalItems() {
+            const tableBody = document.getElementById('aptTableBody');
+            if (!tableBody) return;
+
+            const filteredItems = sortByDateDescending(
+                localItems.filter(item =>
+                    item.sggCd.startsWith(lawdCode.slice(0, 5)) &&
+                    item.umdCd.startsWith(lawdCode.slice(5, 10))
+                )
+            );
+
+            localCurrentIndex = updateTableBody(tableBody, filteredItems, localCurrentIndex, localItemsPerPage);
+
+            const loadMoreBtn = document.getElementById('loadMoreBtn');
+            updateLoadMoreButton(loadMoreBtn, localCurrentIndex, filteredItems.length);
+        }
+
 
         function createApartmentPriceChart() {
             const ctx = document.getElementById('apartmentPriceChart');
