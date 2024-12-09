@@ -526,97 +526,97 @@
         </div>
 
         <!--대출 시뮬레이션 & LTV/DTI/DSR-->
-        <div class="row d-flex">
-            <!-- 대출 시뮬레이션 -->
-            <div class="col-8 d-flex flex-fill">
-                <div class="box loan-simulation small flex-fill d-flex flex-column justify-content-center align-items-center">
-                    <h5 class="mb-4 text-start w-100">대출 시뮬레이션</h5>
-                    <div class="row w-100">
-                        <div class="col-md-6">
-                            <div class="card flex-fill">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span class="fw-bold">총 필요 자금</span>
-                                    </div>
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span>실거래가</span>
-                                        <strong id="totalAmount" class="text-end"></strong>
-                                    </div>
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span>취득세</span>
-                                        <strong id="acquisitionTax" class="text-end"></strong>
-                                    </div>
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span>중개보수</span>
-                                        <strong id="brokerageFee" class="text-end"></strong>
-                                    </div>
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span>자본금</span>
-                                        <strong id="equity" class="text-primary text-end"></strong>
-                                    </div>
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span>대출금</span>
-                                        <strong id="loan" class="text-primary text-end"></strong>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card flex-fill">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span>대출 예상기간</span>
-                                        <select id="loanPeriod" class="form-select form-select-sm" style="width: auto;">
-                                            <option value="5">5년</option>
-                                            <option value="10" selected>10년</option>
-                                            <option value="15">15년</option>
-                                            <option value="20">20년</option>
-                                            <option value="25">25년</option>
-                                            <option value="30">30년</option>
-                                            <option value="35">35년</option>
-                                            <option value="40">40년</option>
-                                            <option value="45">45년</option>
-                                            <option value="50">50년</option>
-                                        </select>
-                                    </div>
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span>대출 예상비용</span>
-                                        <span id="monthlyPayment" class="text-primary text-end"></span>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <span>연간 예상비용</span>
-                                        <span id="annualPayment" class="text-primary text-end"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="slider-container mt-4">
-                        <div class="slider-wrapper">
-                            <input type="range" id="loanSlider" min="0" value="0" class="slider">
-                            <span id="midLabel" class="slider-label">50%</span>
-                        </div>
-                        <div class="slider-labels d-flex justify-content-between mt-2">
-                            <span>0%</span>
-                            <span>100%</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- LTV, DTI, DSR 그래프 -->
-            <div class="col-4 d-flex flex-column flex-fill">
-                <div class="box ratio-box mb-1 flex-fill d-flex flex-column justify-content-center align-items-center">
-                    <h6>LTV</h6>
-                    <canvas id="ltvChart" class="d-flex"></canvas>
-                </div>
-                <div class="box ratio-box mb-1 flex-fill d-flex flex-column justify-content-center align-items-center mt-3">
-                    <h6>DTI</h6>
-                </div>
-                <div class="box ratio-box flex-fill d-flex flex-column justify-content-center align-items-center mt-3">
-                    <h6>DSR(스트레스 DSR?)</h6>
-                </div>
-            </div>
-        </div>
+<!--        <div class="row d-flex">-->
+<!--            &lt;!&ndash; 대출 시뮬레이션 &ndash;&gt;-->
+<!--            <div class="col-8 d-flex flex-fill">-->
+<!--                <div class="box loan-simulation small flex-fill d-flex flex-column justify-content-center align-items-center">-->
+<!--                    <h5 class="mb-4 text-start w-100">대출 시뮬레이션</h5>-->
+<!--                    <div class="row w-100">-->
+<!--                        <div class="col-md-6">-->
+<!--                            <div class="card flex-fill">-->
+<!--                                <div class="card-body">-->
+<!--                                    <div class="d-flex justify-content-between mb-2">-->
+<!--                                        <span class="fw-bold">총 필요 자금</span>-->
+<!--                                    </div>-->
+<!--                                    <div class="d-flex justify-content-between mb-2">-->
+<!--                                        <span>실거래가</span>-->
+<!--                                        <strong id="totalAmount" class="text-end"></strong>-->
+<!--                                    </div>-->
+<!--                                    <div class="d-flex justify-content-between mb-2">-->
+<!--                                        <span>취득세</span>-->
+<!--                                        <strong id="acquisitionTax" class="text-end"></strong>-->
+<!--                                    </div>-->
+<!--                                    <div class="d-flex justify-content-between mb-2">-->
+<!--                                        <span>중개보수</span>-->
+<!--                                        <strong id="brokerageFee" class="text-end"></strong>-->
+<!--                                    </div>-->
+<!--                                    <div class="d-flex justify-content-between mb-2">-->
+<!--                                        <span>자본금</span>-->
+<!--                                        <strong id="equity" class="text-primary text-end"></strong>-->
+<!--                                    </div>-->
+<!--                                    <div class="d-flex justify-content-between mb-2">-->
+<!--                                        <span>대출금</span>-->
+<!--                                        <strong id="loan" class="text-primary text-end"></strong>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-md-6">-->
+<!--                            <div class="card flex-fill">-->
+<!--                                <div class="card-body">-->
+<!--                                    <div class="d-flex justify-content-between mb-2">-->
+<!--                                        <span>대출 예상기간</span>-->
+<!--                                        <select id="loanPeriod" class="form-select form-select-sm" style="width: auto;">-->
+<!--                                            <option value="5">5년</option>-->
+<!--                                            <option value="10" selected>10년</option>-->
+<!--                                            <option value="15">15년</option>-->
+<!--                                            <option value="20">20년</option>-->
+<!--                                            <option value="25">25년</option>-->
+<!--                                            <option value="30">30년</option>-->
+<!--                                            <option value="35">35년</option>-->
+<!--                                            <option value="40">40년</option>-->
+<!--                                            <option value="45">45년</option>-->
+<!--                                            <option value="50">50년</option>-->
+<!--                                        </select>-->
+<!--                                    </div>-->
+<!--                                    <div class="d-flex justify-content-between mb-2">-->
+<!--                                        <span>대출 예상비용</span>-->
+<!--                                        <span id="monthlyPayment" class="text-primary text-end"></span>-->
+<!--                                    </div>-->
+<!--                                    <div class="d-flex justify-content-between">-->
+<!--                                        <span>연간 예상비용</span>-->
+<!--                                        <span id="annualPayment" class="text-primary text-end"></span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="slider-container mt-4">-->
+<!--                        <div class="slider-wrapper">-->
+<!--                            <input type="range" id="loanSlider" min="0" value="0" class="slider">-->
+<!--                            <span id="midLabel" class="slider-label">50%</span>-->
+<!--                        </div>-->
+<!--                        <div class="slider-labels d-flex justify-content-between mt-2">-->
+<!--                            <span>0%</span>-->
+<!--                            <span>100%</span>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            &lt;!&ndash; LTV, DTI, DSR 그래프 &ndash;&gt;-->
+<!--            <div class="col-4 d-flex flex-column flex-fill">-->
+<!--                <div class="box ratio-box mb-1 flex-fill d-flex flex-column justify-content-center align-items-center">-->
+<!--                    <h6>LTV</h6>-->
+<!--                    <canvas id="ltvChart" class="d-flex"></canvas>-->
+<!--                </div>-->
+<!--                <div class="box ratio-box mb-1 flex-fill d-flex flex-column justify-content-center align-items-center mt-3">-->
+<!--                    <h6>DTI</h6>-->
+<!--                </div>-->
+<!--                <div class="box ratio-box flex-fill d-flex flex-column justify-content-center align-items-center mt-3">-->
+<!--                    <h6>DSR(스트레스 DSR?)</h6>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
 
         <!--지역구 아파트 실거래 정보-->
         <div class="row d-flex flex-fill">

@@ -28,8 +28,8 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("/login-extra", "/api/**", "/css/**", "/js/**", "/images/**", "/logout").permitAll()
-                        .anyRequest().permitAll()
+                            .requestMatchers("/loan-find/**", "/apt-find/**", "/market-analysis/**", "/my-loans/**").authenticated()
+                            .anyRequest().permitAll()
                 )
                 .oauth2Login(oauth -> oauth
                         .loginPage("/login")

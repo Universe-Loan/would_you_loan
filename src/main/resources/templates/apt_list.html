@@ -219,7 +219,7 @@
         closeButton.addEventListener('click', toggleConditions);
 
         // 초기값 설정
-        let annualIncome = 50000000; // 연소득은 DB에서 가져오는 것으로 수정해야함
+        let annualIncome = /*[[${annualIncome}]]*/ []; // 연소득은 DB에서 가져오는 것으로 수정해야함
         let loanTermYears = 20;
         let incomePercentage = 25;
 

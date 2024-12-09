@@ -1,7 +1,10 @@
 package com.woorifisa.wl.controller;
 
 import com.woorifisa.wl.model.dto.NewsArticleDto;
+import com.woorifisa.wl.model.entity.User;
+import com.woorifisa.wl.repository.UserRepository;
 import com.woorifisa.wl.service.ApartmentEvaluationService;
+import com.woorifisa.wl.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -47,11 +50,13 @@ public class AptInfoController {
     // 24.11.22 - regular
     private final ApartmentEvaluationService apartmentEvaluationService;
     private final RestTemplate restTemplate;
+    private final UserService userService;
 
     // 생성자 주입
-    public AptInfoController(ApartmentEvaluationService apartmentEvaluationService, RestTemplate restTemplate) {
+    public AptInfoController(ApartmentEvaluationService apartmentEvaluationService, RestTemplate restTemplate, UserRepository userRepository, UserService userService) {
         this.apartmentEvaluationService = apartmentEvaluationService;
         this.restTemplate = restTemplate;
+        this.userService = userService;
     }
 
     @GetMapping("/apt-find")
@@ -95,7 +100,16 @@ public class AptInfoController {
 //            @RequestParam(required = false) String annualIncome,
             @RequestParam(required = false, defaultValue = "1") int pageNo,
             @RequestParam(required = false, defaultValue = "10") int numOfRows,
-            Model model) {
+            Model model,
+            HttpSession session) {
+
+        // 세션에서 user_id 가져오기
+        Long userId = (Long) session.getAttribute("user_id");
+        if (userId != null) {
+            // UserRepository를 통해 사용자 정보 조회
+            User user = userService.findById(userId);
+            model.addAttribute("annualIncome", user.getAnnualIncome());
+        }
 
         // lawdCode 앞 5자리 lawd_five 생성
         String lawd_five = districtCode;
