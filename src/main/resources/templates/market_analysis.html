@@ -158,7 +158,11 @@
     .btn-custom {
         width: auto; /* 텍스트 길이에 따라 자동 조정 */
         padding: 10px 20px; /* 적절한 패딩 추가 */
-        border-radius: 10px;
+        font-size: 0.8rem; /* 버튼 크기를 작게 조정 */
+    }
+    .btn-sm {
+        font-size: 0.875rem; /* 버튼 크기를 작게 조정 */
+        line-height: 1.25; /* 텍스트와 버튼의 높이 정렬 */
     }
 
     .btn-check + label {
@@ -172,12 +176,6 @@
         background-color: #f1f1f1; /* 호버 시 배경색 */
         transition: background-color 0.3s ease-in-out; /* 부드러운 호버 효과 */
     }
-
-    .btn-sm {
-        font-size: 0.875rem; /* 버튼 크기를 작게 조정 */
-        line-height: 1.25; /* 텍스트와 버튼의 높이 정렬 */
-    }
-
 
     /* 로딩 아이콘 스타일 */
     .loading-icon {
@@ -762,9 +760,7 @@
                 const g = svg.append("g");
 
                 // 지도 투영 및 경로 생성
-                const projection = d3.geoMercator()
-                    .fitSize([width, height], data) // 데이터 전체를 캔버스에 맞게
-                    .translate([width / 2, height / 2]); // 중앙으로 위치
+                const projection = d3.geoMercator().fitSize([width, height], data);
                 const pathGenerator = d3.geoPath().projection(projection);
 
                 // 줌 설정
@@ -811,34 +807,55 @@
                             const [x1, y1] = bounds[0];
                             const [x2, y2] = bounds[1];
                             const offsetX = (x1 + x2) / 2;
-                            const offsetY = y1;
+                            const offsetY = y1 - 20; // 박스를 지역 위로 살짝 올림
+
+                            const padding = 10; // 패딩 설정
+                            const textBoxWidth = 100 + padding * 2; // 패딩을 추가한 너비
+                            const textBoxHeight = 50 + padding * 2; // 패딩을 추가한 높이
+
+                            const textBox = svg.append("rect")
+                                .attr("class", "hover-box")
+                                .attr("x", offsetX - textBoxWidth / 2) // 중앙 정렬
+                                .attr("y", offsetY - textBoxHeight / 2) // 텍스트와 아이콘 감싸기
+                                .attr("width", textBoxWidth)
+                                .attr("height", textBoxHeight)
+                                .attr("rx", 10) // 둥근 모서리
+                                .attr("ry", 10)
+                                .attr("fill", "white")
+                                .attr("stroke", "#ccc")
+                                .attr("stroke-width", 1)
+                                .attr("opacity", 0.9);
 
                             // 아이콘 추가 (날씨)
                             svg.append("text")
-                                .attr("class", "hover-text")
-                                .attr("x", offsetX * 1.2)
-                                .attr("y", offsetY + textConfig.fontSizeFactor * textConfig.iconOffsetY)
+                                .attr("class", "hover-text icon-text")
+                                .attr("x", offsetX) // 중앙 정렬
+                                .attr("y", offsetY - 10) // 텍스트 간격 조정
                                 .attr("text-anchor", "middle")
-                                .attr("font-size", textConfig.fontSizeFactor * textConfig.iconSizeMultiplier + "rem")
+                                .attr("font-size", "1.2rem")
                                 .attr("fill", "#000")
                                 .text(weather);
 
                             // 텍스트 추가 (지역명)
                             svg.append("text")
-                                .attr("class", "hover-text fw-bold")
-                                .attr("x", offsetX * 1.2)
-                                .attr("y", offsetY + textConfig.fontSizeFactor * textConfig.textOffsetY)
+                                .attr("class", "hover-text region-text")
+                                .attr("x", offsetX) // 중앙 정렬
+                                .attr("y", offsetY + 20) // 텍스트 간격 조정
                                 .attr("text-anchor", "middle")
-                                .attr("font-size", textConfig.fontSizeFactor * textConfig.textSizeMultiplier + "rem")
-                                .attr("fill", "#000")
+                                .attr("font-size", "0.9rem")
+                                .attr("fill", "#333")
                                 .text(regionName);
+
 
                             d3.select(this).attr("stroke", "black").attr("stroke-width", 1);
                         })
                         .on("mouseout", function () {
+                            // 박스와 텍스트 제거
+                            svg.selectAll(".hover-box").remove();
                             svg.selectAll(".hover-text").remove();
                             d3.select(this).attr("stroke", "white").attr("stroke-width", 0.5);
                         });
+
 
                     // 줌 및 이동 애니메이션
                     if (regionCode) {
@@ -899,7 +916,7 @@
                     .attr("checked", true);
 
                 radioGroup.append("label")
-                    .attr("class", "btn btn-outline-primary btn-sm btn-custom") // btn-sm 적용
+                    .attr("class", "btn btn-outline-primary btn-custom") // btn-sm 적용
                     .attr("for", "allRegions")
                     .html('<i class="fas fa-globe mx-2"></i> 전국')
                     .on("click", () => updateMap(""));
@@ -914,7 +931,7 @@
                         .attr("autocomplete", "off");
 
                     radioGroup.append("label")
-                        .attr("class", "btn btn-outline-primary btn-sm") // btn-sm 적용
+                        .attr("class", "btn btn-outline-primary btn-custom") // btn-sm 적용
                         .attr("for", region.code)
                         .html(`<i class="fas fa-map-marker-alt mx-2"></i> ${region.name}`)
                         .on("click", () => updateMap(region.code));
