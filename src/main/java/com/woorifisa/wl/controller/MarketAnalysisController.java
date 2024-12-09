@@ -51,25 +51,9 @@ public class MarketAnalysisController {
                               @RequestParam(defaultValue = "10") int size,
                               Model model) {
         // 기사
+        // 기존 로직 유지
         Page<NewsArticleDto> articlesPage = newsArticleService.getPaginatedArticles(page, size);
-        int totalPages = articlesPage.getTotalPages();
-        int currentPage = page;
-
-        // 페이지 번호 범위 계산 (7개씩 표시)
-        int pageRange = 7; // 보여줄 페이지 번호 개수
-        int startPage = Math.max(0, currentPage - pageRange / 2);
-        int endPage = Math.min(totalPages - 1, startPage + pageRange - 1);
-
-        // 시작 페이지 보정
-        if ((endPage - startPage) < (pageRange - 1)) {
-            startPage = Math.max(0, endPage - pageRange + 1);
-        }
-
-        model.addAttribute("articles", articlesPage.getContent()); // 현재 페이지 데이터
-        model.addAttribute("currentPage", currentPage); // 현재 페이지
-        model.addAttribute("totalPages", totalPages); // 총 페이지 수
-        model.addAttribute("startPage", startPage); // 시작 페이지 번호
-        model.addAttribute("endPage", endPage); // 끝 페이지 번호
+        setPaginationAttributes(model, articlesPage, page);
 
 
         // 지표3
@@ -282,6 +266,54 @@ public class MarketAnalysisController {
         }
 
         return "market_analysis";
+    }
+
+    // Ajax 요청을 처리할 새로운 엔드포인트
+    @GetMapping("/api/articles")
+    @ResponseBody
+    public Map<String, Object> getArticlesJson(@RequestParam(defaultValue = "0") int page,
+                                               @RequestParam(defaultValue = "10") int size) {
+        Page<NewsArticleDto> articlesPage = newsArticleService.getPaginatedArticles(page, size);
+        return createPaginationResponse(articlesPage, page);
+    }
+
+    // 페이지네이션 속성 설정 헬퍼 메소드
+    private void setPaginationAttributes(Model model, Page<NewsArticleDto> articlesPage, int currentPage) {
+        int totalPages = articlesPage.getTotalPages();
+        int pageRange = 7;
+        int startPage = Math.max(0, currentPage - pageRange / 2);
+        int endPage = Math.min(totalPages - 1, startPage + pageRange - 1);
+
+        if ((endPage - startPage) < (pageRange - 1)) {
+            startPage = Math.max(0, endPage - pageRange + 1);
+        }
+
+        model.addAttribute("articles", articlesPage.getContent());
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+    }
+
+    // JSON 응답 생성 헬퍼 메소드
+    private Map<String, Object> createPaginationResponse(Page<NewsArticleDto> articlesPage, int currentPage) {
+        int totalPages = articlesPage.getTotalPages();
+        int pageRange = 7;
+        int startPage = Math.max(0, currentPage - pageRange / 2);
+        int endPage = Math.min(totalPages - 1, startPage + pageRange - 1);
+
+        if ((endPage - startPage) < (pageRange - 1)) {
+            startPage = Math.max(0, endPage - pageRange + 1);
+        }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("articles", articlesPage.getContent());
+        response.put("currentPage", currentPage);
+        response.put("totalPages", totalPages);
+        response.put("startPage", startPage);
+        response.put("endPage", endPage);
+
+        return response;
     }
 
 
