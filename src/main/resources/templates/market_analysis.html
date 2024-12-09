@@ -99,41 +99,65 @@
     /* 플로팅 버튼 */
     #chat-floating-button {
         position: fixed;
-        bottom: 20px;
-        right: 20px;
+        bottom: 5%;
+        right: 5%;
+        transition: transform 0.2s ease, box-shadow 0.2s ease; /* 부드러운 전환 */
         z-index: 1000;
     }
 
     .chat-button {
         width: 60px;
         height: 60px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+        0%, 100% {
+            transform: scale(1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        50% {
+            transform: scale(1.1);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
     }
 
     /* 채팅창 */
     .chat-container {
-        display: none;
+        visibility: hidden; /* 처음에는 숨김 */
+        opacity: 0; /* 투명도 0 */
+        transition: visibility 0s, opacity 0.3s ease; /* 부드러운 전환 */
+        display: flex;
         position: fixed;
         bottom: 80px;
         right: 20px;
         z-index: 1000;
         width: 600px;
+        height: 80vh;
         max-height: 800px;
         border: 1px solid #dee2e6;
         border-radius: 10px;
         background-color: white;
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        flex-direction: column;
+    }
+
+    .chat-container.active {
+        visibility: visible;
+        opacity: 1; /* 컨테이너를 보이게 설정 */
     }
 
     .chat-header {
         padding: 10px;
         border-bottom: 1px solid #dee2e6;
         background-color: #f8f9fa;
+        flex-shrink: 0;
     }
 
     .chat-messages {
         padding: 10px;
         overflow-y: auto;
-        height: 600px;
+        flex: 1 ;
     }
 
     .chat-footer {
@@ -141,6 +165,7 @@
         border-top: 1px solid #dee2e6;
         display: flex;
         gap: 10px;
+        flex-shrink: 0;
     }
 
     .chat-footer .form-control {
@@ -161,7 +186,7 @@
         font-size: 0.8rem; /* 버튼 크기를 작게 조정 */
     }
     .btn-sm {
-        font-size: 0.875rem; /* 버튼 크기를 작게 조정 */
+        font-size: 0.8rem; /* 버튼 크기를 작게 조정 */
         line-height: 1.25; /* 텍스트와 버튼의 높이 정렬 */
     }
 
@@ -291,6 +316,25 @@
                     <div class="container">
                         <div class="row d-flex flex-wrap justify-content-center">
                             <div id="buttonContainer" class="col-md-3">
+                                <div class="card border-primary text-center shadow-sm mb-3">
+                                    <div class="card-header fw-bold bg-primary text-white" style="font-size: 0.8rem">
+                                        아파트 매매 가격지수 변동률 기준
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <span class="badge" style="background-color: #ffd700;">
+                                                    0 이상 = ☀️
+                                                </span>
+                                            </div>
+                                            <div class="col-6">
+                                                <span class="badge" style="background-color: #87ceeb;">
+                                                    0 미만 = ☁️
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <!-- 지역 버튼들이 여기에 생성됩니다 -->
                             </div>
                             <div class="col-md-9">
@@ -386,14 +430,22 @@
         const sendButton = document.getElementById("send-button");
         const chatMessages = document.getElementById("chat-messages");
 
+        // 초기 안내 메시지 추가
+        addMessage("bot", "<span><i class=\"bi bi-robot\"></i></span> 안녕하세요, 저는 부동산 관련 기사를 추천해드리는 AI에요! <span><i class=\"bi bi-robot\"></i></span><br>" +
+            "제가 잘 모르는 내용이라도 인터넷 검색을 통해 최선을 다해 알려드릴게요!");
+
         // 플로팅 버튼 클릭 시 채팅창 토글
         floatingButton.addEventListener("click", () => {
-            chatContainer.style.display = chatContainer.style.display === "none" ? "block" : "none";
+            if (chatContainer.classList.contains("active")) {
+                chatContainer.classList.remove("active");
+            } else {
+                chatContainer.classList.add("active");
+            }
         });
 
         // 닫기 버튼 클릭 시 채팅창 숨기기
         closeChatButton.addEventListener("click", () => {
-            chatContainer.style.display = "none";
+            chatContainer.classList.remove("active");
         });
 
         // 메시지 전송 함수
@@ -454,20 +506,34 @@
         // 메시지를 추가하는 함수
         function addMessage(sender, message) {
             const messageBubble = document.createElement("div");
-            messageBubble.style.marginBottom = "10px";
-            messageBubble.style.padding = "10px";
-            messageBubble.style.borderRadius = "10px";
+            const bubbleContainer = document.createElement("div");
+            bubbleContainer.style.display = "flex";
+            bubbleContainer.style.marginBottom = "10px";
+            bubbleContainer.style.alignItems = "flex-start";
+            bubbleContainer.style.width = "100%";
+
+            messageBubble.style.padding = "12px 16px";
+            messageBubble.style.borderRadius = "15px";
+            messageBubble.style.maxWidth = "90%";
+            messageBubble.style.wordWrap = "break-word";
+            messageBubble.style.fontSize = "14px";
+            messageBubble.style.lineHeight = "1.4";
+            messageBubble.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
+            messageBubble.style.margin = sender === "user" ? "0 0 0 auto" : "0 auto 0 0";
 
             if (sender === "user") {
-                messageBubble.style.backgroundColor = "#d1ecf1";
-                messageBubble.style.alignSelf = "flex-end";
+                messageBubble.style.backgroundColor = "#007bff";
+                messageBubble.style.color = "white";
+                bubbleContainer.style.justifyContent = "flex-end";
             } else {
-                messageBubble.style.backgroundColor = "#f8f9fa";
-                messageBubble.style.alignSelf = "flex-start";
+                messageBubble.style.backgroundColor = "#f1f1f1";
+                messageBubble.style.color = "#333";
+                bubbleContainer.style.justifyContent = "flex-start";
             }
 
             messageBubble.innerHTML = message;
-            chatMessages.appendChild(messageBubble);
+            bubbleContainer.appendChild(messageBubble);
+            chatMessages.appendChild(bubbleContainer);
             chatMessages.scrollTop = chatMessages.scrollHeight; // 스크롤을 최신 메시지로 이동
             return messageBubble; // 메시지 엘리먼트 반환
         }
