@@ -628,6 +628,7 @@ public class AptInfoController {
             if (item != null) {
                 basicInfoMap.put("kaptCode", getTextContent(item, "kaptCode"));
                 basicInfoMap.put("kaptName", getTextContent(item, "kaptName"));
+                basicInfoMap.put("kaptTarea", getTextContent(item, "kaptTarea"));
                 basicInfoMap.put("kaptDongCnt", getTextContent(item, "kaptDongCnt"));
                 basicInfoMap.put("kaptdaCnt", getTextContent(item, "kaptdaCnt"));
                 basicInfoMap.put("kaptTopFloor", getTextContent(item, "kaptTopFloor"));
@@ -635,6 +636,8 @@ public class AptInfoController {
                 basicInfoMap.put("kaptMparea_85", getTextContent(item, "kaptMparea_85"));
                 basicInfoMap.put("kaptMparea_135", getTextContent(item, "kaptMparea_135"));
                 basicInfoMap.put("kaptMparea_136", getTextContent(item, "kaptMparea_136"));
+                basicInfoMap.put("privArea", getTextContent(item, "privArea"));
+
                 // 필요한 다른 정보들도 추가
             }
         } catch (Exception e) {
