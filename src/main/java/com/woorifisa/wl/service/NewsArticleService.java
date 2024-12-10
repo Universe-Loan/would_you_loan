@@ -22,8 +22,8 @@ public class NewsArticleService {
 
     public Page<NewsArticleDto> getPaginatedArticles(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-//        return newsArticleRepository.findAll(pageable).map(this::convertToDto);
-        return newsArticleRepository.findAllBySentimentNot("중립", pageable).map(this::convertToDto);
+        return newsArticleRepository.findAll(pageable).map(this::convertToDto);
+//        return newsArticleRepository.findAllBySentimentNot("중립", pageable).map(this::convertToDto);
     }
 
     // 엔티티를 DTO로 변환
