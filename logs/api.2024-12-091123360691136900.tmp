@@ -1,0 +1,1167 @@
+2024-12-09 10:12:40.522 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 20124 (C:\ITStudy\private\FINAL\would_you_loan\target\classes started by eunhyea in C:\ITStudy\private\FINAL\would_you_loan)
+2024-12-09 10:12:40.527 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-09 10:12:40.615 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-12-09 10:12:40.616 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-12-09 10:12:42.412 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-09 10:12:42.580 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 152 ms. Found 10 JPA repository interfaces.
+2024-12-09 10:12:43.900 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-09 10:12:43.921 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-09 10:12:43.923 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-09 10:12:43.924 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-09 10:12:44.032 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-09 10:12:44.032 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3415 ms
+2024-12-09 10:12:44.642 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-09 10:12:44.777 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.10.Final
+2024-12-09 10:12:45.230 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-09 10:12:45.790 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-09 10:12:45.833 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-09 10:12:46.567 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@13649d4b
+2024-12-09 10:12:46.570 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-12-09 10:12:48.607 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-09 10:12:48.761 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 10:12:49.520 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-12-09 10:12:52.026 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@5f1d9a79, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@352c25b, org.springframework.security.web.context.SecurityContextHolderFilter@7cc25fd1, com.woorifisa.wl.filter.AddInfoCheckFilter@48d03ed5, org.springframework.security.web.header.HeaderWriterFilter@4dba18b3, org.springframework.security.web.authentication.logout.LogoutFilter@cf41aa5, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@784c11c8, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@54e81183, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@60aa3739, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@2bd53d54, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6b031eac, org.springframework.security.web.access.ExceptionTranslationFilter@5412f962, org.springframework.security.web.access.intercept.AuthorizationFilter@517b644d]
+2024-12-09 10:12:53.087 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-09 10:12:53.203 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-09 10:12:53.283 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-09 10:12:53.305 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-09 10:12:53.318 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 14.247 seconds (process running for 17.291)
+2024-12-09 10:12:53.459 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-09 10:12:53.460 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-12-09 10:12:53.465 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2024-12-09 14:55:38.318 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 14:55:38.323 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-12-09 14:55:38.383 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-12-09 14:55:44.264 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 20616 (C:\ITStudy\private\FINAL\would_you_loan\target\classes started by eunhyea in C:\ITStudy\private\FINAL\would_you_loan)
+2024-12-09 14:55:44.269 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-09 14:55:44.328 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-12-09 14:55:44.328 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-12-09 14:55:45.739 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-09 14:55:45.856 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 107 ms. Found 10 JPA repository interfaces.
+2024-12-09 14:55:46.956 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-09 14:55:46.975 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-09 14:55:46.978 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-09 14:55:46.979 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-09 14:55:47.050 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-09 14:55:47.051 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2722 ms
+2024-12-09 14:55:47.493 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-09 14:55:47.566 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.10.Final
+2024-12-09 14:55:47.607 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-09 14:55:47.912 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-09 14:55:47.952 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-09 14:55:48.419 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1b94433f
+2024-12-09 14:55:48.422 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-12-09 14:55:49.873 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-09 14:55:49.964 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 14:55:50.514 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-12-09 14:55:52.590 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@12681975, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@782e1aae, org.springframework.security.web.context.SecurityContextHolderFilter@d899620, com.woorifisa.wl.filter.AddInfoCheckFilter@1f2875ca, org.springframework.security.web.header.HeaderWriterFilter@9f0fa59, org.springframework.security.web.authentication.logout.LogoutFilter@60334ab1, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@392871e8, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@7b11b10a, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6bddff73, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@11f3b0bb, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1ddb25a1, org.springframework.security.web.access.ExceptionTranslationFilter@3cd608be, org.springframework.security.web.access.intercept.AuthorizationFilter@5c981a2e]
+2024-12-09 14:55:53.624 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-09 14:55:53.729 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-09 14:55:53.816 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-09 14:55:53.845 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-09 14:55:53.864 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 10.607 seconds (process running for 11.946)
+2024-12-09 14:55:54.245 [RMI TCP Connection(4)-192.168.0.48] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-09 14:55:54.245 [RMI TCP Connection(4)-192.168.0.48] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-12-09 14:55:54.247 [RMI TCP Connection(4)-192.168.0.48] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2024-12-09 15:35:27.089 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 69 class path changes (0 additions, 67 deletions, 2 modifications)
+2024-12-09 15:35:27.096 [Thread-7] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2024-12-09 15:35:27.131 [Thread-7] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 15:35:27.138 [Thread-7] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-12-09 15:35:30.156 [Thread-7] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-12-09 15:35:30.369 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 20616 (C:\ITStudy\private\FINAL\would_you_loan\target\classes started by eunhyea in C:\ITStudy\private\FINAL\would_you_loan)
+2024-12-09 15:35:30.369 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-09 15:35:31.091 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-09 15:35:31.093 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
+2024-12-09 15:35:31.545 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-09 15:35:31.549 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-09 15:35:31.550 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-09 15:35:31.550 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-09 15:35:31.599 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-09 15:35:31.599 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1224 ms
+2024-12-09 15:35:31.905 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-09 15:35:31.911 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-09 15:35:31.921 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-09 15:35:31.923 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+2024-12-09 15:35:35.391 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-2 - Added connection com.mysql.cj.jdbc.ConnectionImpl@340f18a1
+2024-12-09 15:35:35.392 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+2024-12-09 15:35:35.627 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-09 15:35:43.415 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 15:35:45.455 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2f1a0e8b, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3fcba71, org.springframework.security.web.context.SecurityContextHolderFilter@3a4d37c, org.springframework.security.web.header.HeaderWriterFilter@72157a47, org.springframework.security.web.csrf.CsrfFilter@16d3a566, org.springframework.security.web.authentication.logout.LogoutFilter@6c8c6bc8, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@7cd42b7c, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@5674106, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@ef459cf, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@274a08b0, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@29d0b5f4, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@57990a7e, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@21d7d21e, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7e3873e0, org.springframework.security.oauth2.client.web.OAuth2AuthorizationCodeGrantFilter@7957bf2, org.springframework.security.web.access.ExceptionTranslationFilter@6df0c08e, org.springframework.security.web.access.intercept.AuthorizationFilter@57dde12a]
+2024-12-09 15:35:45.538 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-09 15:35:45.590 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-09 15:35:45.614 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-09 15:35:45.618 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-09 15:35:45.627 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 15.366 seconds (process running for 2403.708)
+2024-12-09 15:35:45.631 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation delta:
+
+
+==========================
+CONDITION EVALUATION DELTA
+==========================
+
+
+Positive matches:
+-----------------
+
+   OAuth2WebSecurityConfiguration.OAuth2SecurityFilterChainConfiguration matched:
+      - AllNestedConditions 2 matched 0 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) did not find any beans; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+
+Negative matches:
+-----------------
+
+    None
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    None
+
+
+
+2024-12-09 15:35:47.067 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 67 class path changes (67 additions, 0 deletions, 0 modifications)
+2024-12-09 15:35:47.069 [Thread-9] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2024-12-09 15:35:47.088 [Thread-9] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 15:35:47.090 [Thread-9] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+2024-12-09 15:35:51.569 [Thread-9] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+2024-12-09 15:35:51.686 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 20616 (C:\ITStudy\private\FINAL\would_you_loan\target\classes started by eunhyea in C:\ITStudy\private\FINAL\would_you_loan)
+2024-12-09 15:35:51.686 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-09 15:35:52.156 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-09 15:35:52.203 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 46 ms. Found 10 JPA repository interfaces.
+2024-12-09 15:35:52.410 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-09 15:35:52.411 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-09 15:35:52.412 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-09 15:35:52.412 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-09 15:35:52.436 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-09 15:35:52.436 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 748 ms
+2024-12-09 15:35:52.579 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-09 15:35:52.582 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-09 15:35:52.588 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-09 15:35:52.589 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Starting...
+2024-12-09 15:36:15.237 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-3 - Added connection com.mysql.cj.jdbc.ConnectionImpl@61e0f9a0
+2024-12-09 15:36:15.237 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Start completed.
+2024-12-09 15:36:15.702 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-09 15:36:17.682 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 15:36:18.235 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4ab32862, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3d102b85, org.springframework.security.web.context.SecurityContextHolderFilter@6fef1d9c, com.woorifisa.wl.filter.AddInfoCheckFilter@1c801bd7, org.springframework.security.web.header.HeaderWriterFilter@4f74e4bc, org.springframework.security.web.authentication.logout.LogoutFilter@5b48c24e, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@2a931312, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@3259d4d4, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@20dd563c, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@65d1717f, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5d9ac88a, org.springframework.security.web.access.ExceptionTranslationFilter@2b4d9f26, org.springframework.security.web.access.intercept.AuthorizationFilter@316dc8d0]
+2024-12-09 15:36:18.655 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-09 15:36:18.695 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-09 15:36:18.721 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-09 15:36:18.725 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-09 15:36:18.732 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 27.089 seconds (process running for 2436.813)
+2024-12-09 15:36:18.736 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation delta:
+
+
+==========================
+CONDITION EVALUATION DELTA
+==========================
+
+
+Positive matches:
+-----------------
+
+    None
+
+
+Negative matches:
+-----------------
+
+   OAuth2WebSecurityConfiguration.OAuth2SecurityFilterChainConfiguration:
+      Did not match:
+         - AllNestedConditions 1 matched 1 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) found beans of type 'org.springframework.security.web.SecurityFilterChain' securityFilterChain; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    None
+
+
+
+2024-12-09 15:40:37.677 [http-nio-8080-exec-3] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-09 15:40:37.677 [http-nio-8080-exec-3] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-12-09 15:40:37.679 [http-nio-8080-exec-3] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2024-12-09 16:40:04.045 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 4 class path changes (0 additions, 3 deletions, 1 modification)
+2024-12-09 16:40:04.142 [Thread-15] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2024-12-09 16:40:04.206 [Thread-15] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 16:40:04.208 [Thread-15] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown initiated...
+2024-12-09 16:40:11.304 [Thread-15] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown completed.
+2024-12-09 16:40:11.565 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 20616 (C:\ITStudy\private\FINAL\would_you_loan\target\classes started by eunhyea in C:\ITStudy\private\FINAL\would_you_loan)
+2024-12-09 16:40:11.565 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-09 16:40:12.394 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-09 16:40:12.459 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 65 ms. Found 10 JPA repository interfaces.
+2024-12-09 16:40:12.859 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-09 16:40:12.861 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-09 16:40:12.861 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-09 16:40:12.861 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-09 16:40:12.897 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-09 16:40:12.897 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1326 ms
+2024-12-09 16:40:13.214 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-09 16:40:13.219 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-09 16:40:13.228 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-09 16:40:13.230 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Starting...
+2024-12-09 16:40:17.901 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-4 - Added connection com.mysql.cj.jdbc.ConnectionImpl@48e4d8c7
+2024-12-09 16:40:17.901 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Start completed.
+2024-12-09 16:40:18.434 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-09 16:40:20.838 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 16:40:22.306 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@6f29a23, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@837185d, org.springframework.security.web.context.SecurityContextHolderFilter@66ebe287, org.springframework.security.web.header.HeaderWriterFilter@3ab465a6, org.springframework.security.web.csrf.CsrfFilter@6f7a7728, org.springframework.security.web.authentication.logout.LogoutFilter@4ecbe76c, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@7ceac95c, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@7806f44, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@8f01994, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@362ad52d, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@15bb9337, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5f9438ec, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@2a7d8dcd, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@76af918e, org.springframework.security.oauth2.client.web.OAuth2AuthorizationCodeGrantFilter@2ec401e9, org.springframework.security.web.access.ExceptionTranslationFilter@47e8bc4c, org.springframework.security.web.access.intercept.AuthorizationFilter@124f99e1]
+2024-12-09 16:40:22.355 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-09 16:40:22.411 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-09 16:40:22.443 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-09 16:40:22.446 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-09 16:40:22.454 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 11.015 seconds (process running for 6280.536)
+2024-12-09 16:40:22.458 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation delta:
+
+
+==========================
+CONDITION EVALUATION DELTA
+==========================
+
+
+Positive matches:
+-----------------
+
+   OAuth2WebSecurityConfiguration.OAuth2SecurityFilterChainConfiguration matched:
+      - AllNestedConditions 2 matched 0 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) did not find any beans; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+
+Negative matches:
+-----------------
+
+    None
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    None
+
+
+
+2024-12-09 16:40:23.890 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 5 class path changes (3 additions, 0 deletions, 2 modifications)
+2024-12-09 16:40:23.892 [Thread-21] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2024-12-09 16:40:23.914 [Thread-21] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 16:40:23.914 [Thread-21] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown initiated...
+2024-12-09 16:40:34.172 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 3036 (C:\ITStudy\private\FINAL\would_you_loan\target\classes started by eunhyea in C:\ITStudy\private\FINAL\would_you_loan)
+2024-12-09 16:40:34.175 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-09 16:40:34.232 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-12-09 16:40:34.232 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-12-09 16:40:36.025 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-09 16:40:36.190 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 151 ms. Found 10 JPA repository interfaces.
+2024-12-09 16:40:37.678 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-09 16:40:37.696 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-09 16:40:37.698 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-09 16:40:37.698 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-09 16:40:37.793 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-09 16:40:37.793 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3560 ms
+2024-12-09 16:40:38.210 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-09 16:40:38.298 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.10.Final
+2024-12-09 16:40:38.347 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-09 16:40:38.685 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-09 16:40:38.722 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-09 16:40:42.252 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4e673366
+2024-12-09 16:40:42.256 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-12-09 16:40:44.556 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-09 16:40:46.907 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 16:40:47.444 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-12-09 16:40:50.068 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-09 16:40:50.233 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@396a2f96, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4069189c, org.springframework.security.web.context.SecurityContextHolderFilter@328d1115, com.woorifisa.wl.filter.AddInfoCheckFilter@705f7f9b, org.springframework.security.web.header.HeaderWriterFilter@640742c9, org.springframework.security.web.authentication.logout.LogoutFilter@22eee3cb, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@601256c9, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@71d9249, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@43892e71, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4640be16, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@60b5afdf, org.springframework.security.web.access.ExceptionTranslationFilter@6f484ea9, org.springframework.security.web.access.intercept.AuthorizationFilter@6a505a11]
+2024-12-09 16:40:50.805 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-09 16:40:50.903 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-09 16:40:50.928 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-09 16:40:50.942 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 17.641 seconds (process running for 18.909)
+2024-12-09 16:40:51.245 [RMI TCP Connection(5)-192.168.10.159] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-09 16:40:51.245 [RMI TCP Connection(5)-192.168.10.159] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-12-09 16:40:51.248 [RMI TCP Connection(5)-192.168.10.159] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2024-12-09 17:38:52.715 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 5 class path changes (0 additions, 3 deletions, 2 modifications)
+2024-12-09 17:38:52.728 [Thread-7] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2024-12-09 17:38:52.762 [Thread-7] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 17:38:52.770 [Thread-7] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-12-09 17:38:52.884 [Thread-7] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-12-09 17:38:53.128 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 3036 (C:\ITStudy\private\FINAL\would_you_loan\target\classes started by eunhyea in C:\ITStudy\private\FINAL\would_you_loan)
+2024-12-09 17:38:53.128 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-09 17:38:53.774 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-09 17:38:53.822 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 47 ms. Found 10 JPA repository interfaces.
+2024-12-09 17:38:54.151 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-09 17:38:54.154 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-09 17:38:54.155 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-09 17:38:54.155 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-09 17:38:54.200 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-09 17:38:54.201 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1067 ms
+2024-12-09 17:38:54.577 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-09 17:38:54.584 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-09 17:38:54.593 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-09 17:38:54.596 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+2024-12-09 17:38:54.734 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-2 - Added connection com.mysql.cj.jdbc.ConnectionImpl@429fe8b5
+2024-12-09 17:38:54.734 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+2024-12-09 17:38:55.154 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-09 17:38:55.228 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 17:38:56.629 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@29eee64e, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7a35fca2, org.springframework.security.web.context.SecurityContextHolderFilter@172492d3, org.springframework.security.web.header.HeaderWriterFilter@29cfc363, org.springframework.security.web.csrf.CsrfFilter@3a9df90a, org.springframework.security.web.authentication.logout.LogoutFilter@2703ffd4, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@5c922a30, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@42391a25, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@5b4b6bea, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@1d9c8a49, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@60d1d304, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@16ac28f6, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@2ba05460, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@70cc00de, org.springframework.security.oauth2.client.web.OAuth2AuthorizationCodeGrantFilter@66b6b7d6, org.springframework.security.web.access.ExceptionTranslationFilter@6b5be864, org.springframework.security.web.access.intercept.AuthorizationFilter@2b48e658]
+2024-12-09 17:38:56.683 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-09 17:38:56.734 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-09 17:38:56.765 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-09 17:38:56.769 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-09 17:38:56.777 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 3.766 seconds (process running for 3504.745)
+2024-12-09 17:38:56.784 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation delta:
+
+
+==========================
+CONDITION EVALUATION DELTA
+==========================
+
+
+Positive matches:
+-----------------
+
+   OAuth2WebSecurityConfiguration.OAuth2SecurityFilterChainConfiguration matched:
+      - AllNestedConditions 2 matched 0 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) did not find any beans; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+
+Negative matches:
+-----------------
+
+    None
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    None
+
+
+
+2024-12-09 17:38:58.655 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 3 class path changes (3 additions, 0 deletions, 0 modifications)
+2024-12-09 17:38:58.657 [Thread-9] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2024-12-09 17:38:58.681 [Thread-9] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 17:38:58.683 [Thread-9] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+2024-12-09 17:39:02.430 [Thread-9] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+2024-12-09 17:39:02.563 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 3036 (C:\ITStudy\private\FINAL\would_you_loan\target\classes started by eunhyea in C:\ITStudy\private\FINAL\would_you_loan)
+2024-12-09 17:39:02.564 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-09 17:39:02.978 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-09 17:39:03.013 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 35 ms. Found 10 JPA repository interfaces.
+2024-12-09 17:39:03.270 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-09 17:39:03.271 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-09 17:39:03.271 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-09 17:39:03.271 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-09 17:39:03.307 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-09 17:39:03.307 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 741 ms
+2024-12-09 17:39:03.457 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-09 17:39:03.460 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-09 17:39:03.466 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-09 17:39:03.467 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Starting...
+2024-12-09 17:39:03.656 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-3 - Added connection com.mysql.cj.jdbc.ConnectionImpl@66a09ccc
+2024-12-09 17:39:03.657 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Start completed.
+2024-12-09 17:39:03.844 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-09 17:39:03.914 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 17:39:04.385 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@5cb1c161, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@64233a0c, org.springframework.security.web.context.SecurityContextHolderFilter@7eacf545, com.woorifisa.wl.filter.AddInfoCheckFilter@5fcaecf8, org.springframework.security.web.header.HeaderWriterFilter@38e2d1c, org.springframework.security.web.authentication.logout.LogoutFilter@499db982, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@7dacf99c, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@5b3d78c9, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@71592834, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3990c91, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@accbdab, org.springframework.security.web.access.ExceptionTranslationFilter@643ac48e, org.springframework.security.web.access.intercept.AuthorizationFilter@3cfe8b13]
+2024-12-09 17:39:04.776 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-09 17:39:04.828 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-09 17:39:04.849 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-09 17:39:04.854 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-09 17:39:04.859 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 2.335 seconds (process running for 3512.827)
+2024-12-09 17:39:04.862 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation delta:
+
+
+==========================
+CONDITION EVALUATION DELTA
+==========================
+
+
+Positive matches:
+-----------------
+
+    None
+
+
+Negative matches:
+-----------------
+
+   OAuth2WebSecurityConfiguration.OAuth2SecurityFilterChainConfiguration:
+      Did not match:
+         - AllNestedConditions 1 matched 1 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) found beans of type 'org.springframework.security.web.SecurityFilterChain' securityFilterChain; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    None
+
+
+
+2024-12-09 17:41:31.686 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 1 deletion, 0 modifications)
+2024-12-09 17:41:31.688 [Thread-15] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2024-12-09 17:41:31.708 [Thread-15] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 17:41:31.709 [Thread-15] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown initiated...
+2024-12-09 17:41:31.927 [Thread-15] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown completed.
+2024-12-09 17:41:32.073 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 3036 (C:\ITStudy\private\FINAL\would_you_loan\target\classes started by eunhyea in C:\ITStudy\private\FINAL\would_you_loan)
+2024-12-09 17:41:32.073 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-09 17:41:32.616 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-09 17:41:32.664 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 47 ms. Found 10 JPA repository interfaces.
+2024-12-09 17:41:32.861 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-09 17:41:32.861 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-09 17:41:32.861 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-09 17:41:32.862 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-09 17:41:32.889 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-09 17:41:32.889 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 813 ms
+2024-12-09 17:41:33.089 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-09 17:41:33.094 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-09 17:41:33.102 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-09 17:41:33.104 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Starting...
+2024-12-09 17:41:33.342 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-4 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4fb17aaa
+2024-12-09 17:41:33.343 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Start completed.
+2024-12-09 17:41:33.539 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-09 17:41:33.606 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 17:41:34.140 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4c987445, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5b8ea72b, org.springframework.security.web.context.SecurityContextHolderFilter@f03ffe, com.woorifisa.wl.filter.AddInfoCheckFilter@116b45dc, org.springframework.security.web.header.HeaderWriterFilter@5fe96b6d, org.springframework.security.web.authentication.logout.LogoutFilter@1d4b8f83, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@425cd4b5, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@3abe37db, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4348fe8e, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@9311b48, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4f2c5f87, org.springframework.security.web.access.ExceptionTranslationFilter@5416ffb8, org.springframework.security.web.access.intercept.AuthorizationFilter@486d28bd]
+2024-12-09 17:41:34.719 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-09 17:41:34.783 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-09 17:41:34.809 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-09 17:41:34.813 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-09 17:41:34.819 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 2.812 seconds (process running for 3662.787)
+2024-12-09 17:41:34.821 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2024-12-09 17:41:59.362 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (1 addition, 0 deletions, 0 modifications)
+2024-12-09 17:41:59.365 [Thread-21] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2024-12-09 17:41:59.387 [Thread-21] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 17:41:59.388 [Thread-21] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown initiated...
+2024-12-09 17:41:59.478 [Thread-21] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown completed.
+2024-12-09 17:41:59.624 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 3036 (C:\ITStudy\private\FINAL\would_you_loan\target\classes started by eunhyea in C:\ITStudy\private\FINAL\would_you_loan)
+2024-12-09 17:41:59.625 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-09 17:42:00.151 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-09 17:42:00.196 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 44 ms. Found 10 JPA repository interfaces.
+2024-12-09 17:42:00.457 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-09 17:42:00.458 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-09 17:42:00.458 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-09 17:42:00.458 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-09 17:42:00.491 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-09 17:42:00.491 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 862 ms
+2024-12-09 17:42:00.728 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-09 17:42:00.736 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-09 17:42:00.756 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-09 17:42:00.759 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Starting...
+2024-12-09 17:42:00.886 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-5 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2416fc2d
+2024-12-09 17:42:00.887 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Start completed.
+2024-12-09 17:42:01.337 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-09 17:42:01.405 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 17:42:02.359 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@26edc78d, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@686f373e, org.springframework.security.web.context.SecurityContextHolderFilter@3c3b59e6, com.woorifisa.wl.filter.AddInfoCheckFilter@2d81aeca, org.springframework.security.web.header.HeaderWriterFilter@51920b83, org.springframework.security.web.authentication.logout.LogoutFilter@44faf3bf, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@1a724ed4, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@e39eae3, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@549e146f, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@125b53f4, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@55d4e4f5, org.springframework.security.web.access.ExceptionTranslationFilter@45533b4e, org.springframework.security.web.access.intercept.AuthorizationFilter@7bdda96f]
+2024-12-09 17:42:03.509 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-09 17:42:03.604 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-09 17:42:03.633 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-09 17:42:03.637 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-09 17:42:03.643 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 4.079 seconds (process running for 3691.61)
+2024-12-09 17:42:03.645 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2024-12-09 17:45:24.325 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 1 deletion, 0 modifications)
+2024-12-09 17:45:24.328 [Thread-27] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2024-12-09 17:45:24.352 [Thread-27] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 17:45:24.353 [Thread-27] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Shutdown initiated...
+2024-12-09 17:45:24.494 [Thread-27] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Shutdown completed.
+2024-12-09 17:45:24.659 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 3036 (C:\ITStudy\private\FINAL\would_you_loan\target\classes started by eunhyea in C:\ITStudy\private\FINAL\would_you_loan)
+2024-12-09 17:45:24.660 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-09 17:45:25.357 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-09 17:45:25.429 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 71 ms. Found 10 JPA repository interfaces.
+2024-12-09 17:45:25.711 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-09 17:45:25.712 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-09 17:45:25.712 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-09 17:45:25.712 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-09 17:45:25.770 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-09 17:45:25.770 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1107 ms
+2024-12-09 17:45:26.074 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-09 17:45:26.080 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-09 17:45:26.090 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-09 17:45:26.095 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Starting...
+2024-12-09 17:45:26.210 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-6 - Added connection com.mysql.cj.jdbc.ConnectionImpl@113bd316
+2024-12-09 17:45:26.212 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Start completed.
+2024-12-09 17:45:26.579 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-09 17:45:26.674 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 17:45:28.208 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@291e235, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3e06e1fa, org.springframework.security.web.context.SecurityContextHolderFilter@147c9527, com.woorifisa.wl.filter.AddInfoCheckFilter@5be4b573, org.springframework.security.web.header.HeaderWriterFilter@13d3fefe, org.springframework.security.web.authentication.logout.LogoutFilter@5c344962, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@b54f6ca, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@454a3231, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@8bf83fa, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@49f3c2f3, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5176a003, org.springframework.security.web.access.ExceptionTranslationFilter@6ac3aa9b, org.springframework.security.web.access.intercept.AuthorizationFilter@47f39ecb]
+2024-12-09 17:45:29.362 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-09 17:45:29.487 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-09 17:45:29.538 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-09 17:45:29.544 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-09 17:45:29.560 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 4.979 seconds (process running for 3897.528)
+2024-12-09 17:45:29.565 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2024-12-09 17:47:46.914 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (1 addition, 0 deletions, 0 modifications)
+2024-12-09 17:47:46.924 [Thread-33] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2024-12-09 17:47:46.953 [Thread-33] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 17:47:46.954 [Thread-33] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Shutdown initiated...
+2024-12-09 17:47:47.252 [Thread-33] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Shutdown completed.
+2024-12-09 17:47:47.398 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 3036 (C:\ITStudy\private\FINAL\would_you_loan\target\classes started by eunhyea in C:\ITStudy\private\FINAL\would_you_loan)
+2024-12-09 17:47:47.399 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-09 17:47:47.803 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-09 17:47:47.833 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 29 ms. Found 10 JPA repository interfaces.
+2024-12-09 17:47:48.007 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-09 17:47:48.008 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-09 17:47:48.008 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-09 17:47:48.008 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-09 17:47:48.034 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-09 17:47:48.034 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 631 ms
+2024-12-09 17:47:48.223 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-09 17:47:48.228 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-09 17:47:48.235 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-09 17:47:48.238 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Starting...
+2024-12-09 17:47:48.360 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-7 - Added connection com.mysql.cj.jdbc.ConnectionImpl@42f13c43
+2024-12-09 17:47:48.361 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Start completed.
+2024-12-09 17:47:48.530 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-09 17:47:48.755 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 17:47:49.334 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2a23ed30, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@14c20a9a, org.springframework.security.web.context.SecurityContextHolderFilter@1ef55dcc, com.woorifisa.wl.filter.AddInfoCheckFilter@49478540, org.springframework.security.web.header.HeaderWriterFilter@3d0d3145, org.springframework.security.web.authentication.logout.LogoutFilter@2f18bbad, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@65248476, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@3f40067e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1cdf7cc8, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@48420f84, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4f23d59a, org.springframework.security.web.access.ExceptionTranslationFilter@114a5c5, org.springframework.security.web.access.intercept.AuthorizationFilter@4a75cb9c]
+2024-12-09 17:47:49.797 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-09 17:47:49.842 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-09 17:47:49.861 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-09 17:47:49.864 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-09 17:47:49.869 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 2.53 seconds (process running for 4037.837)
+2024-12-09 17:47:49.871 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2024-12-09 17:48:23.794 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 1 deletion, 0 modifications)
+2024-12-09 17:48:23.797 [Thread-39] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2024-12-09 17:48:23.825 [Thread-39] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 17:48:23.827 [Thread-39] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Shutdown initiated...
+2024-12-09 17:48:23.944 [Thread-39] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Shutdown completed.
+2024-12-09 17:48:24.091 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 3036 (C:\ITStudy\private\FINAL\would_you_loan\target\classes started by eunhyea in C:\ITStudy\private\FINAL\would_you_loan)
+2024-12-09 17:48:24.091 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-09 17:48:24.634 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-09 17:48:24.682 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 47 ms. Found 10 JPA repository interfaces.
+2024-12-09 17:48:24.907 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-09 17:48:24.908 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-09 17:48:24.908 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-09 17:48:24.908 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-09 17:48:24.954 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-09 17:48:24.954 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 859 ms
+2024-12-09 17:48:25.229 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-09 17:48:25.233 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-09 17:48:25.242 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-09 17:48:25.243 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Starting...
+2024-12-09 17:48:25.423 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-8 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6598286b
+2024-12-09 17:48:25.424 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Start completed.
+2024-12-09 17:48:25.652 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-09 17:48:25.781 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 17:48:26.510 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@1e28fd95, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3f509fb8, org.springframework.security.web.context.SecurityContextHolderFilter@26308b33, com.woorifisa.wl.filter.AddInfoCheckFilter@45064207, org.springframework.security.web.header.HeaderWriterFilter@78447ab6, org.springframework.security.web.authentication.logout.LogoutFilter@668a4c29, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@6c045a45, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@4779ec5e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@42ff9ad9, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4138b5eb, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2ffc7156, org.springframework.security.web.access.ExceptionTranslationFilter@3ff73615, org.springframework.security.web.access.intercept.AuthorizationFilter@256c26e3]
+2024-12-09 17:48:27.147 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-09 17:48:27.217 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-09 17:48:27.248 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-09 17:48:27.252 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-09 17:48:27.260 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 3.232 seconds (process running for 4075.228)
+2024-12-09 17:48:27.262 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2024-12-09 17:48:28.687 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (1 addition, 0 deletions, 0 modifications)
+2024-12-09 17:48:28.690 [Thread-45] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2024-12-09 17:48:28.713 [Thread-45] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 17:48:28.714 [Thread-45] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Shutdown initiated...
+2024-12-09 17:48:30.855 [Thread-45] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Shutdown completed.
+2024-12-09 17:48:30.972 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 3036 (C:\ITStudy\private\FINAL\would_you_loan\target\classes started by eunhyea in C:\ITStudy\private\FINAL\would_you_loan)
+2024-12-09 17:48:30.972 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-09 17:48:31.323 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-09 17:48:31.360 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 37 ms. Found 10 JPA repository interfaces.
+2024-12-09 17:48:31.537 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-09 17:48:31.537 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-09 17:48:31.538 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-09 17:48:31.538 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-09 17:48:31.574 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-09 17:48:31.575 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 601 ms
+2024-12-09 17:48:31.738 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-09 17:48:31.740 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-09 17:48:31.747 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-09 17:48:31.747 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-9 - Starting...
+2024-12-09 17:48:31.871 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-9 - Added connection com.mysql.cj.jdbc.ConnectionImpl@251413d3
+2024-12-09 17:48:31.872 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-9 - Start completed.
+2024-12-09 17:48:32.026 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-09 17:48:32.086 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 17:48:32.604 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@18355187, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@653a747c, org.springframework.security.web.context.SecurityContextHolderFilter@3693e69, com.woorifisa.wl.filter.AddInfoCheckFilter@7ec4d653, org.springframework.security.web.header.HeaderWriterFilter@eec5c7d, org.springframework.security.web.authentication.logout.LogoutFilter@3c3e1f80, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@1f8cde36, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@94e8945, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@721f6e8e, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7555f434, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@551d852d, org.springframework.security.web.access.ExceptionTranslationFilter@5fe4982e, org.springframework.security.web.access.intercept.AuthorizationFilter@fa36399]
+2024-12-09 17:48:33.048 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-09 17:48:33.122 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-09 17:48:33.146 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-09 17:48:33.150 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-09 17:48:33.158 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 2.22 seconds (process running for 4081.125)
+2024-12-09 17:48:33.162 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2024-12-09 17:50:14.973 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 1 deletion, 0 modifications)
+2024-12-09 17:50:14.975 [Thread-51] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2024-12-09 17:50:14.999 [Thread-51] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 17:50:15.000 [Thread-51] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-9 - Shutdown initiated...
+2024-12-09 17:50:15.149 [Thread-51] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-9 - Shutdown completed.
+2024-12-09 17:50:15.297 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 3036 (C:\ITStudy\private\FINAL\would_you_loan\target\classes started by eunhyea in C:\ITStudy\private\FINAL\would_you_loan)
+2024-12-09 17:50:15.297 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-09 17:50:15.807 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-09 17:50:15.836 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 29 ms. Found 10 JPA repository interfaces.
+2024-12-09 17:50:16.032 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-09 17:50:16.032 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-09 17:50:16.033 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-09 17:50:16.033 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-09 17:50:16.067 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-09 17:50:16.067 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 767 ms
+2024-12-09 17:50:16.356 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-09 17:50:16.362 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-09 17:50:16.372 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-09 17:50:16.377 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-10 - Starting...
+2024-12-09 17:50:16.527 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-10 - Added connection com.mysql.cj.jdbc.ConnectionImpl@332af37f
+2024-12-09 17:50:16.528 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-10 - Start completed.
+2024-12-09 17:50:16.809 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-09 17:50:16.901 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 17:50:17.553 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@6c958500, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2d7a708d, org.springframework.security.web.context.SecurityContextHolderFilter@2634d850, com.woorifisa.wl.filter.AddInfoCheckFilter@a0053d0, org.springframework.security.web.header.HeaderWriterFilter@1a4379f5, org.springframework.security.web.authentication.logout.LogoutFilter@4c94d957, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@24537261, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@39da3277, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@235f8960, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3dfab3ba, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4b0c8aa9, org.springframework.security.web.access.ExceptionTranslationFilter@213f0a74, org.springframework.security.web.access.intercept.AuthorizationFilter@26a2d4fa]
+2024-12-09 17:50:18.041 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-09 17:50:18.092 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-09 17:50:18.118 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-09 17:50:18.129 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-09 17:50:18.137 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 2.901 seconds (process running for 4186.104)
+2024-12-09 17:50:18.139 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2024-12-09 17:50:19.572 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (1 addition, 0 deletions, 0 modifications)
+2024-12-09 17:50:19.574 [Thread-57] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2024-12-09 17:50:19.593 [Thread-57] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 17:50:19.594 [Thread-57] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-10 - Shutdown initiated...
+2024-12-09 17:50:19.726 [Thread-57] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-10 - Shutdown completed.
+2024-12-09 17:50:19.893 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 3036 (C:\ITStudy\private\FINAL\would_you_loan\target\classes started by eunhyea in C:\ITStudy\private\FINAL\would_you_loan)
+2024-12-09 17:50:19.894 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-09 17:50:20.375 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-09 17:50:20.412 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 36 ms. Found 10 JPA repository interfaces.
+2024-12-09 17:50:20.595 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-09 17:50:20.595 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-09 17:50:20.596 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-09 17:50:20.596 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-09 17:50:20.631 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-09 17:50:20.631 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 732 ms
+2024-12-09 17:50:20.811 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-09 17:50:20.813 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-09 17:50:20.819 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-09 17:50:20.820 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-11 - Starting...
+2024-12-09 17:50:21.441 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-11 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4d176618
+2024-12-09 17:50:21.441 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-11 - Start completed.
+2024-12-09 17:50:21.615 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-09 17:50:21.693 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 17:50:22.161 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3de79c7f, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@187d834b, org.springframework.security.web.context.SecurityContextHolderFilter@5b1e00da, com.woorifisa.wl.filter.AddInfoCheckFilter@131124ae, org.springframework.security.web.header.HeaderWriterFilter@5a8bcfcb, org.springframework.security.web.authentication.logout.LogoutFilter@60e8b2e8, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@6c5577d4, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@b0c2f6e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6df9eedc, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@547c3f9f, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@77a50bc0, org.springframework.security.web.access.ExceptionTranslationFilter@2e4e45aa, org.springframework.security.web.access.intercept.AuthorizationFilter@17a66534]
+2024-12-09 17:50:22.572 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-09 17:50:22.612 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-09 17:50:22.632 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-09 17:50:22.635 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-09 17:50:22.641 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 2.805 seconds (process running for 4190.609)
+2024-12-09 17:50:22.643 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2024-12-09 17:50:24.330 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-09 17:50:24.330 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-12-09 17:50:24.333 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2024-12-09 18:10:04.262 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 6 class path changes (0 additions, 3 deletions, 3 modifications)
+2024-12-09 18:10:04.268 [Thread-63] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2024-12-09 18:10:04.292 [Thread-63] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 18:10:04.293 [Thread-63] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-11 - Shutdown initiated...
+2024-12-09 18:10:04.396 [Thread-63] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-11 - Shutdown completed.
+2024-12-09 18:10:04.637 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 3036 (C:\ITStudy\private\FINAL\would_you_loan\target\classes started by eunhyea in C:\ITStudy\private\FINAL\would_you_loan)
+2024-12-09 18:10:04.637 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-09 18:10:05.366 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-09 18:10:05.414 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 48 ms. Found 10 JPA repository interfaces.
+2024-12-09 18:10:05.738 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-09 18:10:05.741 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-09 18:10:05.741 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-09 18:10:05.741 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-09 18:10:05.793 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-09 18:10:05.794 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1150 ms
+2024-12-09 18:10:06.063 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-09 18:10:06.069 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-09 18:10:06.079 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-09 18:10:06.081 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-12 - Starting...
+2024-12-09 18:10:06.312 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-12 - Added connection com.mysql.cj.jdbc.ConnectionImpl@411e15a1
+2024-12-09 18:10:06.313 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-12 - Start completed.
+2024-12-09 18:10:06.778 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-09 18:10:06.834 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 18:10:08.243 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@57ae37f5, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4627ae35, org.springframework.security.web.context.SecurityContextHolderFilter@17e80d3, org.springframework.security.web.header.HeaderWriterFilter@6207499d, org.springframework.security.web.csrf.CsrfFilter@4cb7dc7c, org.springframework.security.web.authentication.logout.LogoutFilter@48ae2e51, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@374bfede, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@5a898c46, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@4de11e7b, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@484d86a8, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@32b29b09, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5c099370, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@241ebb0f, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@687adf3a, org.springframework.security.oauth2.client.web.OAuth2AuthorizationCodeGrantFilter@3ac57bbe, org.springframework.security.web.access.ExceptionTranslationFilter@15c95b2, org.springframework.security.web.access.intercept.AuthorizationFilter@69dba2fb]
+2024-12-09 18:10:08.310 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-09 18:10:08.372 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-09 18:10:08.411 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-09 18:10:08.415 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-09 18:10:08.423 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 3.916 seconds (process running for 5376.391)
+2024-12-09 18:10:08.426 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation delta:
+
+
+==========================
+CONDITION EVALUATION DELTA
+==========================
+
+
+Positive matches:
+-----------------
+
+   OAuth2WebSecurityConfiguration.OAuth2SecurityFilterChainConfiguration matched:
+      - AllNestedConditions 2 matched 0 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) did not find any beans; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+
+Negative matches:
+-----------------
+
+    None
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    None
+
+
+
+2024-12-09 18:10:09.852 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 3 class path changes (3 additions, 0 deletions, 0 modifications)
+2024-12-09 18:10:09.855 [Thread-69] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2024-12-09 18:10:09.875 [Thread-69] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 18:10:09.876 [Thread-69] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-12 - Shutdown initiated...
+2024-12-09 18:10:09.953 [Thread-69] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-12 - Shutdown completed.
+2024-12-09 18:10:10.101 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 3036 (C:\ITStudy\private\FINAL\would_you_loan\target\classes started by eunhyea in C:\ITStudy\private\FINAL\would_you_loan)
+2024-12-09 18:10:10.101 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-09 18:10:10.587 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-09 18:10:10.639 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 52 ms. Found 10 JPA repository interfaces.
+2024-12-09 18:10:10.838 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-09 18:10:10.839 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-09 18:10:10.839 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-09 18:10:10.839 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-09 18:10:10.875 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-09 18:10:10.875 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 770 ms
+2024-12-09 18:10:11.007 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-09 18:10:11.010 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-09 18:10:11.016 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-09 18:10:11.017 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-13 - Starting...
+2024-12-09 18:10:11.140 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-13 - Added connection com.mysql.cj.jdbc.ConnectionImpl@21a8b45b
+2024-12-09 18:10:11.141 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-13 - Start completed.
+2024-12-09 18:10:11.376 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-09 18:10:11.423 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 18:10:14.115 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-09 18:10:14.230 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@19e3d8af, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6a3285cc, org.springframework.security.web.context.SecurityContextHolderFilter@762ee7a9, com.woorifisa.wl.filter.AddInfoCheckFilter@6cdf575f, org.springframework.security.web.header.HeaderWriterFilter@20765dc7, org.springframework.security.web.authentication.logout.LogoutFilter@6c6b9cec, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@76ddff84, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@7ff744a1, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@334b38e1, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@50e5f225, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@136cd4fb, org.springframework.security.web.access.ExceptionTranslationFilter@4d20d37d, org.springframework.security.web.access.intercept.AuthorizationFilter@2c8786f8]
+2024-12-09 18:10:14.664 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-09 18:10:14.699 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-09 18:10:14.704 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-09 18:10:14.711 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 4.667 seconds (process running for 5382.679)
+2024-12-09 18:10:14.715 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation delta:
+
+
+==========================
+CONDITION EVALUATION DELTA
+==========================
+
+
+Positive matches:
+-----------------
+
+    None
+
+
+Negative matches:
+-----------------
+
+   OAuth2WebSecurityConfiguration.OAuth2SecurityFilterChainConfiguration:
+      Did not match:
+         - AllNestedConditions 1 matched 1 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) found beans of type 'org.springframework.security.web.SecurityFilterChain' securityFilterChain; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    None
+
+
+
+2024-12-09 19:19:47.980 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-09 19:19:47.982 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-12-09 19:19:47.985 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2024-12-09 19:49:35.728 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 1 deletion, 0 modifications)
+2024-12-09 19:49:35.732 [Thread-75] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2024-12-09 19:49:35.759 [Thread-75] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 19:49:35.760 [Thread-75] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-13 - Shutdown initiated...
+2024-12-09 19:49:35.864 [Thread-75] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-13 - Shutdown completed.
+2024-12-09 19:49:36.072 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 3036 (C:\ITStudy\private\FINAL\would_you_loan\target\classes started by eunhyea in C:\ITStudy\private\FINAL\would_you_loan)
+2024-12-09 19:49:36.072 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-09 19:49:36.783 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-09 19:49:36.861 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 77 ms. Found 10 JPA repository interfaces.
+2024-12-09 19:49:37.388 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-09 19:49:37.392 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-09 19:49:37.393 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-09 19:49:37.393 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-09 19:49:37.441 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-09 19:49:37.441 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1364 ms
+2024-12-09 19:49:37.766 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-09 19:49:37.772 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-09 19:49:37.784 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-09 19:49:37.786 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-14 - Starting...
+2024-12-09 19:49:37.897 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-14 - Added connection com.mysql.cj.jdbc.ConnectionImpl@675a8e08
+2024-12-09 19:49:37.897 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-14 - Start completed.
+2024-12-09 19:49:38.339 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-09 19:49:38.401 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 19:49:39.611 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-09 19:49:39.682 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@53d119c5, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@673f383e, org.springframework.security.web.context.SecurityContextHolderFilter@6981f31c, com.woorifisa.wl.filter.AddInfoCheckFilter@6386fe96, org.springframework.security.web.header.HeaderWriterFilter@2dcd66ec, org.springframework.security.web.authentication.logout.LogoutFilter@21338fda, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@4292dad8, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@616f96e1, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@72aeb2b2, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@56a913b0, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@507b7548, org.springframework.security.web.access.ExceptionTranslationFilter@112d068f, org.springframework.security.web.access.intercept.AuthorizationFilter@3294e181]
+2024-12-09 19:49:40.238 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-09 19:49:40.292 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-09 19:49:40.297 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-09 19:49:40.308 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 4.323 seconds (process running for 11347.921)
+2024-12-09 19:49:40.313 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2024-12-09 19:49:40.406 [http-nio-8080-exec-3] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-09 19:49:40.406 [http-nio-8080-exec-3] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-12-09 19:49:40.409 [http-nio-8080-exec-3] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2024-12-09 19:49:41.713 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (1 addition, 0 deletions, 0 modifications)
+2024-12-09 19:49:41.715 [Thread-81] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2024-12-09 19:49:46.749 [Thread-81] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 19:49:46.751 [Thread-81] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-14 - Shutdown initiated...
+2024-12-09 19:49:46.863 [Thread-81] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-14 - Shutdown completed.
+2024-12-09 19:49:49.413 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 3036 (C:\ITStudy\private\FINAL\would_you_loan\target\classes started by eunhyea in C:\ITStudy\private\FINAL\would_you_loan)
+2024-12-09 19:49:49.413 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-09 19:49:50.148 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-09 19:49:50.214 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 65 ms. Found 10 JPA repository interfaces.
+2024-12-09 19:49:50.534 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-09 19:49:50.535 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-09 19:49:50.535 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-09 19:49:50.535 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-09 19:49:50.569 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-09 19:49:50.569 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1150 ms
+2024-12-09 19:49:50.821 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-09 19:49:50.828 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-09 19:49:50.839 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-09 19:49:50.840 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-15 - Starting...
+2024-12-09 19:49:51.918 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-15 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2fae02bd
+2024-12-09 19:49:51.919 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-15 - Start completed.
+2024-12-09 19:49:52.325 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-09 19:49:52.374 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 19:49:53.496 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-09 19:49:53.564 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@55a9db3c, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@44abb68c, org.springframework.security.web.context.SecurityContextHolderFilter@28103716, com.woorifisa.wl.filter.AddInfoCheckFilter@695d255, org.springframework.security.web.header.HeaderWriterFilter@7e232c3, org.springframework.security.web.authentication.logout.LogoutFilter@5576a8d3, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@2d992732, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@6f1b59b0, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7be4d542, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3eae87fa, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@690f1ab0, org.springframework.security.web.access.ExceptionTranslationFilter@5dac9f7e, org.springframework.security.web.access.intercept.AuthorizationFilter@3b417716]
+2024-12-09 19:49:53.961 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-09 19:49:54.008 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-09 19:49:54.013 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-09 19:49:54.031 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 4.716 seconds (process running for 11361.643)
+2024-12-09 19:49:54.036 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2024-12-09 19:49:58.517 [http-nio-8080-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-09 19:49:58.517 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-12-09 19:49:58.521 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 4 ms
+2024-12-09 20:05:42.374 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 2 class path changes (0 additions, 2 deletions, 0 modifications)
+2024-12-09 20:05:42.380 [Thread-87] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2024-12-09 20:05:42.406 [Thread-87] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 20:05:42.407 [Thread-87] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-15 - Shutdown initiated...
+2024-12-09 20:05:42.508 [Thread-87] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-15 - Shutdown completed.
+2024-12-09 20:05:42.706 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 3036 (C:\ITStudy\private\FINAL\would_you_loan\target\classes started by eunhyea in C:\ITStudy\private\FINAL\would_you_loan)
+2024-12-09 20:05:42.706 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-09 20:05:43.877 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-09 20:05:44.094 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 217 ms. Found 10 JPA repository interfaces.
+2024-12-09 20:05:44.516 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-09 20:05:44.518 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-09 20:05:44.518 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-09 20:05:44.518 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-09 20:05:44.558 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-09 20:05:44.558 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1849 ms
+2024-12-09 20:05:45.076 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-09 20:05:45.082 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-09 20:05:45.091 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-09 20:05:45.093 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-16 - Starting...
+2024-12-09 20:05:45.202 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-16 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3e20524c
+2024-12-09 20:05:45.202 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-16 - Start completed.
+2024-12-09 20:05:45.641 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-09 20:05:45.685 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 20:05:46.635 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-09 20:05:46.685 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4ad1988c, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4c3c2c91, org.springframework.security.web.context.SecurityContextHolderFilter@3123b342, com.woorifisa.wl.filter.AddInfoCheckFilter@3f89f5b, org.springframework.security.web.header.HeaderWriterFilter@57f85cd9, org.springframework.security.web.authentication.logout.LogoutFilter@37f92a9c, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@1fda61e8, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@6da72239, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@481ce312, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@32194e03, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@a37a557, org.springframework.security.web.access.ExceptionTranslationFilter@260a741c, org.springframework.security.web.access.intercept.AuthorizationFilter@b9d9a92]
+2024-12-09 20:05:46.927 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-09 20:05:46.950 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-09 20:05:46.954 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-09 20:05:46.960 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 4.322 seconds (process running for 12314.544)
+2024-12-09 20:05:46.962 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2024-12-09 20:05:48.459 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 2 class path changes (2 additions, 0 deletions, 0 modifications)
+2024-12-09 20:05:48.502 [Thread-93] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2024-12-09 20:05:48.688 [Thread-93] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 20:05:48.698 [Thread-93] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-16 - Shutdown initiated...
+2024-12-09 20:05:48.817 [Thread-93] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-16 - Shutdown completed.
+2024-12-09 20:05:49.024 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 3036 (C:\ITStudy\private\FINAL\would_you_loan\target\classes started by eunhyea in C:\ITStudy\private\FINAL\would_you_loan)
+2024-12-09 20:05:49.024 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-09 20:05:49.870 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-09 20:05:49.941 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 70 ms. Found 10 JPA repository interfaces.
+2024-12-09 20:05:50.260 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-09 20:05:50.261 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-09 20:05:50.261 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-09 20:05:50.261 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-09 20:05:50.304 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-09 20:05:50.304 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1274 ms
+2024-12-09 20:05:50.488 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-09 20:05:50.494 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-09 20:05:50.507 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-09 20:05:50.508 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-17 - Starting...
+2024-12-09 20:05:50.617 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-17 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5af961b5
+2024-12-09 20:05:50.618 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-17 - Start completed.
+2024-12-09 20:05:50.920 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-09 20:05:50.967 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 20:05:51.200 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 20:05:51.200 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-17 - Shutdown initiated...
+2024-12-09 20:05:51.251 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-17 - Shutdown completed.
+2024-12-09 20:05:51.253 [restartedMain] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+2024-12-09 20:05:51.279 [restartedMain] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-12-09 20:05:52.922 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 3036 (C:\ITStudy\private\FINAL\would_you_loan\target\classes started by eunhyea in C:\ITStudy\private\FINAL\would_you_loan)
+2024-12-09 20:05:52.922 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-09 20:05:53.597 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-09 20:05:53.631 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 33 ms. Found 10 JPA repository interfaces.
+2024-12-09 20:05:53.809 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-09 20:05:53.811 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-09 20:05:53.811 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-09 20:05:53.811 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-09 20:05:53.843 [restartedMain] INFO  o.a.c.c.C.[Tomcat-1].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-09 20:05:53.843 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 918 ms
+2024-12-09 20:05:54.102 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-09 20:05:54.104 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-09 20:05:54.111 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-09 20:05:54.113 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-18 - Starting...
+2024-12-09 20:05:54.217 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-18 - Added connection com.mysql.cj.jdbc.ConnectionImpl@25e017a8
+2024-12-09 20:05:54.217 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-18 - Start completed.
+2024-12-09 20:05:54.473 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-09 20:05:54.543 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 20:05:55.791 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-09 20:05:55.882 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3cfd6d57, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3e7abf8b, org.springframework.security.web.context.SecurityContextHolderFilter@6f89e958, com.woorifisa.wl.filter.AddInfoCheckFilter@553c57ac, org.springframework.security.web.header.HeaderWriterFilter@4db950af, org.springframework.security.web.authentication.logout.LogoutFilter@5049460b, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@cae670d, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@538c729d, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@347be813, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@61e5ef61, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4ab91600, org.springframework.security.web.access.ExceptionTranslationFilter@1548f2c0, org.springframework.security.web.access.intercept.AuthorizationFilter@7d3954f9]
+2024-12-09 20:05:56.366 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-09 20:05:56.392 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-09 20:05:56.397 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-09 20:05:56.405 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 3.549 seconds (process running for 12323.989)
+2024-12-09 20:05:56.408 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2024-12-09 20:05:57.865 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 2 class path changes (2 additions, 0 deletions, 0 modifications)
+2024-12-09 20:05:57.867 [Thread-99] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2024-12-09 20:05:57.891 [Thread-99] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 20:05:57.891 [Thread-99] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-18 - Shutdown initiated...
+2024-12-09 20:05:57.973 [Thread-99] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-18 - Shutdown completed.
+2024-12-09 20:05:58.632 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 3036 (C:\ITStudy\private\FINAL\would_you_loan\target\classes started by eunhyea in C:\ITStudy\private\FINAL\would_you_loan)
+2024-12-09 20:05:58.632 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-09 20:06:00.827 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-09 20:06:00.877 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 49 ms. Found 10 JPA repository interfaces.
+2024-12-09 20:06:01.173 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-09 20:06:01.173 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-09 20:06:01.175 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-09 20:06:01.175 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-09 20:06:01.212 [restartedMain] INFO  o.a.c.c.C.[Tomcat-1].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-09 20:06:01.212 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2577 ms
+2024-12-09 20:06:01.412 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-09 20:06:01.420 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-09 20:06:01.426 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-09 20:06:01.427 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-19 - Starting...
+2024-12-09 20:06:01.524 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-19 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2df24add
+2024-12-09 20:06:01.525 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-19 - Start completed.
+2024-12-09 20:06:01.796 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-09 20:06:01.846 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 20:06:02.692 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-09 20:06:02.746 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@23c492ed, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5ef124b0, org.springframework.security.web.context.SecurityContextHolderFilter@2cb003e8, com.woorifisa.wl.filter.AddInfoCheckFilter@426b9d6a, org.springframework.security.web.header.HeaderWriterFilter@1bae8ef2, org.springframework.security.web.authentication.logout.LogoutFilter@4764d2f9, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@2a83c0a1, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@e1d34f, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@113af772, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1dfc7063, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7e260033, org.springframework.security.web.access.ExceptionTranslationFilter@54a947ae, org.springframework.security.web.access.intercept.AuthorizationFilter@4b24b24d]
+2024-12-09 20:06:03.100 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-09 20:06:03.126 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-09 20:06:03.130 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-09 20:06:03.137 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 4.846 seconds (process running for 12330.72)
+2024-12-09 20:06:03.139 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2024-12-09 20:06:03.186 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat-1].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-09 20:06:03.186 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-12-09 20:06:03.188 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2024-12-09 20:07:12.084 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 2 class path changes (0 additions, 2 deletions, 0 modifications)
+2024-12-09 20:07:12.088 [Thread-110] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2024-12-09 20:07:12.197 [Thread-110] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 20:07:12.198 [Thread-110] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-19 - Shutdown initiated...
+2024-12-09 20:07:12.391 [Thread-110] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-19 - Shutdown completed.
+2024-12-09 20:07:12.603 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 3036 (C:\ITStudy\private\FINAL\would_you_loan\target\classes started by eunhyea in C:\ITStudy\private\FINAL\would_you_loan)
+2024-12-09 20:07:12.603 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-09 20:07:13.430 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-09 20:07:13.487 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 56 ms. Found 10 JPA repository interfaces.
+2024-12-09 20:07:13.811 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-09 20:07:13.812 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-09 20:07:13.812 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-09 20:07:13.812 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-09 20:07:13.870 [restartedMain] INFO  o.a.c.c.C.[Tomcat-1].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-09 20:07:13.870 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1263 ms
+2024-12-09 20:07:14.144 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-09 20:07:14.152 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-09 20:07:14.201 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-09 20:07:14.202 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-20 - Starting...
+2024-12-09 20:07:14.323 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-20 - Added connection com.mysql.cj.jdbc.ConnectionImpl@b2d719b
+2024-12-09 20:07:14.324 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-20 - Start completed.
+2024-12-09 20:07:14.851 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-09 20:07:14.938 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 20:07:16.293 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-09 20:07:16.366 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@778e88c3, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4b21dc1a, org.springframework.security.web.context.SecurityContextHolderFilter@2352ae35, com.woorifisa.wl.filter.AddInfoCheckFilter@1aa5b09b, org.springframework.security.web.header.HeaderWriterFilter@4b9f3ac4, org.springframework.security.web.authentication.logout.LogoutFilter@7b781a69, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@4b8a68cd, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@110f68cb, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6ba895e4, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@52c96be, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3af55b4b, org.springframework.security.web.access.ExceptionTranslationFilter@603d9249, org.springframework.security.web.access.intercept.AuthorizationFilter@f7654bb]
+2024-12-09 20:07:16.847 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-09 20:07:16.900 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-09 20:07:16.905 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-09 20:07:16.923 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 4.382 seconds (process running for 12404.504)
+2024-12-09 20:07:16.925 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2024-12-09 20:07:18.328 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 2 class path changes (2 additions, 0 deletions, 0 modifications)
+2024-12-09 20:07:18.330 [Thread-116] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2024-12-09 20:07:18.352 [Thread-116] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 20:07:18.352 [Thread-116] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-20 - Shutdown initiated...
+2024-12-09 20:07:18.439 [Thread-116] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-20 - Shutdown completed.
+2024-12-09 20:07:18.600 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 3036 (C:\ITStudy\private\FINAL\would_you_loan\target\classes started by eunhyea in C:\ITStudy\private\FINAL\would_you_loan)
+2024-12-09 20:07:18.600 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-09 20:07:18.932 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-09 20:07:18.962 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 29 ms. Found 10 JPA repository interfaces.
+2024-12-09 20:07:19.105 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-09 20:07:19.106 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-09 20:07:19.106 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-09 20:07:19.106 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-09 20:07:19.128 [restartedMain] INFO  o.a.c.c.C.[Tomcat-1].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-09 20:07:19.128 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 525 ms
+2024-12-09 20:07:19.243 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-09 20:07:19.245 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-09 20:07:19.250 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-09 20:07:19.250 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-21 - Starting...
+2024-12-09 20:07:19.344 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-21 - Added connection com.mysql.cj.jdbc.ConnectionImpl@17ff6e46
+2024-12-09 20:07:19.345 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-21 - Start completed.
+2024-12-09 20:07:19.495 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-09 20:07:19.557 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 20:07:20.208 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-09 20:07:20.267 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@95bae4, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4a6b2b6a, org.springframework.security.web.context.SecurityContextHolderFilter@7e19a999, com.woorifisa.wl.filter.AddInfoCheckFilter@26a6ad51, org.springframework.security.web.header.HeaderWriterFilter@56b19819, org.springframework.security.web.authentication.logout.LogoutFilter@6576dac3, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@6240312, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@53de5c86, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3845f684, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@46fdce22, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@31cfb1ab, org.springframework.security.web.access.ExceptionTranslationFilter@7548b0e0, org.springframework.security.web.access.intercept.AuthorizationFilter@10d86fef]
+2024-12-09 20:07:20.538 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-09 20:07:20.566 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-09 20:07:20.570 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-09 20:07:20.576 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 2.017 seconds (process running for 12408.159)
+2024-12-09 20:07:20.578 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2024-12-09 20:07:22.011 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 2 class path changes (0 additions, 2 deletions, 0 modifications)
+2024-12-09 20:07:22.013 [Thread-122] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2024-12-09 20:07:22.031 [Thread-122] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 20:07:22.032 [Thread-122] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-21 - Shutdown initiated...
+2024-12-09 20:07:22.137 [Thread-122] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-21 - Shutdown completed.
+2024-12-09 20:07:22.305 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 3036 (C:\ITStudy\private\FINAL\would_you_loan\target\classes started by eunhyea in C:\ITStudy\private\FINAL\would_you_loan)
+2024-12-09 20:07:22.306 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-09 20:07:22.756 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-09 20:07:22.788 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 32 ms. Found 10 JPA repository interfaces.
+2024-12-09 20:07:22.992 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-09 20:07:22.993 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-09 20:07:22.994 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-09 20:07:22.994 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-09 20:07:23.028 [restartedMain] INFO  o.a.c.c.C.[Tomcat-1].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-09 20:07:23.029 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 720 ms
+2024-12-09 20:07:23.242 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-09 20:07:23.247 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-09 20:07:23.264 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-09 20:07:23.267 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-22 - Starting...
+2024-12-09 20:07:23.422 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-22 - Added connection com.mysql.cj.jdbc.ConnectionImpl@28215e92
+2024-12-09 20:07:23.423 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-22 - Start completed.
+2024-12-09 20:07:23.649 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-09 20:07:23.689 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 20:07:24.679 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-09 20:07:24.738 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@6b6c8d7b, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@54522c3a, org.springframework.security.web.context.SecurityContextHolderFilter@1711c43a, com.woorifisa.wl.filter.AddInfoCheckFilter@35c93bfc, org.springframework.security.web.header.HeaderWriterFilter@75dff504, org.springframework.security.web.authentication.logout.LogoutFilter@3005d052, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@e95ac1b, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@252bf5d6, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3d9bbd44, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1085aa7d, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@50d1705d, org.springframework.security.web.access.ExceptionTranslationFilter@389f4a6f, org.springframework.security.web.access.intercept.AuthorizationFilter@2867a143]
+2024-12-09 20:07:25.100 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-09 20:07:25.125 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-09 20:07:25.130 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-09 20:07:25.135 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 2.875 seconds (process running for 12412.717)
+2024-12-09 20:07:25.138 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2024-12-09 20:09:03.459 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat-1].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-09 20:09:03.460 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-12-09 20:09:03.462 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2024-12-09 20:09:27.482 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 20:09:27.483 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-22 - Shutdown initiated...
+2024-12-09 20:09:27.570 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-22 - Shutdown completed.
+2024-12-09 20:09:35.110 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 22792 (C:\ITStudy\private\FINAL\would_you_loan\target\classes started by eunhyea in C:\ITStudy\private\FINAL\would_you_loan)
+2024-12-09 20:09:35.115 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-09 20:09:35.197 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-12-09 20:09:35.198 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-12-09 20:09:36.737 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-09 20:09:36.840 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 94 ms. Found 10 JPA repository interfaces.
+2024-12-09 20:09:37.960 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-09 20:09:37.975 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-09 20:09:37.978 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-09 20:09:37.978 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-09 20:09:38.063 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-09 20:09:38.063 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2864 ms
+2024-12-09 20:09:38.511 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-09 20:09:38.586 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.10.Final
+2024-12-09 20:09:38.637 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-09 20:09:38.982 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-09 20:09:39.020 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-09 20:09:39.498 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@50f20400
+2024-12-09 20:09:39.500 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-12-09 20:09:41.465 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-09 20:09:41.601 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 20:09:42.554 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-12-09 20:09:46.415 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-09 20:09:46.589 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2d64cf16, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@c58f795, org.springframework.security.web.context.SecurityContextHolderFilter@6f873d7e, com.woorifisa.wl.filter.AddInfoCheckFilter@5f814312, org.springframework.security.web.header.HeaderWriterFilter@481167b8, org.springframework.security.web.authentication.logout.LogoutFilter@17771115, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@3a252923, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@2220fdfa, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@70d01caf, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@24d026cf, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@d79279f, org.springframework.security.web.access.ExceptionTranslationFilter@2a90f763, org.springframework.security.web.access.intercept.AuthorizationFilter@77311426]
+2024-12-09 20:09:47.419 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-09 20:09:47.518 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-09 20:09:47.546 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-09 20:09:47.564 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 13.931 seconds (process running for 15.204)
+2024-12-09 20:09:48.104 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-09 20:09:48.104 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-12-09 20:09:48.107 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2024-12-09 21:02:42.764 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 3 class path changes (0 additions, 2 deletions, 1 modification)
+2024-12-09 21:02:42.924 [Thread-7] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2024-12-09 21:02:43.097 [Thread-7] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 21:02:43.107 [Thread-7] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-12-09 21:02:43.225 [Thread-7] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-12-09 21:02:43.474 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 22792 (C:\ITStudy\private\FINAL\would_you_loan\target\classes started by eunhyea in C:\ITStudy\private\FINAL\would_you_loan)
+2024-12-09 21:02:43.475 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-09 21:02:44.286 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-09 21:02:44.337 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 50 ms. Found 10 JPA repository interfaces.
+2024-12-09 21:02:45.202 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-09 21:02:45.204 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-09 21:02:45.204 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-09 21:02:45.205 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-09 21:02:45.299 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-09 21:02:45.300 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1820 ms
+2024-12-09 21:02:45.891 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-09 21:02:45.897 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-09 21:02:45.907 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-09 21:02:45.910 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+2024-12-09 21:02:46.010 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-2 - Added connection com.mysql.cj.jdbc.ConnectionImpl@ec6f113
+2024-12-09 21:02:46.012 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+2024-12-09 21:02:46.434 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-09 21:02:46.484 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 21:02:47.835 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-09 21:02:47.925 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@d5de689, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7dbd7b3a, org.springframework.security.web.context.SecurityContextHolderFilter@6d554294, com.woorifisa.wl.filter.AddInfoCheckFilter@5d5663ed, org.springframework.security.web.header.HeaderWriterFilter@6e1984d3, org.springframework.security.web.authentication.logout.LogoutFilter@4d8f2c60, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@3c8f4f4d, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@b73aeec, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@50c2ba0d, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@51aee04, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7d2b91c8, org.springframework.security.web.access.ExceptionTranslationFilter@2f0b86b1, org.springframework.security.web.access.intercept.AuthorizationFilter@27e9b4bc]
+2024-12-09 21:02:48.396 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-09 21:02:48.441 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-09 21:02:48.446 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-09 21:02:48.457 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 5.084 seconds (process running for 3196.05)
+2024-12-09 21:02:48.463 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2024-12-09 21:02:49.872 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 2 class path changes (2 additions, 0 deletions, 0 modifications)
+2024-12-09 21:02:49.874 [Thread-9] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2024-12-09 21:02:49.895 [Thread-9] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 21:02:49.896 [Thread-9] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+2024-12-09 21:02:49.982 [Thread-9] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+2024-12-09 21:02:50.124 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Starting WlApplication using Java 21.0.4 with PID 22792 (C:\ITStudy\private\FINAL\would_you_loan\target\classes started by eunhyea in C:\ITStudy\private\FINAL\would_you_loan)
+2024-12-09 21:02:50.124 [restartedMain] INFO  com.woorifisa.wl.WlApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-09 21:02:50.573 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-09 21:02:50.610 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 36 ms. Found 10 JPA repository interfaces.
+2024-12-09 21:02:50.899 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-12-09 21:02:50.900 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-12-09 21:02:50.901 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-09 21:02:50.901 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-09 21:02:50.952 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-09 21:02:50.952 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 825 ms
+2024-12-09 21:02:51.132 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-09 21:02:51.135 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-09 21:02:51.142 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-09 21:02:51.144 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Starting...
+2024-12-09 21:02:51.253 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-3 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3dc9281
+2024-12-09 21:02:51.253 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Start completed.
+2024-12-09 21:02:51.444 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-09 21:02:51.484 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 21:02:52.144 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoint(s) beneath base path '/actuator'
+2024-12-09 21:02:52.190 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@5f749ae9, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@19a00798, org.springframework.security.web.context.SecurityContextHolderFilter@78b5f856, com.woorifisa.wl.filter.AddInfoCheckFilter@4c53211e, org.springframework.security.web.header.HeaderWriterFilter@188da6ad, org.springframework.security.web.authentication.logout.LogoutFilter@5924126b, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@11e6dbeb, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@102efccc, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7ba96e2d, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@a46648b, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4bdb0e4, org.springframework.security.web.access.ExceptionTranslationFilter@29a7a2b0, org.springframework.security.web.access.intercept.AuthorizationFilter@35b35cac]
+2024-12-09 21:02:52.493 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-12-09 21:02:52.519 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-12-09 21:02:52.522 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-12-09 21:02:52.529 [restartedMain] INFO  com.woorifisa.wl.WlApplication - Started WlApplication in 2.447 seconds (process running for 3200.122)
+2024-12-09 21:02:52.532 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2024-12-09 21:03:08.619 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-09 21:03:08.620 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown initiated...
+2024-12-09 21:03:08.735 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown completed.
